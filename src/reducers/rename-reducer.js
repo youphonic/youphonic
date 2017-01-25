@@ -1,6 +1,7 @@
 const initialState = {
-  title: 'Hello world'
-	
+  title: 'Hello world',
+
+
 };
 
 export default (state = initialState) => (state);
