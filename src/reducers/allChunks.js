@@ -1,6 +1,6 @@
-const initialState = [];
+import { ADD_CHUNK } from '../constants'
 
-export const ADD_CHUNK = 'ADD_CHUNK';
+const initialState = [];
 
 export default reducer = (state = intialState, action) => {
   const newState = state;
