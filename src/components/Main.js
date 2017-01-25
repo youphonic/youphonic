@@ -13,7 +13,7 @@ const Main = () => (
   <div id="outer-container">
     <MuiThemeProvider>
       <main id="page-wrap">
-        <RightMenu style={{float: 'right'}}/>
+        <RightMenu />
         <AppContainer />
       </main>
     </MuiThemeProvider>
