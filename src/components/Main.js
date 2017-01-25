@@ -1,14 +1,22 @@
 import React from 'react';
+import ReactDOM from 'react-dom';
+import RightMenu from './RightMenu';
+import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider'
+import injectTapEventPlugin from 'react-tap-event-plugin';
+
 
 import AppContainer from '../containers/AppContainer';
-import MainCanvas from './MainCanvas';
+
+injectTapEventPlugin();
 
 const Main = () => (
   <div id="outer-container">
-    <main id="page-wrap">
-      <MainCanvas />
-      <AppContainer />
-    </main>
+    <MuiThemeProvider>
+      <main id="page-wrap">
+        <RightMenu />
+        <AppContainer />
+      </main>
+    </MuiThemeProvider>
   </div>
 );
 
