@@ -2,8 +2,16 @@ import { ADD_CHUNK } from '../constants'
 
 const initialState = [];
 
+// action creator
+export const addChunk = (chunk) => {
+  return {
+    type: ADD_CHUNK,
+    chunk
+  }
+}
+
 // reducer
-export default reducer = (state = intialState, action) => {
+export default (state = initialState, action) => {
   const newState = state;
 
   switch (action.type) {
@@ -14,12 +22,4 @@ export default reducer = (state = intialState, action) => {
     default:
       return state;
   }
-}
-
-// action creator
-export const addChunk = (chunk) => {
-  return {
-    type: ADD_CHUNK,
-    chunk
-  }
-}
+};
