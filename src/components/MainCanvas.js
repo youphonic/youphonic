@@ -1,7 +1,13 @@
 import React from 'react';
-import P5Wrapper from 'react-p5-wrapper';
+import P5Wrapper from './P5Wrapper'
+
+import Chunk from '../chunks/Chunk'
 
 export default () => {
+  let testChunk = new Chunk(1, 2)
+  console.log('TESTING::::::');
+  console.log(testChunk);
+
   return (
     <div id="mainCanvas">
       <P5Wrapper sketch={sketch} />
