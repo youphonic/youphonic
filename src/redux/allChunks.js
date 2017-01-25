@@ -1,9 +1,10 @@
 import { ADD_CHUNK } from '../constants'
 
+
 const initialState = [];
 
 // reducer
-export default reducer = (state = intialState, action) => {
+export default(state = initialState, action) => {
   const newState = state;
 
   switch (action.type) {
