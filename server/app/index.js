@@ -1,5 +1,6 @@
 const path = require('path');
 const express = require('express');
+const volleyball = require('volleyball')
 
 const app = express();
 module.exports = app;
@@ -7,6 +8,8 @@ module.exports = app;
 const staticMiddleware = require('./static.middleware');
 
 app.set('port', (process.env.PORT || 1337));
+
+app.use(volleyball)
 
 app.use(staticMiddleware);
 
