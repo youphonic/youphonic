@@ -13,6 +13,7 @@ function sketch (p) {
   let rotation = 0;
 
   p.setup = function () {
+    // set width and height of canvas on init
     p.createCanvas(window.innerWidth, window.innerHeight, p.WEBGL);
   };
 
