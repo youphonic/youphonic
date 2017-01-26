@@ -3,6 +3,7 @@ import React from 'react';
 import P5Wrapper from './P5Wrapper';
 import Chunk from '../chunks/Chunk';
 import Circle from '../chunks/Circle';
+import Rectangle from '../chunks/Rectangle';
 
 import {connect} from 'react-redux';
 
@@ -32,8 +33,8 @@ function sketch (p) {
   let shapes = [];
   const circle1 = new Circle(p, 0, 0, 50);
   const circle2 = new Circle(p, 100, 100, 50);
-  const circle3 = new Circle(p, -100, -100, 50);
-  shapes.push(circle1, circle2, circle3);
+  const square = new Rectangle(p, -100, -100, 50);
+  shapes.push(circle1, circle2, square);
 
   p.setup = function() {
     // set width and height of canvas on init
@@ -47,7 +48,8 @@ function sketch (p) {
     p.background(100);
     // set stroke color
     p.stroke(0, 153, 255);
-
+    // set fill color of shapes
+    p.fill(255, 55, 155);
     // draw all shapes in the array with its arguments
     shapes.forEach(shape => p[shape.shape](...shape.arguments));
     // update shape position
@@ -64,4 +66,3 @@ function sketch (p) {
     });
   };
 }
-
