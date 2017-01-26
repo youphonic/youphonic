@@ -48,7 +48,6 @@ function sketch (p) {
   };
 
   p.myCustomRedrawAccordingToNewPropsHandler = function (props) {
-    console.log('called this function', props);
     if (props.isPlaying) {
       p.loop();
     } else {
