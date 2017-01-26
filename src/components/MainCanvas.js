@@ -41,7 +41,10 @@ function sketch (p) {
   const square = new Rectangle(p, -100, -100, 50);
   shapes.push(circle1, circle2, square);
 
-  // playing();
+  p.windowResized = function() {
+    p.createCanvas(window.innerWidth, window.innerHeight, p.WEBGL);
+  }
+
   p.setup = function() {
     // set width and height of canvas on init
     p.createCanvas(window.innerWidth, window.innerHeight, p.WEBGL);

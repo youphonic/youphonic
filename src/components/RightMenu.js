@@ -4,10 +4,22 @@ import MenuItem from 'material-ui/MenuItem';
 import IconButton from 'material-ui/IconButton';
 import MoreVertIcon from 'material-ui/svg-icons/navigation/more-vert';
 
+const styles = {
+	menu: {
+		position: 'absolute',
+		right: 10,
+		top: 5
+	}
+}
+
 export default function RightMenu () {
-  return (<div style={{float: 'right'}}>
+  return (<div style={styles.menu}>
     <IconMenu
-      iconButtonElement={<IconButton><MoreVertIcon /></IconButton>}
+		iconButtonElement={
+			<IconButton>
+				<MoreVertIcon />
+			</IconButton>
+		}
       anchorOrigin={{horizontal: 'right', vertical: 'top'}}
       targetOrigin={{horizontal: 'right', vertical: 'top'}}
     >

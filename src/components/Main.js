@@ -11,6 +11,12 @@ import FontIcon from 'material-ui/FontIcon';
 import {red500, yellow500, blue500} from 'material-ui/styles/colors';
 import MainCanvas from './MainCanvas';
 
+import FloatingActionButton from 'material-ui/FloatingActionButton';
+import FontIcon from 'material-ui/FontIcon';
+
+import {red500, yellow500, blue500} from 'material-ui/styles/colors';
+import MainCanvas from './MainCanvas';
+
 import {togglePlay} from '../redux/canvas';
 // Our root component
 
@@ -29,7 +35,14 @@ const styles = {
 		bottom: 15
 	},
 	canvas: {
+		margin: 0,
+	  	display: 'flex',
 
+	  /* This centers our sketch horizontally. */
+	  justifyContent: 'center',
+
+	  /* This centers our sketch vertically. */
+	  alignItems: 'center'
 	}
 };
 
