@@ -1,4 +1,4 @@
-import { SELECT_CHUNK, UPDATE_CHUNK } from '../constants'
+import { SELECT_CHUNK, UPDATE_SELECTED_CHUNK } from '../constants'
 
 const initialState = {};
 
@@ -10,10 +10,10 @@ export const selectChunk = (chunk) => {
   };
 };
 
-export const updateChunk = (chunkUpdate) => {
+export const updateChunk = (chunkUpdates) => {
   return {
-    type: UPDATE_CHUNK,
-    chunkUpdate
+    type: UPDATE_SELECTED_CHUNK,
+    chunkUpdates
   };
 };
 
@@ -25,8 +25,8 @@ export default (state = initialState, action) => {
       return action.chunk;
 
 // get help on this: initialState is one chunk right?
-	case UPDATE_CHUNK:
-		return Object.assign({}, ...state, action.chunkUpdate)
+	case UPDATE_SELECTED_CHUNK:
+		return Object.assign({}, ...state, action.chunkUpdates)
 
     default:
       return state;

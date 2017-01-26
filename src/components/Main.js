@@ -4,17 +4,9 @@ import {connect} from 'react-redux';
 import RightMenu from './RightMenu';
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider'
 import injectTapEventPlugin from 'react-tap-event-plugin';
-import ShapeSettings from './ShapeSettings'
-
+import ShapeSettings from './ShapeSettings';
 import FloatingActionButton from 'material-ui/FloatingActionButton';
 import FontIcon from 'material-ui/FontIcon';
-
-import {red500, yellow500, blue500} from 'material-ui/styles/colors';
-import MainCanvas from './MainCanvas';
-
-import FloatingActionButton from 'material-ui/FloatingActionButton';
-import FontIcon from 'material-ui/FontIcon';
-
 import {red500, yellow500, blue500} from 'material-ui/styles/colors';
 import MainCanvas from './MainCanvas';
 
@@ -54,6 +46,7 @@ const Main = (props) => (
     <main id="page-wrap">
       <RightMenu />
       <MainCanvas />
+<ShapeSettings />
   		<FloatingActionButton style={styles.button} color={blue500}>
   			<FontIcon onClick={() => {
             props.togglePlay(props.isPlaying)
