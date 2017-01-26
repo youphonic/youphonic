@@ -7,6 +7,12 @@ export default class Rectangle extends Chunk {
     this.height = h || w;
     this.shape = 'rect';
     this.direction = p5.createVector(0, 0);
+    this.boundaries = {
+      upperLeft: { x: (x - w), y: (y + h)},
+      upperRight: { x: (x + w), y: (y + h)},
+      lowerLeft: { x: (x - w), y: (y - h)},
+      lowerRight: { x: (x + w), y: (y - h)}
+    };
   }
 
   get arguments() {
@@ -16,5 +22,9 @@ export default class Rectangle extends Chunk {
       this.width,
       this.height
     ];
+  }
+
+  get boundaries () {
+    return this.boundaries;
   }
 }
