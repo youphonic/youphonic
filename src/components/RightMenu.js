@@ -10,11 +10,11 @@ import {togglePlay} from '../redux/play';
 import Circle from '../chunks/Circle';
 
 const styles = {
-	menu: {
-		position: 'absolute',
-		right: 10,
-		top: 5
-	}
+  menu: {
+    position: 'absolute',
+    right: 10,
+    top: 5
+  }
 }
 
 function RightMenu (props) {

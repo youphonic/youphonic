@@ -4,6 +4,7 @@ import {connect} from 'react-redux';
 import RightMenu from './RightMenu';
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider'
 import injectTapEventPlugin from 'react-tap-event-plugin';
+import ShapeSettings from './ShapeSettings'
 
 import FloatingActionButton from 'material-ui/FloatingActionButton';
 import FontIcon from 'material-ui/FontIcon';
