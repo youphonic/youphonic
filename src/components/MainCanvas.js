@@ -4,7 +4,7 @@ import {connect} from 'react-redux';
 
 const mapStateToProps = (state) => {
   return {
-    allChunks: state.allhunks
+    allChunks: state.allChunks
   }
 }
 
