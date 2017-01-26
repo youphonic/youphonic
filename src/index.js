@@ -6,10 +6,10 @@ import store from './store';
 import Main from './components/Main';
 
 render(
-<MuiThemeProvider>
-  <Provider store={ store }>
-    <Main />
-  </Provider>
-    </MuiThemeProvider>,
+  <MuiThemeProvider>
+    <Provider store={ store }>
+      <Main />
+    </Provider>
+  </MuiThemeProvider>,
   document.getElementById('app')
 );
