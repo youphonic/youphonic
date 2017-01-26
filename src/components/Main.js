@@ -11,13 +11,7 @@ import FontIcon from 'material-ui/FontIcon';
 import {red500, yellow500, blue500} from 'material-ui/styles/colors';
 import MainCanvas from './MainCanvas';
 
-import FloatingActionButton from 'material-ui/FloatingActionButton';
-import FontIcon from 'material-ui/FontIcon';
-
-import {red500, yellow500, blue500} from 'material-ui/styles/colors';
-import MainCanvas from './MainCanvas';
-
-import {togglePlay} from '../redux/canvas';
+import {togglePlay} from '../redux/play';
 // Our root component
 
 injectTapEventPlugin();
