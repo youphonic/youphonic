@@ -15,7 +15,7 @@ export const clearAllChunks = () => {
 }
 // reducer
 export default(state = initialState, action) => {
-  let newState = state;
+  let newState = [...state];
   switch (action.type) {
 
     case ADD_CHUNK:

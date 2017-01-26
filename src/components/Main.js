@@ -27,7 +27,14 @@ const styles = {
 		bottom: 15
 	},
 	canvas: {
+		margin: 0,
+	  	display: 'flex',
 
+	  /* This centers our sketch horizontally. */
+	  justifyContent: 'center',
+
+	  /* This centers our sketch vertically. */
+	  alignItems: 'center'
 	}
 };
 
@@ -35,7 +42,7 @@ const styles = {
 const Main = () => (
 
   <div id="outer-container">
-      <main id="page-wrap">
+      <main id="page-wrap" style={styles.canvas}>
         <RightMenu />
         <MainCanvas />
 		<FloatingActionButton style={styles.button} color={blue500}>
