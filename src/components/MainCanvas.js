@@ -37,6 +37,7 @@ function sketch (p) {
   shapes.push(circle1, circle2, square);
 
   p.setup = function() {
+
     // set width and height of canvas on init
     p.createCanvas(window.innerWidth, window.innerHeight, p.WEBGL);
   };
