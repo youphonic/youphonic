@@ -3,6 +3,7 @@ import ReactDOM from 'react-dom';
 import RightMenu from './RightMenu';
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider'
 import injectTapEventPlugin from 'react-tap-event-plugin';
+import ShapeSettings from './ShapeSettings'
 
 import FloatingActionButton from 'material-ui/FloatingActionButton';
 import FontIcon from 'material-ui/FontIcon';
@@ -45,6 +46,7 @@ const Main = () => (
       <main id="page-wrap" style={styles.canvas}>
         <RightMenu />
         <MainCanvas />
+		<ShapeSettings />
 		<FloatingActionButton style={styles.button} color={blue500}>
 			<FontIcon style={styles.buttonIcon} className="material-icons">play_circle_outline</FontIcon>
 		</FloatingActionButton>
