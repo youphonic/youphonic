@@ -25,7 +25,7 @@ export default connect(mapStateToProps, mapDispatchToProps)((props) => {
       <P5Wrapper sketch={sketch}/>
     </div>
   );
-}
+});
 
 function sketch (p) {
   // array to hold current canvas shapes
