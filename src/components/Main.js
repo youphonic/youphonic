@@ -11,6 +11,7 @@ import {red500, yellow500, blue500} from 'material-ui/styles/colors';
 import MainCanvas from './MainCanvas';
 
 import {togglePlay} from '../redux/canvas';
+
 // Our root component
 
 injectTapEventPlugin();
