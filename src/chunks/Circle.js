@@ -5,7 +5,7 @@ export default class Circle extends Chunk {
     super(p5, x, y);
     this.radius = radius;
     this.shape = 'ellipse';
-    this.direction = p5.createVector(-1, -1);
+    this.direction = p5.createVector(Math.random() * 4 - 2, Math.random() * 4 - 2);
   }
 
   get arguments() {
