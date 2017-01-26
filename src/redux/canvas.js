@@ -4,12 +4,12 @@ import { TOGGLE_PLAY } from '../constants'
 const initialState = false;
 
 // action creator
-export const addChunk = (toggle) => {
+export const togglePlay = (toggle) => {
   return {
     type: TOGGLE_PLAY,
     toggle: !toggle
-  }
-}
+  };
+};
 
 // reducer
 export default(state = initialState, action) => {
@@ -22,4 +22,4 @@ export default(state = initialState, action) => {
     default:
       return state;
   }
-}
+};

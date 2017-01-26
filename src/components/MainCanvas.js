@@ -6,18 +6,22 @@ import Circle from '../chunks/Circle';
 import Rectangle from '../chunks/Rectangle';
 
 import {connect} from 'react-redux';
+import {togglePlay} from '../redux/canvas';
 
 const mapStateToProps = (state) => {
   return {
-    allChunks: state.allChunks
-  }
-}
+    allChunks: state.allChunks,
+    isPlaying: state.canvas
+  };
+};
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    empty: {}
+    togglePlay: (isPlaying) => {
+      dispatch(togglePlay(isPlaying));
     }
-  }
+  };
+};
 
 export default connect(mapStateToProps, mapDispatchToProps)((props) => {
 
@@ -39,6 +43,8 @@ function sketch (p) {
   p.setup = function() {
     // set width and height of canvas on init
     p.createCanvas(window.innerWidth, window.innerHeight, p.WEBGL);
+    // draw is paused
+    p.noLoop();
   };
 
   p.myCustomRedrawAccordingToNewPropsHandler = function (props) {};
@@ -65,4 +71,6 @@ function sketch (p) {
       return shape;
     });
   };
+
+
 }
