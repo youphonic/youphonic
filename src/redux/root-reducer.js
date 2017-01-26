@@ -5,6 +5,6 @@ import play from './play'
 import selectedChunk from './chunk';
 
 export default combineReducers({
-  myP5, allChunks, chunk, isPlaying: play
+  myP5, allChunks, selectedChunk, isPlaying: play
 
 });
