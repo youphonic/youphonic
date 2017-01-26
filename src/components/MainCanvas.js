@@ -6,24 +6,28 @@ import Circle from '../chunks/Circle';
 import Rectangle from '../chunks/Rectangle';
 
 import {connect} from 'react-redux';
+import {togglePlay} from '../redux/canvas';
 
 const mapStateToProps = (state) => {
   return {
-    allChunks: state.allChunks
-  }
-}
+    allChunks: state.allChunks,
+    isPlaying: state.isPlaying
+  };
+};
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    empty: {}
+    togglePlay: (isPlaying) => {
+      dispatch(togglePlay(isPlaying));
     }
-  }
+  };
+};
 
 export default connect(mapStateToProps, mapDispatchToProps)((props) => {
 
   return (
     <div id="mainCanvas">
-      <P5Wrapper sketch={sketch}/>
+      <P5Wrapper sketch={sketch} isPlaying={props.isPlaying}/>
     </div>
   );
 });
@@ -31,21 +35,28 @@ export default connect(mapStateToProps, mapDispatchToProps)((props) => {
 function sketch (p) {
   // array to hold current canvas shapes
   let shapes = [];
+  let playing;
   const circle1 = new Circle(p, 0, 0, 50);
   const circle2 = new Circle(p, 100, 100, 50);
   const square = new Rectangle(p, -100, -100, 50);
   shapes.push(circle1, circle2, square);
 
-	p.windowResized = function() {
-		p.createCanvas(window.innerWidth, window.innerHeight, p.WEBGL);
-	}
+  p.windowResized = function() {
+    p.createCanvas(window.innerWidth, window.innerHeight, p.WEBGL);
+  }
 
   p.setup = function() {
     // set width and height of canvas on init
     p.createCanvas(window.innerWidth, window.innerHeight, p.WEBGL);
   };
 
-  p.myCustomRedrawAccordingToNewPropsHandler = function (props) {};
+  p.myCustomRedrawAccordingToNewPropsHandler = function (props) {
+    if (props.isPlaying) {
+      p.loop();
+    } else {
+      p.noLoop();
+    }
+  };
 
   p.draw = function () {
     // create background

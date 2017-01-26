@@ -7,5 +7,5 @@ import selectedChunk from './chunk';
 
 
 export default combineReducers({
-  allChunks, selectedChunk, canvas
+  allChunks, selectedChunk, isPlaying: canvas
 });
