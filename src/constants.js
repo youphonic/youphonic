@@ -1,5 +1,8 @@
 export const INIT_P5 = 'INIT_P5';
 
+export const START_CANVAS = 'START_CANVAS';
+export const STOP_CANVAS = 'STOP_CANVAS';
+
 export const ADD_CHUNK = 'ADD_CHUNK';
 
 export const TOGGLE_PLAY = 'TOGGLE_PLAY';

@@ -18,9 +18,14 @@ const styles = {
   buttonIcon: {
     fontSize: 50
   },
-  button: {
+  playButton: {
     position: 'absolute',
     left: 15,
+    bottom: 15
+  },
+  settingsButton: {
+    position: 'absolute',
+    right: 15,
     bottom: 15
   },
   canvas: {
@@ -37,8 +42,8 @@ const Main = (props) => (
     <main id="page-wrap">
       <RightMenu/>
       <MainCanvas/>
-      <ShapeSettings/>
-      <FloatingActionButton style={styles.button} color={blue500}>
+      {props.selectedChunk.id && <ShapeSettings style={styles.settingsButton}/>}
+      <FloatingActionButton style={styles.playButton} color={blue500}>
         <FontIcon onClick={() => {
           props.togglePlay(props.isPlaying)
         }} style={styles.buttonIcon} className="material-icons">{props.isPlaying
@@ -50,7 +55,10 @@ const Main = (props) => (
   </div>
 );
 const mapStateToProps = (state) => {
-  return {isPlaying: state.isPlaying};
+  return {
+    isPlaying: state.isPlaying,
+    selectedChunk: state.selectedChunk
+  };
 };
 const mapDispatchToProps = (dispatch) => {
   return {
