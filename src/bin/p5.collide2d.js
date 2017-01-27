@@ -34,17 +34,22 @@ export default (p5) => {
     var testY = cy;
 
     // which edge is closest?
-    if (cx < rx){         testX = rx       // left edge
-    }else if (cx > rx+rw){ testX = rx+rw  }   // right edge
+    if (cx < rx) {
+      testX = rx // left edge
+    } else if (cx > rx + rw){
+      testX = rx + rw
+    }   // right edge
 
-    if (cy < ry){         testY = ry       // top edge
-    }else if (cy > ry+rh){ testY = ry+rh }   // bottom edge
-
+    if (cy < ry){
+      testY = ry       // top edge
+    } else if (cy > ry + rh) {
+      testY = ry + rh
+    }   // bottom edge
     // // get distance from closest edges
-    var distance = dist(cx,cy,testX,testY)
+    var distance = p5.prototype.dist(cx, cy, testX, testY);
 
     // if the distance is less than the radius, collision!
-    if (distance <= diameter/2) {
+    if (distance <= diameter / 2) {
       return true;
     }
     return false;
@@ -52,7 +57,7 @@ export default (p5) => {
 
   p5.prototype.collideCircleCircle = function (x, y,d, x2, y2, d2) {
   //2d
-    if( dist(x,y,x2,y2) <= (d/2)+(d2/2) ){
+    if( p5.prototype.dist(x,y,x2,y2) <= (d/2)+(d2/2) ){
       return true;
     }
     return false;
@@ -60,7 +65,7 @@ export default (p5) => {
 
   p5.prototype.collidePointCircle = function (x, y, cx, cy, d) {
   //2d
-  if( dist(x,y,cx,cy) <= d/2 ){
+  if( p5.prototype.dist(x,y,cx,cy) <= d/2 ){
     return true;
   }
   return false;
@@ -79,11 +84,11 @@ export default (p5) => {
 
   p5.prototype.collidePointLine = function(px,py,x1,y1,x2,y2, buffer){
     // get distance from the point to the two ends of the line
-  var d1 = dist(px,py, x1,y1);
-  var d2 = dist(px,py, x2,y2);
+  var d1 = p5.prototype.dist(px,py, x1,y1);
+  var d2 = p5.prototype.dist(px,py, x2,y2);
 
   // get the length of the line
-  var lineLen = dist(x1,y1, x2,y2);
+  var lineLen = p5.prototype.dist(x1,y1, x2,y2);
 
   // since floats are so minutely accurate, add a little buffer zone that will give collision
   if (buffer === undefined){ buffer = 0.1; }   // higher # = less accurate
@@ -380,7 +385,7 @@ export default (p5) => {
         buffer = 0;
       }
 
-      if(dist(x,y,x2,y2) <= buffer){
+      if(p5.prototype.dist(x,y,x2,y2) <= buffer){
         return true;
       }
 

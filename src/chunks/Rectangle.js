@@ -8,10 +8,13 @@ export default class Rectangle extends Chunk {
     this.shape = 'rect';
     this.direction = p5.createVector(0, 0);
     this.boundaries = {
-      upperLeft: { x: (x - w), y: (y + h)},
-      upperRight: { x: (x + w), y: (y + h)},
-      lowerLeft: { x: (x - w), y: (y - h)},
-      lowerRight: { x: (x + w), y: (y - h)}
+      left: x - w,
+      right: x + w,
+      top: y + h,
+      bottom: y - h
+    };
+    this.collideRectCircle = (cx, cy, diameter) => {
+      return p5.collideRectCircle(x, y, w, h, cx, cy, diameter);
     };
   }
 
@@ -24,7 +27,7 @@ export default class Rectangle extends Chunk {
     ];
   }
 
-  get boundaries () {
+  get bound() {
     return this.boundaries;
   }
 }

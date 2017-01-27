@@ -78,6 +78,14 @@ function sketch (p) {
       if (shape.position.x < (0 - p.width / 2) || shape.position.x > p.width / 2) {
         shape.direction.x *= -1
       }
+      // Collision handling
+      if (shape.shape === 'rect') {
+        let circle = shapes.filter(s => s.shape === 'ellipse')[0];
+
+        if (circle && shape.collideRectCircle(circle.position.x, circle.position.y, (circle.radius * 2))) {
+          circle.direction
+        }
+      }
       return shape;
     });
   };
