@@ -36,6 +36,7 @@ function RightMenu (props) {
 					} else {
 						props.myP5.loop();
 						props.myP5.noLoop();
+						props.myP5.loop();
 					}
 				}}/>
       <MenuItem primaryText="Square" />
