@@ -9,12 +9,12 @@ export default class Chunk {
     this.direction = direction;
     // this is hacky for now - will be tied to Tone events eventually?
     this.color = [255, 255, 255]
-    this.hitColor = [103, 103, 103];
+    this.hitColor = [225, 139, 115];
     this.hitCount = 0;
     this.hit = false;
   }
 
   get isMoving () {
-    return (this.direction.x !== 0 && this.direction.y !== 0)
+    return !(this.direction.x === 0 && this.direction.y === 0)
   }
 }

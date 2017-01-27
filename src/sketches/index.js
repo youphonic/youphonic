@@ -89,10 +89,28 @@ export default function sketch (p) {
           let hit = shapes.some(movingShape => {
             if (movingShape.id === shape.id) return false;
             let collision = p.collideCircleCircle(movingShape.position.x, movingShape.position.y, (movingShape.radius * 2), shape.position.x, shape.position.y, (shape.radius * 2));
-            // moving shape's response to hit
+            // moving shape's in response to hit
+            // these physics are hard coded for MVP
             if (collision) {
-              movingShape.direction.x *= -1;
-              movingShape.direction.y *= -1;
+              let motion = Math.abs(movingShape.direction.x) + Math.abs(movingShape.direction.y)
+              let xV = movingShape.direction.x;
+              let yV = movingShape.direction.y;
+              if (xV === 0 && yV === motion) {
+                movingShape.direction.x = -motion;
+                movingShape.direction.y = 0;
+              } else if (xV === -motion && yV === 0) {
+                movingShape.direction.x = 0;
+                movingShape.direction.y = -motion;
+              } else if (xV === 0 && yV === -motion) {
+                movingShape.direction.x = motion;
+                movingShape.direction.y = 0;
+              } else if (xV === motion && yV === 0) {
+                movingShape.direction.x = 0;
+                movingShape.direction.y = motion;
+              } else {
+                movingShape.direction.x *= -1;
+                movingShape.direction.y *= -1;
+              }
             }
             return collision
           })
@@ -100,7 +118,7 @@ export default function sketch (p) {
           if (hit) {
             shape.color = shape.hitColor;
             shape.hit = true;
-            shape.hitCount = 60;
+            shape.hitCount = 15;
           }
         }
 
@@ -122,7 +140,7 @@ export default function sketch (p) {
   };
 
   p.mousePressed = function() {
-    console.log('app state', store.getState().appState);
+    // do not allow clicks around the 'update settings' button
     if (p.mouseX > window.innerWidth - 177 && p.mouseY > window.innerHeight - 51 || !store.getState().appState) return;
     // lock screen if any are clicked
     locked = shapes.some((shape, index) => {

@@ -69,7 +69,7 @@ class ShapeSettings extends React.Component {
           modal={false}
           actions={actions}
           open={this.state.open}
-          title="Scrollable Dialog"
+          title="Update Chunk"
           autoScrollBodyContent={true}
           onRequestClose={this.handleClose}
         >
