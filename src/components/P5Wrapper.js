@@ -14,7 +14,7 @@ class P5Wrapper extends React.Component {
   }
 
   componentWillReceiveProps(newprops) {
-    if ( this.canvas.myCustomRedrawAccordingToNewPropsHandler ) {
+    if( this.canvas.myCustomRedrawAccordingToNewPropsHandler ) {
       this.canvas.myCustomRedrawAccordingToNewPropsHandler(newprops);
     }
   }
