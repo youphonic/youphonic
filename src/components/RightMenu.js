@@ -34,8 +34,6 @@ function RightMenu (props) {
 					if (props.isPlaying) {
 						props.togglePlay(props.isPlaying);
 					} else {
-						props.myP5.loop();
-						props.myP5.noLoop();
 					}
 				}}/>
       <MenuItem primaryText="Rectangle" onTouchTap={() => {
