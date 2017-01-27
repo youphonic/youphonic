@@ -32,13 +32,13 @@ function RightMenu (props) {
       targetOrigin={{horizontal: 'right', vertical: 'top'}}
     >
       <MenuItem primaryText="Circle" onTouchTap={() => {
-					props.addChunk(new Circle(ourP5, 0, 0, 50));
+					props.addChunk(new Circle(0, 0, 50, ourP5.createVector(1, 1, 0)));
 					if (props.isPlaying) {
 						props.togglePlay(props.isPlaying);
 					}
 				}}/>
       <MenuItem primaryText="Rectangle" onTouchTap={() => {
-					props.addChunk(new Rectangle(ourP5, 100, 100, 75));
+					props.addChunk(new Rectangle(100, 100, 75));
 					if (props.isPlaying) {
 						props.togglePlay(props.isPlaying);
 					}

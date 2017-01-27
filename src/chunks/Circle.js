@@ -1,11 +1,11 @@
 import Chunk from './Chunk';
 
+
 export default class Circle extends Chunk {
-  constructor(p5, x, y, radius) {
-    super(p5, x, y);
+  constructor(x, y, radius, direction) {
+    super(x, y, direction);
     this.radius = radius;
     this.shape = 'ellipse';
-    this.direction = p5.createVector(Math.random() * 4 - 2, Math.random() * 4 - 2);
   }
 
   get arguments() {

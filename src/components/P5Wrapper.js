@@ -4,6 +4,7 @@ import p5 from 'p5';
 import collide from '../bin/p5.collide2d';
 collide(p5);
 import sketch from '../sketches';
+import rectangleSeed from '../redux/rectangleSeed.js'
 // import {initP5} from '../redux/myP5';
 // const wrapper = (<div></div>);
 // const ourP5 = new p5(sketch, wrapper);
@@ -15,6 +16,7 @@ class P5Wrapper extends React.Component {
     this.canvas = new p5(this.props.sketch, this.wrapper);
     this.canvas.myCustomRedrawAccordingToNewPropsHandler(this.props);
     ourP5 = this.canvas;
+    rectangleSeed()
   }
 
   componentWillReceiveProps(newprops) {
