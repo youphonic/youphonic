@@ -14,6 +14,7 @@ export const clearAllChunks = () => {
   return {type: CLEAR_ALL_CHUNKS }
 }
 
+// let's change the name of this action 
 export const updateOneChunk = (chunkUpdates) => {
   return {type: UPDATE_ONE_CHUNK, chunkUpdates }
 }
@@ -39,7 +40,7 @@ export default (state = initialState, action) => {
       return  newState;
 
 	  case UPDATE_ONE_CHUNK:
-  		newState = newState.map( chunk => {
+      newState = newState.map( chunk => {
         if (chunk.id === action.chunkUpdates.id) {
           return Object.assign( {}, chunk, action.chunkUpdates)
         } else {
