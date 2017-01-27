@@ -12,13 +12,16 @@ import {togglePlay} from '../redux/play';
 import Circle from '../chunks/Circle';
 import Rectangle from '../chunks/Rectangle';
 
+//testing tone, doesn't belong here for prod
+import {synthOne} from '../tone/tonePatchOne'
+
 const styles = {
   menu: {
     position: 'absolute',
     right: 10,
     top: 5
   }
-}
+};
 
 function RightMenu (props) {
   return (<div style={styles.menu}>
@@ -28,25 +31,37 @@ function RightMenu (props) {
 				<MoreVertIcon />
 			</IconButton>
 		}
-      anchorOrigin={{horizontal: 'right', vertical: 'top'}}
-      targetOrigin={{horizontal: 'right', vertical: 'top'}}
+    anchorOrigin={{horizontal: 'right', vertical: 'top'}}
+    targetOrigin={{horizontal: 'right', vertical: 'top'}}
     >
-      <MenuItem primaryText="Circle" onTouchTap={() => {
+      <MenuItem
+        primaryText="Circle"
+        onTouchTap={() => {
 					props.addChunk(new Circle(0, 0, 50, ourP5.createVector(1, 1, 0)));
 					if (props.isPlaying) {
 						props.togglePlay(props.isPlaying);
 					}
-				}}/>
-      <MenuItem primaryText="Rectangle" onTouchTap={() => {
+				}}
+      />
+      <MenuItem
+        primaryText="Rectangle"
+        onTouchTap={() => {
 					props.addChunk(new Rectangle(100, 100, 75));
 					if (props.isPlaying) {
 						props.togglePlay(props.isPlaying);
 					}
-				}}/>
+				}}
+      />
       <MenuItem primaryText="Triangle" />
       <MenuItem primaryText="Start" />
       <MenuItem primaryText="Stop" />
       <MenuItem primaryText="Share" />
+      <MenuItem
+        primaryText="TestTone"
+        onTouchTap={() => {
+          synthOne.triggerAttackRelease('A4', 0.3);
+        }}
+      />
     </IconMenu>
   </div>);
 }

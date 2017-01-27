@@ -38,12 +38,12 @@ const mapStateToProps = (state) => {
   };
 };
 
-const mapDispatchToProps = (dispatch) => {
-  return {
-    initP5: (instance) => {
-      dispatch(initP5(instance));
-    }
-  };
-};
+// const mapDispatchToProps = (dispatch) => {
+//   return {
+//     initP5: (instance) => {
+//       dispatch(initP5(instance));
+//     }
+//   };
+// };
 
-export default connect(mapStateToProps, mapDispatchToProps)(P5Wrapper);
+export default connect(mapStateToProps)(P5Wrapper);
