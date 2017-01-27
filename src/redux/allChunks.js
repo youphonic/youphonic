@@ -14,7 +14,9 @@ export const clearAllChunks = () => {
   return {type: CLEAR_ALL_CHUNKS };
 };
 
+
 // let's change the name of this action
+
 export const updateOneChunk = (chunkUpdates) => {
   return {type: UPDATE_ONE_CHUNK, chunkUpdates };
 };

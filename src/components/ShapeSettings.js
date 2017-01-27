@@ -8,6 +8,7 @@ import TextField from 'material-ui/TextField';
 import { updateAndPlaceChunk } from '../redux/chunk';
 import {updateOneChunk} from '../redux/allChunks';
 import {startCanvas, stopCanvas} from '../redux/appState'
+
 /**
  * Dialog content can be scrollable.
  */
