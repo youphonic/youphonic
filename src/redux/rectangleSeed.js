@@ -19,7 +19,7 @@ export default function () {
 
   circleSeed.forEach((circle, index) => {
     circle.rotation = ((index + 1) * Math.PI / 2)
-    circle.frequency = 100 * (index + 1)
+    circle.frequency = 100 * (index + 2)
     store.dispatch(addChunk(circle))
   });
 

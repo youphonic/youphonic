@@ -37,3 +37,16 @@ export const synthOne = new Tone.Synth({
 		release: 0.4
 	}
 }).connect(bandSplitter);
+
+export const synthTwo = new Tone.Synth({
+	oscillator: {
+		type: 'square'
+	},
+	envelope: {
+		attack: 0.016,
+		decay: 0.1,
+		sustain: 0.09,
+		release: 0.4
+	},
+	volume: -12
+}).connect(bandSplitter);
