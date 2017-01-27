@@ -24,9 +24,10 @@ export default (state = initialState, action) => {
     case SELECT_CHUNK:
       return action.chunk;
 
-// get help on this: initialState is one chunk right?
-	case UPDATE_SELECTED_CHUNK:
-		return Object.assign({}, ...state, action.chunkUpdates)
+    // initialState is empty chunk
+    case UPDATE_SELECTED_CHUNK:
+      // state had been destructured here, but doesn't seem necessary: was ...state
+      return Object.assign({}, state, action.chunkUpdates);
 
     default:
       return state;
