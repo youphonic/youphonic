@@ -9,6 +9,6 @@ export default class Chunk {
   constructor(p5, x, y) {
     this.p5 = p5;
     this.position = this.p5.createVector(x, y);
-	this.id = idCount++;
+	  this.id = idCount++;
   }
 }
