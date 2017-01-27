@@ -9,6 +9,7 @@ export default function sketch (p) {
   // whether canvas is 'allowing' other mouse actions
   var locked = false;
 
+  // hold index of currently 'clicked' Chunk
   var currentShape = 0;
 
   // will hold center of canvas
@@ -16,17 +17,20 @@ export default function sketch (p) {
   // keep track of distance between center of shape and the place clicked
   var xOffset, yOffset;
 
+  // constant - offset mouse (mouse origin is upper left, canvas origin is center of canvas for some god-forsaken reason)
   var mouseOffsetConstX = -(window.innerWidth / 2);
   var mouseOffsetConstY = -(window.innerHeight / 2)
 
-
+  // resize canvas on window resize
   p.windowResized = function() {
     p.createCanvas(window.innerWidth, window.innerHeight, p.WEBGL);
   }
 
+  // set width and height of canvas on init
   p.setup = function() {
-    // set width and height of canvas on init
     p.createCanvas(window.innerWidth, window.innerHeight, p.WEBGL);
+    // magic function - all future rectangle instances will be drawn from center point with 'radius',
+    // i.e. 3rd arg is 1/2l and 4th arg is 1/2w
     p.rectMode(p.RADIUS);
   };
 
@@ -52,6 +56,7 @@ export default function sketch (p) {
     shapes = shapes.map(shape => {
       // basic check: is it enabled?
       if (!playing) {
+        // check if mouse is in bounds of a Chunk
         if (  p.mouseX+mouseOffsetConstX > shape.position.x-shape.radius &&
               p.mouseX+mouseOffsetConstX < shape.position.x+shape.radius &&
               p.mouseY+mouseOffsetConstY > shape.position.y-shape.radius &&
@@ -64,7 +69,7 @@ export default function sketch (p) {
       // if playing, run the animation updates
       } else {
         shape.position = shape.position.add(shape.direction);
-        // add bounce dynamic to edges
+        // add bounce dynamic to edges of canvas
         if (shape.position.y < (0 - p.height / 2) || shape.position.y > p.height / 2) {
         shape.direction.y *= -1
         }
@@ -77,7 +82,6 @@ export default function sketch (p) {
       p.fill(244, 244, 244)
       p[shape.shape](...shape.arguments)
       // always return shape
-
       return shape;
     });
   };
