@@ -7,7 +7,8 @@
 		"start": "node server/start.js",
 		"test": "echo \"Error: no test specified\" && exit 1",
 		"build-watch": "webpack -w",
-		"build": "webpack"
+		"build": "webpack",
+		"postinstall": "npm install --only=dev && npm run build"
 	},
 	"repository": {
 		"type": "git",
