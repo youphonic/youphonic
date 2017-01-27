@@ -1,4 +1,6 @@
 
+
+
 export default function sketch (p) {
   // array to hold current canvas shapes
   let shapes = [];
@@ -24,6 +26,9 @@ export default function sketch (p) {
   // resize canvas on window resize
   p.windowResized = function() {
     p.createCanvas(window.innerWidth, window.innerHeight, p.WEBGL);
+    p.rectMode(p.RADIUS);
+    p.ellipseMode(p.RADIUS);
+    p.angleMode(p.RADIANS);
   }
 
   // set width and height of canvas on init
@@ -32,6 +37,8 @@ export default function sketch (p) {
     // magic function - all future rectangle instances will be drawn from center point with 'radius',
     // i.e. 3rd arg is 1/2l and 4th arg is 1/2w
     p.rectMode(p.RADIUS);
+    p.ellipseMode(p.RADIUS);
+    p.angleMode(p.RADIANS);
   };
 
   p.myCustomRedrawAccordingToNewPropsHandler = function (props) {
@@ -76,10 +83,37 @@ export default function sketch (p) {
         if (shape.position.x < (0 - p.width / 2) || shape.position.x > p.width / 2) {
           shape.direction.x *= -1
         }
+        // check for moving - stationary collisions
+        if (!shape.isMoving) {
+          let hit = shapes.some(movingShape => {
+            if (movingShape.id === shape.id) return false;
+            let collision = p.collideCircleCircle(movingShape.position.x, movingShape.position.y, (movingShape.radius * 2), shape.position.x, shape.position.y, (shape.radius * 2));
+            // moving shape's response to hit
+            if (collision) {
+              movingShape.direction.x *= -1;
+              movingShape.direction.y *= -1;
+            }
+            return collision
+          })
+          // stationary shape's response to hit
+          if (hit) {
+            shape.color = shape.hitColor;
+            shape.hit = true;
+            shape.hitCount = 60;
+          }
+        }
+
       }
       // draw the shape
-      p.stroke(40, 30, 255);
-      p.fill(244, 244, 244)
+
+      // this is hacky for now... should eventually be tied to Tone events
+      if (shape.hitCount > 0 && shape.hit) shape.hitCount--
+      else {
+        shape.color = [255, 255, 255]
+        shape.hit = false;
+      }
+      p.fill(...shape.color)
+
       p[shape.shape](...shape.arguments)
       // always return shape
       return shape;
