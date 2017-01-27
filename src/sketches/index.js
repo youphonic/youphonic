@@ -1,4 +1,5 @@
-
+import store from '../store';
+import { selectChunk } from '../redux/chunk';
 
 
 export default function sketch (p) {
@@ -64,10 +65,10 @@ export default function sketch (p) {
       // basic check: is it enabled?
       if (!playing) {
         // check if mouse is in bounds of a Chunk
-        if (  p.mouseX+mouseOffsetConstX > shape.position.x-shape.radius &&
-              p.mouseX+mouseOffsetConstX < shape.position.x+shape.radius &&
-              p.mouseY+mouseOffsetConstY > shape.position.y-shape.radius &&
-              p.mouseY+mouseOffsetConstY < shape.position.y+shape.radius
+        if (  p.mouseX + mouseOffsetConstX > shape.position.x - shape.radius &&
+              p.mouseX + mouseOffsetConstX < shape.position.x + shape.radius &&
+              p.mouseY + mouseOffsetConstY > shape.position.y - shape.radius &&
+              p.mouseY + mouseOffsetConstY < shape.position.y + shape.radius
         ) {
           shape.overBox = true;
         } else {
@@ -121,6 +122,8 @@ export default function sketch (p) {
   };
 
   p.mousePressed = function() {
+    console.log('app state', store.getState().appState);
+    if (p.mouseX > window.innerWidth - 177 && p.mouseY > window.innerHeight - 51 || !store.getState().appState) return;
     // lock screen if any are clicked
     locked = shapes.some((shape, index) => {
       if(shape.overBox) {
@@ -129,12 +132,20 @@ export default function sketch (p) {
         // set offset (distance between center of shape and cursor)
         xOffset = p.mouseX-shape.position.x;
         yOffset = p.mouseY-shape.position.y;
+        store.dispatch(selectChunk({
+          id: shape.id,
+          frequency: shape.frequency
+        }));
         return true;
       } else {
-        return false
+        return false;
       }
-    })
-  }
+    });
+
+    if (!locked && store.getState().appState) {
+      store.dispatch(selectChunk({}));
+    }
+  };
 
   p.mouseDragged = function() {
     if(locked) {

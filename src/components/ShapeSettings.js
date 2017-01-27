@@ -7,7 +7,8 @@ import RaisedButton from 'material-ui/RaisedButton';
 import TextField from 'material-ui/TextField';
 import { updateAndPlaceChunk } from '../redux/chunk';
 import {updateOneChunk} from '../redux/allChunks';
-// import store from '../store';
+import {startCanvas, stopCanvas} from '../redux/appState'
+
 /**
  * Dialog content can be scrollable.
  */
@@ -25,9 +26,11 @@ class ShapeSettings extends React.Component {
   }
   handleOpen() {
     this.setState({open: true});
+    this.props.stopCanvas();
   }
   handleClose() {
     this.setState({open: false});
+    this.props.startCanvas();
   }
   handleChange(event) {
     this.setState({frequency: event.target.value});
@@ -35,8 +38,9 @@ class ShapeSettings extends React.Component {
   handleSubmit() {
 	  this.props.updateOneChunk({
       id: this.props.selectedChunk.id,
-      frequency: this.state.frequency
+      frequency: +this.state.frequency
     });
+    this.props.startCanvas();
     this.setState({
 	    open: false,
 		  frequency: 0
@@ -60,7 +64,7 @@ class ShapeSettings extends React.Component {
     ];
     return (
       <div>
-        <RaisedButton label="Scrollable Dialog" onTouchTap={this.handleOpen} />
+        <RaisedButton style={this.props.style} label="Update Settings" onTouchTap={this.handleOpen} />
         <Dialog
           modal={false}
           actions={actions}
@@ -90,7 +94,11 @@ const mapStateToProps = state => {
 const mapDispatchToProps = dispatch => {
   return {
     updateOneChunk: chunkUpdates =>
-      dispatch(updateOneChunk(chunkUpdates))
+      dispatch(updateOneChunk(chunkUpdates)),
+    startCanvas: () =>
+      dispatch(startCanvas()),
+    stopCanvas: () =>
+      dispatch(stopCanvas())
   };
 };
 

@@ -1,23 +1,25 @@
-import {ADD_CHUNK, REMOVE_CHUNK, CLEAR_ALL_CHUNKS, UPDATE_ONE_CHUNK} from '../constants'
+import {ADD_CHUNK, REMOVE_CHUNK, CLEAR_ALL_CHUNKS, UPDATE_ONE_CHUNK} from '../constants';
 const initialState = [];
 
 // action creator
 export const addChunk = (chunk) => {
-  return {type: ADD_CHUNK, chunk}
-}
+  return {type: ADD_CHUNK, chunk};
+};
 
 export const removeChunk = (chunk) => {
-  return {type: REMOVE_CHUNK, chunk}
-}
+  return {type: REMOVE_CHUNK, chunk};
+};
 
 export const clearAllChunks = () => {
-  return {type: CLEAR_ALL_CHUNKS }
-}
+  return {type: CLEAR_ALL_CHUNKS };
+};
 
-// let's change the name of this action 
+
+// let's change the name of this action
+
 export const updateOneChunk = (chunkUpdates) => {
-  return {type: UPDATE_ONE_CHUNK, chunkUpdates }
-}
+  return {type: UPDATE_ONE_CHUNK, chunkUpdates };
+};
 
 
 // reducer
@@ -36,17 +38,17 @@ export default (state = initialState, action) => {
       return newState;
 
     case CLEAR_ALL_CHUNKS:
-	    newState = []
+	    newState = [];
       return  newState;
 
 	  case UPDATE_ONE_CHUNK:
       newState = newState.map( chunk => {
         if (chunk.id === action.chunkUpdates.id) {
-          return Object.assign( {}, chunk, action.chunkUpdates)
+          return Object.assign(chunk, action.chunkUpdates);
         } else {
           return chunk;
         }
-      })
+      });
       return  newState;
 
     default:
