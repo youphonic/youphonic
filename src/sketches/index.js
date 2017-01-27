@@ -34,9 +34,6 @@ export default function sketch (p) {
     shapes = [...props.allChunks];
     if (props.isPlaying) {
       playing = true;
-      p.loop();
-      p.noLoop();
-      p.loop();
     } else {
       playing = false;
     }
