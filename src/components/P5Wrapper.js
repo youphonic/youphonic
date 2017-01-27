@@ -8,19 +8,19 @@ import {initP5} from '../redux/myP5';
 class P5Wrapper extends React.Component {
 
   componentDidMount() {
-    this.canvas = new p5(this.props.sketch, this.refs.wrapper);
+    this.canvas = new p5(this.props.sketch, this.wrapper);
     this.canvas.myCustomRedrawAccordingToNewPropsHandler(this.props);
     this.props.initP5(this.canvas);
   }
 
   componentWillReceiveProps(newprops) {
-    if( this.canvas.myCustomRedrawAccordingToNewPropsHandler ) {
+    if ( this.canvas.myCustomRedrawAccordingToNewPropsHandler ) {
       this.canvas.myCustomRedrawAccordingToNewPropsHandler(newprops);
     }
   }
 
   render() {
-    return <div ref="wrapper"></div>;
+    return <div ref={wrapper => this.wrapper = wrapper}></div>;
   }
 }
 
