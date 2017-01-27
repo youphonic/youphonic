@@ -1,67 +1,97 @@
 import React from 'react';
+import { connect } from 'react-redux';
 import Dialog from 'material-ui/Dialog';
 import FlatButton from 'material-ui/FlatButton';
 import RaisedButton from 'material-ui/RaisedButton';
-import {RadioButton, RadioButtonGroup} from 'material-ui/RadioButton';
+// import {RadioButton, RadioButtonGroup} from 'material-ui/RadioButton';
 import TextField from 'material-ui/TextField';
-import {updateChunk} from '../redux/chunk';
-import store from '../store';
+import { updateAndPlaceChunk } from '../redux/chunk';
+import {updateOneChunk} from '../redux/allChunks';
+// import store from '../store';
 /**
  * Dialog content can be scrollable.
  */
-export default class ShapeSettings extends React.Component {
+class ShapeSettings extends React.Component {
   constructor() {
-    super()
+    super();
     this.state = {
       open: false,
       frequency: 0
     };
-    this.handleOpen = this.handleOpen.bind(this)
-    this.handleClose = this.handleClose.bind(this)
-    this.handleSubmit = this.handleSubmit.bind(this)
-    this.handleChange = this.handleChange.bind(this)
+    this.handleOpen = this.handleOpen.bind(this);
+    this.handleClose = this.handleClose.bind(this);
+    this.handleSubmit = this.handleSubmit.bind(this);
+    this.handleChange = this.handleChange.bind(this);
   }
   handleOpen() {
     this.setState({open: true});
   }
   handleClose() {
-      this.setState({open: false});
+    this.setState({open: false});
   }
   handleChange(event) {
     this.setState({frequency: event.target.value});
   }
-  handleSubmit(event) {
-	store.dispatch(updateChunk({frequency: this.state.frequency}))
+  handleSubmit() {
+	  this.props.updateOneChunk({
+      id: this.props.selectedChunk.id,
+      frequency: this.state.frequency
+    });
     this.setState({
-		open: false,
-		frequency: 0
-	});
+	    open: false,
+		  frequency: 0
+	  });
   }
   render() {
-    const actions = [ < FlatButton label = "Cancel" primary = {
-        true
-      }
-      onTouchTap = {
-        this.handleClose
-      } />, < FlatButton label = "Submit" primary = {
-        true
-      }
-      keyboardFocused = {
-        true
-      }
-      onTouchTap = {
-        this.handleSubmit
-      } />
+    const actions = [
+      <FlatButton
+        key="button1"
+        label="Cancel"
+        primary={true}
+        onTouchTap={this.handleClose}
+      />,
+      <FlatButton
+        key="button2"
+        label="Submit"
+        primary={true}
+        keyboardFocused={true}
+        onTouchTap={this.handleSubmit}
+      />
     ];
     return (
       <div>
-        <RaisedButton label="Scrollable Dialog" onTouchTap={this.handleOpen}/>
-        <Dialog title="Scrollable Dialog" actions={actions} modal={false} open={this.state.open} onRequestClose={this.handleClose} autoScrollBodyContent={true}>
+        <RaisedButton label="Scrollable Dialog" onTouchTap={this.handleOpen} />
+        <Dialog
+          modal={false}
+          actions={actions}
+          open={this.state.open}
+          title="Scrollable Dialog"
+          autoScrollBodyContent={true}
+          onRequestClose={this.handleClose}
+        >
           <form>
-            <TextField onChange={this.handleChange} hintText="Choose a frequency"/>
+            <TextField
+              onChange={this.handleChange}
+              hintText="Choose a frequency"
+            />
           </form>
         </Dialog>
       </div>
     );
   }
 }
+
+const mapStateToProps = state => {
+  return {
+    selectedChunk: state.selectedChunk
+  };
+};
+
+const mapDispatchToProps = dispatch => {
+  return {
+    updateOneChunk: chunkUpdates =>
+      dispatch(updateOneChunk(chunkUpdates))
+  };
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(ShapeSettings);
