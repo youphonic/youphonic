@@ -29,8 +29,8 @@ Our team has doubts as to whether the P5.js library is the best one to use for o
 ## Code we'd like you to look at:
 ------
 * Getting P5 to play with React-Redux has been a challenge. Currently we're instantiating 'ourP5' in the P5Wrapper component and exporting it so we can import it wherever else it's needed.
-* We're proud of our index.js located in src/sketches. Take a look!
-*
+* We're proud of our main drawing loop in index.js located in src/sketches. Take a look!
+* Check out our class inheritance structure for chunks (parent of circles/rectangles) in src/chunks folder.
 
 ## How to build and use musicmachine:
 ------
