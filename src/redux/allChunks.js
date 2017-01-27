@@ -20,7 +20,7 @@ export const updateOneChunk = (chunkUpdates) => {
 
 
 // reducer
-export default(state = initialState, action) => {
+export default (state = initialState, action) => {
   let newState = [...state];
   switch (action.type) {
 
@@ -35,18 +35,18 @@ export default(state = initialState, action) => {
       return newState;
 
     case CLEAR_ALL_CHUNKS:
-	newState = []
+	    newState = []
       return  newState;
 
 	  case UPDATE_ONE_CHUNK:
   		newState = newState.map( chunk => {
-			if (chunk.id === action.chunkUpdates.id) {
-				return Object.assign( {}, chunk, action.chunkUpdates)
-			} else {
-				return chunk;
-			}
-		})
-        return  newState;
+        if (chunk.id === action.chunkUpdates.id) {
+          return Object.assign( {}, chunk, action.chunkUpdates)
+        } else {
+          return chunk;
+        }
+      })
+      return  newState;
 
     default:
       return state;
