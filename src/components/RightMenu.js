@@ -12,6 +12,9 @@ import {togglePlay} from '../redux/play';
 import Circle from '../chunks/Circle';
 import Rectangle from '../chunks/Rectangle';
 
+//testing tone, doesn't belong here for prod
+import {synthOne} from '../bin/tonePatchOne'
+
 const styles = {
   menu: {
     position: 'absolute',
@@ -47,6 +50,9 @@ function RightMenu (props) {
       <MenuItem primaryText="Start" />
       <MenuItem primaryText="Stop" />
       <MenuItem primaryText="Share" />
+	<MenuItem primaryText="TestTone" onTouchTap={() =>{
+		synthOne.triggerAttackRelease("C4", "8n")
+	}} />
     </IconMenu>
   </div>);
 }

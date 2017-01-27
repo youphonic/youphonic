@@ -44,6 +44,7 @@
     "redux": "^3.6.0",
     "redux-logger": "^2.7.4",
     "redux-thunk": "^2.2.0",
+    "tone": "^0.9.0",
     "volleyball": "^1.4.1"
   }
 }
