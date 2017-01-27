@@ -1,7 +1,8 @@
 import React from 'react';
 import {connect} from 'react-redux';
 import p5 from 'p5';
-
+import collide from '../bin/p5.collide2d';
+collide(p5);
 import {initP5} from '../redux/myP5';
 
 class P5Wrapper extends React.Component {
