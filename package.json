@@ -7,7 +7,8 @@
     "start": "node server/start.js",
     "test": "mocha --compilers js:babel-register src/**/*.test.js server/**/*.test.js",
     "build-watch": "webpack -w",
-    "build": "webpack"
+    "build": "webpack",
+    "startup": "npm install && npm run build && npm start"
   },
   "repository": {
     "type": "git",
