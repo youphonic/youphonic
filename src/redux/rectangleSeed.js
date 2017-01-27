@@ -7,7 +7,6 @@ export default function () {
   let xDiff = 250;
   let yDiff = 250;
   let radius = 60;
-  let h = 10;
 
   let noMotion = ourP5.createVector(0, 0)
 
@@ -20,6 +19,13 @@ export default function () {
 
   circleSeed.forEach((circle, index) => {
     circle.rotation = ((index + 1) * Math.PI / 2)
+    circle.frequency = 100 * (index + 1)
     store.dispatch(addChunk(circle))
   });
+
+  let bounceCircleMotion = ourP5.createVector(4, 0)
+
+  const bounceCircle = new Circle(0, -yDiff + radius, radius/2, bounceCircleMotion)
+
+  store.dispatch(addChunk(bounceCircle))
 }
