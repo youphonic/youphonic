@@ -34,7 +34,7 @@ export default function sketch (p) {
   // set width and height of canvas on init
   p.setup = function() {
     p.createCanvas(window.innerWidth, window.innerHeight, p.WEBGL);
-    // magic function - all future rectangle instances will be drawn from center point with 'radius',
+    // magic functions - all future rectangle instances will be drawn from center point with 'radius',
     // i.e. 3rd arg is 1/2l and 4th arg is 1/2w
     p.rectMode(p.RADIUS);
     p.ellipseMode(p.RADIUS);
