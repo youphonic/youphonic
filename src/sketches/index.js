@@ -1,6 +1,6 @@
 import store from '../store';
 import { selectChunk } from '../redux/chunk';
-
+import { synthOne, synthTwo } from '../tone/tonePatchOne'
 
 export default function sketch (p) {
   // array to hold current canvas shapes
@@ -22,7 +22,7 @@ export default function sketch (p) {
 
   // constant - offset mouse (mouse origin is upper left, canvas origin is center of canvas for some god-forsaken reason)
   var mouseOffsetConstX = -(window.innerWidth / 2);
-  var mouseOffsetConstY = -(window.innerHeight / 2)
+  var mouseOffsetConstY = -(window.innerHeight / 2);
 
   // resize canvas on window resize
   p.windowResized = function() {
@@ -92,6 +92,7 @@ export default function sketch (p) {
             // moving shape's in response to hit
             // these physics are hard coded for MVP
             if (collision) {
+              if (movingShape.frequency) synthTwo.triggerAttackRelease(movingShape.frequency, '8n')
               let motion = Math.abs(movingShape.direction.x) + Math.abs(movingShape.direction.y)
               let xV = movingShape.direction.x;
               let yV = movingShape.direction.y;
@@ -116,6 +117,7 @@ export default function sketch (p) {
           })
           // stationary shape's response to hit
           if (hit) {
+            synthOne.triggerAttackRelease(shape.frequency, '8n')
             shape.color = shape.hitColor;
             shape.hit = true;
             shape.hitCount = 15;
