@@ -5,6 +5,8 @@ import MenuItem from 'material-ui/MenuItem';
 import IconButton from 'material-ui/IconButton';
 import MoreVertIcon from 'material-ui/svg-icons/navigation/more-vert';
 
+import {ourP5} from './P5Wrapper';
+
 import {addChunk} from '../redux/allChunks';
 import {togglePlay} from '../redux/play';
 import Circle from '../chunks/Circle';
@@ -30,17 +32,15 @@ function RightMenu (props) {
       targetOrigin={{horizontal: 'right', vertical: 'top'}}
     >
       <MenuItem primaryText="Circle" onTouchTap={() => {
-					props.addChunk(new Circle(props.myP5, 0, 0, 50));
+					props.addChunk(new Circle(ourP5, 0, 0, 50));
 					if (props.isPlaying) {
 						props.togglePlay(props.isPlaying);
-					} else {
 					}
 				}}/>
       <MenuItem primaryText="Rectangle" onTouchTap={() => {
-					props.addChunk(new Rectangle(props.myP5, 100, 100, 75));
+					props.addChunk(new Rectangle(ourP5, 100, 100, 75));
 					if (props.isPlaying) {
 						props.togglePlay(props.isPlaying);
-					} else {
 					}
 				}}/>
       <MenuItem primaryText="Triangle" />
@@ -53,7 +53,7 @@ function RightMenu (props) {
 
 const mapStateToProps = (state) => {
 	return {
-		myP5: state.myP5,
+		// myP5: state.myP5,
 		isPlaying: state.isPlaying
 	};
 };
