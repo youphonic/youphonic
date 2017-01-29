@@ -34,7 +34,7 @@ const staticMiddleware = require('./static.middleware');
 app.use(staticMiddleware);
 
 //mount api and api routes
-app.use(require('../api/api'));
+app.use('/api', require('../api/api'));
 
 
 app.get('*', (req, res, next) => {
