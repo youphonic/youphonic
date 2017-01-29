@@ -1,7 +1,7 @@
 require('babel-register');
 
 const app = require('./app');
-const db = require('./db');
+const db = require('./_db');
 
 app.listen(app.get('port'), (err) => {
 	if (err) throw err;

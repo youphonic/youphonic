@@ -2,7 +2,7 @@
 
 const bcrypt = require('bcrypt')
 const Sequelize = require('sequelize')
-var db = require('../../db')
+var db = require('../../_db')
 
 const User = db.define('users', {
   userName: {

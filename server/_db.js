@@ -2,8 +2,7 @@
 
 var Sequelize = require('sequelize');
 var databaseURI = 'postgres://localhost:5432/musicmachine';
-var db = new Sequelize(databaseURI, {
+
+module.exports = new Sequelize(databaseURI, {
     logging: false
 });
-
-export default db;
