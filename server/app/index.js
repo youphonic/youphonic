@@ -21,7 +21,6 @@ app.use(cookies({
 const logger = volleyball.custom({ debug: true })
 app.use(logger)
 
-
 //body parsing middleware
 app.use(bodyParser.urlencoded({ extended: true }))
 app.use(bodyParser.json())
@@ -36,7 +35,8 @@ app.use(staticMiddleware);
 //mount api and api routes
 app.use('/api', require('../api/api'));
 
-
+//TODO: This needs to be adjusted to serve api routes
+// currently serving index.html to all routes with wildcard
 app.get('*', (req, res, next) => {
   res.sendFile(path.join(__dirname, '..', '..', 'src', 'index.html'));
 });

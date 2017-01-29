@@ -10,4 +10,4 @@ const Chunk = db.define('chunks', {
   }
 })
 
-module.exports = Chunk;
+module.exports = Chunk

@@ -9,8 +9,8 @@
 		"build-watch": "webpack -w",
 		"build": "webpack",
 		"startup": "npm install && npm run build && npm start",
-		"seed": "node seed",
-		"postinstall": "npm run db-init"
+		"seed": "node seed"
+
 	},
 	"repository": {
 		"type": "git",
