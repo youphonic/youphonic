@@ -5,7 +5,7 @@ import MenuItem from 'material-ui/MenuItem';
 import IconButton from 'material-ui/IconButton';
 import MoreVertIcon from 'material-ui/svg-icons/navigation/more-vert';
 
-import {ourP5} from './P5Wrapper';
+// import {ourP5} from './P5Wrapper';
 
 import {addChunk} from '../redux/allChunks';
 import {togglePlay} from '../redux/play';
