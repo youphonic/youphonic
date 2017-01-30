@@ -18,8 +18,8 @@ module.exports = function(props) {
     tolerance: 5
   };
 
-  let path,
-      shapes = props.allChunks;
+  let path;
+  let shapes = props.allChunks;
 
   isPlaying = props.isPlaying;
 
@@ -32,7 +32,7 @@ module.exports = function(props) {
           shapes.forEach(innerShape => {
             if (!innerShape.isMoving) {
               if (shape.path.getIntersections(innerShape.path).length > 0) {
-                synthOne.triggerAttackRelease('C4', '8n');
+                synthOne.triggerAttackRelease(innerShape.frequency, '8n');
                 shape.respondToHit(innerShape);
               }
             }
@@ -47,12 +47,21 @@ module.exports = function(props) {
 		const hitResult = project.hitTest(event.point, hitOptions);
     if (hitResult) {
       path = hitResult.item;
-      // store.dispatch(selectChunk({
-      //   id: shape.id,
-      //   frequency: shape.frequency
-      // }));
+
+      // is allChunks is an object we could just find the
+      // correct chunk by key
+      shapes.forEach(shape => {
+        if (path === shape.path) {
+          store.dispatch(selectChunk({
+            id: shape.id,
+            frequency: shape.frequency
+          }));
+        }
+      })
     } else {
       path = null;
+      // reset selected chunk to null
+      store.dispatch(selectChunk({}));
     }
   };
 
