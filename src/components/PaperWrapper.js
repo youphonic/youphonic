@@ -17,7 +17,7 @@ const styles = {
     width: '100%',
     height: '100%',
   }
-}
+};
 
 class P5Wrapper extends React.Component {
 
@@ -27,11 +27,11 @@ class P5Wrapper extends React.Component {
     paper.setup(this.canvas);
     paper.install(window);
     paperjsSeed();
-    mvpPort();
   }
 
   componentWillReceiveProps(newprops) {
-    if( this.canvas.myCustomRedrawAccordingToNewPropsHandler ) {
+    this.props.paperFrames();
+    if ( this.canvas.myCustomRedrawAccordingToNewPropsHandler ) {
       this.canvas.myCustomRedrawAccordingToNewPropsHandler(newprops);
     }
   }
@@ -41,24 +41,16 @@ class P5Wrapper extends React.Component {
       <div id="test">
         <canvas id="paperCanvas" style={styles.paperCanvas}></canvas>
       </div>
-    )
+    );
   }
 }
 
 const mapStateToProps = (state) => {
   return {
-    instance: state.instance,
+    paperFrames: mvpPort,
     allChunks: state.allChunks,
     isPlaying: state.isPlaying
   };
 };
-
-// const mapDispatchToProps = (dispatch) => {
-//   return {
-//     initP5: (instance) => {
-//       dispatch(initP5(instance));
-//     }
-//   };
-// };
 
 export default connect(mapStateToProps)(P5Wrapper);

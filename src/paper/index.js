@@ -85,7 +85,7 @@ module.exports = function() {
 		if (event.modifiers.shift) {
 			if (hitResult.type == 'segment') {
 				hitResult.segment.remove();
-			};
+			}
 			return;
 		}
 
