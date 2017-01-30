@@ -1,7 +1,7 @@
-const app = require('../../app'), {env} = app
+const app = require('../../app')//, {env} = app
 const debug = require('debug')(`${app.name}:auth`)
 const passport = require('passport')
-
+const {env} = require('../../../index');
 const {User} = require('../../index');
 const OAuth = require('./oauth.model');
 const auth = require('express').Router();
@@ -118,11 +118,12 @@ passport.use(new (require('passport-local').Strategy) (
 
 auth.get('/whoami', (req, res) => res.send(req.user))
 
-auth.post('/login/:strategy', (req, res, next) =>
+auth.post('/login/:strategy', (req, res, next) => {
   passport.authenticate(req.params.strategy, {
     successRedirect: '/'
   })(req, res, next)
-)
+})
+
 
 auth.post('/logout', (req, res, next) => {
   req.logout()
