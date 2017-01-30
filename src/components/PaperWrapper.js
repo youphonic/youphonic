@@ -3,6 +3,7 @@ import {connect} from 'react-redux';
 import paper from 'paper';
 import mvpPort from '../paper/mvpPort';
 import paperjsSeed from '../redux/paperjsSeed';
+import paperPrototyptes from '../chunks/paperPrototypes'
 export let pjs;
 
 const styles = {
@@ -26,6 +27,7 @@ class P5Wrapper extends React.Component {
     pjs = this.canvas;
     paper.setup(this.canvas);
     paper.install(window);
+    paperPrototyptes();
     paperjsSeed();
     mvpPort();
   }

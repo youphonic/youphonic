@@ -1,11 +1,10 @@
 // import { ourP5 } from '../components/P5Wrapper'
 
-var idCount = 1;
+import {bounce} from './utils'
 
-let initialDirection = {
-  x: 0,
-  y: 0
-}
+let idCount = 1;
+
+// const initialDirection = {x: 0, y:0}
 
 export default class Chunk {
   constructor(x, y, direction = initialDirection) {
@@ -21,5 +20,16 @@ export default class Chunk {
 
   get isMoving () {
     return !(this.direction.x === 0 && this.direction.y === 0)
+  }
+
+  update() {
+    if (this.isMoving) {
+      this.path.position = this.path.position.add(this.direction)
+      console.log(Math.floor(this.path.position.x), Math.floor(this.path.position.y));
+    }
+  }
+
+  respondToHit(hitter) {
+    this.direction.angle -= bounce(this.path.position, hitter.path.position, this.direction)
   }
 }
