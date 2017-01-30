@@ -1,7 +1,7 @@
 'use strict'
 
 const Sequelize = require('sequelize')
-var db = require('../../db')
+var db = require('../../_db')
 
 const Chunk = db.define('chunks', {
   chunkJson: {

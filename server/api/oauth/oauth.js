@@ -2,7 +2,7 @@
 
 const debug = require('debug')('oauth')
 const Sequelize = require('sequelize')
-var db = require('../../db')
+var db = require('../../_db')
 
 const OAuth = db.define('oauths', {
   uid: Sequelize.STRING,

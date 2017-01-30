@@ -5,7 +5,7 @@ var db = require('../../_db')
 
 const Play = db.define('plays', {
   playJson: {
-	  type: Sequelize.STRING,
+	  type: Sequelize.JSON,
 	  allowNull: false
   }
 })

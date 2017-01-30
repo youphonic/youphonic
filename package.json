@@ -9,7 +9,7 @@
 		"build-watch": "webpack -w",
 		"build": "webpack",
 		"startup": "npm install && npm run build && npm start",
-		"seed": "node seed"
+		"seed": "node seed.js"
 
 	},
 	"repository": {
