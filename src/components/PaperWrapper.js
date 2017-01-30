@@ -10,6 +10,20 @@ import sketch from '../sketches';
 import paperSeed from '../paper'
 export let pjs;
 
+const styles = {
+  paperCanvas: {
+    position: 'absolute',
+    width: '100%',
+    height: '100%',
+    background: '#31B8B5'
+  },
+  /* Scale canvas with resize attribute to full size */
+  canvas: {
+    width: '100%',
+    height: '100%',
+  }
+}
+
 class P5Wrapper extends React.Component {
 
   componentDidMount() {
@@ -18,8 +32,6 @@ class P5Wrapper extends React.Component {
     pjs = this.canvas;
     paper.setup(this.canvas);
     paper.install(window);
-    console.log('++++++');
-    console.log(paper);
     // rectangleSeed()
     paperSeed();
   }
@@ -33,7 +45,7 @@ class P5Wrapper extends React.Component {
   render() {
     return (
       <div id="test">
-        <canvas id="paperCanvas"></canvas>
+        <canvas id="paperCanvas" style={styles.paperCanvas}></canvas>
       </div>
     )
   }
