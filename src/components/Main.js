@@ -40,8 +40,8 @@ const styles = {
 const Main = (props) => (
   <div id="outer-container">
     <main id="page-wrap">
-      <RightMenu/>
       <MainCanvas/>
+      <RightMenu/>
       {props.selectedChunk.id && <ShapeSettings style={styles.settingsButton}/>}
       <FloatingActionButton style={styles.playButton} color={blue500}>
         <FontIcon onClick={() => {

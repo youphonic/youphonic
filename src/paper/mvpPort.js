@@ -1,14 +1,15 @@
+/*eslint-disable id-length */
+/*globals Tool view */
 import store from '../store';
 import { selectChunk } from '../redux/chunk';
-import { synthOne, synthTwo } from '../tone/tonePatchOne'
+import { synthOne, synthTwo } from '../tone/tonePatchOne';
 
 module.exports = function() {
-	var tool = new Tool()
+	var tool = new Tool();
 	tool.minDistance = 1;
 	tool.maxDistance = 30;
 
   let shapes = store.getState().allChunks;
-
 
 
   view.onFrame = () => {
@@ -23,15 +24,13 @@ module.exports = function() {
               shape.direction.y *= 1;
             }
           }
-        })
+        });
       }
-    })
-  }
-
+    });
+  };
 
   tool.onMouseDown = (event) => {
     console.log(event.point);
-  }
+  };
 
-
-}
+};

@@ -1,5 +1,5 @@
-import { START_CANVAS, STOP_CANVAS } from '../constants'
-import { ourP5 } from '../components/P5Wrapper';
+import { START_CANVAS, STOP_CANVAS } from '../constants';
+// import { ourP5 } from '../components/P5Wrapper';
 
 
 const initialState = true;

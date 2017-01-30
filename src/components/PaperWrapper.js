@@ -1,14 +1,8 @@
 import React from 'react';
 import {connect} from 'react-redux';
 import paper from 'paper';
-import collide from '../bin/p5.collide2d';
-import sketch from '../sketches';
-// import rectangleSeed from '../redux/rectangleSeed.js'
-// import {initP5} from '../redux/myP5';
-// const wrapper = (<div></div>);
-// const ourP5 = new p5(sketch, wrapper);
-import mvpPort from '../paper/mvpPort'
-import paperjsSeed from '../redux/paperjsSeed'
+import mvpPort from '../paper/mvpPort';
+import paperjsSeed from '../redux/paperjsSeed';
 export let pjs;
 
 const styles = {
@@ -29,11 +23,9 @@ class P5Wrapper extends React.Component {
 
   componentDidMount() {
     this.canvas = document.getElementById('paperCanvas');
-    // this.canvas.myCustomRedrawAccordingToNewPropsHandler(this.props);
     pjs = this.canvas;
     paper.setup(this.canvas);
     paper.install(window);
-    // rectangleSeed()
     paperjsSeed();
     mvpPort();
   }
