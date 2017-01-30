@@ -1,22 +1,27 @@
 import React from 'react';
 import {connect} from 'react-redux';
-import p5 from 'p5';
+import paper from 'paper';
 import collide from '../bin/p5.collide2d';
-collide(p5);
 import sketch from '../sketches';
-import rectangleSeed from '../redux/rectangleSeed.js'
+// import rectangleSeed from '../redux/rectangleSeed.js'
 // import {initP5} from '../redux/myP5';
 // const wrapper = (<div></div>);
 // const ourP5 = new p5(sketch, wrapper);
-export let ourP5;
+import paperSeed from '../paper'
+export let pjs;
 
 class P5Wrapper extends React.Component {
 
   componentDidMount() {
-    this.canvas = new p5(this.props.sketch, this.wrapper);
-    this.canvas.myCustomRedrawAccordingToNewPropsHandler(this.props);
-    ourP5 = this.canvas;
-    rectangleSeed()
+    this.canvas = document.getElementById('paperCanvas');
+    // this.canvas.myCustomRedrawAccordingToNewPropsHandler(this.props);
+    pjs = this.canvas;
+    paper.setup(this.canvas);
+    paper.install(window);
+    console.log('++++++');
+    console.log(paper);
+    // rectangleSeed()
+    paperSeed();
   }
 
   componentWillReceiveProps(newprops) {
@@ -26,12 +31,17 @@ class P5Wrapper extends React.Component {
   }
 
   render() {
-    return <div ref={wrapper => this.wrapper = wrapper}></div>;
+    return (
+      <div id="test">
+        <canvas id="paperCanvas"></canvas>
+      </div>
+    )
   }
 }
 
 const mapStateToProps = (state) => {
   return {
+    instance: state.instance,
     allChunks: state.allChunks,
     isPlaying: state.isPlaying
   };
