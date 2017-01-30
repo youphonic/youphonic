@@ -8,7 +8,9 @@ export default class Chunk {
 	  this.id = idCount++;
     this.direction = direction;
     // this is hacky for now - will be tied to Tone events eventually?
-    this.color = [255, 255, 255]
+    this.primeColor = [255, 255, 255];
+    this.currentColor = [255, 255, 255];
+    this.highlightColor = [180, 230, 100];
     this.hitColor = [225, 139, 115];
     this.hitCount = 0;
     this.hit = false;

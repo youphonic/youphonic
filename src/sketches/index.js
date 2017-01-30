@@ -1,6 +1,6 @@
 import store from '../store';
 import { selectChunk } from '../redux/chunk';
-import { synthOne, synthTwo } from '../tone/tonePatchOne'
+import { synthOne, synthTwo } from '../tone/tonePatchOne';
 
 export default function sketch (p) {
   // array to hold current canvas shapes
@@ -8,7 +8,8 @@ export default function sketch (p) {
   let playing;
 
   // keep track of mouse position relative to a box
-  var isOverChunk = false;
+  // var isOverChunk = false;
+
   // whether canvas is 'allowing' other mouse actions
   var locked = false;
 
@@ -17,6 +18,7 @@ export default function sketch (p) {
 
   // will hold center of canvas
   var bx = 0, by = 0;
+
   // keep track of distance between center of shape and the place clicked
   var xOffset, yOffset;
 
@@ -30,7 +32,7 @@ export default function sketch (p) {
     p.rectMode(p.RADIUS);
     p.ellipseMode(p.RADIUS);
     p.angleMode(p.RADIANS);
-  }
+  };
 
   // set width and height of canvas on init
   p.setup = function() {
@@ -40,6 +42,19 @@ export default function sketch (p) {
     p.rectMode(p.RADIUS);
     p.ellipseMode(p.RADIUS);
     p.angleMode(p.RADIANS);
+
+    // draw grid
+    // var gridSize = 50;
+    //
+    // for (var x = gridSize; x <= window.innerWidth - gridSize; x += gridSize) {
+    //   for (var y = gridSize; y <= window.innerHeight - gridSize; y += gridSize) {
+    //     p.noStroke();
+    //     p.fill(100);
+    //     p.rect(x - 1, y - 1, 10, 10);
+    //     p.stroke(100, 50);
+    //     p.line(x, y, window.innerWidth / 2, window.innerHeight / 2);
+    //   }
+    // }
   };
 
   p.myCustomRedrawAccordingToNewPropsHandler = function (props) {
@@ -71,6 +86,7 @@ export default function sketch (p) {
               p.mouseY + mouseOffsetConstY < shape.position.y + shape.radius
         ) {
           shape.overBox = true;
+          shape.currentColor = shape.highlightColor;
         } else {
           shape.overBox = false;
         }
@@ -79,10 +95,10 @@ export default function sketch (p) {
         shape.position = shape.position.add(shape.direction);
         // add bounce dynamic to edges of canvas
         if (shape.position.y < (0 - p.height / 2) || shape.position.y > p.height / 2) {
-        shape.direction.y *= -1
+        shape.direction.y *= -1;
         }
         if (shape.position.x < (0 - p.width / 2) || shape.position.x > p.width / 2) {
-          shape.direction.x *= -1
+          shape.direction.x *= -1;
         }
         // check for moving - stationary collisions
         if (!shape.isMoving) {
@@ -92,8 +108,9 @@ export default function sketch (p) {
             // moving shape's in response to hit
             // these physics are hard coded for MVP
             if (collision) {
-              if (movingShape.frequency) synthTwo.triggerAttackRelease(movingShape.frequency, '8n')
-              let motion = Math.abs(movingShape.direction.x) + Math.abs(movingShape.direction.y)
+              if (movingShape.frequency) synthTwo.triggerAttackRelease(movingShape.frequency, '8n');
+
+              let motion = Math.abs(movingShape.direction.x) + Math.abs(movingShape.direction.y);
               let xV = movingShape.direction.x;
               let yV = movingShape.direction.y;
               if (xV === 0 && yV === motion) {
@@ -113,12 +130,12 @@ export default function sketch (p) {
                 movingShape.direction.y *= -1;
               }
             }
-            return collision
-          })
+            return collision;
+          });
           // stationary shape's response to hit
           if (hit) {
-            synthOne.triggerAttackRelease(shape.frequency, '8n')
-            shape.color = shape.hitColor;
+            synthOne.triggerAttackRelease(shape.frequency, '8n');
+            shape.currentColor = shape.hitColor;
             shape.hit = true;
             shape.hitCount = 15;
           }
@@ -128,14 +145,14 @@ export default function sketch (p) {
       // draw the shape
 
       // this is hacky for now... should eventually be tied to Tone events
-      if (shape.hitCount > 0 && shape.hit) shape.hitCount--
-      else {
-        shape.color = [255, 255, 255]
+      if (shape.hitCount > 0 && shape.hit) { shape.hitCount--; }
+      else if (!shape.overBox) {
+        shape.currentColor = shape.primeColor;
         shape.hit = false;
       }
-      p.fill(...shape.color)
+      p.fill(...shape.currentColor);
 
-      p[shape.shape](...shape.arguments)
+      p[shape.shape](...shape.arguments);
       // always return shape
       return shape;
     });
@@ -146,12 +163,12 @@ export default function sketch (p) {
     if (p.mouseX > window.innerWidth - 177 && p.mouseY > window.innerHeight - 51 || !store.getState().appState) return;
     // lock screen if any are clicked
     locked = shapes.some((shape, index) => {
-      if(shape.overBox) {
+      if (shape.overBox) {
         // hold which shape is currently clicked
         currentShape = index;
         // set offset (distance between center of shape and cursor)
-        xOffset = p.mouseX-shape.position.x;
-        yOffset = p.mouseY-shape.position.y;
+        xOffset = p.mouseX - shape.position.x;
+        yOffset = p.mouseY - shape.position.y;
         store.dispatch(selectChunk({
           id: shape.id,
           frequency: shape.frequency
@@ -168,14 +185,14 @@ export default function sketch (p) {
   };
 
   p.mouseDragged = function() {
-    if(locked) {
+    if (locked) {
       // update selected shape position
-      shapes[currentShape].position.x = p.mouseX-xOffset;
-      shapes[currentShape].position.y = p.mouseY-yOffset;
+      shapes[currentShape].position.x = p.mouseX - xOffset;
+      shapes[currentShape].position.y = p.mouseY - yOffset;
     }
-  }
+  };
 
   p.mouseReleased = function() {
     locked = false;
-  }
+  };
 }
