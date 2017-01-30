@@ -49,7 +49,6 @@ describe('/api/auth', () => {
           .set('Accept', 'application/json')
           .expect(200)
           .then(res => {
-            console.log(res.body);
             expect(res.body).to.contain({
             email: alice.email
           })
