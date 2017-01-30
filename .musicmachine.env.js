@@ -1,0 +1,4 @@
+{
+   FACEBOOK_CLIENT_ID: 'abcd',
+   FACEBOOK_CLIENT_SECRET: '1234',
+}

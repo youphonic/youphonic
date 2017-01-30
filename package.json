@@ -5,7 +5,7 @@
 	"main": "server/start.js",
 	"scripts": {
 		"start": "node server/start.js",
-		"test": "mocha --compilers js:babel-register src/**/*.test.js server/**/*.test.js",
+		"test": "mocha --compilers js:babel-register src/**/*.test.js server/**/*.test.js server/**/**/*.test.js",
 		"build-watch": "webpack -w",
 		"build": "webpack",
 		"startup": "npm install && npm run build && npm start",
