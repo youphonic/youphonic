@@ -4,4 +4,4 @@ node_modules
 bundle.js
 bundle.js.map
 
-env.js
+.musicmachine.env.js
