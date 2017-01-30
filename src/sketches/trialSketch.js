@@ -54,100 +54,99 @@ const sketch = (p5) => {
         );
 
       // play mode
+      // check if shape propety is true to not conflict with new code
+      } else if (shape.shape) {
+        shape.position = shape.position.add(shape.velocity);
+        // add bounce dynamic to edges of canvas
+        if (
+          shape.position.y < (0 - p5.height / 2) ||
+          shape.position.y > p5.height / 2) {
+          shape.velocity.y *= -1;
+        }
+        if (
+          shape.position.x < (0 - p5.width / 2) ||
+          shape.position.x > p5.width / 2) {
+          shape.velocity.x *= -1;
+        }
+      // the shape updates differently and has it's own physics
       } else {
-        if (shape.shape) {
-          shape.position = shape.position.add(shape.velocity);
+        shape.applyForce(shape.velocity.x >= 0 ? forces.wind1 : forces.wind2);
+        shape.applyForce(forces.gravity);
 
-          // add bounce dynamic to edges of canvas
-          if (
-            shape.position.y < (0 - p5.height / 2) ||
-            shape.position.y > p5.height / 2) {
-            shape.velocity.y *= -1;
-          }
-          if (
-            shape.position.x < (0 - p5.width / 2) ||
-            shape.position.x > p5.width / 2) {
-            shape.velocity.x *= -1;
-          }
+        shape.update();
+        shape.checkEdges();
+      }
+      // check for moving - stationary collisions
+      if (!shape.isMoving) {
+        hit = shapes.some(movingShape => {
 
-          // check for moving - stationary collisions
-          if (!shape.isMoving) {
+          // a shape can't hit itself
+          if (movingShape.id === shape.id) return false;
 
-            hit = shapes.some(movingShape => {
-              // a shape can't hit itself
-              if (movingShape.id === shape.id) return false;
+          const collision = p5.collideCircleCircle(
+            movingShape.position.x,
+            movingShape.position.y,
+            movingShape.radius * 2,
+            shape.position.x,
+            shape.position.y,
+            shape.radius * 2
+          );
 
-              const collision = p5.collideCircleCircle(
-                movingShape.position.x,
-                movingShape.position.y,
-                movingShape.radius * 2,
-                shape.position.x,
-                shape.position.y,
-                shape.radius * 2
-              );
+          // moving shapes response to hit
+          // these physics are hard coded for MVP
+          if (collision) {
+            if (movingShape.frequency) {
+              synthTwo.triggerAttackRelease(movingShape.frequency, '8n');
+            }
 
-              // moving shape's in response to hit
-              // these physics are hard coded for MVP
-              if (collision) {
-                if (movingShape.frequency) {
-                  synthTwo.triggerAttackRelease(movingShape.frequency, '8n');
-                }
+            let motion = Math.abs(movingShape.velocity.x) +
+                         Math.abs(movingShape.velocity.y);
 
-                let motion = Math.abs(movingShape.velocity.x) +
-                             Math.abs(movingShape.velocity.y);
+            let xV = movingShape.velocity.x;
+            let yV = movingShape.velocity.y;
 
-                let xV = movingShape.velocity.x;
-                let yV = movingShape.velocity.y;
-
-                if (xV === 0 && yV === motion) {
-                  movingShape.velocity.x = -motion;
-                  movingShape.velocity.y = 0;
-                } else if (xV === -motion && yV === 0) {
-                  movingShape.velocity.x = 0;
-                  movingShape.velocity.y = -motion;
-                } else if (xV === 0 && yV === -motion) {
-                  movingShape.velocity.x = motion;
-                  movingShape.velocity.y = 0;
-                } else if (xV === motion && yV === 0) {
-                  movingShape.velocity.x = 0;
-                  movingShape.velocity.y = motion;
-                } else {
-                  movingShape.velocity.x *= -1;
-                  movingShape.velocity.y *= -1;
-                }
-              }
-
-              return collision;
-            });
-
-            // stationary shape's response to hit
-            if (hit) {
-              synthOne.triggerAttackRelease(shape.frequency, '8n');
-              shape.color = shape.hitColor;
-              shape.hit = true;
-              shape.hitCount = 15;
+            if (xV === 0 && yV === motion) {
+              movingShape.velocity.x = -motion;
+              movingShape.velocity.y = 0;
+            } else if (xV === -motion && yV === 0) {
+              movingShape.velocity.x = 0;
+              movingShape.velocity.y = -motion;
+            } else if (xV === 0 && yV === -motion) {
+              movingShape.velocity.x = motion;
+              movingShape.velocity.y = 0;
+            } else if (xV === motion && yV === 0) {
+              movingShape.velocity.x = 0;
+              movingShape.velocity.y = motion;
+            } else {
+              movingShape.velocity.x *= -1;
+              movingShape.velocity.y *= -1;
             }
           }
 
-          // draw the shape
-          // this is hacky for now... should eventually be tied to Tone events
-          if (shape.hitCount > 0 && shape.hit) {
-            shape.hitCount--;
-          } else {
-            shape.color = [255, 240, 213];
-            shape.hit = false;
-          }
-        } else {
-          shape.applyForce(shape.velocity.x >= 0 ? forces.wind1 : forces.wind2);
-          shape.applyForce(forces.gravity);
+          return collision;
+        });
 
-          shape.update();
-          shape.checkEdges();
+        // stationary shape's response to hit
+        if (hit) {
+          synthOne.triggerAttackRelease(shape.frequency, '8n');
+          shape.color = shape.hitColor;
+          shape.hit = true;
+          shape.hitCount = 15;
         }
+      }
+
+      // draw the shape
+      // this is hacky for now... should eventually be tied to Tone events
+      if (shape.hitCount > 0 && shape.hit) {
+        shape.hitCount--;
+      } else {
+        shape.color = [255, 240, 213];
+        shape.hit = false;
       }
 
       p5.fill(...shape.color);
 
+      // check if shape propety is true to not conflict with new code
       if (shape.shape) {
         p5[shape.shape](...shape.arguments);
       } else {
@@ -169,6 +168,7 @@ const sketch = (p5) => {
 
 
   p5.mousePressed = () => {
+    console.log(shapes.PhysBall);
     // do not allow clicks around the 'update settings' button
     if (
       p5.mouseX > window.innerWidth - 177 &&
@@ -178,7 +178,6 @@ const sketch = (p5) => {
 
     // lock screen if any are clicked
     locked = shapes.some((shape, index) => {
-
       if (shape.overBox) {
         // hold which shape is currently clicked
         currentShape = index;

@@ -22,6 +22,7 @@ export default (state = initialState, action) => {
 
   switch (action.type) {
     case SELECT_CHUNK:
+      console.log(action.chunk);
       return action.chunk;
 
     // initialState is empty chunk
