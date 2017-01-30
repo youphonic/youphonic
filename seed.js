@@ -15,7 +15,7 @@ const seedUsers = () => db.Promise.map([
 	  ], play => Play.create(play))
 
 db.didSync
-	.then( () => db.sync())  //{force: true}
+	.then( () => db.sync({force: true}))  //{force: true}
 	.then(seedPlays)
 	.then(plays => console.log(`Seeded ${plays.length} plays OK`))
 	.then(seedUsers)
