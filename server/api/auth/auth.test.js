@@ -1,31 +1,29 @@
-const request = require('supertest-as-promised');
-const { expect } = require('chai');
-var db = require('../../_db');
-const User = require('../../index');
-const Auth = require('../../index');
+'use strict';
+const request = require('supertest-as-promised')
+const {expect} = require('chai')
+const db = require('../../_db');
+const {User} = require('../../index');
 const app = require('../../app');
 
 const alice = {
-  username: 'alice@secrets.org',
+  userName: 'AliceInWonderland',
+  email: 'alice@secrets.org',
   password: '12345'
-}
+};
 
-xdescribe('/api/auth', () => {
+describe('/api/auth', () => {
   before('create a user', () =>
     db.didSync
       .then(() =>
-        User.create(
-          {email: alice.username,
-          password: alice.password
-        })
+        User.create(alice)
       )
   )
 
-  describe('POST /local/login (username, password)', () => {
+  describe('POST /login/local (username, password)', () => {
     it('succeeds with a valid username and password', () =>
       request(app)
-        .post('/api/auth/local/login')
-        .send(alice)
+        .post('/api/auth/login/local')
+        .send({username: alice.email, password: alice.password})
         .expect(302)
         .expect('Set-Cookie', /session=.*/)
         .expect('Location', '/')
@@ -33,8 +31,8 @@ xdescribe('/api/auth', () => {
 
     it('fails with an invalid username and password', () =>
       request(app)
-        .post('/api/auth/local/login')
-        .send({username: alice.username, password: 'wrong'})
+        .post('/api/auth/login/local')
+        .send({username: alice.email, password: 'wrong'})
         .expect(401)
       )
   })
@@ -43,16 +41,18 @@ xdescribe('/api/auth', () => {
     describe('when logged in,', () => {
       const agent = request.agent(app)
       before('log in', () => agent
-        .post('/api/auth/local/login')
-        .send(alice))
+        .post('/api/auth/login/local')
+        .send({username: alice.email, password: alice.password}))
 
       it('responds with the currently logged in user', () =>
         agent.get('/api/auth/whoami')
           .set('Accept', 'application/json')
           .expect(200)
-          .then(res => expect(res.body).to.contain({
-            email: alice.username
-          }))
+          .then(res => {
+            expect(res.body).to.contain({
+            email: alice.email
+          })
+        })
       )
     })
 
@@ -67,7 +67,7 @@ xdescribe('/api/auth', () => {
     const agent = request.agent(app)
 
     before('log in', () => agent
-      .post('/api/auth/local/login')
+      .post('/api/auth/login/local')
       .send(alice))
 
     it('logs you out and redirects to whoami', () => agent
