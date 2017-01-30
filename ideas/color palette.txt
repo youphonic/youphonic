@@ -1,5 +1,5 @@
-Puerto Rico (blue) : #31B8B5
-New York Pink (soft pink): #E18B73
-Papaya Whip:#FFF0D5
-Blue Stone: #125E68
-Chinook #A9D7BF
+Puerto Rico (blue) : #31B8B5 rgb(49,184,181)
+New York Pink (soft pink): #E18B73  rgb(225,139,115)
+Papaya Whip:#FFF0D5 rgb(255,240,213)
+Blue Stone: #125E68 rgb(18,94,104)
+Chinook #A9D7BF rgb(169,215,191)

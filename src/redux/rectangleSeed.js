@@ -23,7 +23,7 @@ export default function () {
     store.dispatch(addChunk(circle))
   });
 
-  let bounceCircleMotion = ourP5.createVector(4, 0)
+  let bounceCircleMotion = ourP5.createVector(6, 0)
 
   const bounceCircle = new Circle(0, -yDiff + radius, radius/2, bounceCircleMotion)
 

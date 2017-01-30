@@ -2,8 +2,8 @@ import Chunk from './Chunk';
 
 
 export default class Circle extends Chunk {
-  constructor(x, y, radius, direction) {
-    super(x, y, direction);
+  constructor(x, y, radius, velocity) {
+    super(x, y, velocity);
     this.radius = radius;
     this.shape = 'ellipse';
   }

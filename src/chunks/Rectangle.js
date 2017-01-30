@@ -1,8 +1,8 @@
 import Chunk from './Chunk';
 
 export default class Rectangle extends Chunk {
-  constructor(x, y, w, h, direction) {
-    super(x, y, direction);
+  constructor(x, y, w, h, velocity) {
+    super(x, y, velocity);
     this.width = w;
     this.height = h || w;
     this.shape = 'rect';

@@ -11,9 +11,10 @@ import {addChunk} from '../redux/allChunks';
 import {togglePlay} from '../redux/play';
 import Circle from '../chunks/Circle';
 import Rectangle from '../chunks/Rectangle';
+import PhysBall from '../chunks/PhysBall';
 
 //testing tone, doesn't belong here for prod
-import {synthOne} from '../tone/tonePatchOne'
+// import {synthOne} from '../tone/tonePatchOne';
 
 const styles = {
   menu: {
@@ -57,9 +58,12 @@ function RightMenu (props) {
       <MenuItem primaryText="Stop" />
       <MenuItem primaryText="Share" />
       <MenuItem
-        primaryText="TestTone"
+        primaryText="Test ballz"
         onTouchTap={() => {
-          synthOne.triggerAttackRelease('A4', 0.3);
+          props.addChunk(new PhysBall());
+          if (props.isPlaying) {
+						props.togglePlay(props.isPlaying);
+					}
         }}
       />
     </IconMenu>
