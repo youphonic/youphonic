@@ -91,6 +91,7 @@ module.exports = function() {
 
 		if (hitResult) {
 			path = hitResult.item;
+			console.log('path', path);
 			if (hitResult.type == 'segment') {
 			console.log('segment', hitResult);
 				segment = hitResult.segment;
@@ -118,11 +119,14 @@ tool.onMouseDrag = (event) => {
 	if (segment) {
 		console.log('segment');
 		console.log(segment);
+		console.log('path');
+		console.log(path);
 		// segment.point += event.delta;
 		// path.smooth();
 	} else if (path) {
-		console.log('path', path);
-		path.position += event.delta;
+		// console.log('path', path);
+		path.position.x += event.delta.x;
+		path.position.y += event.delta.y;
 	}
 }
 }
