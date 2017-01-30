@@ -34,7 +34,7 @@ function RightMenu (props) {
     anchorOrigin={{horizontal: 'right', vertical: 'top'}}
     targetOrigin={{horizontal: 'right', vertical: 'top'}}
     >
-      <MenuItem
+      {/*<MenuItem
         primaryText="Circle"
         onTouchTap={() => {
 					props.addChunk(new Circle(0, 0, 50, ourP5.createVector(1, 1, 0)));
@@ -51,7 +51,7 @@ function RightMenu (props) {
 						props.togglePlay(props.isPlaying);
 					}
 				}}
-      />
+      />*/}
       <MenuItem primaryText="Triangle" />
       <MenuItem primaryText="Start" />
       <MenuItem primaryText="Stop" />

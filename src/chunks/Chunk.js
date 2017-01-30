@@ -1,10 +1,15 @@
-import { ourP5 } from '../components/P5Wrapper'
+// import { ourP5 } from '../components/P5Wrapper'
 
 var idCount = 1;
 
+let initialDirection = {
+  x: 0,
+  y: 0
+}
+
 export default class Chunk {
-  constructor(x, y, direction = ourP5.createVector(0, 0)) {
-    this.position = ourP5.createVector(x, y);
+  constructor(x, y, direction = initialDirection) {
+    this.position = [x, y]
 	  this.id = idCount++;
     this.direction = direction;
     // this is hacky for now - will be tied to Tone events eventually?

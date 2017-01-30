@@ -12,9 +12,9 @@ export default function () {
 
   const circleSeed = [
     new Circle(xDiff, yDiff, radius, noMotion),
-    new Circle(-xDiff, yDiff, radius, noMotion),
-    new Circle(xDiff, -yDiff, radius, noMotion),
-    new Circle(-xDiff, -yDiff, radius, noMotion),
+    new Circle(xDiff * 2, yDiff, radius, noMotion),
+    new Circle(xDiff, yDiff * 2, radius, noMotion),
+    new Circle(xDiff * 2, yDiff * 2, radius, noMotion),
   ]
 
   circleSeed.forEach((circle, index) => {

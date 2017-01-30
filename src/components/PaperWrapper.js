@@ -7,7 +7,8 @@ import sketch from '../sketches';
 // import {initP5} from '../redux/myP5';
 // const wrapper = (<div></div>);
 // const ourP5 = new p5(sketch, wrapper);
-import paperSeed from '../paper'
+import mvpPort from '../paper/mvpPort'
+import paperjsSeed from '../redux/paperjsSeed'
 export let pjs;
 
 const styles = {
@@ -33,7 +34,8 @@ class P5Wrapper extends React.Component {
     paper.setup(this.canvas);
     paper.install(window);
     // rectangleSeed()
-    paperSeed();
+    paperjsSeed();
+    mvpPort();
   }
 
   componentWillReceiveProps(newprops) {
