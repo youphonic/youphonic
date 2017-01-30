@@ -3,8 +3,8 @@ const debug = require('debug')(`${app.name}:auth`)
 const passport = require('passport')
 
 const {User} = require('../../index');
-const OAuth = require('./auth.model')
-const auth = require('express').Router()
+const OAuth = require('./oauth.model');
+const auth = require('express').Router();
 
 
 /*************************
