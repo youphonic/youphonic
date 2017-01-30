@@ -55,6 +55,8 @@ module.exports = function() {
       //   id: shape.id,
       //   frequency: shape.frequency
       // }));
+    } else {
+      path = null;
     }
   };
 
