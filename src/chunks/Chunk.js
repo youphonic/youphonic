@@ -4,7 +4,7 @@ import {bounce} from './utils'
 
 let idCount = 1;
 
-// const initialDirection = {x: 0, y:0}
+const initialDirection = {x: 0, y: 0}
 
 export default class Chunk {
   constructor(x, y, direction = initialDirection) {

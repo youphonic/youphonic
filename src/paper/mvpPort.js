@@ -4,7 +4,9 @@ import store from '../store';
 import { selectChunk } from '../redux/chunk';
 import { synthOne, synthTwo } from '../tone/tonePatchOne';
 
-module.exports = function() {
+let isPlaying;
+
+module.exports = function(props) {
 	const tool = new Tool();
 	tool.minDistance = 1;
 	tool.maxDistance = 30;
@@ -16,16 +18,13 @@ module.exports = function() {
     tolerance: 5
   };
 
-  let shapes = store.getState().allChunks,
-      inPlayMode = store.getState().isPlaying;
-
   let path,
-      locked;
+      shapes = props.allChunks;
 
+  isPlaying = props.isPlaying;
 
   view.onFrame = () => {
-    if (inPlayMode) {
-      locked = false;
+    if (props.isPlaying) {
       shapes.forEach(shape => {
         if (shape.isMoving) {
           shape.path.position.x += shape.direction.x;
@@ -34,22 +33,19 @@ module.exports = function() {
             if (!innerShape.isMoving) {
               if (shape.path.getIntersections(innerShape.path).length > 0) {
                 synthOne.triggerAttackRelease('C4', '8n');
-                shape.direction.x *= -1;
-                shape.direction.y *= 1;
+                shape.respondToHit(innerShape);
               }
             }
           });
+          shape.update();
         }
       });
-    } else {
-      locked = true;
     }
   };
 
   tool.onMouseDown = (event) => {
 		const hitResult = project.hitTest(event.point, hitOptions);
     if (hitResult) {
-      console.log('HIT RESULT***8', hitResult);
       path = hitResult.item;
       // store.dispatch(selectChunk({
       //   id: shape.id,
@@ -61,13 +57,15 @@ module.exports = function() {
   };
 
   tool.onMouseMove = (event) => {
-    project.activeLayer.selected = false;
-    if (event.item) event.item.selected = true;
+    if (event.item) {
+      event.item.selected = true;
+    } else {
+      project.activeLayer.selected = false;
+    }
   };
 
   tool.onMouseDrag = (event) => {
-    console.log('PLAYMODE', inPlayMode, 'UI-LOCKED', locked);
-    if (path) {
+    if (path && !isPlaying) {
       path.position.x += event.delta.x;
       path.position.y += event.delta.y;
     }

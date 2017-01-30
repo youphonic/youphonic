@@ -1,7 +1,7 @@
 import React from 'react';
 import {connect} from 'react-redux';
 import paper from 'paper';
-import mvpPort from '../paper/mvpPort';
+import paperFrames from '../paper/mvpPort';
 import paperjsSeed from '../redux/paperjsSeed';
 import paperPrototyptes from '../chunks/paperPrototypes'
 export let pjs;
@@ -31,10 +31,10 @@ class P5Wrapper extends React.Component {
     paperjsSeed();
   }
 
-  componentWillReceiveProps(newprops) {
-    this.props.paperFrames();
+  componentWillReceiveProps(newProps) {
+    paperFrames(newProps);
     if ( this.canvas.myCustomRedrawAccordingToNewPropsHandler ) {
-      this.canvas.myCustomRedrawAccordingToNewPropsHandler(newprops);
+      this.canvas.myCustomRedrawAccordingToNewPropsHandler(newProps);
     }
   }
 
@@ -49,7 +49,6 @@ class P5Wrapper extends React.Component {
 
 const mapStateToProps = (state) => {
   return {
-    paperFrames: mvpPort,
     allChunks: state.allChunks,
     isPlaying: state.isPlaying
   };
