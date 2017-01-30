@@ -33,7 +33,7 @@ OAuth.V2 = (accessToken, refreshToken, profile, done) =>
         profile.provider,
         profile.displayName,
         token.uid)
-      oauth.profileJson = profile
+      	oauth.profileJson = profile
       return db.Promise.props({
         oauth,
         user: token.getUser(),
