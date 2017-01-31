@@ -1,17 +1,26 @@
 import axios from 'axios'
 
-const reducer = (state=null, action) => {
-  switch(action.type) {
-  case AUTHENTICATED:
-    return action.user
-  }
-  return state
-}
-
 const AUTHENTICATED = 'AUTHENTICATED'
 export const authenticated = user => ({
   type: AUTHENTICATED, user
 })
+
+const LOGOUT_USER = 'LOGOUT_USER'
+export const logout_user = user => ({
+  type: LOGOUT_USER, user
+})
+
+const reducer = (state=null, action) => {
+  switch(action.type) {
+  case AUTHENTICATED:
+    return action.user
+	case 	LOGOUT_USER:
+		return action.user
+	default: return state;
+  }
+  return state;
+}
+
 
 export const login = (username, password) =>
   dispatch =>

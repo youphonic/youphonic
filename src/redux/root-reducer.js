@@ -7,5 +7,9 @@ import appState from './appState';
 import login from './login';
 
 export default combineReducers({
-  appState, allChunks, selectedChunk, isPlaying: play, login
+  appState,
+	allChunks,
+	selectedChunk,
+	isPlaying: play,
+	login: login
 });
