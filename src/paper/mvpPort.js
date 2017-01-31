@@ -33,6 +33,7 @@ module.exports = function(props) {
             if (!innerShape.isMoving) {
               if (shape.path.intersects(innerShape.path)) {
                 synthOne.triggerAttackRelease(innerShape.frequency, '8n');
+                synthTwo.triggerAttackRelease(shape.frequency, '8n');
                 shape.respondToHit(innerShape);
               }
             }
