@@ -43,7 +43,7 @@ function RightMenu (props) {
       <MenuItem
         primaryText="PhysBall"
         onTouchTap={() => {
-					props.addChunk(new PhysBall(0, 0, 20, new Point(0, 0)));
+					props.addChunk(new PhysBall(0, 0, 20, new Point(-0.00001, 0)));
 					if (props.isPlaying) {
 						props.togglePlay(props.isPlaying);
 					}
@@ -59,7 +59,7 @@ function RightMenu (props) {
 
 const mapStateToProps = (state) => {
 	return {
-		// myP5: state.myP5,
+		center: state.center,
 		isPlaying: state.isPlaying
 	};
 };
