@@ -5,6 +5,7 @@ import { selectChunk } from '../redux/chunk';
 import { synthOne, synthTwo } from '../tone/tonePatchOne';
 
 let isPlaying;
+let shapes;
 
 module.exports = function(props) {
 	const tool = new Tool();
@@ -19,25 +20,24 @@ module.exports = function(props) {
   };
 
   let path;
-  let shapes = props.allChunks;
 
+  // set state variables on new props
+  shapes = props.allChunks;
   isPlaying = props.isPlaying;
 
   view.onFrame = () => {
     if (props.isPlaying) {
       shapes.forEach(shape => {
         if (shape.isMoving) {
-          shape.path.position.x += shape.direction.x;
-          shape.path.position.y += shape.direction.y;
           shapes.forEach(innerShape => {
             if (!innerShape.isMoving) {
-              if (shape.path.getIntersections(innerShape.path).length > 0) {
+              if (shape.path.intersects(innerShape.path)) {
                 synthOne.triggerAttackRelease(innerShape.frequency, '8n');
                 shape.respondToHit(innerShape);
               }
             }
           });
-          shape.update();
+        shape.update();
         }
       });
     }

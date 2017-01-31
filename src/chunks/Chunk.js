@@ -22,19 +22,17 @@ export default class Chunk {
 
   update() {
     if (this.isMoving) {
+      // move Chunk in its direction
       this.path.position = this.path.position.add(this.direction)
-
-      // console.log(Math.floor(this.path.position.x), Math.floor(this.path.position.y));
+      // bounce dynamic
+      if (this.path.position.x < 0 || this.path.position.x > window.innerWidth) this.direction.x *= -1;
+      if (this.path.position.y < 0 || this.path.position.y > window.innerHeight) this.direction.y *= -1;
     }
   }
 
   respondToHit(hitter) {
-    // this.direction.angle -= bounce(this.path.position, hitter.path.position, this.direction)
-    // console.log('before', this.direction);
-    // console.log('before', hitter.direction);
-    reBounce(this, hitter)
-    console.log(this.direction, hitter.direction);
-    console.log(this.path, hitter.path);
-    // this.path.position.x -=100;
+    let newAngle = bounce(this.path.position, hitter.path.position, this.direction)
+    this.direction.angle += newAngle;
+    return this;
   }
 }
