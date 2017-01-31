@@ -19,7 +19,7 @@ app.use(cookies({
 
 // dev environment logger
 const logger = volleyball.custom({ debug: true })
-app.use(logger)
+app.use(volleyball)
 
 //body parsing middleware
 app.use(bodyParser.urlencoded({ extended: true }))
@@ -46,5 +46,5 @@ app.use((error, req, res, next) => {
 	//if there is no error.status already set, we are defaulting to 500
     error.status = error.status || 500;
     error.message = error.message || 'Internal Error';
-    res.send('error', {error})
+    res.send('error', {error});
 });

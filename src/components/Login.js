@@ -26,7 +26,6 @@ class Login extends React.Component {
     this.handleOpen = this.handleOpen.bind(this);
     this.handleClose = this.handleClose.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
-    this.handleChange = this.handleChange.bind(this);
 
 		this.styles = {
 			loginButton: {
@@ -50,20 +49,12 @@ class Login extends React.Component {
 		this.props.startCanvas();
   }
 
-  handleChange(event) {
-    this.setState({
-			username: event.target.value.username,
-			password: event.target.value.password
-		});
-  }
-
-  handleSubmit() {
-		login(this.state.username, this.state.password);
+  handleSubmit(event) {
+		this.props.login(this.state.username, this.state.password);
     this.setState({
 	    open: false
 	  });
   }
-
 
   render() {
     const actions = [
@@ -97,12 +88,22 @@ class Login extends React.Component {
         >
           <form>
             <TextField
-              onChange={this.handleChange}
+              name={"username"}
               hintText="enter username"
+              onChange={(evt) => {
+                this.setState({
+            			username: evt.target.value
+            		});
+              }}
             />
 						<TextField
-							onChange={this.handleChange}
+              name={"password"}
 							hintText="enter password"
+              onChange={(evt) => {
+                this.setState({
+            			password: evt.target.value
+            		});
+              }}
 						/>
           </form>
         </Dialog>

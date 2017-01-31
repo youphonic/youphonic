@@ -11,5 +11,5 @@ export default combineReducers({
 	allChunks,
 	selectedChunk,
 	isPlaying: play,
-	login: login
+	auth: login
 });

@@ -12,13 +12,12 @@ export const logout_user = user => ({
 
 const reducer = (state=null, action) => {
   switch(action.type) {
-  case AUTHENTICATED:
-    return action.user
-	case 	LOGOUT_USER:
-		return action.user
-	default: return state;
+    case AUTHENTICATED:
+      return action.user
+  	case 	LOGOUT_USER:
+  		return action.user
+  	default: return state;
   }
-  return state;
 }
 
 
