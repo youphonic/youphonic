@@ -8,8 +8,6 @@ import Rectangle from '../chunks/Rectangle';
 
 import {togglePlay} from '../redux/play';
 
-import sketch from '../sketches';
-
 const mapStateToProps = (state) => {
   return {
     allChunks: state.allChunks,

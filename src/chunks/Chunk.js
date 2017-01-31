@@ -2,18 +2,11 @@ import {bounce, reBounce} from './utils'
 
 let idCount = 1;
 
-// const initialDirection = new Point(0, 0)
-
 export default class Chunk {
-  constructor(x, y, direction) {
-    this.position = [x, y]
+  constructor(direction) {
 	  this.id = idCount++;
     this.direction = direction
-    // this is hacky for now - will be tied to Tone events eventually?
-    this.color = [255, 255, 255]
-    this.hitColor = [225, 139, 115];
-    this.hitCount = 0;
-    this.hit = false;
+    this.color = '';
   }
 
   get isMoving () {

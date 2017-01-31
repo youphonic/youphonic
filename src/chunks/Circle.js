@@ -13,12 +13,4 @@ export default class Circle extends Chunk {
       fillColor: 'white',
     })
   }
-
-  get arguments() {
-    return [
-      this.position.x,
-      this.position.y,
-      this.radius
-    ];
-  }
 }

@@ -3,8 +3,6 @@ import {connect} from 'react-redux';
 import paper from 'paper';
 import paperFrames from '../paper/mvpPort';
 import paperjsSeed from '../redux/paperjsSeed';
-import paperPrototyptes from '../chunks/paperPrototypes'
-export let pjs;
 
 const styles = {
   paperCanvas: {
@@ -13,21 +11,20 @@ const styles = {
     height: '100%',
     background: '#31B8B5'
   },
-  /* Scale canvas with resize attribute to full size */
-  canvas: {
+  /* Scale canvas with resize attribute to full size - not working yet*/
+  'canvas[resize]': {
     width: '100%',
     height: '100%',
   }
 };
 
-class P5Wrapper extends React.Component {
+class PaperWrapper extends React.Component {
 
   componentDidMount() {
+    // set up paperjs on the window
     this.canvas = document.getElementById('paperCanvas');
-    pjs = this.canvas;
     paper.setup(this.canvas);
     paper.install(window);
-    paperPrototyptes();
     paperjsSeed();
   }
 
@@ -54,4 +51,4 @@ const mapStateToProps = (state) => {
   };
 };
 
-export default connect(mapStateToProps)(P5Wrapper);
+export default connect(mapStateToProps)(PaperWrapper);
