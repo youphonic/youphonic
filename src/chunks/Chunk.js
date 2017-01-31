@@ -63,17 +63,40 @@ export default class Chunk {
     let centerPoint = this.path.position;
     let direction = this.direction;
     let startPoint = centerPoint.add(direction.normalize(this.radius));
-    let end = startPoint.add(direction.multiply(25))
-    this.vectorItem = new Group([
-      new Path([startPoint, end]),
-      new Path([
+    let end = startPoint.add(direction.multiply(15));
+    let arrowPath = new Path([
         end.add(direction.multiply(2).rotate(160)),
         end,
         end.add(direction.multiply(2).rotate(-160))
-      ])
+      ]);
+    this.vectorItem = new Group([
+      new Path([startPoint, end]),
+      arrowPath
     ]);
+    arrowPath.type = 'vectorArrow';
     this.vectorItem.strokeWidth = 2.0;
 	  this.vectorItem.strokeColor = '#e4141b';
+  }
+
+  dragVector(mousePoint) {
+    this.eraseVector()
+    let centerPoint = this.path.position;
+    let direction = this.direction;
+    let startPoint = centerPoint.subtract(direction.normalize(this.radius));
+    let end = mousePoint;
+    let arrowPath = new Path([
+        end.add(direction.multiply(2).rotate(160)),
+        end,
+        end.add(direction.multiply(2).rotate(-160))
+      ]);
+    this.vectorItem = new Group([
+      new Path([startPoint, end]),
+      arrowPath
+    ]);
+    arrowPath.type = 'vectorArrow';
+    this.vectorItem.strokeWidth = 2.0;
+	  this.vectorItem.strokeColor = '#e4141b';
+    this.direction = (startPoint.subtract(mousePoint)).divide(15)
   }
 
   eraseVector() {
