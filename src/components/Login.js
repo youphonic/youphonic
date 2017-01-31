@@ -9,7 +9,6 @@ import TextField from 'material-ui/TextField';
 import MenuItem from 'material-ui/MenuItem';
 import { login } from '../redux/login';
 import {startCanvas, stopCanvas} from '../redux/appState';
-import {ourP5} from './P5Wrapper';
 import {red500, yellow500, blue500} from 'material-ui/styles/colors';
 
 /**
