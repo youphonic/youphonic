@@ -33,7 +33,7 @@ function RightMenu (props) {
       <MenuItem
         primaryText="Circle"
         onTouchTap={() => {
-					props.addChunk(new Circle(0, 0, 20));
+					props.addChunk(new Circle(0, 0, 20, new Point(1, 1)));
 					if (props.isPlaying) {
 						props.togglePlay(props.isPlaying);
 					}
