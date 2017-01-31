@@ -43,8 +43,8 @@ const styles = {
 const Main = (props) => (
   <div id="outer-container">
     <main id="page-wrap">
-			<Login/>
       <MainCanvas/>
+      <Login/>
       <RightMenu/>
       {props.selectedChunk.id && <ShapeSettings style={styles.settingsButton}/>}
       <FloatingActionButton style={styles.playButton} color={blue500}>

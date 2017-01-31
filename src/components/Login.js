@@ -3,13 +3,14 @@ import { connect } from 'react-redux';
 import Dialog from 'material-ui/Dialog';
 import FlatButton from 'material-ui/FlatButton';
 import RaisedButton from 'material-ui/RaisedButton';
+import ActionGoogle from 'material-ui/svg-icons/action/android';
+import ActionFacebook from 'material-ui/svg-icons/action/android';
 import FloatingActionButton from 'material-ui/FloatingActionButton';
 import FontIcon from 'material-ui/FontIcon';
 import TextField from 'material-ui/TextField';
 import MenuItem from 'material-ui/MenuItem';
 import { login } from '../redux/login';
 import {startCanvas, stopCanvas} from '../redux/appState';
-import {ourP5} from './P5Wrapper';
 import {red500, yellow500, blue500} from 'material-ui/styles/colors';
 
 /**
@@ -35,7 +36,10 @@ class Login extends React.Component {
 			},
 			buttonIcon: {
 				fontSize: 50
-			}
+			},
+      socialButton: {
+        margin: 12
+      }
 		}
   }
 
@@ -70,7 +74,22 @@ class Login extends React.Component {
         primary={true}
         keyboardFocused={true}
         onTouchTap={this.handleSubmit}
-      />
+      />,
+      <RaisedButton
+        href="https://github.com/callemall/material-ui"
+        target="_blank"
+        label="Google"
+        secondary={true}
+        style={this.styles.socialButton}
+        icon={<FontIcon className="fa fa-google" />}
+      />,
+    <RaisedButton
+      label="Login with Facebook"
+      labelPosition="before"
+      primary={true}
+      icon={<ActionFacebook />}
+      style={this.styles.socialButton}
+    />,
     ];
     return (
       <div>
