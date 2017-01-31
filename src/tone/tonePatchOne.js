@@ -25,7 +25,7 @@ bandSplitter.low.connect(mainFilter);
 bandSplitter.mid.connect(reverb);
 bandSplitter.high.connect(feedbackDel);
 
-export const synthOne = new Tone.Synth({
+const basicSynth = {
 	oscillator: {
 		type: 'triangle'
 	},
@@ -35,7 +35,9 @@ export const synthOne = new Tone.Synth({
 		sustain: 0.09,
 		release: 0.4
 	}
-}).connect(bandSplitter);
+}
+
+export const synthOne = new Tone.PolySynth(4, Tone.Synth, basicSynth).connect(bandSplitter);
 
 export const synthTwo = new Tone.Synth({
 	oscillator: {
