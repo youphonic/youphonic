@@ -2,7 +2,7 @@ import Chunk from './Chunk';
 
 export default class Rectangle extends Chunk {
   constructor(x, y, w, h, direction) {
-    super(x, y, direction);
+    super(direction);
     this.width = w;
     this.height = h || w;
   }
