@@ -1,14 +1,16 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import {connect} from 'react-redux';
-import RightMenu from './RightMenu';
 import injectTapEventPlugin from 'react-tap-event-plugin';
+
+import RightMenu from './RightMenu';
 import ShapeSettings from './ShapeSettings';
 import FloatingActionButton from 'material-ui/FloatingActionButton';
 import FontIcon from 'material-ui/FontIcon';
 import {red500, yellow500, blue500} from 'material-ui/styles/colors';
 import MainCanvas from './MainCanvas';
 import {togglePlay} from '../redux/play';
+
 // Our root component
 injectTapEventPlugin();
 const styles = {
@@ -40,9 +42,9 @@ const styles = {
 const Main = (props) => (
   <div id="outer-container">
     <main id="page-wrap">
-      <RightMenu/>
-      <MainCanvas/>
-      {props.selectedChunk.id && <ShapeSettings style={styles.settingsButton}/>}
+      <MainCanvas />
+      <RightMenu />
+      {props.selectedChunk.id && <ShapeSettings style={styles.settingsButton} />}
       <FloatingActionButton style={styles.playButton} color={blue500}>
         <FontIcon onClick={() => {
           props.togglePlay(props.isPlaying)
