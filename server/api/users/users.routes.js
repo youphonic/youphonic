@@ -2,6 +2,7 @@
 
 var db = require('../../_db');
 const User = require('./user.model')
+const Play = require('./play.model')
 const {mustBeLoggedIn, forbidden} = require('../auth/auth.filters')
 
 module.exports = require('express').Router()
@@ -14,7 +15,7 @@ module.exports = require('express').Router()
 	  .catch(next)
 	})
 
-	// we won't need to use this we implement unless admin feature
+	//we won't need to use this we implement unless admin feature
 	// .get('/', (req, res, next) =>
 	// 	User.findAll()
 	// 	.then(users => res.json(users))
@@ -34,10 +35,20 @@ module.exports = require('express').Router()
 	res.json(req.requestedUser.plays[0]))
 
 
+//updates user instance
 	.put('/:id', (req, res, next) => {
 		req.requestedUser.update(req.body)
 		.then(updatedUser => {
 			res.send(updatedUser)
+		})
+		.catch(next)
+	})
+
+	.put('/:id/plays', (req, res, next) => {
+		 const userId = req.params.id;
+		Play.findOrCreate(Object.assign({}, req.body, {player_id: userId}))
+		.then(play => {
+			res.send(play);
 		})
 		.catch(next)
 	})

@@ -28,17 +28,21 @@ export const localLogin = (username, password) =>
       .then(() => dispatch(whoami()))
       .catch(() => dispatch(whoami()))
 
-export const googleLogin = (username, password) =>
+export const googleLogin = () =>
   dispatch =>
-    axios.post('/api/auth/login/google',
-      {username, password})
-      .then(() => dispatch(whoami()))
-      .catch(() => dispatch(whoami()))
+    axios.post('/api/auth/login/google')
+      .then((result) => {
+				console.log('whoami is firing!!!!', result);
+				dispatch(whoami())
+				})
+      .catch(() => {
+	console.log('catch is firing')
+dispatch(whoami())
+})
 
 export const facebookLogin = (username, password) =>
   dispatch =>
-    axios.post('/api/auth/login/facebook',
-      {username, password})
+    axios.post('/api/auth/login/facebook')
       .then(() => dispatch(whoami()))
       .catch(() => dispatch(whoami()))
 

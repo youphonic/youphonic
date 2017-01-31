@@ -9,7 +9,9 @@ import FloatingActionButton from 'material-ui/FloatingActionButton';
 import FontIcon from 'material-ui/FontIcon';
 import TextField from 'material-ui/TextField';
 import MenuItem from 'material-ui/MenuItem';
-import { login } from '../redux/login';
+
+import { whoami, localLogin, googleLogin, facebookLogin } from '../redux/login';
+
 import {startCanvas, stopCanvas} from '../redux/appState';
 import {red500, yellow500, blue500} from 'material-ui/styles/colors';
 
@@ -54,7 +56,8 @@ class Login extends React.Component {
   }
 
   handleSubmit(event) {
-		this.props.login(this.state.username, this.state.password);
+		event.preventDefault();
+		this.props.localLogin(this.state.username, this.state.password);
     this.setState({
 	    open: false
 	  });
@@ -76,7 +79,9 @@ class Login extends React.Component {
         onTouchTap={this.handleSubmit}
       />,
       <RaisedButton
-        href="https://github.com/callemall/material-ui"
+        onTouchTap={()=>{
+					console.log('google login firing');
+					this.props.googleLogin()}}
         target="_blank"
         label="Google"
         secondary={true}
@@ -84,10 +89,12 @@ class Login extends React.Component {
         icon={<FontIcon className="fa fa-google" />}
       />,
     <RaisedButton
-      label="Login with Facebook"
+			onTouchTap={()=>this.props.facebookLogin()}
+      label="Facebook"
+			target="_blank"
       labelPosition="before"
       primary={true}
-      icon={<ActionFacebook />}
+      icon={<FontIcon className="fa fa-facebook-square" />}
       style={this.styles.socialButton}
     />,
     ];
@@ -139,7 +146,9 @@ const mapStateToProps = state => {
 
 const mapDispatchToProps = dispatch => {
   return {
-    login: (username, password) => dispatch(login(username, password)),
+    localLogin: (username, password) => dispatch(localLogin(username, password)),
+		googleLogin: () => dispatch(googleLogin()),
+		facebookLogin: () => dispatch(facebookLogin()),
 		startCanvas: () =>
       dispatch(startCanvas()),
     stopCanvas: () =>
