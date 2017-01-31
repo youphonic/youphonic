@@ -1,4 +1,4 @@
-import {bounce, reBounce} from './utils'
+import {bounce, reBounce, paperBounce} from './utils'
 
 let idCount = 1;
 
@@ -24,8 +24,9 @@ export default class Chunk {
   }
 
   respondToHit(hitter) {
-    let newAngle = bounce(this.path.position, hitter.path.position, this.direction)
-    this.direction.angle += newAngle;
+    paperBounce(this, hitter)
+    // let newAngle = bounce(this.path.position, hitter.path.position, this.direction)
+    // this.direction.angle += newAngle;
     return this;
   }
 }

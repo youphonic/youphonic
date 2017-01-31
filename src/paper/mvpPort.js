@@ -30,7 +30,7 @@ module.exports = function(props) {
       shapes.forEach(shape => {
         if (shape.isMoving) {
           shapes.forEach(innerShape => {
-            if (!innerShape.isMoving) {
+            if (innerShape.id !== shape.id) {
               if (shape.path.intersects(innerShape.path)) {
                 synthOne.triggerAttackRelease(innerShape.frequency, '8n');
                 synthTwo.triggerAttackRelease(shape.frequency, '8n');

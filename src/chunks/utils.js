@@ -22,3 +22,14 @@ export const reBounce = function(obj1, obj2, vector) {
   point1.angle = 2 * tangent - point1.angle;
   point2.angle = 2 * tangent - point2.angle;
 }
+
+export const paperBounce = function(obj1, obj2) {
+  console.log('its a hit');
+  var dist = obj1.path.position.getDistance(obj2.path.position);
+  var overlap = obj1.radius + obj2.radius - dist;
+  var direc = (obj1.path.position.subtract(obj2.path.position)).normalize();
+  console.log(direc);
+  obj1.direction = obj1.direction.add(direc);
+  console.log(obj1.direction);
+  obj2.direction = obj2.direction.subtract(direc);
+}
