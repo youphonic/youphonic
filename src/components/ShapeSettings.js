@@ -3,7 +3,6 @@ import { connect } from 'react-redux';
 import Dialog from 'material-ui/Dialog';
 import FlatButton from 'material-ui/FlatButton';
 import RaisedButton from 'material-ui/RaisedButton';
-// import {RadioButton, RadioButtonGroup} from 'material-ui/RadioButton';
 import TextField from 'material-ui/TextField';
 import { updateAndPlaceChunk } from '../redux/chunk';
 import {updateOneChunk} from '../redux/allChunks';

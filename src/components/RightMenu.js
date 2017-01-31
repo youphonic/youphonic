@@ -9,6 +9,7 @@ import {addChunk} from '../redux/allChunks';
 import {togglePlay} from '../redux/play';
 import Circle from '../chunks/Circle';
 import Rectangle from '../chunks/Rectangle';
+import Login from './Login';
 
 const styles = {
   menu: {
