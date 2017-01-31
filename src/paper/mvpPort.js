@@ -20,6 +20,13 @@ module.exports = function(props) {
     tolerance: 5
   };
 
+  // FORCES
+  const forces = {
+    wind1: new Point(0.01, 0),
+    wind2: new Point(-0.01, 0),
+    gravity: new Point(0, 0.1)
+  };
+
   // set state variables on new props
   shapes = props.allChunks;
   isPlaying = props.isPlaying;
@@ -42,8 +49,12 @@ module.exports = function(props) {
               }
             }
           });
-        shape.update();
         }
+        // this is temporary for PhysBall
+        if (shape.type === 'physics') {
+          shape.applyForce(forces.gravity);
+        }
+        shape.update();
       });
     }
   };
