@@ -8,6 +8,7 @@ import MoreVertIcon from 'material-ui/svg-icons/navigation/more-vert';
 import {addChunk} from '../redux/allChunks';
 import {togglePlay} from '../redux/play';
 import Circle from '../chunks/Circle';
+import PhysBall from '../chunks/PhysBall';
 import Rectangle from '../chunks/Rectangle';
 import Login from './Login';
 
@@ -39,15 +40,15 @@ function RightMenu (props) {
 					}
 				}}
       />
-      {/* <MenuItem
-        primaryText="Rectangle"
+      <MenuItem
+        primaryText="PhysBall"
         onTouchTap={() => {
-					props.addChunk(new Rectangle(100, 100, 75));
+					props.addChunk(new PhysBall(0, 0, 20, new Point(0, 0)));
 					if (props.isPlaying) {
 						props.togglePlay(props.isPlaying);
 					}
 				}}
-      /> */}
+      />
       <MenuItem primaryText="Triangle" />
       <MenuItem primaryText="Start" />
       <MenuItem primaryText="Stop" />
