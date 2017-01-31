@@ -35,13 +35,10 @@ export default class Chunk {
       paperBounce(this, hitter);
     }
     hitter.flash();
-    // let newAngle = bounce(this.path.position, hitter.path.position, this.direction)
-    // this.direction.angle += newAngle;
     return this;
   }
 
   flash() {
-    console.log('flash');
     this.path.fillColor = this.flashColor;
     let that = this;
     setTimeout(function() {
