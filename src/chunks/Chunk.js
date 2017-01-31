@@ -28,7 +28,7 @@ export default class Chunk {
 
   update() {
     if (this.isMoving) {
-      // bounce dynamic
+      // window edge bounce dynamic
       if (this.path.position.x < 0 || this.path.position.x > window.innerWidth) this.direction.x *= -1;
       if (this.path.position.y < 0 || this.path.position.y > window.innerHeight) this.direction.y *= -1;
       // apply Newtons's second law: A = F/M
@@ -56,5 +56,30 @@ export default class Chunk {
     setTimeout(function() {
       that.path.fillColor = that.color;
     }, 20)
+  }
+
+  drawVector() {
+    if (!this.isMoving) return;
+    let centerPoint = this.path.position;
+    let direction = this.direction;
+    let startPoint = centerPoint.add(direction.normalize(this.radius));
+    let end = startPoint.add(direction.multiply(25))
+    this.vectorItem = new Group([
+      new Path([startPoint, end]),
+      new Path([
+        end.add(direction.multiply(2).rotate(160)),
+        end,
+        end.add(direction.multiply(2).rotate(-160))
+      ])
+    ]);
+    this.vectorItem.strokeWidth = 2.0;
+	  this.vectorItem.strokeColor = '#e4141b';
+  }
+
+  eraseVector() {
+    if (this.vectorItem) {
+      this.vectorItem.remove();
+      this.vectorItem = null;
+    }
   }
 }

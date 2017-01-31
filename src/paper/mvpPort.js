@@ -6,7 +6,7 @@ import { synthOne, synthTwo } from '../tone/tonePatchOne';
 
 let isPlaying;
 let shapes;
-let currShape;
+let localSelectedChunk;
 
 module.exports = function(props) {
 	const tool = new Tool();
@@ -27,17 +27,18 @@ module.exports = function(props) {
     gravity: new Point(0, 0.1)
   };
 
-  let path;
-
   // set state variables on new props
   shapes = props.allChunks;
   isPlaying = props.isPlaying;
 
+  // erase drawn vector on play
+  if (props.isPlaying) {
+    if (localSelectedChunk) localSelectedChunk.eraseVector();
+  }
+
   view.onFrame = () => {
     if (props.isPlaying) {
       shapes.forEach(shape => {
-        // this is temporary for PhysBall
-        currShape = shape;
         if (shape.isMoving) {
           shapes.forEach(innerShape => {
             if (innerShape.id !== shape.id) {
@@ -50,7 +51,7 @@ module.exports = function(props) {
           });
         }
         // this is temporary for PhysBall
-        if (currShape.type === 'physics') {
+        if (shape.type === 'physics') {
           shape.applyForce(forces.gravity);
         }
         shape.update();
@@ -60,22 +61,23 @@ module.exports = function(props) {
 
   tool.onMouseDown = (event) => {
 		const hitResult = project.hitTest(event.point, hitOptions);
-    if (hitResult) {
-      path = hitResult.item;
-
+    if (!isPlaying && hitResult) {
       // is allChunks is an object we could just find the
       // correct chunk by key
-      shapes.forEach(shape => {
-        if (path === shape.path) {
+      shapes.forEach((shape, index) => {
+        if (hitResult.item === shape.path) {
+          localSelectedChunk = shape;localSelectedChunk.eraseVector();
+          localSelectedChunk.drawVector();
           store.dispatch(selectChunk({
             id: shape.id,
             frequency: shape.frequency
           }));
         }
       })
-    } else {
-      path = null;
-      // reset selected chunk to null
+    } else if (localSelectedChunk) {
+      // reset selected chunk to null and update state
+      localSelectedChunk.eraseVector()
+      localSelectedChunk = null;
       store.dispatch(selectChunk({}));
     }
   };
@@ -89,9 +91,11 @@ module.exports = function(props) {
   };
 
   tool.onMouseDrag = (event) => {
-    if (path && !isPlaying) {
-      path.position.x += event.delta.x;
-      path.position.y += event.delta.y;
+    if (localSelectedChunk && !isPlaying) {
+      localSelectedChunk.path.position.x += event.delta.x;
+      localSelectedChunk.path.position.y += event.delta.y;
+      localSelectedChunk.eraseVector();
+      localSelectedChunk.drawVector();
     }
   };
 
