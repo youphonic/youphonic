@@ -10,7 +10,7 @@ export default class Chunk {
   }
 
   get isMoving () {
-    return !(this.direction.x === 0 && this.direction.y === 0)
+    return !(this.velocity.x === 0 && this.velocity.y === 0)
   }
 
   update() {

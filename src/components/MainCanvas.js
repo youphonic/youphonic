@@ -23,11 +23,8 @@ const mapDispatchToProps = (dispatch) => {
   };
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)((props) => {
-
-  return (
-    <div id="mainCanvas">
-      <PaperWrapper />
-    </div>
-  );
-});
+export default connect(mapStateToProps, mapDispatchToProps)((props) => (
+  <div id="mainCanvas">
+    <PaperWrapper />
+  </div>
+));

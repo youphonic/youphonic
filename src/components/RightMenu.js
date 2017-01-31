@@ -57,7 +57,6 @@ function RightMenu (props) {
 
 const mapStateToProps = (state) => {
 	return {
-		// myP5: state.myP5,
 		isPlaying: state.isPlaying
 	};
 };
