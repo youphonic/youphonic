@@ -1,15 +1,17 @@
 import { combineReducers } from 'redux';
-// import myP5 from './myP5'
-import allChunks from './allChunks'
-import play from './play'
-import selectedChunk from './chunk';
+
+import play from './play';
 import appState from './appState';
 import login from './login';
+import allChunks from './allChunks';
+import selectedChunk from './chunk';
+import canvas from './canvas-reducer';
 
 export default combineReducers({
+  canvas,
   appState,
-	allChunks,
-	selectedChunk,
-	isPlaying: play,
-	auth: login
+  allChunks,
+  selectedChunk,
+  isPlaying: play,
+  auth: login
 });

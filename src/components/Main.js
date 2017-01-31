@@ -1,8 +1,9 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import {connect} from 'react-redux';
-import RightMenu from './RightMenu';
 import injectTapEventPlugin from 'react-tap-event-plugin';
+
+import RightMenu from './RightMenu';
 import ShapeSettings from './ShapeSettings';
 import FloatingActionButton from 'material-ui/FloatingActionButton';
 import FontIcon from 'material-ui/FontIcon';
@@ -43,8 +44,8 @@ const Main = (props) => (
   <div id="outer-container">
     <main id="page-wrap">
 			<Login/>
-      <RightMenu/>
       <MainCanvas/>
+      <RightMenu/>
       {props.selectedChunk.id && <ShapeSettings style={styles.settingsButton}/>}
       <FloatingActionButton style={styles.playButton} color={blue500}>
         <FontIcon onClick={() => {
