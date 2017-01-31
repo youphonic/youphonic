@@ -11,7 +11,7 @@ import {red500, yellow500, blue500} from 'material-ui/styles/colors';
 import MainCanvas from './MainCanvas';
 import {togglePlay} from '../redux/play';
 import { selectChunk } from '../redux/chunk';
-import {startCanvas, stopCanvas} from '../redux/appState'
+import { startCanvas } from '../redux/appState'
 import Login from './Login';
 
 // Our root component
