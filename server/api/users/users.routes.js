@@ -2,13 +2,15 @@
 
 var db = require('../../_db');
 const User = require('./user.model')
-const Play = require('./play.model')
+const Play = require('../plays/play.model')
 const {mustBeLoggedIn, forbidden} = require('../auth/auth.filters')
 
 module.exports = require('express').Router()
 	.param('id', function (req, res, next, id) {
+		console.log('user id ', id);
 	  User.findById(id)
 	  .then(function (user) {
+			console.log('user ', user);
 	    req.requestedUser = user;
 	    next();
 	  })
@@ -45,9 +47,13 @@ module.exports = require('express').Router()
 	})
 
 	.put('/:id/plays', (req, res, next) => {
-		 const userId = req.params.id;
-		Play.findOrCreate(Object.assign({}, req.body, {player_id: userId}))
-		.then(play => {
+		const userId = req.params.id;
+		Play.findOrCreate({where: {id: req.body.id}})
+		.spread((play, created) => {
+			if (!created) {
+				play.update({player_id: userId, playJSON: req.body})
+				.then(play => res.send(play));
+			}
 			res.send(play);
 		})
 		.catch(next)
