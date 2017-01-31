@@ -1,18 +1,15 @@
 import Chunk from './Chunk';
+import paper from 'paper'
 
 
 export default class Circle extends Chunk {
   constructor(x, y, radius, direction) {
-    super(x, y, direction);
+    super(direction);
     this.radius = radius;
-    this.shape = 'ellipse';
-  }
-
-  get arguments() {
-    return [
-      this.position.x,
-      this.position.y,
-      this.radius
-    ];
+    this.path = new Path.Circle({
+      center: [x, y],
+      radius: radius,
+      fillColor: 'white',
+    })
   }
 }

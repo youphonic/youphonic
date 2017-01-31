@@ -1,5 +1,3 @@
-export const INIT_P5 = 'INIT_P5';
-
 export const START_CANVAS = 'START_CANVAS';
 export const STOP_CANVAS = 'STOP_CANVAS';
 

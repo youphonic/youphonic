@@ -20,6 +20,6 @@ export default(state = initialState, action) => {
       return action.toggle;
 
     default:
-      return state;
+      return newState;
   }
 };
