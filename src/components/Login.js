@@ -3,11 +3,15 @@ import { connect } from 'react-redux';
 import Dialog from 'material-ui/Dialog';
 import FlatButton from 'material-ui/FlatButton';
 import RaisedButton from 'material-ui/RaisedButton';
+import ActionGoogle from 'material-ui/svg-icons/action/android';
+import ActionFacebook from 'material-ui/svg-icons/action/android';
 import FloatingActionButton from 'material-ui/FloatingActionButton';
 import FontIcon from 'material-ui/FontIcon';
 import TextField from 'material-ui/TextField';
 import MenuItem from 'material-ui/MenuItem';
-import { login } from '../redux/login';
+
+import { whoami, localLogin, googleLogin, facebookLogin } from '../redux/login';
+
 import {startCanvas, stopCanvas} from '../redux/appState';
 import {red500, yellow500, blue500} from 'material-ui/styles/colors';
 
@@ -34,7 +38,10 @@ class Login extends React.Component {
 			},
 			buttonIcon: {
 				fontSize: 50
-			}
+			},
+      socialButton: {
+        margin: 12
+      }
 		}
   }
 
@@ -49,7 +56,8 @@ class Login extends React.Component {
   }
 
   handleSubmit(event) {
-		this.props.login(this.state.username, this.state.password);
+		event.preventDefault();
+		this.props.localLogin(this.state.username, this.state.password);
     this.setState({
 	    open: false
 	  });
@@ -69,7 +77,26 @@ class Login extends React.Component {
         primary={true}
         keyboardFocused={true}
         onTouchTap={this.handleSubmit}
-      />
+      />,
+      <RaisedButton
+        onTouchTap={()=>{
+					console.log('google login firing');
+					this.props.googleLogin()}}
+        target="_blank"
+        label="Google"
+        secondary={true}
+        style={this.styles.socialButton}
+        icon={<FontIcon className="fa fa-google" />}
+      />,
+    <RaisedButton
+			onTouchTap={()=>this.props.facebookLogin()}
+      label="Facebook"
+			target="_blank"
+      labelPosition="before"
+      primary={true}
+      icon={<FontIcon className="fa fa-facebook-square" />}
+      style={this.styles.socialButton}
+    />,
     ];
     return (
       <div>
@@ -119,7 +146,9 @@ const mapStateToProps = state => {
 
 const mapDispatchToProps = dispatch => {
   return {
-    login: (username, password) => dispatch(login(username, password)),
+    localLogin: (username, password) => dispatch(localLogin(username, password)),
+		googleLogin: () => dispatch(googleLogin()),
+		facebookLogin: () => dispatch(facebookLogin()),
 		startCanvas: () =>
       dispatch(startCanvas()),
     stopCanvas: () =>

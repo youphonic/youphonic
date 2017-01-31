@@ -7,6 +7,8 @@ api.get('/heartbeat', (req, res) => res.send({ok: true}))
   .use('/auth', require('./auth/auth.routes'));
 //.use('/chunks', require('./chunks/chunks.routes'))
 // route error handling
+
 api.use((err, req, res, next) => {
+console.log('ERR', err);
   res.status(500).send(err);
 });
