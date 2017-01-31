@@ -7,7 +7,7 @@ const db = module.exports = new Sequelize(databaseURI);
 
 // sync the db, creating it if necessary
 function sync() {
-  return db.sync({force: true})  //{force: true}
+  return db.sync()  //{force: true}
     .then(ok => console.log('Synced models'))
 }
 

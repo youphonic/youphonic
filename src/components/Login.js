@@ -3,48 +3,68 @@ import { connect } from 'react-redux';
 import Dialog from 'material-ui/Dialog';
 import FlatButton from 'material-ui/FlatButton';
 import RaisedButton from 'material-ui/RaisedButton';
+import FloatingActionButton from 'material-ui/FloatingActionButton';
+import FontIcon from 'material-ui/FontIcon';
 import TextField from 'material-ui/TextField';
-import { updateAndPlaceChunk } from '../redux/chunk';
-import {updateOneChunk} from '../redux/allChunks';
-import {startCanvas, stopCanvas} from '../redux/appState'
+import MenuItem from 'material-ui/MenuItem';
+import { login } from '../redux/login';
+import {startCanvas, stopCanvas} from '../redux/appState';
+import {ourP5} from './P5Wrapper';
+import {red500, yellow500, blue500} from 'material-ui/styles/colors';
 
 /**
  * Dialog content can be scrollable.
  */
-class ShapeSettings extends React.Component {
+class Login extends React.Component {
   constructor() {
     super();
     this.state = {
       open: false,
-      frequency: 0
+			username: '',
+			password: ''
     };
     this.handleOpen = this.handleOpen.bind(this);
     this.handleClose = this.handleClose.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
     this.handleChange = this.handleChange.bind(this);
+
+		this.styles = {
+			loginButton: {
+				position: 'absolute',
+				top: 15,
+				left: 15
+			},
+			buttonIcon: {
+				fontSize: 50
+			}
+		}
   }
+
   handleOpen() {
     this.setState({open: true});
-    this.props.stopCanvas();
+		this.props.stopCanvas();
   }
+
   handleClose() {
     this.setState({open: false});
-    this.props.startCanvas();
+		this.props.startCanvas();
   }
+
   handleChange(event) {
-    this.setState({frequency: event.target.value});
-  }
-  handleSubmit() {
-	  this.props.updateOneChunk({
-      id: this.props.selectedChunk.id,
-      frequency: +this.state.frequency
-    });
-    this.props.startCanvas();
     this.setState({
-	    open: false,
-		  frequency: 0
+			username: event.target.value.username,
+			password: event.target.value.password
+		});
+  }
+
+  handleSubmit() {
+		login(this.state.username, this.state.password);
+    this.setState({
+	    open: false
 	  });
   }
+
+
   render() {
     const actions = [
       <FlatButton
@@ -63,20 +83,27 @@ class ShapeSettings extends React.Component {
     ];
     return (
       <div>
-        <RaisedButton style={this.props.style} label="Update Settings" onTouchTap={this.handleOpen} />
+				<FloatingActionButton style={this.styles.loginButton} color={yellow500}>
+					<FontIcon onClick={() => this.handleOpen()} style={this.styles.buttonIcon} className="material-icons">account_box
+					</FontIcon>
+				</FloatingActionButton>
         <Dialog
           modal={false}
           actions={actions}
           open={this.state.open}
-          title="Update Chunk"
+          title="User Login"
           autoScrollBodyContent={true}
           onRequestClose={this.handleClose}
         >
           <form>
             <TextField
               onChange={this.handleChange}
-              hintText="Choose a frequency"
+              hintText="enter username"
             />
+						<TextField
+							onChange={this.handleChange}
+							hintText="enter password"
+						/>
           </form>
         </Dialog>
       </div>
@@ -86,19 +113,18 @@ class ShapeSettings extends React.Component {
 
 const mapStateToProps = state => {
   return {
-    selectedChunk: state.selectedChunk
+
   };
 };
 
 const mapDispatchToProps = dispatch => {
   return {
-    updateOneChunk: chunkUpdates =>
-      dispatch(updateOneChunk(chunkUpdates)),
-    startCanvas: () =>
+    login: (username, password) => dispatch(login(username, password)),
+		startCanvas: () =>
       dispatch(startCanvas()),
     stopCanvas: () =>
       dispatch(stopCanvas())
   };
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(ShapeSettings);
+export default connect(mapStateToProps, mapDispatchToProps)(Login);

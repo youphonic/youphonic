@@ -11,6 +11,7 @@ import {addChunk} from '../redux/allChunks';
 import {togglePlay} from '../redux/play';
 import Circle from '../chunks/Circle';
 import Rectangle from '../chunks/Rectangle';
+import Login from './Login';
 
 //testing tone, doesn't belong here for prod
 import {synthOne} from '../tone/tonePatchOne'
@@ -62,6 +63,7 @@ function RightMenu (props) {
           synthOne.triggerAttackRelease('A4', 0.3);
         }}
       />
+			<Login />
     </IconMenu>
   </div>);
 }

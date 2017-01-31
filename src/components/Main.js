@@ -9,6 +9,8 @@ import FontIcon from 'material-ui/FontIcon';
 import {red500, yellow500, blue500} from 'material-ui/styles/colors';
 import MainCanvas from './MainCanvas';
 import {togglePlay} from '../redux/play';
+import Login from './Login';
+
 // Our root component
 injectTapEventPlugin();
 const styles = {
@@ -40,6 +42,7 @@ const styles = {
 const Main = (props) => (
   <div id="outer-container">
     <main id="page-wrap">
+			<Login/>
       <RightMenu/>
       <MainCanvas/>
       {props.selectedChunk.id && <ShapeSettings style={styles.settingsButton}/>}
