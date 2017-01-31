@@ -1,13 +1,18 @@
-import {bounce, reBounce, paperBounce} from './utils'
+import Tone from 'tone';
+
+import {bounce, reBounce, paperBounce, movingBounceOffFixed} from './utils'
 
 let idCount = 1;
 
 export default class Chunk {
-  constructor(direction, acceleration = new Point(0, 0)) {
+  constructor(direction, color = 'white', acceleration = new Point(0, 0)) {
 	  this.id = idCount++;
-    this.direction = direction;
+    this.direction = direction
+    this.color = color;
+    this.shadowColor = '';
+    this.fixed = false;
+    this.flashColor = '';
     this.acceleration = acceleration;
-    this.color = '';
   }
 
   get isMoving () {
@@ -36,7 +41,20 @@ export default class Chunk {
   }
 
   respondToHit(hitter) {
-    paperBounce(this, hitter)
+    if (hitter.fixed) {
+      movingBounceOffFixed(this, hitter);
+    } else {
+      paperBounce(this, hitter);
+    }
+    hitter.flash();
     return this;
+  }
+
+  flash() {
+    this.path.fillColor = this.flashColor;
+    let that = this;
+    setTimeout(function() {
+      that.path.fillColor = that.color;
+    }, 20)
   }
 }
