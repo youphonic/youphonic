@@ -14,20 +14,20 @@ app.set('port', (process.env.PORT || 1337));
 //must come before any routing or middleware
 app.use(cookies({
 	name: 'session',
-	keys: [process.env.SESSION_SECRET || 'an insecure secret key']  //DR: where is process.env coming from? I know its a node variable but how do we set session secret on it?
-}))
+	keys: [process.env.SESSION_SECRET || 'an insecure secret key']
+}));
 
 // dev environment logger
-const logger = volleyball.custom({ debug: true })
-app.use(volleyball)
+const logger = volleyball.custom({ debug: true });
+app.use(volleyball);
 
 //body parsing middleware
-app.use(bodyParser.urlencoded({ extended: true }))
-app.use(bodyParser.json())
+app.use(bodyParser.urlencoded({ extended: true }));
+app.use(bodyParser.json());
 
 //authentication middleware
-app.use(passport.initialize())
-app.use(passport.session())
+app.use(passport.initialize());
+app.use(passport.session());
 
 const staticMiddleware = require('./static.middleware');
 app.use(staticMiddleware);
