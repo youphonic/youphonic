@@ -1,3 +1,5 @@
+/* globals Path  */
+
 import Chunk from './Chunk';
 
 export default class Circle extends Chunk {
