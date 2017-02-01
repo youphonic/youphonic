@@ -2,7 +2,7 @@
 
 var db = require('../../_db');
 const User = require('./user.model')
-const Play = require('./play.model')
+const Play = require('../plays/play.model')
 const {mustBeLoggedIn, forbidden} = require('../auth/auth.filters')
 
 module.exports = require('express').Router()

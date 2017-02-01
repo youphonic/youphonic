@@ -79,10 +79,8 @@ class Login extends React.Component {
         onTouchTap={this.handleSubmit}
       />,
       <RaisedButton
-        onTouchTap={()=>{
-					console.log('google login firing');
-					this.props.googleLogin()}}
-        target="_blank"
+        href='api/auth/google'
+        target="_self"
         label="Google"
         secondary={true}
         style={this.styles.socialButton}

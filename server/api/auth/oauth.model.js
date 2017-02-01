@@ -1,8 +1,9 @@
 'use strict'
-
+// revisit deleting this file
 const debug = require('debug')('oauth')
 const Sequelize = require('sequelize')
 var db = require('../../_db')
+const passport = require('passport')
 
 const OAuth = db.define('oauths', {
   uid: Sequelize.STRING,

@@ -58,28 +58,7 @@ OAuth.setupStrategy({
     callbackURL: `${app.baseUrl}/api/auth/login/github`,
   },
   passport
-})
-
-// Other passport configuration:
-
-passport.serializeUser((user, done) => {
-  done(null, user.id)
-})
-
-passport.deserializeUser(
-  (id, done) => {
-    debug('will deserialize user.id=%d', id)
-    User.findById(id)
-      .then(user => {
-        debug('deserialize did ok user.id=%d', user.id)
-        done(null, user)
-      })
-      .catch(err => {
-        debug('deserialize did fail err=%s', err)
-        done(err)
-      })
-  }
-)
+});
 
 passport.use(new (require('passport-local').Strategy) (
   (email, password, done) => {
@@ -107,25 +86,43 @@ passport.use(new (require('passport-local').Strategy) (
 // Our Google strategy
 // Google needs the GOOGLE_CONSUMER_SECRET AND GOOGLE_CONSUMER_KEY
 // environment variables.
-OAuth.setupStrategy({
-  provider: 'google',
-  strategy: require('passport-google-oauth').Strategy,
-  config: {
-    consumerKey: env.GOOGLE_CONSUMER_KEY,
-    consumerSecret: env.GOOGLE_CONSUMER_SECRET,
-    callbackURL: `${app.baseUrl}/api/auth/login/google`
+var theGoogleStrategy = new GoogleStrategy({
+    clientID: env.GOOGLE_CONSUMER_KEY,
+    clientSecret: env.GOOGLE_CONSUMER_SECRET,
+    callbackURL: '/api/auth/callback'
   },
-  passport
-})
+  function (token, refreshToken, profile, done){
+		const info={
+			lastName: profile.displayName,
+			email: profile.emails[0].value
+	};
+	User.findOrCreate({
+		where: {googleId: profile.id},
+		defaults: info
+	})
+	.spread(function (user) {
+		done(null, user);
+	})
+});
+
+passport.use(theGoogleStrategy);
 
 auth.get('/whoami', (req, res) => res.send(req.user))
 
 auth.post('/login/:strategy', (req, res, next) => {
-	console.log('we are firing in the google route');
   passport.authenticate(req.params.strategy, {
     successRedirect: '/'
   })(req, res, next)
 })
+
+auth.get('/google', passport.authenticate('google', {
+		scope: 'email'}
+	));
+
+auth.get('/callback', passport.authenticate('google', {
+    successRedirect: '/',
+		failureRedirect: '/'
+  }));
 
 
 auth.post('/logout', (req, res, next) => {

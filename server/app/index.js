@@ -4,6 +4,8 @@ const volleyball = require('volleyball')
 const passport = require('passport')
 const cookies = require('cookie-session')
 const bodyParser = require('body-parser')
+const {User} = require('../index')
+
 
 const app = express();
 module.exports = app;
@@ -29,6 +31,17 @@ app.use(bodyParser.json())
 app.use(passport.initialize())
 app.use(passport.session())
 
+passport.serializeUser(function (user, done){
+	done(null, user.id);
+});
+passport.deserializeUser(function (id, done){
+	User.findById(id)
+	.then(function (user) {
+		done(null, user);
+	})
+	.catch(done);
+});
+
 const staticMiddleware = require('./static.middleware');
 app.use(staticMiddleware);
 
@@ -46,5 +59,5 @@ app.use((error, req, res, next) => {
 	//if there is no error.status already set, we are defaulting to 500
     error.status = error.status || 500;
     error.message = error.message || 'Internal Error';
-    res.send('error', {error});
+    res.status(error.status).send(error.message);
 });
