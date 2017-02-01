@@ -55,7 +55,13 @@ function RightMenu (props) {
 					}
 				}}
       />
-      <MenuItem primaryText="Triangle" />
+      <MenuItem primaryText="Rectangle" onTouchTap={() => {
+					props.addChunk(new Rectangle(0, 0, 60, 60, new Point(0, 0)));
+					if (props.isPlaying) {
+						props.togglePlay(props.isPlaying);
+					}
+				}}
+      />
       <MenuItem primaryText="Start" />
       <MenuItem primaryText="Stop" />
       <MenuItem primaryText="Share" />
