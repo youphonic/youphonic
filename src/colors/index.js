@@ -4,4 +4,5 @@ export default {
   papayaWhip: '#FFF0D5',
   blueStone: '#125E68',
   chinook: '#A9D7BF',
+  flamingo: '#EF503B',
 }

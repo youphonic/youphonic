@@ -63,7 +63,7 @@ module.exports = function(props) {
   tool.onMouseDown = (event) => {
     arrowDrag = false;
 		const hitResult = project.hitTest(event.point, hitOptions);
-    if (!isPlaying && hitResult.type === 'fill') {
+    if (!isPlaying && hitResult && hitResult.type === 'fill') {
       shapes.forEach((shape, index) => {
         if (hitResult.item === shape.path) {
           localSelectedChunk = shape;
@@ -75,9 +75,8 @@ module.exports = function(props) {
           }));
         }
       })
-    } else if (hitResult.item && hitResult.item.type === 'vectorArrow') {
+    } else if (hitResult && hitResult.item && (hitResult.item.type === 'vectorArrow')) {
       arrowDrag = true;
-      console.log('hit vectorArrow', arrowDrag);
     } else if (localSelectedChunk) {
       // reset selected chunk to null and update state
       localSelectedChunk.eraseVector()
