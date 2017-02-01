@@ -80,7 +80,6 @@ function RightMenu (props) {
           synthOne.triggerAttackRelease('A4', 0.3);
         }}
       />
-			<Login/>
     </IconMenu>
   </div>);
 }

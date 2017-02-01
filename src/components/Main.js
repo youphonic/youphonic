@@ -4,6 +4,7 @@ import {connect} from 'react-redux';
 import injectTapEventPlugin from 'react-tap-event-plugin';
 
 import RightMenu from './RightMenu';
+import UserMenu from './UserMenu';
 import ShapeSettings from './ShapeSettings';
 import FloatingActionButton from 'material-ui/FloatingActionButton';
 import FontIcon from 'material-ui/FontIcon';
@@ -13,6 +14,7 @@ import {togglePlay} from '../redux/play';
 import { selectChunk } from '../redux/chunk';
 import { startCanvas } from '../redux/appState'
 import Login from './Login';
+import SignUp from './SignUp';
 import { whoami } from '../redux/login';
 
 // Our root component
@@ -43,6 +45,7 @@ const styles = {
     alignItems: 'center'
   }
 };
+// <SignUp />
 
 const Main = (props) => {
   props.fetchInitialData();
@@ -50,7 +53,8 @@ const Main = (props) => {
     <div id="outer-container">
       <main id="page-wrap">
         <MainCanvas/>
-        <Login/>
+        <SignUp />
+        <UserMenu />
         <RightMenu/>
         {props.selectedChunk.id && <ShapeSettings style={styles.settingsButton}/>}
         <FloatingActionButton style={styles.playButton} color={blue500}>
