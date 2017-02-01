@@ -7,7 +7,6 @@ export const addChunk = (chunk) => {
 };
 
 export const removeChunk = (chunk) => {
-  console.log('hitttt');
   return {type: REMOVE_CHUNK, chunk};
 };
 
