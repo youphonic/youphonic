@@ -1,7 +1,7 @@
 import React from 'react';
 import {connect} from 'react-redux';
 import paper from 'paper';
-import paperFrames from '../paper/mvpPort';
+import paperFrames from '../paper';
 import paperjsSeed from '../redux/paperjsSeed';
 
 const styles = {

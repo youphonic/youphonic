@@ -1,132 +1,129 @@
-// import paper from 'paper';
-
-// set up canvas
-// const canvas = document.getElementById('paperCanvas');
-
+/*eslint-disable id-length */
+/*globals Tool view project */
 import store from '../store';
 import { selectChunk } from '../redux/chunk';
-import { synthOne, synthTwo } from '../tone/tonePatchOne'
+import { removeChunk } from '../redux/allChunks';
+import { synthOne, synthTwo } from '../tone/tonePatchOne';
 
-module.exports = function() {
-	var tool = new Tool()
+let isPlaying;
+let shapes;
+let force;
+let localSelectedChunk;
+let arrowDrag = false;
+
+module.exports = function(props) {
+	const tool = new Tool();
 	tool.minDistance = 1;
 	tool.maxDistance = 30;
 
-	var hitOptions = {
-	segments: true,
-	stroke: true,
-	fill: true,
-	tolerance: 5
+  const hitOptions = {
+    segments: true,
+    stroke: true,
+    fill: true,
+    tolerance: 5
+  };
+
+  // FORCES
+  const forces = {
+    wind1: new Point(0.01, 0),
+    wind2: new Point(-0.01, 0),
+    gravity: new Point(0, 0.1)
+  };
+
+  // set state variables on new props
+  shapes = props.allChunks;
+  isPlaying = props.isPlaying;
+
+  // erase drawn vector on play
+  if (props.isPlaying) {
+    if (localSelectedChunk) localSelectedChunk.eraseVector();
+  }
+
+  view.onFrame = () => {
+    if (isPlaying) {
+      shapes.forEach(shape => {
+        if (shape.isMoving) {
+          shapes.forEach(innerShape => {
+            if (innerShape.id !== shape.id) {
+              if (shape.path.intersects(innerShape.path)) {
+                synthOne.triggerAttackRelease(innerShape.frequency, '8n');
+                synthTwo.triggerAttackRelease(shape.frequency, '8n');
+                shape.respondToHit(innerShape);
+              }
+            }
+          });
+        }
+        // this is temporary for PhysBall & Attractor
+        if (shape.type === 'physics') {
+          shape.applyForce(forces.gravity);
+        } else if (shape.type === 'attractor') {
+          shape.fixed = true;
+          shapes.forEach(otherShape => {
+            if (otherShape.isMoving && otherShape.id !== shape.id) {
+              force = shape.calculateAttraction(otherShape);
+              otherShape.applyForce(force);
+            }
+          });
+        }
+        shape.update();
+      });
+    }
+  };
+
+  tool.onMouseDown = (event) => {
+    arrowDrag = false;
+		const hitResult = project.hitTest(event.point, hitOptions);
+    if (!isPlaying && hitResult && hitResult.type === 'fill') {
+      if (localSelectedChunk) localSelectedChunk.eraseVector();
+      shapes.forEach((shape, index) => {
+        if (hitResult.item === shape.path) {
+          localSelectedChunk = shape;
+          localSelectedChunk.drawVector();
+          store.dispatch(selectChunk({
+            id: shape.id,
+            frequency: shape.frequency
+          }));
+        }
+      })
+    } else if (hitResult && hitResult.item && (hitResult.item.type === 'vectorArrow')) {
+      arrowDrag = true;
+    } else if (localSelectedChunk) {
+      // reset selected chunk to null and update state
+      localSelectedChunk.eraseVector()
+      localSelectedChunk = null;
+      store.dispatch(selectChunk({}));
+    }
+  };
+
+  tool.onMouseMove = (event) => {
+    if (event.item) {
+      event.item.selected = true;
+    } else {
+      project.activeLayer.selected = false;
+    }
+  };
+
+  tool.onMouseDrag = (event) => {
+    if (arrowDrag) {
+      localSelectedChunk.dragVector(event.point)
+    } else if (localSelectedChunk && !isPlaying) {
+      localSelectedChunk.path.position.x += event.delta.x;
+      localSelectedChunk.path.position.y += event.delta.y;
+      localSelectedChunk.eraseVector();
+      localSelectedChunk.drawVector();
+    }
+  };
+
+  // key listener
+  tool.onKeyDown = (event) => {
+    // delete Chunk on backspace deletion
+    if (event.key === 'backspace' && localSelectedChunk) {
+      store.dispatch(removeChunk(localSelectedChunk));
+      localSelectedChunk.eraseVector();
+      localSelectedChunk.path.remove();
+      localSelectedChunk = null;
+      store.dispatch(selectChunk({}));
+    }
+  }
+
 };
-
-// The amount of circles we want to make:
-	var count = 100;
-
-	// Space Circle Path:
-	var circlePath = new Path.Circle({
-		center: [0, 0],
-		radius: 10,
-		fillColor: 'white',
-		strokeColor: 'white',
-		shadowColor: 'cyan',
-		shadowBlur: 10,
-		shadowOffset: [(Math.floor(Math.random() * 4) - 2), (Math.floor(Math.random() * 4) - 2)]
-	});
-
-	var symbol = new Symbol(circlePath);
-
-	// Place the instances of the symbol:
-	for (var i = 0; i < count; i++) {
-		// The center position is a random point in the view:
-		var center = new Point((Math.random() * view.size.width), Math.random() * view.size.height);
-		var placedSymbol = symbol.place(center);
-		// symbol.fillColor.hue += (Math.random() * 8)
-		placedSymbol.scale(i / count);
-		placedSymbol.direction = 2 * Math.PI * Math.random()
-	}
-
-	// The onFrame function is called up to 60 times a second:
-	// view.onFrame = (event) => {
-	// 	// Run through the active layer's children list and change
-	// 	// the position of the placed symbols:
-	// 	for (var i = 0; i < count; i++) {
-	// 		var item = project.activeLayer.children[i];
-
-	// 		// Move the item 1/20th of its width. This way
-	// 		// larger circles move faster than smaller circles:
-	// 		var speed = item.bounds.width / 30;
-	// 		item.position.x += Math.cos(item.direction) * speed;
-	// 		item.position.y += Math.sin(item.direction) * speed;
-
-	// 		// If the item has the view, move it back
-	// 		if (item.bounds.left > view.size.width) {
-	// 			item.position.x = item.bounds.width;
-	// 		}
-	// 		if (item.bounds.right < 0) {
-	// 			item.position.x = view.size.width
-	// 		}
-	// 		if (item.bounds.bottom < 0) {
-	// 			item.position.y = view.size.height
-	// 		}
-	// 		if (item.bounds.top > view.size.height) {
-	// 			item.position.y = 0
-	// 		}
-	// 	}
-	// }
-
-	var segment, path;
-	var movePath = false;
-	tool.onMouseDown = (event) => {
-		segment = path = null;
-		var hitResult = project.hitTest(event.point, hitOptions);
-		if (!hitResult)
-			return;
-
-		if (event.modifiers.shift) {
-			if (hitResult.type == 'segment') {
-				hitResult.segment.remove();
-			}
-			return;
-		}
-
-		if (hitResult) {
-			path = hitResult.item;
-			console.log('path', path);
-			if (hitResult.type == 'segment') {
-			console.log('segment', hitResult);
-				segment = hitResult.segment;
-			} else if (hitResult.type == 'stroke') {
-				console.log('stroke', hitResult);
-				var location = hitResult.location;
-				segment = path.insert(location.index + 1, event.point);
-				path.smooth();
-			} else {
-				console.log('logic not hit');
-			}
-		}
-		movePath = hitResult.type == 'fill';
-		if (movePath)
-			project.activeLayer.addChild(hitResult.item);
-	}
-
-tool.onMouseMove = (event) => {
-	project.activeLayer.selected = false;
-	if (event.item)
-		event.item.selected = true;
-}
-
-tool.onMouseDrag = (event) => {
-	if (segment) {
-		console.log('segment');
-		console.log(segment);
-		console.log('path');
-		console.log(path);
-		// segment.point += event.delta;
-		// path.smooth();
-	} else if (path) {
-		// console.log('path', path);
-		path.position.x += event.delta.x;
-		path.position.y += event.delta.y;
-	}
-}
-}
