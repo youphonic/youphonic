@@ -5,17 +5,12 @@ import MenuItem from 'material-ui/MenuItem';
 import IconButton from 'material-ui/IconButton';
 import MoreVertIcon from 'material-ui/svg-icons/navigation/more-vert';
 
-//import {ourP5} from './P5Wrapper';
-
 import {addChunk} from '../redux/allChunks';
 import {togglePlay} from '../redux/play';
 import Circle from '../chunks/Circle';
 import PhysBall from '../chunks/PhysBall';
 import Attractor from '../chunks/Attractor';
 import Rectangle from '../chunks/Rectangle';
-
-//testing tone, doesn't belong here for prod
-import {synthOne} from '../tone/tonePatchOne'
 
 const styles = {
   menu: {
@@ -70,15 +65,7 @@ function RightMenu (props) {
 					}
 				}}
       />
-      <MenuItem primaryText="Start" />
-      <MenuItem primaryText="Stop" />
       <MenuItem primaryText="Share" />
-      <MenuItem
-        primaryText="TestTone"
-        onTouchTap={() => {
-          synthOne.triggerAttackRelease('A4', 0.3);
-        }}
-      />
     </IconMenu>
   </div>);
 }
