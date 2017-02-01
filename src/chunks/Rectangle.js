@@ -9,7 +9,7 @@ export default class Rectangle extends Chunk {
     this.height = h || w;
     this.path = new Path.Rectangle(new Point(x, y), new Size(this.width, this.height));
     this.path.fillColor = color;
-    this.center = [x - (this.width / 2), y - (this.height / 2)];
+    this.center = [x + (this.width / 2), y + (this.height / 2)];
   }
 
   get bound() {
