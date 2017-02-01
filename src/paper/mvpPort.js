@@ -64,10 +64,10 @@ module.exports = function(props) {
     arrowDrag = false;
 		const hitResult = project.hitTest(event.point, hitOptions);
     if (!isPlaying && hitResult && hitResult.type === 'fill') {
+      if (localSelectedChunk) localSelectedChunk.eraseVector();
       shapes.forEach((shape, index) => {
         if (hitResult.item === shape.path) {
           localSelectedChunk = shape;
-          localSelectedChunk.eraseVector();
           localSelectedChunk.drawVector();
           store.dispatch(selectChunk({
             id: shape.id,
