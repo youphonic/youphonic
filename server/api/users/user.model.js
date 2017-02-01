@@ -6,7 +6,8 @@ var db = require('../../_db')
 
 const User = db.define('users', {
   userName: {
-	  type: Sequelize.STRING
+	  type: Sequelize.STRING,
+    allowNull: false
   },
   firstName: Sequelize.STRING,
   lastName: Sequelize.STRING,

@@ -11,6 +11,7 @@ import {red500, yellow500, blue500} from 'material-ui/styles/colors';
 import MainCanvas from './MainCanvas';
 import {togglePlay} from '../redux/play';
 import Login from './Login';
+import { whoami } from '../redux/login';
 
 // Our root component
 injectTapEventPlugin();
@@ -40,24 +41,27 @@ const styles = {
     alignItems: 'center'
   }
 };
-const Main = (props) => (
-  <div id="outer-container">
-    <main id="page-wrap">
-      <MainCanvas/>
-      <Login/>
-      <RightMenu/>
-      {props.selectedChunk.id && <ShapeSettings style={styles.settingsButton}/>}
-      <FloatingActionButton style={styles.playButton} color={blue500}>
-        <FontIcon onClick={() => {
-          props.togglePlay(props.isPlaying)
-        }} style={styles.buttonIcon} className="material-icons">{props.isPlaying
-            ? 'pause_circle_outline'
-            : 'play_circle_outline'}
-        </FontIcon>
-      </FloatingActionButton>
-    </main>
-  </div>
-);
+const Main = (props) => {
+  props.fetchInitialData();
+  return (
+    <div id="outer-container">
+      <main id="page-wrap">
+        <MainCanvas/>
+        <Login/>
+        <RightMenu/>
+        {props.selectedChunk.id && <ShapeSettings style={styles.settingsButton}/>}
+        <FloatingActionButton style={styles.playButton} color={blue500}>
+          <FontIcon onClick={() => {
+            props.togglePlay(props.isPlaying)
+          }} style={styles.buttonIcon} className="material-icons">{props.isPlaying
+              ? 'pause_circle_outline'
+              : 'play_circle_outline'}
+          </FontIcon>
+        </FloatingActionButton>
+      </main>
+    </div>
+  );
+}
 const mapStateToProps = (state) => {
   return {
     isPlaying: state.isPlaying,
@@ -68,6 +72,9 @@ const mapDispatchToProps = (dispatch) => {
   return {
     togglePlay: (isPlaying) => {
       dispatch(togglePlay(isPlaying));
+    },
+    fetchInitialData: () => {
+      dispatch(whoami());
     }
   };
 };

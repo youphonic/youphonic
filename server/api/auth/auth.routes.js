@@ -93,7 +93,9 @@ var theGoogleStrategy = new GoogleStrategy({
   },
   function (token, refreshToken, profile, done){
 		const info={
-			lastName: profile.displayName,
+      userName: profile.emails[0].value,
+      firstName: profile.displayName.split(' ')[0],
+			lastName: profile.displayName.split(' ')[1],
 			email: profile.emails[0].value
 	};
 	User.findOrCreate({
@@ -102,7 +104,7 @@ var theGoogleStrategy = new GoogleStrategy({
 	})
 	.spread(function (user) {
 		done(null, user);
-	})
+	});
 });
 
 passport.use(theGoogleStrategy);

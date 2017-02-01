@@ -10,7 +10,7 @@ import FontIcon from 'material-ui/FontIcon';
 import TextField from 'material-ui/TextField';
 import MenuItem from 'material-ui/MenuItem';
 
-import { whoami, localLogin, googleLogin, facebookLogin } from '../redux/login';
+import { whoami, login } from '../redux/login';
 
 import {startCanvas, stopCanvas} from '../redux/appState';
 import {red500, yellow500, blue500} from 'material-ui/styles/colors';
