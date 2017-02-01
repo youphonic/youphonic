@@ -12,6 +12,7 @@ import {togglePlay} from '../redux/play';
 import Circle from '../chunks/Circle';
 import PhysBall from '../chunks/PhysBall';
 import Attractor from '../chunks/Attractor';
+import Springer from '../chunks/Springer';
 import Rectangle from '../chunks/Rectangle';
 import Login from './Login';
 
@@ -59,6 +60,15 @@ function RightMenu (props) {
         primaryText="Attractor"
         onTouchTap={() => {
 					props.addChunk(new Attractor(props.center.x, props.center.y, 20, 'red'));
+					if (props.isPlaying) {
+						props.togglePlay(props.isPlaying);
+					}
+				}}
+      />
+      <MenuItem
+        primaryText="Springer"
+        onTouchTap={() => {
+					props.addChunk(new Springer(props.center.x, props.center.y, 100));
 					if (props.isPlaying) {
 						props.togglePlay(props.isPlaying);
 					}

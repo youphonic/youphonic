@@ -1,5 +1,4 @@
 import Chunk from './Chunk';
-import paper from 'paper'
 
 
 export default class PhysBall extends Chunk {
