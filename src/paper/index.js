@@ -49,8 +49,10 @@ module.exports = function(props) {
               if (shape.path.intersects(innerShape.path)) {
                 synthOne.triggerAttackRelease(innerShape.frequency, '8n');
                 // synthTwo.triggerAttackRelease(shape.frequency, '8n');
-                player.buffer = drumBuffers.get(possibilities[Math.floor(Math.random() * possibilities.length)]);
-                player.start();
+                if (shape.drum) {
+                  player.buffer = drumBuffers.get(shape.drum);
+                  player.start();
+                }
                 shape.respondToHit(innerShape);
               }
             }
