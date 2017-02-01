@@ -6,6 +6,7 @@ import { synthOne, synthTwo } from '../tone/tonePatchOne';
 
 let isPlaying;
 let shapes;
+let force;
 let localSelectedChunk;
 let arrowDrag = false;
 
@@ -38,7 +39,7 @@ module.exports = function(props) {
   }
 
   view.onFrame = () => {
-    if (props.isPlaying) {
+    if (isPlaying) {
       shapes.forEach(shape => {
         if (shape.isMoving) {
           shapes.forEach(innerShape => {
@@ -51,9 +52,17 @@ module.exports = function(props) {
             }
           });
         }
-        // this is temporary for PhysBall
+        // this is temporary for PhysBall & Attractor
         if (shape.type === 'physics') {
           shape.applyForce(forces.gravity);
+        } else if (shape.type === 'attractor') {
+          shape.fixed = true;
+          shapes.forEach(otherShape => {
+            if (otherShape.isMoving && otherShape.id !== shape.id) {
+              force = shape.calculateAttraction(otherShape);
+              otherShape.applyForce(force);
+            }
+          });
         }
         shape.update();
       });

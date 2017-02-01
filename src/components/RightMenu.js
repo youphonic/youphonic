@@ -11,6 +11,7 @@ import {addChunk} from '../redux/allChunks';
 import {togglePlay} from '../redux/play';
 import Circle from '../chunks/Circle';
 import PhysBall from '../chunks/PhysBall';
+import Attractor from '../chunks/Attractor';
 import Rectangle from '../chunks/Rectangle';
 import Login from './Login';
 
@@ -39,8 +40,7 @@ function RightMenu (props) {
       <MenuItem
         primaryText="Circle"
         onTouchTap={() => {
-					props.addChunk(new Circle(0, 0, 20, new Point(1, 1)));
-
+					props.addChunk(new Circle(props.center.x, props.center.y, 20, new Point(1, 1)));
 					if (props.isPlaying) {
 						props.togglePlay(props.isPlaying);
 					}
@@ -49,14 +49,23 @@ function RightMenu (props) {
       <MenuItem
         primaryText="PhysBall"
         onTouchTap={() => {
-					props.addChunk(new PhysBall(0, 0, 20, new Point(-0.00001, 0)));
+					props.addChunk(new PhysBall(props.center.x, props.center.y, 20, 'blue', new Point(-0.00001, 0)));
+					if (props.isPlaying) {
+						props.togglePlay(props.isPlaying);
+					}
+				}}
+      />
+      <MenuItem
+        primaryText="Attractor"
+        onTouchTap={() => {
+					props.addChunk(new Attractor(props.center.x, props.center.y, 20, 'red'));
 					if (props.isPlaying) {
 						props.togglePlay(props.isPlaying);
 					}
 				}}
       />
       <MenuItem primaryText="Rectangle" onTouchTap={() => {
-					props.addChunk(new Rectangle(0, 0, 60, 60, new Point(0, 0)));
+					props.addChunk(new Rectangle(props.center.x, props.center.y, 60, 60, new Point(0, 0)));
 					if (props.isPlaying) {
 						props.togglePlay(props.isPlaying);
 					}
@@ -78,7 +87,7 @@ function RightMenu (props) {
 
 const mapStateToProps = (state) => {
 	return {
-		center: state.center,
+		center: state.canvas.center,
 		isPlaying: state.isPlaying
 	};
 };
