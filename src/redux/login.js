@@ -21,28 +21,10 @@ const reducer = (state=null, action) => {
 }
 
 
-export const localLogin = (username, password) =>
+export const login = (username, password) =>
   dispatch =>
     axios.post('/api/auth/login/local',
       {username, password})
-      .then(() => dispatch(whoami()))
-      .catch(() => dispatch(whoami()))
-
-export const googleLogin = () =>
-  dispatch =>
-    axios.post('/api/auth/login/google')
-      .then((result) => {
-				console.log('whoami is firing!!!!', result);
-				dispatch(whoami())
-				})
-      .catch(() => {
-	console.log('catch is firing')
-dispatch(whoami())
-})
-
-export const facebookLogin = (username, password) =>
-  dispatch =>
-    axios.post('/api/auth/login/facebook')
       .then(() => dispatch(whoami()))
       .catch(() => dispatch(whoami()))
 

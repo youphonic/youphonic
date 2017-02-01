@@ -1,9 +1,9 @@
 'use strict'
 
 var db = require('../../_db');
-const User = require('./user.model');
-const Play = require('../plays/play.model');
-const {mustBeLoggedIn, forbidden} = require('../auth/auth.filters');
+const User = require('./user.model')
+const Play = require('../plays/play.model')
+const {mustBeLoggedIn, forbidden} = require('../auth/auth.filters')
 
 module.exports = require('express').Router()
 	.param('id', function (req, res, next, id) {
