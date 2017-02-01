@@ -75,7 +75,7 @@ module.exports = function(props) {
             }
           });
         }
-        shape.update();
+        shape.update(event.time);
       });
     }
   };

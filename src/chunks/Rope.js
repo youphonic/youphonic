@@ -2,6 +2,9 @@ import Tone from 'tone';
 
 import Chunk from './Chunk';
 import colors from '../colors';
+import { scale } from './utils'
+
+let points = 17;
 
 export default class Rope extends Chunk {
   constructor(x1, y1, x2, y2, color = 'white') {
@@ -29,24 +32,38 @@ export default class Rope extends Chunk {
   }
 
   triggerAnimate(time) {
-    this.animating = true;
-    console.log(time);
-    if (!this.currentAnimateTime) {
+    if (!this.animating) {
+      this.animating = true;
       this.currentAnimateTime = time;
-      this.animate(time);
-    } else {
-
     }
-
   }
 
   animate(time) {
-    for (let i = 0; i < 10; i++) {
+    console.log('animateTime', time);
+    for (let i = 0; i < points; i++) {
       let segment = this.path.segments[i];
-      // A cylic value between -1 and 1
-      var sinus = Math.sin(event.time * 3 + i);
+
+      let scaledSin = (num) => scale(Math.sin(num / points), -1, 1, -20, 20);
+      let checkNum = i <= points / 2 ? scale(i, 0, points / 2, -Math.PI, Math.PI) : scale(points - i - 1, 0, points / 2, -Math.PI, Math.PI)
+      let multTime = time < .5 ? time : 1.0 - time;
+
+      let sinus = Math.sin(checkNum * multTime) * 10;
+
       // Change the y position of the segment point:
-      segment.point.y = sinus * 60 + 100;
+      segment.point.y += sinus;
+      segment.point.x += sinus;
+    }
+    this.path.smooth();
+  }
+
+  update(time) {
+    if (this.animating) {
+      if (time <= this.currentAnimateTime + this.animateTime) {
+        let nextTime = (time - this.currentAnimateTime) / this.animateTime;
+        this.animate(nextTime)
+      } else {
+        this.animating = false;
+      }
     }
   }
 }
@@ -61,8 +78,8 @@ function makePath(start, end, color) {
       strokeJoin: 'round'
     });
 
-  for (let i = 0; i < 10; i++) {
-    let nextPoint = new Point(start.x + ((i / 10) * direction.x), start.y + ((i/10) * direction.y))
+  for (let i = 0; i < points; i++) {
+    let nextPoint = new Point(start.x + ((i / points) * direction.x), start.y + ((i/points) * direction.y))
     resultPath.add(nextPoint)
   }
 
