@@ -13,7 +13,6 @@ import Circle from '../chunks/Circle';
 import PhysBall from '../chunks/PhysBall';
 import Attractor from '../chunks/Attractor';
 import Rectangle from '../chunks/Rectangle';
-import Login from './Login';
 
 //testing tone, doesn't belong here for prod
 import {synthOne} from '../tone/tonePatchOne'
@@ -80,7 +79,6 @@ function RightMenu (props) {
           synthOne.triggerAttackRelease('A4', 0.3);
         }}
       />
-			<Login/>
     </IconMenu>
   </div>);
 }
