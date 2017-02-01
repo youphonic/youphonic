@@ -4,6 +4,9 @@ import Dialog from 'material-ui/Dialog';
 import FlatButton from 'material-ui/FlatButton';
 import RaisedButton from 'material-ui/RaisedButton';
 import TextField from 'material-ui/TextField';
+import DropDownMenu from 'material-ui/DropDownMenu';
+import MenuItem from 'material-ui/MenuItem';
+
 import { updateAndPlaceChunk } from '../redux/chunk';
 import {updateOneChunk} from '../redux/allChunks';
 import {startCanvas, stopCanvas} from '../redux/appState'
@@ -16,12 +19,14 @@ class ShapeSettings extends React.Component {
     super();
     this.state = {
       open: false,
-      frequency: 0
+      frequency: 0,
+      drum: ''
     };
     this.handleOpen = this.handleOpen.bind(this);
     this.handleClose = this.handleClose.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
-    this.handleChange = this.handleChange.bind(this);
+    this.changeFrequency = this.changeFrequency.bind(this);
+    this.changeDrum = this.changeDrum.bind(this);
   }
   handleOpen() {
     this.setState({open: true});
@@ -31,18 +36,27 @@ class ShapeSettings extends React.Component {
     this.setState({open: false});
     this.props.startCanvas();
   }
-  handleChange(event) {
+
+  changeFrequency(event) {
     this.setState({frequency: event.target.value});
   }
+
+  changeDrum(event, id, value) {
+    this.setState({drum: value});
+  }
+
+
   handleSubmit() {
 	  this.props.updateOneChunk({
       id: this.props.selectedChunk.id,
-      frequency: +this.state.frequency
+      frequency: +this.state.frequency,
+      drum: this.state.drum
     });
     this.props.startCanvas();
     this.setState({
 	    open: false,
-		  frequency: 0
+		  frequency: 0,
+      drum: ''
 	  });
   }
   render() {
@@ -74,9 +88,17 @@ class ShapeSettings extends React.Component {
         >
           <form>
             <TextField
-              onChange={this.handleChange}
+              floatingLabelText="Frequency"
+              defaultValue={this.props.selectedChunk.frequency}
+              onChange={this.changeFrequency}
               hintText="Choose a frequency"
             />
+            <DropDownMenu value={this.state.drum} onChange={this.changeDrum}>
+              <MenuItem value={'kick'} primaryText="Kick" />
+              <MenuItem value={'snare'} primaryText="Snare" />
+              <MenuItem value={'floorTom'} primaryText="Floor Tom" />
+              <MenuItem value={'hiHatClose'} primaryText="Hi Hat Close" />
+            </DropDownMenu>
           </form>
         </Dialog>
       </div>
