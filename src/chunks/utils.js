@@ -2,7 +2,7 @@ import colors from '../colors'
 
 // Bounce Mechanics
 
-export const movingBouceOffMoving = function(obj1, obj2) {
+export const movingBounceOffMoving = function(obj1, obj2) {
   var dist = obj1.path.position.getDistance(obj2.path.position);
   var overlap = obj1.radius + obj2.radius - dist;
   var direc = (obj1.path.position.subtract(obj2.path.position)).normalize(overlap);

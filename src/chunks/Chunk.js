@@ -1,6 +1,6 @@
 import Tone from 'tone';
 
-import {movingBouceOffMoving, movingBounceOffFixed, drawArrow} from './utils'
+import {movingBounceOffMoving, movingBounceOffFixed, drawArrow} from './utils'
 
 // auto incrementing id
 let idCount = 1;
