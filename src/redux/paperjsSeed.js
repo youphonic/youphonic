@@ -28,7 +28,7 @@ export default function () {
     store.dispatch(addChunk(circle));
   });
 
-  // let bounceCircleMotion = new Point(4, 0)
-  // const bounceCircle = new Circle(center.x, center.y - yDiff + (radius * 1.414), radius, bounceCircleMotion)
-  // store.dispatch(addChunk(bounceCircle))
+  let bounceCircleMotion = new Point(4, 0)
+  const bounceCircle = new Circle(center.x, center.y - yDiff + (radius * 1.414), radius, bounceCircleMotion)
+  store.dispatch(addChunk(bounceCircle))
 }
