@@ -1,7 +1,8 @@
 import Tone from 'tone';
 
-import {bounce, reBounce, paperBounce, movingBounceOffFixed} from './utils'
+import {movingBounceOffMoving, movingBounceOffFixed, drawArrow} from './utils'
 
+// auto incrementing id
 let idCount = 1;
 
 export default class Chunk {
@@ -28,7 +29,7 @@ export default class Chunk {
 
   update() {
     if (this.isMoving) {
-      // bounce dynamic
+      // window edge bounce dynamic
       if (this.path.position.x < 0 || this.path.position.x > window.innerWidth) this.direction.x *= -1;
       if (this.path.position.y < 0 || this.path.position.y > window.innerHeight) this.direction.y *= -1;
       // apply Newtons's second law: A = F/M
@@ -44,7 +45,7 @@ export default class Chunk {
     if (hitter.fixed) {
       movingBounceOffFixed(this, hitter);
     } else {
-      paperBounce(this, hitter);
+      movingBounceOffMoving(this, hitter);
     }
     hitter.flash();
     return this;
@@ -56,5 +57,26 @@ export default class Chunk {
     setTimeout(function() {
       that.path.fillColor = that.color;
     }, 20)
+  }
+
+  drawVector() {
+    if (!this.isMoving) return;
+    // let startPoint = this.path.position.add(this.direction.normalize(this.radius));
+    let endPoint = this.path.position.add(this.direction.multiply(15));
+    this.vectorItem = drawArrow(this.path.position, endPoint, this.direction)
+  }
+
+  dragVector(mousePoint) {
+    this.eraseVector()
+    // let startPoint = this.path.position.add(this.direction.normalize(this.radius));
+    this.vectorItem = drawArrow(this.path.position, mousePoint, this.direction)
+    this.direction = (this.path.position.subtract(mousePoint)).divide(-15)
+  }
+
+  eraseVector() {
+    if (this.vectorItem) {
+      this.vectorItem.remove();
+      this.vectorItem = null;
+    }
   }
 }

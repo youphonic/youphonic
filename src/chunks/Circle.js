@@ -1,6 +1,6 @@
-import Chunk from './Chunk';
-import paper from 'paper'
+/* globals Path  */
 
+import Chunk from './Chunk';
 
 export default class Circle extends Chunk {
   constructor(x, y, radius, direction, color = 'white') {

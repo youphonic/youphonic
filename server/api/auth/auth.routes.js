@@ -1,6 +1,7 @@
 const app = require('../../app')//, {env} = app
 const debug = require('debug')(`${app.name}:auth`)
 const passport = require('passport')
+const GoogleStrategy = require('passport-google-oauth').OAuth2Strategy;
 const {env} = require('../../../index');
 const {User} = require('../../index');
 const OAuth = require('./oauth.model');
@@ -42,19 +43,6 @@ OAuth.setupStrategy({
     clientID: env.FACEBOOK_CLIENT_ID,
     clientSecret: env.FACEBOOK_CLIENT_SECRET,
     callbackURL: `${app.baseUrl}/api/auth/login/facebook`,
-  },
-  passport
-})
-
-// Google needs the GOOGLE_CONSUMER_SECRET AND GOOGLE_CONSUMER_KEY
-// environment variables.
-OAuth.setupStrategy({
-  provider: 'google',
-  strategy: require('passport-google-oauth').Strategy,
-  config: {
-    consumerKey: env.GOOGLE_CONSUMER_KEY,
-    consumerSecret: env.GOOGLE_CONSUMER_SECRET,
-    callbackURL: `${app.baseUrl}/api/auth/login/google`,
   },
   passport
 })
@@ -116,9 +104,24 @@ passport.use(new (require('passport-local').Strategy) (
   }
 ))
 
+// Our Google strategy
+// Google needs the GOOGLE_CONSUMER_SECRET AND GOOGLE_CONSUMER_KEY
+// environment variables.
+OAuth.setupStrategy({
+  provider: 'google',
+  strategy: require('passport-google-oauth').Strategy,
+  config: {
+    consumerKey: env.GOOGLE_CONSUMER_KEY,
+    consumerSecret: env.GOOGLE_CONSUMER_SECRET,
+    callbackURL: `${app.baseUrl}/api/auth/login/google`
+  },
+  passport
+})
+
 auth.get('/whoami', (req, res) => res.send(req.user))
 
 auth.post('/login/:strategy', (req, res, next) => {
+	console.log('we are firing in the google route');
   passport.authenticate(req.params.strategy, {
     successRedirect: '/'
   })(req, res, next)

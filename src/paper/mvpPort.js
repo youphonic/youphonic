@@ -7,6 +7,8 @@ import { synthOne, synthTwo } from '../tone/tonePatchOne';
 let isPlaying;
 let shapes;
 let force;
+let localSelectedChunk;
+let arrowDrag = false;
 
 module.exports = function(props) {
 	const tool = new Tool();
@@ -27,11 +29,14 @@ module.exports = function(props) {
     gravity: new Point(0, 0.1)
   };
 
-  let path;
-
   // set state variables on new props
   shapes = props.allChunks;
   isPlaying = props.isPlaying;
+
+  // erase drawn vector on play
+  if (props.isPlaying) {
+    if (localSelectedChunk) localSelectedChunk.eraseVector();
+  }
 
   view.onFrame = () => {
     if (isPlaying) {
@@ -65,23 +70,26 @@ module.exports = function(props) {
   };
 
   tool.onMouseDown = (event) => {
+    arrowDrag = false;
 		const hitResult = project.hitTest(event.point, hitOptions);
-    if (hitResult) {
-      path = hitResult.item;
-
-      // is allChunks is an object we could just find the
-      // correct chunk by key
-      shapes.forEach(shape => {
-        if (path === shape.path) {
+    if (!isPlaying && hitResult && hitResult.type === 'fill') {
+      if (localSelectedChunk) localSelectedChunk.eraseVector();
+      shapes.forEach((shape, index) => {
+        if (hitResult.item === shape.path) {
+          localSelectedChunk = shape;
+          localSelectedChunk.drawVector();
           store.dispatch(selectChunk({
             id: shape.id,
             frequency: shape.frequency
           }));
         }
       })
-    } else {
-      path = null;
-      // reset selected chunk to null
+    } else if (hitResult && hitResult.item && (hitResult.item.type === 'vectorArrow')) {
+      arrowDrag = true;
+    } else if (localSelectedChunk) {
+      // reset selected chunk to null and update state
+      localSelectedChunk.eraseVector()
+      localSelectedChunk = null;
       store.dispatch(selectChunk({}));
     }
   };
@@ -95,9 +103,13 @@ module.exports = function(props) {
   };
 
   tool.onMouseDrag = (event) => {
-    if (path && !isPlaying) {
-      path.position.x += event.delta.x;
-      path.position.y += event.delta.y;
+    if (arrowDrag) {
+      localSelectedChunk.dragVector(event.point)
+    } else if (localSelectedChunk && !isPlaying) {
+      localSelectedChunk.path.position.x += event.delta.x;
+      localSelectedChunk.path.position.y += event.delta.y;
+      localSelectedChunk.eraseVector();
+      localSelectedChunk.drawVector();
     }
   };
 
