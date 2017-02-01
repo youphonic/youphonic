@@ -6,7 +6,7 @@ import { synthOne, synthTwo } from '../tone/tonePatchOne';
 
 let isPlaying;
 let shapes;
-let currShape;
+let force;
 
 module.exports = function(props) {
 	const tool = new Tool();
@@ -34,10 +34,8 @@ module.exports = function(props) {
   isPlaying = props.isPlaying;
 
   view.onFrame = () => {
-    if (props.isPlaying) {
+    if (isPlaying) {
       shapes.forEach(shape => {
-        // this is temporary for PhysBall
-        currShape = shape;
         if (shape.isMoving) {
           shapes.forEach(innerShape => {
             if (innerShape.id !== shape.id) {
@@ -49,9 +47,17 @@ module.exports = function(props) {
             }
           });
         }
-        // this is temporary for PhysBall
-        if (currShape.type === 'physics') {
+        // this is temporary for PhysBall & Attractor
+        if (shape.type === 'physics') {
           shape.applyForce(forces.gravity);
+        } else if (shape.type === 'attractor') {
+          shape.fixed = true;
+          shapes.forEach(otherShape => {
+            if (otherShape.isMoving && otherShape.id !== shape.id) {
+              force = shape.calculateAttraction(otherShape);
+              otherShape.applyForce(force);
+            }
+          });
         }
         shape.update();
       });

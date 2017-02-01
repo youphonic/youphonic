@@ -22,7 +22,7 @@ export default class Chunk {
   applyForce(force) {
     // using this.radius to represent mass
     // maybe add a this.mass property in the future?
-    const f = force.divide(this.radius / 10);
+    const f = force.divide(this.radius);
     this.acceleration = this.acceleration.add(f);
   }
 

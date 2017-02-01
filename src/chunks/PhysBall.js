@@ -3,13 +3,13 @@ import paper from 'paper'
 
 
 export default class PhysBall extends Chunk {
-  constructor(x, y, radius, direction, acceleration) {
-    super(direction, acceleration);
+  constructor(x, y, radius, color, direction, acceleration) {
+    super(direction, color, acceleration);
     this.radius = radius;
     this.path = new Path.Circle({
       center: [x, y],
       radius: radius,
-      fillColor: 'blue',
+      fillColor: color,
     });
 
     // this.type is temporary!
