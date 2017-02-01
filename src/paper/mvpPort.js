@@ -7,6 +7,7 @@ import { synthOne, synthTwo } from '../tone/tonePatchOne';
 let isPlaying;
 let shapes;
 let localSelectedChunk;
+let arrowDrag = false;
 
 module.exports = function(props) {
 	const tool = new Tool();
@@ -60,13 +61,13 @@ module.exports = function(props) {
   };
 
   tool.onMouseDown = (event) => {
+    arrowDrag = false;
 		const hitResult = project.hitTest(event.point, hitOptions);
-    if (!isPlaying && hitResult) {
-      // is allChunks is an object we could just find the
-      // correct chunk by key
+    if (!isPlaying && hitResult && hitResult.type === 'fill') {
+      if (localSelectedChunk) localSelectedChunk.eraseVector();
       shapes.forEach((shape, index) => {
         if (hitResult.item === shape.path) {
-          localSelectedChunk = shape;localSelectedChunk.eraseVector();
+          localSelectedChunk = shape;
           localSelectedChunk.drawVector();
           store.dispatch(selectChunk({
             id: shape.id,
@@ -74,6 +75,8 @@ module.exports = function(props) {
           }));
         }
       })
+    } else if (hitResult && hitResult.item && (hitResult.item.type === 'vectorArrow')) {
+      arrowDrag = true;
     } else if (localSelectedChunk) {
       // reset selected chunk to null and update state
       localSelectedChunk.eraseVector()
@@ -91,7 +94,9 @@ module.exports = function(props) {
   };
 
   tool.onMouseDrag = (event) => {
-    if (localSelectedChunk && !isPlaying) {
+    if (arrowDrag) {
+      localSelectedChunk.dragVector(event.point)
+    } else if (localSelectedChunk && !isPlaying) {
       localSelectedChunk.path.position.x += event.delta.x;
       localSelectedChunk.path.position.y += event.delta.y;
       localSelectedChunk.eraseVector();

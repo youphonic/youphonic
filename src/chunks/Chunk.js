@@ -1,7 +1,8 @@
 import Tone from 'tone';
 
-import {bounce, reBounce, paperBounce, movingBounceOffFixed} from './utils'
+import {movingBounceOffMoving, movingBounceOffFixed, drawArrow} from './utils'
 
+// auto incrementing id
 let idCount = 1;
 
 export default class Chunk {
@@ -44,7 +45,7 @@ export default class Chunk {
     if (hitter.fixed) {
       movingBounceOffFixed(this, hitter);
     } else {
-      paperBounce(this, hitter);
+      movingBounceOffMoving(this, hitter);
     }
     hitter.flash();
     return this;
@@ -60,20 +61,16 @@ export default class Chunk {
 
   drawVector() {
     if (!this.isMoving) return;
-    let centerPoint = this.path.position;
-    let direction = this.direction;
-    let startPoint = centerPoint.add(direction.normalize(this.radius));
-    let end = startPoint.add(direction.multiply(25))
-    this.vectorItem = new Group([
-      new Path([startPoint, end]),
-      new Path([
-        end.add(direction.multiply(2).rotate(160)),
-        end,
-        end.add(direction.multiply(2).rotate(-160))
-      ])
-    ]);
-    this.vectorItem.strokeWidth = 2.0;
-	  this.vectorItem.strokeColor = '#e4141b';
+    // let startPoint = this.path.position.add(this.direction.normalize(this.radius));
+    let endPoint = this.path.position.add(this.direction.multiply(15));
+    this.vectorItem = drawArrow(this.path.position, endPoint, this.direction)
+  }
+
+  dragVector(mousePoint) {
+    this.eraseVector()
+    // let startPoint = this.path.position.add(this.direction.normalize(this.radius));
+    this.vectorItem = drawArrow(this.path.position, mousePoint, this.direction)
+    this.direction = (this.path.position.subtract(mousePoint)).divide(-15)
   }
 
   eraseVector() {
