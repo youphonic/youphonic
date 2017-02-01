@@ -1,5 +1,6 @@
 import Tone from 'tone';
 
+import drums from './drums';
 
 export const mainFilter = new Tone.Filter(1900, 'lowpass')
   .toMaster();

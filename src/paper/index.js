@@ -4,6 +4,7 @@ import store from '../store';
 import { selectChunk } from '../redux/chunk';
 import { removeChunk } from '../redux/allChunks';
 import { synthOne, synthTwo } from '../tone/tonePatchOne';
+import { player, drumBuffers, possibilities } from '../tone/drums'
 
 let isPlaying;
 let shapes;
@@ -47,7 +48,9 @@ module.exports = function(props) {
             if (innerShape.id !== shape.id) {
               if (shape.path.intersects(innerShape.path)) {
                 synthOne.triggerAttackRelease(innerShape.frequency, '8n');
-                synthTwo.triggerAttackRelease(shape.frequency, '8n');
+                // synthTwo.triggerAttackRelease(shape.frequency, '8n');
+                player.buffer = drumBuffers.get(possibilities[Math.floor(Math.random() * possibilities.length)]);
+                player.start();
                 shape.respondToHit(innerShape);
               }
             }
