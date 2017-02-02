@@ -6,6 +6,8 @@ import { removeChunk } from '../redux/allChunks';
 import { synthOne, synthTwo } from '../tone/tonePatchOne';
 import { player, drumBuffers, possibilities } from '../tone/drums'
 
+// These variables must be kept outside drawing scope for
+// proper update on receiving new props
 let isPlaying;
 let shapes;
 let force;
