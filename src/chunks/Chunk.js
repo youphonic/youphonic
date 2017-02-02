@@ -29,7 +29,6 @@ export default class Chunk {
 
   update() {
     if (this.specialUpdate) {
-      console.log('in the special update!');
       this.specialUpdate();
     }
     if (this.isMoving) {

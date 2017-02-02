@@ -15,6 +15,7 @@ export default class Pendulum extends Chunk {
     this.pendulum = new Path([this.anchorPoint, this.path.position]);
     this.pendulum.strokeColor = colors.chinook;
     this.fixed = true;
+    this.rotation = 2;
   }
 
   specialUpdate () {
@@ -23,8 +24,10 @@ export default class Pendulum extends Chunk {
   }
 
   drawPendulum () {
-    this.path.position = this.path.position.rotate(1, this.anchorPoint);
-    console.log('Path Position', this.path.position.subtract(this.anchorPoint));
+    if (this.angle > 0) {
+      this.rotation = this.rotation * -1;
+    }
+    this.path.position = this.path.position.rotate(this.rotation, this.anchorPoint);
     this.pendulum = new Path([this.anchorPoint, this.path.position]);
     this.pendulum.strokeColor = colors.chinook;
   }
@@ -34,5 +37,9 @@ export default class Pendulum extends Chunk {
       this.pendulum.remove();
       this.pendulum = null;
     }
+  }
+
+  get angle () {
+    return this.anchorPoint.subtract(this.path.position).angle;
   }
 }
