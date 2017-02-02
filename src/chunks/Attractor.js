@@ -1,18 +1,13 @@
-import Chunk from './Chunk';
-import paper from 'paper'
+import paper from 'paper';
 
-export default class Attractor extends Chunk {
-  constructor(x, y, radius, color, direction = new Point(0, 0), G = 1) {
-    super(direction, color);
-    this.radius = radius;
+import Circle from './Circle';
+import { constrain } from './utils';
+
+export default class Attractor extends Circle {
+  constructor(x, y, radius, direction, color, fixed, G = 1) {
+    super(x, y, radius, direction, color);
     this.G = G;
-    this.path = new Path.Circle({
-      center: [x, y],
-      radius: radius,
-      fillColor: color,
-    });
-
-    // this.type is temporary!
+    this.fixed = fixed;
     this.type = 'attractor';
   }
 
@@ -22,7 +17,7 @@ export default class Attractor extends Chunk {
     // Distance between objects
     let distance = force.length;
     // Limiting the distance to eliminate "extreme" results for very close or very far objects
-    distance = this.constrain(distance, 5, 25);
+    distance = constrain(distance, 5, 25);
     // Normalize vector for extreme values
     force = force.normalize();
     // Calculate gravitional force magnitude
@@ -30,15 +25,5 @@ export default class Attractor extends Chunk {
     // Get force vector --> magnitude * direction
     force.multiply(strength);
     return force;
-  }
-
-  constrain(value, min, max) {
-    if (value < min) {
-      return min;
-    } else if (value > max) {
-      return max;
-    } else {
-      return value;
-    }
   }
 }

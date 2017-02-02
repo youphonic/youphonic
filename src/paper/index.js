@@ -67,7 +67,7 @@ module.exports = function(props) {
         if (shape.type === 'physics') {
           shape.applyForce(forces.gravity);
         } else if (shape.type === 'attractor') {
-          shape.fixed = true;
+          // shape.fixed = true;
           shapes.forEach(otherShape => {
             if (otherShape.isMoving && otherShape.id !== shape.id) {
               force = shape.calculateAttraction(otherShape);
