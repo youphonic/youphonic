@@ -40,20 +40,25 @@ module.exports = function(props) {
     if (localSelectedChunk) localSelectedChunk.eraseVector();
   }
 
-  view.onFrame = () => {
+  view.onFrame = (event) => {
     if (isPlaying) {
       shapes.forEach(shape => {
         if (shape.isMoving) {
           shapes.forEach(innerShape => {
             if (innerShape.id !== shape.id) {
               if (shape.path.intersects(innerShape.path)) {
-                synthOne.triggerAttackRelease(innerShape.frequency, '8n');
-                // synthTwo.triggerAttackRelease(shape.frequency, '8n');
-                if (shape.drum) {
-                  player.buffer = drumBuffers.get(shape.drum);
-                  player.start();
+                if (innerShape.type === 'string') {
+                  innerShape.triggerAnimate(event.time)
+                  innerShape.triggerSynth();
+                } else {
+                  synthOne.triggerAttackRelease(innerShape.frequency, '8n');
+                  if (shape.frequency) synthTwo.triggerAttackRelease(shape.frequency, '8n');
+                  if (shape.drum) {
+                    player.buffer = drumBuffers.get(shape.drum);
+                    player.start();
+                  }
+                  shape.respondToHit(innerShape);
                 }
-                shape.respondToHit(innerShape);
               }
             }
           });
@@ -70,7 +75,7 @@ module.exports = function(props) {
             }
           });
         }
-        shape.update();
+        shape.update(event.time);
       });
     }
   };
