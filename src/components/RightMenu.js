@@ -73,7 +73,10 @@ function RightMenu (props) {
 				}}
       />
       <MenuItem primaryText="Rectangle" onTouchTap={() => {
-					props.addChunk(new Rectangle(props.center.x, props.center.y, 60, 60, new Point(0, 0)));
+          let newRect = new Rectangle(props.center.x, props.center.y, 60, 60, new Point(0, 0));
+          newRect.fixed = true;
+          newRect.path.rotation = 45;
+					props.addChunk(newRect);
 					enterEditMode(props.isPlaying);
 				}}
       />

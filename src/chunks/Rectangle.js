@@ -8,8 +8,10 @@ export default class Rectangle extends Chunk {
     this.width = w;
     this.height = h || w;
     this.path = new Path.Rectangle(new Point(x, y), new Size(this.width, this.height));
+    this.path.applyMatrix = false;
     this.path.fillColor = color;
-    this.center = [x + (this.width / 2), y + (this.height / 2)];
+    this.radius = (this.width + this.height) / 2;
+    this.type = 'rectangle'
   }
 
   get bound() {
@@ -19,6 +21,10 @@ export default class Rectangle extends Chunk {
       top: this.y + this.height,
       bottom: this.y - this.height
     }
+  }
+
+  get center() {
+    return new Point(this.path.position + (this.width / 2), this.path.position + (this.height / 2));
   }
 
 }

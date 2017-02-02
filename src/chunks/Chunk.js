@@ -1,6 +1,7 @@
 import Tone from 'tone';
 
-import {movingBounceOffMoving, movingBounceOffFixed, drawArrow} from './utils'
+// import Rectangle from './Rectangle'
+import {movingBounceOffMoving, movingBounceOffFixed, movingCircleBounceOffFixedRectangle, drawArrow} from './utils'
 
 // auto incrementing id
 let idCount = 1;
@@ -42,7 +43,9 @@ export default class Chunk {
   }
 
   respondToHit(hitter) {
-    if (hitter.fixed) {
+    if (hitter.type === 'rectangle') {
+      movingCircleBounceOffFixedRectangle(this, hitter)
+    } else if (hitter.fixed) {
       movingBounceOffFixed(this, hitter);
     } else {
       movingBounceOffMoving(this, hitter);
