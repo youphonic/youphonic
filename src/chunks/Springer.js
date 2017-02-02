@@ -3,48 +3,70 @@ import Circle from './Circle';
 import colors from '../colors'
 
 
-// class BallOnString {
-//   constructor(x, y) {
-//     this.radius = 24;
-//     // Arbitrary damping to simulate friction / drag
-//     this.damping = 0.98;
-//     this.position = new Point(x,y);
-//     this.direction = new Point(1, 0);
-//     this.acceleration = new Point(0, 0);
-//   }
-// }
-
-
-export default class Springer extends Chunk {
-  constructor(x, y, len, direction = new Point(0, 0), color = colors.newYorkPink, acceleration) {
-    super(direction, color, acceleration);
+export default class Springer extends Circle {
+  constructor(x, y, radius, direction = new Point(0, 0), len, color = colors.newYorkPink) {
+    super(x, y, radius, direction, color);
     this.k = 0.2;
-    this.radius = 24;
     this.restLength = len;
-    this.anchorPoint = new Point(x, y);
-    this.ballOnString = new Path.Circle({
-      center: [x, y + len],
-      radius: this.radius,
-      fillColor: color
-    });
+    this.anchorPoint = new Point(x, y - len);
 
     // this draws the spring between the anchorPoint and
-    // the center of this.ballOnString
-    this.spring = new Path([this.ballOnString.position, this.anchorPoint])
+    // the center of this.path
+    this.spring = new Path([this.path.position, this.anchorPoint])
 
-    this.path = new Group([this.spring, this.ballOnString]);
-    this.path.strokeColor = color;
+    this.group = new Group([this.spring, this.path]);
+    this.group.strokeColor = color;
 
-    // this.type is temporary!
     this.type = 'springer';
   }
 
+  // Calculate and apply spring force
   connect() {
+    // Vector pointing from anchor to bob location
+    let force = p5.Vector.sub(this.path.position, this.anchor);
+    // What is distance
+    let dist = force.length;
+    // Stretch is difference between current distance and rest length
+    let stretch = dist - this.restLength;
+
+    // Calculate force according to Hooke's Law
+    // F = k * stretch
+    force = force.normalize();
+    force = force.multiply(-1 * this.k * stretch);
+
+    this.applyForce(force);
   }
 
-  constrainLength(minLen, maxLen) {
+  constrainLength(minLength, maxLength) {
+    let dir = this.path.position.subtract(this.anchor);
+    let d = dir.length;
+    // Is it too short?
+    if (d < minLength) {
+      dir = dir.normalize();
+      dir = dir.multiply(minLength);
+      // Reset location and stop from moving (not realistic physics)
+      this.path.position = this.anchor.add(dir);
+      this.direction = this.direction.multiply(0);
+      // Is it too long?
+    } else if (d > maxLength) {
+      dir = dir.normalize();
+      dir = dir.multiply(maxLength);
+      // Reset location and stop from moving (not realistic physics)
+      this.path.position = this.anchor.add(dir);
+      this.direction = this.direction.multiply(0);
+    }
   }
 
-  updateSpringer() {
+  specialUpdate() {
+    if (!this.isMoving) return;
+    let endPoint = this.path.position;
+    this.spring = new Path([endPoint, this.anchorPoint]);
+
+    // the following is the logic from this.update();
+    // this.direction = this.direction.add(this.acceleration);
+    // this.direction = this.direction.mult(this.damping);
+    // this.position = this.position.add(this.direction);
+    // this.acceleration = this.acceleration.multiply(0);
+
   }
 }

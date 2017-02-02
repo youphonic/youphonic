@@ -68,7 +68,7 @@ function RightMenu (props) {
       <MenuItem
         primaryText="Springer"
         onTouchTap={() => {
-					props.addChunk(new Springer(props.center.x, props.center.y, 100));
+					props.addChunk(new Springer(props.center.x, props.center.y, 24, new Point(0, 0), 100));
 					enterEditMode(props.isPlaying);
 				}}
       />
