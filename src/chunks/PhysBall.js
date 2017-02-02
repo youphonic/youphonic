@@ -1,18 +1,9 @@
-import Chunk from './Chunk';
-import paper from 'paper'
+import Circle from './Circle';
 
 
-export default class PhysBall extends Chunk {
-  constructor(x, y, radius, color, direction, acceleration) {
-    super(direction, color, acceleration);
-    this.radius = radius;
-    this.path = new Path.Circle({
-      center: [x, y],
-      radius: radius,
-      fillColor: color,
-    });
-
-    // this.type is temporary!
+export default class PhysBall extends Circle {
+  constructor(x, y, radius, direction, color) {
+    super(x, y, radius, direction, color);
     this.type = 'physics';
   }
 }

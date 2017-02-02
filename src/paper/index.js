@@ -46,7 +46,7 @@ module.exports = function(props) {
   }
 
   // main drawing Loop
-  view.onFrame = () => {
+  view.onFrame = (event) => {
     // only update shapes if playing state is enabled
     if (isPlaying) {
       // iterate through every shape
@@ -56,17 +56,23 @@ module.exports = function(props) {
           shapes.forEach(innerShape => {
             // do not check shape intersections against itself
             if (innerShape.id !== shape.id) {
-              if (shape.path.intersects(innerShape.path)) {
+              if (shape.path.intersects(innerShape.path)) {  
                 // hard coded: trigger inner shape's synth on impact
                 // eventually, this should be dependent upon a shape's settings
-                synthOne.triggerAttackRelease(innerShape.frequency, '8n');
-                // if shape has a drum sound, trigger it
-                if (shape.drum) {
-                  player.buffer = drumBuffers.get(shape.drum);
-                  player.start();
+                // this 'string' if check is temporary
+                if (innerShape.type === 'string') {
+                  innerShape.triggerAnimate(event.time)
+                  innerShape.triggerSynth();
+                } else {
+                  synthOne.triggerAttackRelease(innerShape.frequency, '8n');
+                  if (shape.frequency) synthTwo.triggerAttackRelease(shape.frequency, '8n');
+                  if (shape.drum) {
+                    player.buffer = drumBuffers.get(shape.drum);
+                    player.start();
+                  }
+                  // call shape's respond to hit function
+                  shape.respondToHit(innerShape);
                 }
-                // call shape's respond to hit
-                shape.respondToHit(innerShape);
               }
             }
           });
@@ -75,7 +81,7 @@ module.exports = function(props) {
         if (shape.type === 'physics') {
           shape.applyForce(forces.gravity);
         } else if (shape.type === 'attractor') {
-          shape.fixed = true;
+          // shape.fixed = true;
           shapes.forEach(otherShape => {
             if (otherShape.isMoving && otherShape.id !== shape.id) {
               force = shape.calculateAttraction(otherShape);
@@ -84,11 +90,12 @@ module.exports = function(props) {
           });
         }
         // update every moving shape's position each frame
-        shape.update();
+        shape.update(event.time);
       });
     }
   };
 
+  // respond to mouseDown events
   tool.onMouseDown = (event) => {
     isVectorArrowBeingDragged = false;
 		const hitResult = project.hitTest(event.point, hitOptions);
