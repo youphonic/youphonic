@@ -5,6 +5,11 @@ export const authenticated = user => ({
   type: AUTHENTICATED, user
 })
 
+const SIGN_UP = 'SIGN_UP'
+export const signUp = user => ({
+  type: SIGN_UP, user
+})
+
 const LOGOUT_USER = 'LOGOUT_USER'
 export const logout_user = user => ({
   type: LOGOUT_USER, user
@@ -14,12 +19,21 @@ const reducer = (state=null, action) => {
   switch(action.type) {
     case AUTHENTICATED:
       return action.user
+    case SIGN_UP:
+      return action.user
   	case 	LOGOUT_USER:
   		return action.user
   	default: return state;
   }
 }
 
+
+export const saveUser = (info) =>
+  dispatch =>
+    axios.post('/api/users',
+      info)
+      .then(() => dispatch(whoami()))
+      .catch(() => dispatch(whoami()));
 
 export const login = (username, password) =>
   dispatch =>

@@ -34,7 +34,7 @@ try {
   debug('%s: %s', secretsFile, error.message)
   debug('%s: env file not found or invalid, moving on', secretsFile)
 }
-console.log('logging env', env);
+
 const PORT = process.env.PORT || 1337
 
 module.exports = {

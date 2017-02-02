@@ -3,38 +3,35 @@ import { connect } from 'react-redux';
 import Dialog from 'material-ui/Dialog';
 import FlatButton from 'material-ui/FlatButton';
 import RaisedButton from 'material-ui/RaisedButton';
-import ActionGoogle from 'material-ui/svg-icons/action/android';
-import ActionFacebook from 'material-ui/svg-icons/action/android';
 import FloatingActionButton from 'material-ui/FloatingActionButton';
 import FontIcon from 'material-ui/FontIcon';
 import TextField from 'material-ui/TextField';
 import MenuItem from 'material-ui/MenuItem';
 
-import { whoami, login } from '../redux/login';
+import { whoami, saveUser } from '../redux/login';
 
 import {startCanvas, stopCanvas} from '../redux/appState';
+import {openSignup, closeSignup} from '../redux/navState';
 import {red500, yellow500, blue500} from 'material-ui/styles/colors';
 
 /**
  * Dialog content can be scrollable.
  */
-class Login extends React.Component {
+class SignUp extends React.Component {
   constructor() {
     super();
     this.state = {
-      open: false,
 			username: '',
-			password: ''
+			password: '',
+      firstName: '',
+      lastName: '',
+      email: ''
     };
-    this.handleOpen = this.handleOpen.bind(this);
-    this.handleClose = this.handleClose.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
 
 		this.styles = {
-			loginButton: {
-				position: 'absolute',
-				top: 15,
-				left: 15
+			signUpButton: {
+
 			},
 			buttonIcon: {
 				fontSize: 50
@@ -42,25 +39,13 @@ class Login extends React.Component {
       socialButton: {
         margin: 12
       }
-		}
-  }
-
-  handleOpen() {
-    this.setState({open: true});
-		this.props.stopCanvas();
-  }
-
-  handleClose() {
-    this.setState({open: false});
-		this.props.startCanvas();
+		};
   }
 
   handleSubmit(event) {
 		event.preventDefault();
-		this.props.localLogin(this.state.username, this.state.password);
-    this.setState({
-	    open: false
-	  });
+		this.props.saveUser(this.state);
+    this.props.closeSignup();
   }
 
   render() {
@@ -69,7 +54,7 @@ class Login extends React.Component {
         key="button1"
         label="Cancel"
         primary={true}
-        onTouchTap={this.handleClose}
+        onTouchTap={this.props.closeSignup}
       />,
       <FlatButton
         key="button2"
@@ -78,39 +63,45 @@ class Login extends React.Component {
         keyboardFocused={true}
         onTouchTap={this.handleSubmit}
       />,
-      <RaisedButton
-        href='api/auth/google'
-        target="_self"
-        label="Google"
-        secondary={true}
-        style={this.styles.socialButton}
-        icon={<FontIcon className="fa fa-google" />}
-      />,
-      <RaisedButton
-  			onTouchTap={()=>this.props.facebookLogin()}
-        label="Facebook"
-  			target="_blank"
-        labelPosition="before"
-        primary={true}
-        icon={<FontIcon className="fa fa-facebook-square" />}
-        style={this.styles.socialButton}
-      />,
     ];
     return (
       <div>
-				<FloatingActionButton style={this.styles.loginButton} color={yellow500}>
-					<FontIcon onClick={() => this.handleOpen()} style={this.styles.buttonIcon} className="material-icons">account_box
-					</FontIcon>
-				</FloatingActionButton>
         <Dialog
           modal={false}
           actions={actions}
-          open={this.state.open}
-          title="User Login"
+          open={this.props.open}
+          title="User Sign Up"
           autoScrollBodyContent={true}
           onRequestClose={this.handleClose}
         >
           <form>
+            <TextField
+              name={"first name"}
+              hintText="enter first name"
+              onChange={(evt) => {
+                this.setState({
+            			firstName: evt.target.value
+            		});
+              }}
+            />
+            <TextField
+              name={"last name"}
+              hintText="enter last name"
+              onChange={(evt) => {
+                this.setState({
+            			lastName: evt.target.value
+            		});
+              }}
+            />
+            <TextField
+              name={"email"}
+              hintText="enter email"
+              onChange={(evt) => {
+                this.setState({
+            			email: evt.target.value
+            		});
+              }}
+            />
             <TextField
               name={"username"}
               hintText="enter username"
@@ -138,20 +129,22 @@ class Login extends React.Component {
 
 const mapStateToProps = state => {
   return {
-
+    open: state.navState.signUpOpen
   };
 };
 
 const mapDispatchToProps = dispatch => {
   return {
-    localLogin: (username, password) => dispatch(localLogin(username, password)),
-		googleLogin: () => dispatch(googleLogin()),
-		facebookLogin: () => dispatch(facebookLogin()),
+    saveUser: (info) =>
+      dispatch(saveUser(info)),
 		startCanvas: () =>
       dispatch(startCanvas()),
     stopCanvas: () =>
-      dispatch(stopCanvas())
+      dispatch(stopCanvas()),
+    closeSignup: () => {
+      dispatch(closeSignup());
+    }
   };
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(Login);
+export default connect(mapStateToProps, mapDispatchToProps)(SignUp);
