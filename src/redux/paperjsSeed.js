@@ -33,7 +33,7 @@ export default function () {
   const bounceCircle = new Circle(center.x, center.y - yDiff + (radius * 1.414), radius, bounceCircleMotion)
   store.dispatch(addChunk(bounceCircle));
 
-  let seedRope = new Rope(center.x - 100, center.y + 100, center.x + 100, center.y - 100, colors.blueStone)
-  store.dispatch(addChunk(seedRope));
-
+  // uncomment to seed a Rope Chunk
+  //let seedRope = new Rope(center.x - 100, center.y + 100, center.x + 100, center.y - 100, colors.blueStone)
+  //store.dispatch(addChunk(seedRope));
 }
