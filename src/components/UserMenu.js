@@ -22,6 +22,7 @@ import SignUp from './SignUp';
 import {synthOne} from '../tone/tonePatchOne'
 import { whoami, login, logout } from '../redux/login';
 import { openSignup, openLogin } from '../redux/navState';
+
 import {startCanvas, stopCanvas} from '../redux/appState';
 
 import {red500, yellow500, blue500} from 'material-ui/styles/colors';

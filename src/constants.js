@@ -8,7 +8,6 @@ export const CLOSE_SIGNUP = 'CLOSE_SIGNUP';
 export const OPEN_SIGNUP_ALERT = 'OPEN_SIGNUP_ALERT';
 export const CLOSE_SIGNUP_ALERT = 'CLOSE_SIGNUP_ALERT';
 
-
 export const ADD_CHUNK = 'ADD_CHUNK';
 
 export const TOGGLE_PLAY = 'TOGGLE_PLAY';

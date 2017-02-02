@@ -4,6 +4,7 @@ import {connect} from 'react-redux';
 import injectTapEventPlugin from 'react-tap-event-plugin';
 
 import RightMenu from './RightMenu';
+import UserMenu from './UserMenu';
 import ShapeSettings from './ShapeSettings';
 import FloatingActionButton from 'material-ui/FloatingActionButton';
 import FontIcon from 'material-ui/FontIcon';
@@ -85,7 +86,8 @@ class Main extends Component {
 	    </div>
 	  );
 
-}
+  }
+
 }
 
 const mapStateToProps = (state) => {
