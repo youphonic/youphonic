@@ -6,17 +6,22 @@ import { removeChunk } from '../redux/allChunks';
 import { synthOne, synthTwo } from '../tone/tonePatchOne';
 import { player, drumBuffers, possibilities } from '../tone/drums'
 
+// These variables must be kept outside drawing scope for
+// proper update on receiving new props
 let isPlaying;
 let shapes;
 let force;
 let localSelectedChunk;
-let arrowDrag = false;
+let isVectorArrowBeingDragged = false;
 
 module.exports = function(props) {
+  // tool represents mouse/keyboard input
 	const tool = new Tool();
 	tool.minDistance = 1;
 	tool.maxDistance = 30;
 
+  // options object sent to project.hitTest
+  // represents types of Paper.js objects that will be tested against
   const hitOptions = {
     segments: true,
     stroke: true,
@@ -24,7 +29,7 @@ module.exports = function(props) {
     tolerance: 5
   };
 
-  // FORCES
+  // Force Constants
   const forces = {
     wind1: new Point(0.01, 0),
     wind2: new Point(-0.01, 0),
@@ -35,18 +40,26 @@ module.exports = function(props) {
   shapes = props.allChunks;
   isPlaying = props.isPlaying;
 
-  // erase drawn vector on play
+  // when play is called, erase any currently drawn vector
   if (props.isPlaying) {
     if (localSelectedChunk) localSelectedChunk.eraseVector();
   }
 
+  // main drawing Loop
   view.onFrame = (event) => {
+    // only update shapes if playing state is enabled
     if (isPlaying) {
+      // iterate through every shape
       shapes.forEach(shape => {
+        // if shape is moving, look for collisions
         if (shape.isMoving) {
           shapes.forEach(innerShape => {
+            // do not check shape intersections against itself
             if (innerShape.id !== shape.id) {
-              if (shape.path.intersects(innerShape.path)) {
+              if (shape.path.intersects(innerShape.path)) {  
+                // hard coded: trigger inner shape's synth on impact
+                // eventually, this should be dependent upon a shape's settings
+                // this 'string' if check is temporary
                 if (innerShape.type === 'string') {
                   innerShape.triggerAnimate(event.time)
                   innerShape.triggerSynth();
@@ -57,6 +70,7 @@ module.exports = function(props) {
                     player.buffer = drumBuffers.get(shape.drum);
                     player.start();
                   }
+                  // call shape's respond to hit function
                   shape.respondToHit(innerShape);
                 }
               }
@@ -75,18 +89,24 @@ module.exports = function(props) {
             }
           });
         }
+        // update every moving shape's position each frame
         shape.update(event.time);
       });
     }
   };
 
+  // respond to mouseDown events
   tool.onMouseDown = (event) => {
-    arrowDrag = false;
+    isVectorArrowBeingDragged = false;
 		const hitResult = project.hitTest(event.point, hitOptions);
+    // check to see if mouse is clicking the body ('fill') of a Chunk
     if (!isPlaying && hitResult && hitResult.type === 'fill') {
+      // erase currently drawn vector if necessary
       if (localSelectedChunk) localSelectedChunk.eraseVector();
+      // search for the clicked shape
       shapes.forEach((shape, index) => {
         if (hitResult.item === shape.path) {
+          // store currently clicked shape, draw its vector, update store
           localSelectedChunk = shape;
           localSelectedChunk.drawVector();
           store.dispatch(selectChunk({
@@ -96,15 +116,17 @@ module.exports = function(props) {
         }
       })
     } else if (hitResult && hitResult.item && (hitResult.item.type === 'vectorArrow')) {
-      arrowDrag = true;
+      // if clicked item is a vector, enable vector dragging
+      isVectorArrowBeingDragged = true;
     } else if (localSelectedChunk) {
-      // reset selected chunk to null and update state
+      // reset selected chunk to null and update state to none selected
       localSelectedChunk.eraseVector()
       localSelectedChunk = null;
       store.dispatch(selectChunk({}));
     }
   };
 
+  // display item paths on mouseOver
   tool.onMouseMove = (event) => {
     if (event.item) {
       event.item.selected = true;
@@ -113,9 +135,12 @@ module.exports = function(props) {
     }
   };
 
+  // respond to mouseDrag
   tool.onMouseDrag = (event) => {
-    if (arrowDrag) {
+    // if in vector drawing mode, call selected Chunk's drag function
+    if (isVectorArrowBeingDragged) {
       localSelectedChunk.dragVector(event.point)
+    // drag selected chunk, redraw vector
     } else if (localSelectedChunk && !isPlaying) {
       localSelectedChunk.path.position.x += event.delta.x;
       localSelectedChunk.path.position.y += event.delta.y;
