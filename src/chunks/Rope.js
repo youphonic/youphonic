@@ -7,12 +7,18 @@ import { scale } from './utils'
 let points = 17;
 
 export default class Rope extends Chunk {
+
   constructor(x1, y1, x2, y2, color = 'white') {
     super(new Point(0, 0), color)
     this.start = new Point(x1, y1);
     this.end = new Point(x2, y2);
+    this.color = color;
     this.path = makePath(this.start, this.end, color)
-    this.synth = new Tone.PluckSynth().toMaster();
+    this.synth = new Tone.PluckSynth({
+      attackNoise : 10,
+      dampening : 7000,
+      resonance : 0.95
+    }).toMaster();
     this.type = 'string';
     this.enabled = true;
     this.animating = false;
@@ -39,15 +45,10 @@ export default class Rope extends Chunk {
   }
 
   animate(time) {
-    console.log('animateTime', time);
     for (let i = 0; i < points; i++) {
       let segment = this.path.segments[i];
-
-      let scaledSin = (num) => scale(Math.sin(num / points), -1, 1, -20, 20);
-      let checkNum = i <= points / 2 ? scale(i, 0, points / 2, -Math.PI, Math.PI) : scale(points - i - 1, 0, points / 2, -Math.PI, Math.PI)
-      let multTime = time < .5 ? time : 1.0 - time;
-
-      let sinus = Math.sin(checkNum * multTime) * 10;
+      let checkNum = scale(i, 0, points, -Math.PI * 3, Math.PI * 3)
+      let sinus = Math.sin(checkNum * time);
 
       // Change the y position of the segment point:
       segment.point.y += sinus;
@@ -56,21 +57,31 @@ export default class Rope extends Chunk {
     this.path.smooth();
   }
 
+  resetAnimation() {
+    let direction = this.end.subtract(this.start)
+    for (let i = 0; i < points; i++) {
+      let segment = this.path.segments[i];
+      segment.point.x = this.start.x + ((i / points) * direction.x)
+      segment.point.y = this.start.y + ((i/points) * direction.y)
+    }
+  }
+
   update(time) {
     if (this.animating) {
       if (time <= this.currentAnimateTime + this.animateTime) {
-        let nextTime = (time - this.currentAnimateTime) / this.animateTime;
+        let nextTime = ((time - this.currentAnimateTime) * 2 / this.animateTime) - 1;
         this.animate(nextTime)
       } else {
         this.animating = false;
+        this.resetAnimation();
       }
     }
   }
 }
 
+// construct for the Rope path
 function makePath(start, end, color) {
   let direction = end.subtract(start)
-  console.log(direction);
   let resultPath = new Path({
       strokeColor: color,
       strokeWidth: 2,
@@ -79,7 +90,9 @@ function makePath(start, end, color) {
     });
 
   for (let i = 0; i < points; i++) {
-    let nextPoint = new Point(start.x + ((i / points) * direction.x), start.y + ((i/points) * direction.y))
+    let xPoint = start.x + ((i / points) * direction.x);
+    let yPoint = start.y + ((i / points) * direction.y);
+    let nextPoint = new Point(xPoint, yPoint)
     resultPath.add(nextPoint)
   }
 
