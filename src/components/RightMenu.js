@@ -12,6 +12,7 @@ import PhysBall from '../chunks/PhysBall';
 import Attractor from '../chunks/Attractor';
 import Springer from '../chunks/Springer';
 import Rectangle from '../chunks/Rectangle';
+import Pendulum from '../chunks/Pendulum';
 import Login from './Login';
 import colors from '../colors'
 
@@ -69,6 +70,13 @@ function RightMenu (props) {
         primaryText="Springer"
         onTouchTap={() => {
 					props.addChunk(new Springer(props.center.x, props.center.y, 24, new Point(0, 0), 100));
+					enterEditMode(props.isPlaying);
+				}}
+      />
+      <MenuItem
+        primaryText="Pendulum"
+        onTouchTap={() => {
+					props.addChunk(new Pendulum(props.center.x, props.center.y, 24, new Point(0, 0)));
 					enterEditMode(props.isPlaying);
 				}}
       />
