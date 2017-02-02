@@ -1,6 +1,8 @@
 export const START_CANVAS = 'START_CANVAS';
 export const STOP_CANVAS = 'STOP_CANVAS';
 
+export const OPEN_LOGIN = 'OPEN_LOGIN';
+export const CLOSE_LOGIN = 'CLOSE_LOGIN';
 export const OPEN_SIGNUP = 'OPEN_SIGNUP';
 export const CLOSE_SIGNUP = 'CLOSE_SIGNUP';
 export const OPEN_SIGNUP_ALERT = 'OPEN_SIGNUP_ALERT';

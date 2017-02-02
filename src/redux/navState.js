@@ -1,5 +1,6 @@
-import {OPEN_SIGNUP, CLOSE_SIGNUP, OPEN_SIGNUP_ALERT, CLOSE_SIGNUP_ALERT} from '../constants';
+import {OPEN_LOGIN, CLOSE_LOGIN, OPEN_SIGNUP, CLOSE_SIGNUP, OPEN_SIGNUP_ALERT, CLOSE_SIGNUP_ALERT} from '../constants';
 const initialState = {
+	loginOpen: false,
   signUpOpen: false,
   signUpAlertOpen: false
 };
@@ -9,6 +10,12 @@ const initialState = {
 // UI components require a local 'open' key for navigation. This pattern will
 // be required whenever mixing MaterialUI navigation components that
 // work together
+export const openLogin = () => {
+  return {type: OPEN_LOGIN};
+};
+export const closeLogin = () => {
+  return {type: CLOSE_LOGIN};
+};
 export const openSignup = () => {
   return {type: OPEN_SIGNUP};
 };
@@ -24,14 +31,27 @@ export const openSignupAlert = (user) => {
 
 // reducer
 export default(state = initialState, action) => {
+
+	let newState = Object.assign({}, state)
+
   switch (action.type) {
+		case OPEN_LOGIN:
+      newState.loginOpen = true;
+			break;
+    case CLOSE_LOGIN:
+			newState.loginOpen = false;
+			break;
     case OPEN_SIGNUP:
-      return Object.assign({}, state, {signUpOpen: true});
+			newState.signUpOpen = true;
+			break;
     case CLOSE_SIGNUP:
-      return Object.assign({}, state, {signUpOpen: false});
+			newState.signUpOpen = false;
+			break;
     case OPEN_SIGNUP_ALERT:
-      return Object.assign({}, state, {signUpAlertOpen: true});
+			newState.signUpAlertOpen = true;
+			break
     default:
       return state;
   }
+	return newState;
 };

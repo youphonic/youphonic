@@ -1,4 +1,5 @@
-import axios from 'axios'
+import axios from 'axios';
+import {openSignupAlert} from "./navState"
 
 const AUTHENTICATED = 'AUTHENTICATED'
 export const authenticated = user => ({
@@ -50,6 +51,7 @@ export const whoami = () =>
         const user = response.data
         dispatch(authenticated(user))
       })
+			.then( () => dispatch(openSignupAlert()))
 			.catch(failed => dispatch(authenticated(null)))
 
 export default reducer;

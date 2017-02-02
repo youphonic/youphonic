@@ -11,6 +11,7 @@ import TextField from 'material-ui/TextField';
 import MenuItem from 'material-ui/MenuItem';
 
 import { whoami, login } from '../redux/login';
+import { closeLogin, openSignupAlert } from '../redux/navState';
 
 import {startCanvas, stopCanvas} from '../redux/appState';
 import {red500, yellow500, blue500} from 'material-ui/styles/colors';
@@ -19,17 +20,13 @@ import {red500, yellow500, blue500} from 'material-ui/styles/colors';
  * Dialog content can be scrollable.
  */
 class Login extends React.Component {
-  constructor() {
-    super();
+  constructor(props) {
+    super(props);
     this.state = {
-      open: false,
 			username: '',
 			password: ''
     };
-    this.handleOpen = this.handleOpen.bind(this);
-    this.handleClose = this.handleClose.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
-
 		this.styles = {
 			loginButton: {
 				position: 'absolute',
@@ -45,22 +42,12 @@ class Login extends React.Component {
 		}
   }
 
-  handleOpen() {
-    this.setState({open: true});
-		this.props.stopCanvas();
-  }
-
-  handleClose() {
-    this.setState({open: false});
-		this.props.startCanvas();
-  }
-
+	// login then close deliver welcome alert
   handleSubmit(event) {
 		event.preventDefault();
-		this.props.localLogin(this.state.username, this.state.password);
-    this.setState({
-	    open: false
-	  });
+		this.props.login(this.state.username, this.state.password);
+		this.props.closeLogin();
+		this.props.openSignupAlert();
   }
 
   render() {
@@ -98,14 +85,14 @@ class Login extends React.Component {
     ];
     return (
       <div>
-				<FloatingActionButton style={this.styles.loginButton} color={yellow500}>
+				{/* <FloatingActionButton style={this.styles.loginButton} color={yellow500}>
 					<FontIcon onClick={() => this.handleOpen()} style={this.styles.buttonIcon} className="material-icons">account_box
 					</FontIcon>
-				</FloatingActionButton>
+				</FloatingActionButton> */}
         <Dialog
           modal={false}
           actions={actions}
-          open={this.state.open}
+          open={this.props.open}
           title="User Login"
           autoScrollBodyContent={true}
           onRequestClose={this.handleClose}
@@ -138,19 +125,24 @@ class Login extends React.Component {
 
 const mapStateToProps = state => {
   return {
+		open: state.navState.loginOpen
 
   };
 };
 
 const mapDispatchToProps = dispatch => {
   return {
-    localLogin: (username, password) => dispatch(localLogin(username, password)),
-		googleLogin: () => dispatch(googleLogin()),
-		facebookLogin: () => dispatch(facebookLogin()),
+    login: (username, password) => dispatch(login(username, password)),
+		// googleLogin: () => dispatch(googleLogin()),
+		// facebookLogin: () => dispatch(facebookLogin()),
 		startCanvas: () =>
       dispatch(startCanvas()),
     stopCanvas: () =>
-      dispatch(stopCanvas())
+      dispatch(stopCanvas()),
+		closeLogin: () =>
+			dispatch(closeLogin()),
+		openSignupAlert: () =>
+			dispatch(openSignupAlert())
   };
 };
 
