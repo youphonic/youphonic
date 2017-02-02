@@ -5,18 +5,15 @@ import MenuItem from 'material-ui/MenuItem';
 import IconButton from 'material-ui/IconButton';
 import MoreVertIcon from 'material-ui/svg-icons/navigation/more-vert';
 
-//import {ourP5} from './P5Wrapper';
-
 import {addChunk} from '../redux/allChunks';
 import {togglePlay} from '../redux/play';
 import Circle from '../chunks/Circle';
 import PhysBall from '../chunks/PhysBall';
 import Attractor from '../chunks/Attractor';
+import Springer from '../chunks/Springer';
 import Rectangle from '../chunks/Rectangle';
 import Login from './Login';
-
-//testing tone, doesn't belong here for prod
-import {synthOne} from '../tone/tonePatchOne'
+import colors from '../colors'
 
 const styles = {
   menu: {
@@ -27,6 +24,9 @@ const styles = {
 };
 
 function RightMenu (props) {
+  const enterEditMode = isPlaying => {
+    if (isPlaying) props.togglePlay(isPlaying);
+  }
   return (<div style={styles.menu}>
     <IconMenu
 		iconButtonElement={
@@ -41,45 +41,43 @@ function RightMenu (props) {
         primaryText="Circle"
         onTouchTap={() => {
 					props.addChunk(new Circle(props.center.x, props.center.y, 20, new Point(1, 1)));
-					if (props.isPlaying) {
-						props.togglePlay(props.isPlaying);
-					}
+					enterEditMode(props.isPlaying);
 				}}
       />
       <MenuItem
         primaryText="PhysBall"
         onTouchTap={() => {
-					props.addChunk(new PhysBall(props.center.x, props.center.y, 20, 'blue', new Point(-0.00001, 0)));
-					if (props.isPlaying) {
-						props.togglePlay(props.isPlaying);
-					}
+					props.addChunk(new PhysBall(props.center.x, props.center.y, 20, new Point(-0.00001, 0), colors.blueStone));
+					enterEditMode(props.isPlaying);
 				}}
       />
       <MenuItem
-        primaryText="Attractor"
+        primaryText="Static Attractor"
         onTouchTap={() => {
-					props.addChunk(new Attractor(props.center.x, props.center.y, 20, 'red'));
-					if (props.isPlaying) {
-						props.togglePlay(props.isPlaying);
-					}
+					props.addChunk(new Attractor(props.center.x, props.center.y, 20, new Point(0, 0), colors.flamingo, true));
+					enterEditMode(props.isPlaying);
+				}}
+      />
+      <MenuItem
+        primaryText="Flying Attractor"
+        onTouchTap={() => {
+					props.addChunk(new Attractor(props.center.x, props.center.y, 20, new Point(0, 0), colors.newYorkPink, false));
+					enterEditMode(props.isPlaying);
+				}}
+      />
+      <MenuItem
+        primaryText="Springer"
+        onTouchTap={() => {
+					props.addChunk(new Springer(props.center.x, props.center.y, 100));
+					enterEditMode(props.isPlaying);
 				}}
       />
       <MenuItem primaryText="Rectangle" onTouchTap={() => {
 					props.addChunk(new Rectangle(props.center.x, props.center.y, 60, 60, new Point(0, 0)));
-					if (props.isPlaying) {
-						props.togglePlay(props.isPlaying);
-					}
+					enterEditMode(props.isPlaying);
 				}}
       />
-      <MenuItem primaryText="Start" />
-      <MenuItem primaryText="Stop" />
       <MenuItem primaryText="Share" />
-      <MenuItem
-        primaryText="TestTone"
-        onTouchTap={() => {
-          synthOne.triggerAttackRelease('A4', 0.3);
-        }}
-      />
     </IconMenu>
   </div>);
 }
