@@ -21,7 +21,8 @@ import SignUp from './SignUp';
 //testing tone, doesn't belong here for prod
 import {synthOne} from '../tone/tonePatchOne'
 import { whoami, login, logout } from '../redux/login';
-import { openSignup } from '../redux/navState';
+import { openSignup, openLogin } from '../redux/navState';
+
 import {startCanvas, stopCanvas} from '../redux/appState';
 
 import {red500, yellow500, blue500} from 'material-ui/styles/colors';
@@ -125,7 +126,8 @@ class UserMenu extends React.Component {
         : <MenuItem
         primaryText="Login"
         onTouchTap={() => {
-
+					event.preventDefault();
+					this.props.openLogin(event);
         }}
         />}
         <MenuItem primaryText="SignUp" onTouchTap={(event) => {
@@ -162,6 +164,10 @@ const mapDispatchToProps = dispatch => {
       event.preventDefault();
       dispatch(openSignup());
     },
+		openLogin: (event) => {
+			event.preventDefault();
+			dispatch(openLogin());
+		},
     saveUser: (info) =>
       dispatch(saveUser(info)),
 		startCanvas: () =>

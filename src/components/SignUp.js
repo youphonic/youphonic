@@ -11,11 +11,11 @@ import MenuItem from 'material-ui/MenuItem';
 import { whoami, saveUser } from '../redux/login';
 
 import {startCanvas, stopCanvas} from '../redux/appState';
-import {openSignup, closeSignup} from '../redux/navState';
+import {openSignup, closeSignup, openSignupAlert} from '../redux/navState';
 import {red500, yellow500, blue500} from 'material-ui/styles/colors';
 
 /**
- * Dialog content can be scrollable.
+ * User signup form
  */
 class SignUp extends React.Component {
   constructor() {
@@ -143,6 +143,7 @@ const mapDispatchToProps = dispatch => {
       dispatch(stopCanvas()),
     closeSignup: () => {
       dispatch(closeSignup());
+			dispatch(openSignupAlert())
     }
   };
 };

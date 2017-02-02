@@ -1,4 +1,5 @@
-import axios from 'axios'
+import axios from 'axios';
+import {openSignupAlert} from "./navState"
 
 const AUTHENTICATED = 'AUTHENTICATED'
 export const authenticated = user => ({
@@ -27,14 +28,14 @@ const reducer = (state=null, action) => {
   }
 }
 
-
+// persists user to db upon oAuth/passport login
 export const saveUser = (info) =>
   dispatch =>
-    axios.post('/api/users',
-      info)
+    axios.post('/api/users', info)
       .then(() => dispatch(whoami()))
       .catch(() => dispatch(whoami()));
 
+// local login using passport
 export const login = (username, password) =>
   dispatch =>
     axios.post('/api/auth/login/local',
@@ -42,12 +43,14 @@ export const login = (username, password) =>
       .then(() => dispatch(whoami()))
       .catch(() => dispatch(whoami()))
 
+// logs out user and removes from 'auth' on redux store
 export const logout = () =>
   dispatch =>
     axios.post('/api/auth/logout')
       .then(() => dispatch(whoami()))
       .catch(() => dispatch(whoami()))
 
+// puts logged in user upon redux store as 'auth'
 export const whoami = () =>
   dispatch =>
     axios.get('/api/auth/whoami')
@@ -55,6 +58,7 @@ export const whoami = () =>
         const user = response.data
         dispatch(authenticated(user))
       })
+			.then( () => dispatch(openSignupAlert()))
 			.catch(failed => dispatch(authenticated(null)))
 
 export default reducer;
