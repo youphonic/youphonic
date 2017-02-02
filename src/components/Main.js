@@ -13,6 +13,8 @@ import {togglePlay} from '../redux/play';
 import { selectChunk } from '../redux/chunk';
 import { startCanvas } from '../redux/appState'
 import Login from './Login';
+import SignUp from './SignUp';
+import SnackBar from 'material-ui/Snackbar';
 import { whoami } from '../redux/login';
 
 // Our root component
@@ -51,6 +53,9 @@ const Main = (props) => {
       <main id="page-wrap">
         <MainCanvas/>
         <Login/>
+        <SignUp />
+				{props.auth && <SnackBar message={'Welcome' + auth.firstName}/>}
+        <UserMenu />
         <RightMenu/>
         {props.selectedChunk.id && <ShapeSettings style={styles.settingsButton}/>}
         <FloatingActionButton style={styles.playButton} color={blue500}>
@@ -75,7 +80,8 @@ const Main = (props) => {
 const mapStateToProps = (state) => {
   return {
     isPlaying: state.isPlaying,
-    selectedChunk: state.selectedChunk
+    selectedChunk: state.selectedChunk,
+		auth: state.auth
   };
 };
 const mapDispatchToProps = (dispatch) => {
