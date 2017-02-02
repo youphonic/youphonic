@@ -5,8 +5,6 @@ import MenuItem from 'material-ui/MenuItem';
 import IconButton from 'material-ui/IconButton';
 import MoreVertIcon from 'material-ui/svg-icons/navigation/more-vert';
 
-//import {ourP5} from './P5Wrapper';
-
 import {addChunk} from '../redux/allChunks';
 import {togglePlay} from '../redux/play';
 import Circle from '../chunks/Circle';
@@ -16,9 +14,6 @@ import Springer from '../chunks/Springer';
 import Rectangle from '../chunks/Rectangle';
 import Login from './Login';
 import colors from '../colors'
-
-//testing tone, doesn't belong here for prod
-import {synthOne} from '../tone/tonePatchOne'
 
 const styles = {
   menu: {
@@ -82,10 +77,7 @@ function RightMenu (props) {
 					enterEditMode(props.isPlaying);
 				}}
       />
-      <MenuItem primaryText="Start" />
-      <MenuItem primaryText="Stop" />
       <MenuItem primaryText="Share" />
-			<Login/>
     </IconMenu>
   </div>);
 }

@@ -9,6 +9,6 @@ api.get('/heartbeat', (req, res) => res.send({ok: true}))
 // route error handling
 
 api.use((err, req, res, next) => {
-console.log('ERR', err);
+	console.log('ERR', err);
   res.status(500).send(err);
 });

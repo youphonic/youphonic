@@ -7,7 +7,7 @@ var db = require('../../_db')
 const User = db.define('users', {
   userName: {
 	  type: Sequelize.STRING,
-	  allowNull: false
+    allowNull: false
   },
   firstName: Sequelize.STRING,
   lastName: Sequelize.STRING,
@@ -22,8 +22,10 @@ const User = db.define('users', {
   // We support oauth, so users may or may not have passwords.
 	passwordDigest: Sequelize.STRING,
 	password: {
-		type: Sequelize.VIRTUAL,
-		allowNull: false
+		type: Sequelize.VIRTUAL
+	},
+	googleId: {
+		type: Sequelize.STRING
 	}
 }, {
 	indexes: [{fields: ['email'], unique: true}],
