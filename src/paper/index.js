@@ -3,8 +3,9 @@
 import store from '../store';
 import { selectChunk } from '../redux/chunk';
 import { removeChunk } from '../redux/allChunks';
+import { togglePlay } from '../redux/play';
 import { synthOne, synthTwo } from '../tone/tonePatchOne';
-import { player, drumBuffers, possibilities } from '../tone/drums'
+import { player, drumBuffers, possibilities } from '../tone/drums';
 
 // These variables must be kept outside drawing scope for
 // proper update on receiving new props
@@ -56,7 +57,7 @@ module.exports = function(props) {
           shapes.forEach(innerShape => {
             // do not check shape intersections against itself
             if (innerShape.id !== shape.id) {
-              if (shape.path.intersects(innerShape.path)) {  
+              if (shape.path.intersects(innerShape.path)) {
                 // hard coded: trigger inner shape's synth on impact
                 // eventually, this should be dependent upon a shape's settings
                 // this 'string' if check is temporary
@@ -158,6 +159,15 @@ module.exports = function(props) {
       localSelectedChunk.path.remove();
       localSelectedChunk = null;
       store.dispatch(selectChunk({}));
+    // toggle play on spacebar
+    } else if (event.key === 'space') {
+      if (localSelectedChunk) {
+        localSelectedChunk.eraseVector();
+        localSelectedChunk.path.remove();
+        localSelectedChunk = null;
+        store.dispatch(selectChunk({}));
+      }
+      store.dispatch(togglePlay(isPlaying));
     }
   }
 
