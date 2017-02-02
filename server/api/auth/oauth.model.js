@@ -66,7 +66,7 @@ OAuth.setupStrategy =
         .filter(value => typeof value === 'undefined')
   if (undefinedKeys.length) {
     undefinedKeys.forEach(key =>
-      debug('provider:%s: needs environment var %s', provider, key))
+    debug('provider:%s: needs environment var %s', provider, key))
     debug('provider:%s will not initialize', provider)
     return
   }
