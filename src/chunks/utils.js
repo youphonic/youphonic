@@ -1,7 +1,4 @@
 import colors from '../colors';
-// import Circle from './Circle';
-// import PhysBall from './PhysBall';
-// import Attractor from './Attractor';
 
 
 // Bounce Mechanics
@@ -53,90 +50,4 @@ export const constrain = function(value, min, max) {
 export const scale = (input, inMin, inMax, outMin, outMax) => {
   let percent = (input - inMin) / (inMax - inMin);
   return percent * (outMax - outMin) + outMin;
-}
-
-// // serialize and deserialize chunks
-// export const deconstruct = (allChunks) => {
-//   const saved = {};
-//   allChunks.forEach(chunk => {
-//     // Copy everything stored in chunk
-//     saved[chunk.id] = Object.assign({}, chunk)
-//     // Chunks x & y position don't get copied
-//     // so we do this manually
-//     saved[chunk.id].x = chunk.path.position._x
-//     saved[chunk.id].y = chunk.path.position._y
-//   });
-//   return saved;
-// };
-//
-// export const reconstruct = (savedChunks) => {
-//   const ressurected = [];
-//   // loop through the saved chunks object
-//   for (var chunk in savedChunks) {
-//     if (savedChunks.hasOwnProperty(chunk)) {
-//       let props = savedChunks[chunk], // properties for the new chunk
-//           reborn; // var for the new chunk
-//       // make a new chunk depending on type
-//       switch (props.type) {
-//         case 'cirlcle':
-//           // Construct a new circle
-//           reborn = new Circle(
-//             props.x,
-//             props.y,
-//             props.radius,
-//             new Point(props.direction[1], props.direction[2]),
-//             props.color
-//           );
-//           // Put remaining props onto the new circle
-//           for (var prop in props) {
-//             if (props.hasOwnProperty(prop) && !reborn[prop]) {
-//               reborn[prop] = props[prop];
-//             }
-//           }
-//           break;
-//
-//         case 'physics':
-//           // Construct a new PhysBall
-//           reborn = new PhysBall(
-//             props.x,
-//             props.y,
-//             props.radius,
-//             new Point(props.direction[1], props.direction[2]),
-//             props.color
-//           );
-//           // Put remaining props onto the new circle
-//           for (var prop in props) {
-//             if (props.hasOwnProperty(prop) && !reborn[prop]) {
-//               reborn[prop] = props[prop];
-//             }
-//           }
-//           break;
-//
-//         case 'attractor':
-//           // Construct a new Attractor
-//           reborn = new Attractor(
-//             props.x,
-//             props.y,
-//             props.radius,
-//             new Point(props.direction[1], props.direction[2]),
-//             props.color,
-//             props.fixed,
-//             props.G
-//           );
-//           // Put remaining props onto the new circle
-//           for (var prop in props) {
-//             if (props.hasOwnProperty(prop) && !reborn[prop]) {
-//               reborn[prop] = props[prop];
-//             }
-//           }
-//           break;
-//         default:
-//           reborn = {};
-//           break;
-//       }
-//
-//       ressurected.push(reborn);
-//     }
-//   }
-//   return ressurected;
-// };
+};

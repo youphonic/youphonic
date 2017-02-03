@@ -5,6 +5,29 @@ import Springer from '../chunks/Springer';
 import Pendulum from '../chunks/Pendulum';
 import Rectangle from '../chunks/Rectangle';
 
+export const save = (allChunks) => {
+  window.localStorage.setItem('savedChunks', JSON.stringify({
+    savedChunks: deconstruct(allChunks)
+  }));
+};
+
+export const load = (allChunks, clearAllChunks, addChunk) => {
+  // Pull all chunks off local storage
+  let savedChunks = reconstruct(JSON.parse(window.localStorage.getItem('savedChunks')).savedChunks);
+  // If there are any stored chunks ...
+  if (savedChunks && savedChunks.length) {
+    // Get rid of the chunks that were being drawn
+    allChunks.forEach(chunk => chunk.path.remove());
+    // Take all chunks out of the Redux Store
+    clearAllChunks();
+    // Add the saved chunks to the Redux Store
+    savedChunks.forEach(chunk => {
+      addChunk(chunk);
+    });
+  }
+};
+
+
 // serialize and deserialize chunks
 export const deconstruct = (allChunks) => {
   const saved = {};

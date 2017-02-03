@@ -18,7 +18,7 @@ import Login from './Login';
 import SignUp from './SignUp';
 import SnackBar from 'material-ui/Snackbar';
 import { whoami } from '../redux/login';
-import { deconstruct, reconstruct } from '../paper/saver';
+import { save, load, deconstruct, reconstruct } from '../paper/saver';
 
 // Our root component
 injectTapEventPlugin();
@@ -71,28 +71,19 @@ class Main extends Component {
 	        {this.props.selectedChunk.id && <ShapeSettings style={styles.settingsButton}/>}
 	        <FloatingActionButton style={styles.playButton} color={blue500}>
 	          <FontIcon onClick={() => {
-            console.log('clicked, playing:', this.props.isPlaying)
 	          if (!this.props.isPlaying) {
-              let deconstructed = deconstruct(this.props.allChunks);
-              console.log(deconstructed);
               // this saves all chunks to local storage
-              // might be refactored for an onenter?
-              window.localStorage.setItem('savedChunks', JSON.stringify({
-                savedChunks: deconstructed
-              }));
+              // for now ...
+              save(this.props.allChunks);
 	            // this hides the settings component
 	            this.props.startCanvas();
 	            // this guarantees no chunk is selected when playMode is entered
 	            this.props.selectChunk({});
 	          } else {
-              let savedChunks = reconstruct(JSON.parse(window.localStorage.getItem('savedChunks')).savedChunks);
-              if (savedChunks && savedChunks.length) {
-                this.props.allChunks.forEach(chunk => chunk.path.remove());
-                this.props.clearAllChunks();
-                savedChunks.forEach(chunk => {
-                  this.props.addChunk(chunk);
-                });
-              }
+              // Gets all saved chunks off local storage
+              // And remove previous chunks from both
+              // Paper project and Redux Store
+              load(this.props.allChunks, this.props.clearAllChunks, this.props.addChunk);
             }
 	          this.props.togglePlay(this.props.isPlaying)
 	        }} style={styles.buttonIcon} className="material-icons">{this.props.isPlaying
