@@ -10,3 +10,21 @@ export const rhombusGenerator = (startx, starty, length, angle, color = 'white')
   })
   return newRhombus
 }
+
+// in this, height represents height of trailing triangle only
+export const dropGenerator = (x, y, w, h, color) => {
+    let resultPath = new Path();
+    resultPath.fillColor = color
+    var fromPoint = new Point(x+w, y)
+    var throughPoint = new Point(x + w/2, y - ((x - w)/2));
+    var toPoint = new Point(x, y)
+    // draw arc
+    var path = new Path.Arc(fromPoint, throughPoint, toPoint);
+    path.fillColor = color;
+    // draw triangle
+    resultPath.add(fromPoint)
+    resultPath.add(new Point(x+ w/2, y + h))
+    resultPath.add(toPoint)
+    resultPath.closed = true;
+    return new Group([path, resultPath])
+}
