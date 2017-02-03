@@ -10,6 +10,7 @@ export default class Pendulum extends Chunk {
       radius: radius,
       fillColor: color,
     });
+    this.type = 'pendulum';
     this.strRad = strRad;
     this.anchorPoint = new Point(x, y - strRad);
     this.pendulum = new Path([this.anchorPoint, this.path.position]);
@@ -20,14 +21,16 @@ export default class Pendulum extends Chunk {
 
   specialUpdate () {
     this.erasePendulum();
-    this.drawPendulum();
-  }
 
-  drawPendulum () {
     if (this.angle > 0) {
       this.rotation = this.rotation * -1;
     }
     this.path.position = this.path.position.rotate(this.rotation, this.anchorPoint);
+
+    this.drawPendulum();
+  }
+
+  drawPendulum () {
     this.pendulum = new Path([this.anchorPoint, this.path.position]);
     this.pendulum.strokeColor = colors.chinook;
   }
