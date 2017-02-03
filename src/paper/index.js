@@ -154,6 +154,10 @@ export default function(props) {
       if (localSelectedChunk.type = 'emitter') {
         localSelectedChunk.homePosition = new Point(localSelectedChunk.path.position.x, localSelectedChunk.path.position.y)
       }
+			if (localSelectedChunk.type === 'pendulum') {
+				localSelectedChunk.erasePendulum();
+				localSelectedChunk.drawPendulum();
+			}
     }
   };
 

@@ -31,8 +31,8 @@ export default function () {
   });
 
   let bounceCircleMotion = new Point(4, 0)
-  const bounceCircle = new Circle(center.x, center.y - yDiff + (radius * 1.414), radius, bounceCircleMotion)
-  store.dispatch(addChunk(bounceCircle));
+  // const bounceCircle = new Circle(center.x, center.y - yDiff + (radius * 1.414), radius, bounceCircleMotion)
+  // store.dispatch(addChunk(bounceCircle));
 
   // uncomment to seed a Rope Chunk
   //let seedRope = new Rope(center.x - 100, center.y + 100, center.x + 100, center.y - 100, colors.blueStone)
