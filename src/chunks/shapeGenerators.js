@@ -21,11 +21,13 @@ export const rhombusGenerator = (startx, starty, length, angle, color = 'white')
 // this generates a drop shape
 // in this, height represents height of trailing triangle only
 // is utilized currently by the Emitter Chunk
-export const dropGenerator = (x, y, w, h, color) => {
+export const dropGenerator = (x, y, size, color) => {
+		let w = size / 2;
+		let h = size;
     // 'left side' of the triangle/arc
     var fromPoint = new Point(x+w, y)
     // apex of the arc
-    var throughPoint = new Point(x + w/2, y - ((x - w)/2));
+    var throughPoint = new Point(x + w/2, y - (w/2));
     // 'right side' of the triangl/arc
     var toPoint = new Point(x, y)
     // draw arc

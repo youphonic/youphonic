@@ -1,6 +1,6 @@
 import Chunk from './Chunk'
 import Circle from './Circle'
-
+import Photon from './Photon'
 import colors from '../colors'
 
 import { rhombusGenerator } from './shapeGenerators';
@@ -26,8 +26,8 @@ export default class Emitter extends Chunk {
   emit() {
     // could be streamlined to appear that chunk actually comes from emitter
     // currently skips some space but if it doesnt, it triggers an intersect detection in
-    // main paper draw loop which destroys the particle
-    let particle = new Circle(this.path.position.x, this.path.position.y - (this.length * 1.3), 10, this.emitDirection);
+    //main paper draw loop which destroys the particle
+    let particle = new Photon(this.path.position.x - 5, this.path.position.y - (this.length * 1.3), 20, this.emitDirection, colors.dullMagenta);
     shapes.push(particle);
   }
 
