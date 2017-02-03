@@ -15,6 +15,10 @@ let force;
 let localSelectedChunk;
 let isVectorArrowBeingDragged = false;
 
+export const shapesFilterOutId = (id) =>{
+	shapes = shapes.filter( shape => shape.id !== id)
+}
+
 export default function(props) {
   // tool represents mouse/keyboard input
 	const tool = new Tool();
@@ -71,8 +75,9 @@ export default function(props) {
                     player.buffer = drumBuffers.get(shape.drum);
                     player.start();
                   }
-                  // call shape's respond to hit function
-                  shape.respondToHit(innerShape);
+
+  						// call shape's respond to hit function
+                  if (shape.type !== 'photon') shape.respondToHit(innerShape);
                 }
               }
             }
@@ -182,4 +187,4 @@ export default function(props) {
     }
   }
 
-};
+}

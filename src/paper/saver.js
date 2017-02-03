@@ -4,6 +4,7 @@ import Attractor from '../chunks/Attractor';
 import Springer from '../chunks/Springer';
 import Pendulum from '../chunks/Pendulum';
 import Rectangle from '../chunks/Rectangle';
+import Emitter from '../chunks/Emitter';
 
 export const save = (allChunks) => {
   window.localStorage.setItem('savedChunks', JSON.stringify({
@@ -121,6 +122,18 @@ export const reconstruct = (savedChunks) => {
             props.color
           );
           break;
+
+					case 'emitter':
+	          // Construct a new Emitter
+//TODO: Check with Robbyn on how this is moving over to right at pause then play
+console.log('PROPS.HOMEPOSITION', props.homePosition)
+	          reborn = new Emitter(
+	            props.homePosition[1],
+	            props.homePosition[2],
+	            props.length,
+	            props.color
+	          );
+	          break;
 
         default:
           reborn = {};
