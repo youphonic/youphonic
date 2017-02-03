@@ -15,8 +15,14 @@ let force;
 let localSelectedChunk;
 let isVectorArrowBeingDragged = false;
 
-export const shapesFilterOutId = (id) =>{
+export const shapesFilterOutId = (id) => {
 	shapes = shapes.filter( shape => shape.id !== id)
+}
+
+export const removeAllShapePaths = () => {
+  shapes.forEach(shape => {
+    shape.path.remove();
+  })
 }
 
 export default function(props) {
@@ -69,15 +75,21 @@ export default function(props) {
                   innerShape.triggerAnimate(event.time)
                   innerShape.triggerSynth();
                 } else {
-                  synthOne.triggerAttackRelease(innerShape.frequency, '8n');
-                  if (shape.frequency) synthTwo.triggerAttackRelease(shape.frequency, '8n');
                   if (shape.drum) {
                     player.buffer = drumBuffers.get(shape.drum);
                     player.start();
                   }
-
-  						// call shape's respond to hit function
-                  if (shape.type !== 'photon') shape.respondToHit(innerShape);
+  						// if not a photon, call shape's respond to hit function and play synth
+                  if (shape.type !== 'photon') {
+                    synthOne.triggerAttackRelease(innerShape.frequency, '8n');
+                    if (shape.frequency) synthTwo.triggerAttackRelease(shape.frequency, '8n');
+                    shape.respondToHit(innerShape);
+                  } else {
+                    if (!shape.alreadyTriggeredChunkIds.includes(innerShape.id)) {
+                      synthOne.triggerAttackRelease(innerShape.frequency, '8n');
+                      shape.addTriggeredChunk(innerShape.id)
+                    }
+                  }
                 }
               }
             }
@@ -105,11 +117,11 @@ export default function(props) {
   tool.onMouseDown = (event) => {
     isVectorArrowBeingDragged = false;
 		const hitResult = project.hitTest(event.point, hitOptions);
-    console.log('hitResult', hitResult)
     // check to see if mouse is clicking the body ('fill') of a Chunk
-    console.log(shapes);
     if (!isPlaying && hitResult && hitResult.type === 'fill') {
-      if (hitResult.item.parent instanceof Group) hitResult.item = hitResult.item.parent;
+      // if a fill that is part of a Group is selected, this will give us access to the
+      // Group path in order to compare to local state in shapes array
+      if (hitResult.item.parent.className === 'Group') hitResult.item = hitResult.item.parent;
       // erase currently drawn vector if necessary
       if (localSelectedChunk) localSelectedChunk.eraseVector();
       // search for the clicked shape
