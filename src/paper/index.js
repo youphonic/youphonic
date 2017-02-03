@@ -147,6 +147,10 @@ module.exports = function(props) {
       localSelectedChunk.path.position.y += event.delta.y;
       localSelectedChunk.eraseVector();
       localSelectedChunk.drawVector();
+			if (localSelectedChunk.type === 'pendulum') {
+				localSelectedChunk.erasePendulum();
+				localSelectedChunk.drawPendulum();
+			}
     }
   };
 
