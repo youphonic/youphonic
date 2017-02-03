@@ -1,4 +1,4 @@
-export const  rhombusGeneratory = (startx, starty, angle, length, color = 'white') => {
+export const rhombusGenerator = (startx, starty, length, angle, color = 'white') => {
   var point1 = [startx, starty];
   var point2 = [startx + length, starty];
   var point3 = [(Math.sin(angle) * length + startx + length), (Math.cos(angle) * length + starty)];
