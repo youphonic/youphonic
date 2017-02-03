@@ -69,11 +69,17 @@ export default class Chunk {
     this.vectorItem = drawArrow(this.path.position, endPoint, this.direction)
   }
 
-  dragVector(mousePoint) {
-    this.eraseVector()
+  dragVector(mousePoint, shiftPressed) {
+    this.eraseVector();
     // let startPoint = this.path.position.add(this.direction.normalize(this.radius));
-    this.vectorItem = drawArrow(this.path.position, mousePoint, this.direction)
-    this.direction = (this.path.position.subtract(mousePoint)).divide(-15)
+    let angle = this.path.position.getAngle(mousePoint);
+    if (shiftPressed && Math.round(angle) % 45 === 0) {
+      this.vectorItem = drawArrow(this.path.position, mousePoint, this.direction);
+      this.direction = (this.path.position.subtract(mousePoint)).divide(-15);
+    } else if (!shiftPressed) {
+      this.vectorItem = drawArrow(this.path.position, mousePoint, this.direction);
+      this.direction = (this.path.position.subtract(mousePoint)).divide(-15);
+    }
   }
 
   eraseVector() {

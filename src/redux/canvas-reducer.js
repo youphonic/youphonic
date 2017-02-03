@@ -1,9 +1,10 @@
 /*eslint-disable id-length */
-
+const grid = 25;
 const initialState = {
   center: {
-    x: window.innerWidth / 2,
-    y: window.innerHeight / 2
+    grid: grid,
+    x: Math.round(((Math.round(window.innerWidth / grid) * grid) / 2) / grid) * grid,
+    y: Math.round(((Math.round(window.innerHeight / grid) * grid) / 2) / grid) * grid
   }
 };
 

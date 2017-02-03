@@ -14,12 +14,19 @@ let shapes;
 let force;
 let localSelectedChunk;
 let isVectorArrowBeingDragged = false;
+let grid = 25;
+let shiftPressed = false;
+
 
 module.exports = function(props) {
   // tool represents mouse/keyboard input
 	const tool = new Tool();
-	tool.minDistance = 1;
-	tool.maxDistance = 30;
+	if (grid) {
+		tool.fixedDistance = grid;
+	} else {
+		tool.minDistance = 1;
+		tool.maxDistance = 30;
+	}
 
   // options object sent to project.hitTest
   // represents types of Paper.js objects that will be tested against
@@ -140,11 +147,11 @@ module.exports = function(props) {
   tool.onMouseDrag = (event) => {
     // if in vector drawing mode, call selected Chunk's drag function
     if (isVectorArrowBeingDragged) {
-      localSelectedChunk.dragVector(event.point)
+			localSelectedChunk.dragVector(event.point, shiftPressed)
     // drag selected chunk, redraw vector
     } else if (localSelectedChunk && !isPlaying) {
-      localSelectedChunk.path.position.x += event.delta.x;
-      localSelectedChunk.path.position.y += event.delta.y;
+      localSelectedChunk.path.position.x += Math.round(event.delta.x / grid) * grid;
+      localSelectedChunk.path.position.y += Math.round(event.delta.y / grid) * grid;
       localSelectedChunk.eraseVector();
       localSelectedChunk.drawVector();
 			if (localSelectedChunk.type === 'pendulum') {
@@ -172,7 +179,13 @@ module.exports = function(props) {
         store.dispatch(selectChunk({}));
       }
       store.dispatch(togglePlay(isPlaying));
-    }
-  }
+    } else if (event.key === 'shift') {
+			shiftPressed = true;
+		}
+  };
+
+	tool.onKeyUp = (event) => {
+		shiftPressed = false;
+	};
 
 };

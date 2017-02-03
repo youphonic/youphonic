@@ -19,6 +19,8 @@ export const movingBounceOffFixed = function(obj1, obj2) {
 
 // Arrowhead drawing
 export const drawArrow = function(start, end, direction) {
+  console.log('arrow length', start.subtract(end).length);
+  let radius = Math.round(start.subtract(end).length);
   let arrowHead = new Path([
       end.add(direction.multiply(2).rotate(160)),
       end,
