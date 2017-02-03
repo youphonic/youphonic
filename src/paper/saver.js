@@ -6,6 +6,8 @@ import Pendulum from '../chunks/Pendulum';
 import Rectangle from '../chunks/Rectangle';
 import Emitter from '../chunks/Emitter';
 
+import { removeAllShapePaths } from '../paper'
+
 export const save = (allChunks) => {
   window.localStorage.setItem('savedChunks', JSON.stringify({
     savedChunks: deconstruct(allChunks)
@@ -19,6 +21,7 @@ export const load = (allChunks, clearAllChunks, addChunk) => {
   if (savedChunks && savedChunks.length) {
     // Get rid of the chunks that were being drawn
     allChunks.forEach(chunk => chunk.path.remove());
+    removeAllShapePaths();
     // Take all chunks out of the Redux Store
     clearAllChunks();
     // Add the saved chunks to the Redux Store
@@ -125,8 +128,7 @@ export const reconstruct = (savedChunks) => {
 
 					case 'emitter':
 	          // Construct a new Emitter
-//TODO: Check with Robbyn on how this is moving over to right at pause then play
-console.log('PROPS.HOMEPOSITION', props.homePosition)
+            // TODO: Check with Robbyn on how this is moving over to right at pause then play
 	          reborn = new Emitter(
 	            props.homePosition[1],
 	            props.homePosition[2],
