@@ -38,5 +38,6 @@ export default function () {
   //let seedRope = new Rope(center.x - 100, center.y + 100, center.x + 100, center.y - 100, colors.blueStone)
   //store.dispatch(addChunk(seedRope));
 
-  let newEmitter = new Emitter(center.x, center.y, 50, Math.PI / 4);
+  let newEmitter = new Emitter(center.x-240, center.y, 50, Math.PI / 4);
+  store.dispatch(addChunk(newEmitter))
 }
