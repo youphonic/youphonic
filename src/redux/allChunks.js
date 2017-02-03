@@ -50,8 +50,10 @@ export default (state = initialState, action) => {
 
 	  case UPDATE_ONE_CHUNK:
       newState = newState.map( chunk => {
+        // when it finds the chunk it updates it
         if (chunk.id === action.chunkUpdates.id) {
           return Object.assign(chunk, action.chunkUpdates);
+        // if id's don't match, it just returns the chunk
         } else {
           return chunk;
         }
