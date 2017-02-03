@@ -14,7 +14,6 @@ import {togglePlay} from '../redux/play';
 import { selectChunk } from '../redux/chunk';
 import { startCanvas } from '../redux/appState'
 import Login from './Login';
-import UserMenu from './UserMenu';
 import SignUp from './SignUp';
 import SnackBar from 'material-ui/Snackbar';
 import { whoami } from '../redux/login';
