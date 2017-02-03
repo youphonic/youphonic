@@ -1,4 +1,5 @@
-import colors from '../colors'
+import colors from '../colors';
+
 
 // Bounce Mechanics
 
@@ -49,4 +50,4 @@ export const constrain = function(value, min, max) {
 export const scale = (input, inMin, inMax, outMin, outMax) => {
   let percent = (input - inMin) / (inMax - inMin);
   return percent * (outMax - outMin) + outMin;
-}
+};

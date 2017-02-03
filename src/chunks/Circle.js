@@ -8,6 +8,7 @@ export default class Circle extends Chunk {
       center: [x, y],
       radius: radius,
       fillColor: color,
-    })
+    });
+    this.type = 'circle';
   }
 }
