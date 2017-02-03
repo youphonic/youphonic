@@ -24,7 +24,6 @@ module.exports = require('express').Router()
 	// 	.catch(next))
 
 	.post('/', (req, res, next) => {
-		console.log('in the user post route', req.body);
 		User.create(req.body)
 		.then(user => res.status(201).json(user))
 		.catch(next);
