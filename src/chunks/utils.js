@@ -1,4 +1,5 @@
-import colors from '../colors'
+import colors from '../colors';
+import Circle from './Circle';
 
 // Bounce Mechanics
 
@@ -50,3 +51,37 @@ export const scale = (input, inMin, inMax, outMin, outMax) => {
   let percent = (input - inMin) / (inMax - inMin);
   return percent * (outMax - outMin) + outMin;
 }
+
+// serialize and deserialize chunks
+export const deconstruct = (allChunks) => {
+  const saved = {};
+  allChunks.forEach(chunk => {
+    saved[chunk.type] = {
+      x: chunk.path.position._x,
+      y: chunk.path.position._y,
+      radius: chunk.radius,
+      dirX: chunk.direction.x,
+      dirY: chunk.direction.y,
+      color: chunk.color
+    };
+  });
+  return saved;
+};
+
+export const reconstruct = (savedChunks) => {
+  const ressurected = [];
+  for (var chunk in savedChunks) {
+    if (savedChunks.hasOwnProperty(chunk)) {
+      let props = savedChunks[chunk];
+      let reborn = new Circle(
+        props.x,
+        props.y,
+        props.radius,
+        new Point(props.dirX, props.dirY),
+        props.color
+      );
+      ressurected.push(reborn);
+    }
+  }
+  return ressurected;
+};

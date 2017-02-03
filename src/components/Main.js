@@ -12,11 +12,13 @@ import {red500, yellow500, blue500} from 'material-ui/styles/colors';
 import MainCanvas from './MainCanvas';
 import {togglePlay} from '../redux/play';
 import { selectChunk } from '../redux/chunk';
+import { loadChunks } from '../redux/allChunks';
 import { startCanvas } from '../redux/appState'
 import Login from './Login';
 import SignUp from './SignUp';
 import SnackBar from 'material-ui/Snackbar';
 import { whoami } from '../redux/login';
+import { deconstruct, reconstruct } from '../chunks/utils';
 
 // Our root component
 injectTapEventPlugin();
@@ -70,11 +72,19 @@ class Main extends Component {
 	        <FloatingActionButton style={styles.playButton} color={blue500}>
 	          <FontIcon onClick={() => {
 	          if (!this.props.isPlaying) {
+              // this saves all chunks to local storage
+              // might be refactored for an onenter?
+              window.localStorage.setItem('savedChunks', JSON.stringify({
+                savedChunks: deconstruct(this.props.allChunks)
+              }))
 	            // this hides the settings component
 	            this.props.startCanvas();
 	            // this guarantees no chunk is selected when playMode is entered
 	            this.props.selectChunk({});
-	          }
+	          } else {
+              let savedChunks = reconstruct(JSON.parse(window.localStorage.getItem('savedChunks')).savedChunks);
+              if (savedChunks && savedChunks.length) this.props.loadChunks(savedChunks);
+            }
 	          this.props.togglePlay(this.props.isPlaying)
 	        }} style={styles.buttonIcon} className="material-icons">{this.props.isPlaying
 	              ? 'pause_circle_outline'
@@ -94,13 +104,17 @@ const mapStateToProps = (state) => {
     isPlaying: state.isPlaying,
     selectedChunk: state.selectedChunk,
 		auth: state.auth,
-		signUpAlertOpen: state.navState.signUpAlertOpen
+		signUpAlertOpen: state.navState.signUpAlertOpen,
+    allChunks: state.allChunks
   };
 };
 const mapDispatchToProps = (dispatch) => {
   return {
     selectChunk: (chunk) => {
       dispatch(selectChunk(chunk));
+    },
+    loadChunks: (chunks) => {
+      dispatch(loadChunks(chunks));
     },
     startCanvas: () => {
       dispatch(startCanvas())

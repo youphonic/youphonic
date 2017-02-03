@@ -1,9 +1,13 @@
-import {ADD_CHUNK, REMOVE_CHUNK, CLEAR_ALL_CHUNKS, UPDATE_ONE_CHUNK} from '../constants';
+import {ADD_CHUNK, REMOVE_CHUNK, CLEAR_ALL_CHUNKS, UPDATE_ONE_CHUNK, LOAD_CHUNKS} from '../constants';
 const initialState = [];
 
 // action creator
 export const addChunk = (chunk) => {
   return {type: ADD_CHUNK, chunk};
+};
+
+export const loadChunks = (chunks) => {
+  return {type: LOAD_CHUNKS, chunks};
 };
 
 export const removeChunk = (chunk) => {
@@ -30,6 +34,9 @@ export default (state = initialState, action) => {
     case ADD_CHUNK:
       newState.push(action.chunk);
       return newState;
+
+    case LOAD_CHUNKS:
+      return action.chunks;
 
     case REMOVE_CHUNK:
       newState = newState.filter(chunk => {
