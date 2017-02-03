@@ -28,6 +28,9 @@ export default class Chunk {
   }
 
   update() {
+    if (this.specialUpdate) {
+      this.specialUpdate();
+    }
     if (this.isMoving) {
       // window edge bounce dynamic
       if (this.path.position.x < 0 || this.path.position.x > window.innerWidth) this.direction.x *= -1;
