@@ -10,12 +10,12 @@ import { player, drumBuffers, possibilities } from '../tone/drums';
 // These variables must be kept outside drawing scope for
 // proper update on receiving new props
 let isPlaying;
-let shapes;
+export let shapes;
 let force;
 let localSelectedChunk;
 let isVectorArrowBeingDragged = false;
 
-module.exports = function(props) {
+export default function(props) {
   // tool represents mouse/keyboard input
 	const tool = new Tool();
 	tool.minDistance = 1;
@@ -100,8 +100,11 @@ module.exports = function(props) {
   tool.onMouseDown = (event) => {
     isVectorArrowBeingDragged = false;
 		const hitResult = project.hitTest(event.point, hitOptions);
+    console.log('hitResult', hitResult)
     // check to see if mouse is clicking the body ('fill') of a Chunk
+    console.log(shapes);
     if (!isPlaying && hitResult && hitResult.type === 'fill') {
+      if (hitResult.item.parent instanceof Group) hitResult.item = hitResult.item.parent;
       // erase currently drawn vector if necessary
       if (localSelectedChunk) localSelectedChunk.eraseVector();
       // search for the clicked shape
@@ -147,6 +150,10 @@ module.exports = function(props) {
       localSelectedChunk.path.position.y += event.delta.y;
       localSelectedChunk.eraseVector();
       localSelectedChunk.drawVector();
+      // update Emitter's home position - emitter is reset to this position after each animation loop
+      if (localSelectedChunk.type = 'emitter') {
+        localSelectedChunk.homePosition = new Point(localSelectedChunk.path.position.x, localSelectedChunk.path.position.y)
+      }
 			if (localSelectedChunk.type === 'pendulum') {
 				localSelectedChunk.erasePendulum();
 				localSelectedChunk.drawPendulum();

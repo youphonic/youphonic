@@ -1,6 +1,7 @@
 /*eslint-disable id-length */
 import Circle from '../chunks/Circle';
 import Rope from '../chunks/Rope';
+import Emitter from '../chunks/Emitter'
 import { addChunk } from './allChunks';
 import store from '../store';
 import colors from '../colors';
@@ -36,4 +37,7 @@ export default function () {
   // uncomment to seed a Rope Chunk
   //let seedRope = new Rope(center.x - 100, center.y + 100, center.x + 100, center.y - 100, colors.blueStone)
   //store.dispatch(addChunk(seedRope));
+
+  let newEmitter = new Emitter(center.x-240, center.y, 50, Math.PI / 4);
+  store.dispatch(addChunk(newEmitter))
 }

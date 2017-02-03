@@ -55,11 +55,13 @@ export default class Chunk {
   }
 
   flash() {
-    this.path.fillColor = this.flashColor;
-    let that = this;
-    setTimeout(function() {
-      that.path.fillColor = that.color;
-    }, 20)
+    if (this.flashColor){
+      this.path.fillColor = this.flashColor;
+      let that = this;
+      setTimeout(function() {
+        that.path.fillColor = that.color;
+      }, 20)
+    }
   }
 
   drawVector() {
