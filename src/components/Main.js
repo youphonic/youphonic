@@ -65,7 +65,7 @@ class Main extends Component {
 	        <Login/>
 	        <SignUp />
 					{/* check for logged in user then deliver welcome alert */}
-					{this.props.auth && <SnackBar message={'Welcome ' + this.props.auth.firstName} open={this.props.signUpAlertOpen}/>}
+					{this.props.auth && <SnackBar message={'Welcome ' + this.props.auth.firstName} open={this.props.loginAlertOpen}/>}
 	        <UserMenu />
 	        <RightMenu/>
 	        {this.props.selectedChunk.id && <ShapeSettings style={styles.settingsButton}/>}
@@ -104,7 +104,7 @@ const mapStateToProps = (state) => {
     isPlaying: state.isPlaying,
     selectedChunk: state.selectedChunk,
 		auth: state.auth,
-		signUpAlertOpen: state.navState.signUpAlertOpen,
+		loginAlertOpen: state.navState.loginAlertOpen,
     allChunks: state.allChunks
   };
 };

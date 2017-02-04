@@ -11,7 +11,7 @@ import MenuItem from 'material-ui/MenuItem';
 import { whoami, saveUser } from '../redux/login';
 
 import {startCanvas, stopCanvas} from '../redux/appState';
-import {openSignup, closeSignup, openSignupAlert} from '../redux/navState';
+import {openSignup, closeSignup, openLoginAlert} from '../redux/navState';
 import {red500, yellow500, blue500} from 'material-ui/styles/colors';
 
 /**
@@ -21,14 +21,13 @@ class SignUp extends React.Component {
   constructor() {
     super();
     this.state = {
-			username: '',
+			userName: '',
 			password: '',
       firstName: '',
       lastName: '',
       email: ''
     };
     this.handleSubmit = this.handleSubmit.bind(this);
-
 		this.styles = {
 			signUpButton: {
 
@@ -45,10 +44,20 @@ class SignUp extends React.Component {
   handleSubmit(event) {
 		event.preventDefault();
 		this.props.saveUser(this.state);
+		this.setState({
+			userName: '',
+			password: '',
+      firstName: '',
+      lastName: '',
+      email: ''
+    });
     this.props.closeSignup();
+		this.props.openLoginAlert();
   }
 
   render() {
+
+		console.log('this.state:', this.state)
     const actions = [
       <FlatButton
         key="button1"
@@ -76,8 +85,9 @@ class SignUp extends React.Component {
         >
           <form>
             <TextField
-              name={"first name"}
-              hintText="enter first name"
+              name={"firstName"}
+              hintText="first name"
+							value={this.state.firstName}
               onChange={(evt) => {
                 this.setState({
             			firstName: evt.target.value
@@ -85,8 +95,9 @@ class SignUp extends React.Component {
               }}
             />
             <TextField
-              name={"last name"}
-              hintText="enter last name"
+              name={"lastName"}
+              hintText="last name"
+							value={this.state.lastName}
               onChange={(evt) => {
                 this.setState({
             			lastName: evt.target.value
@@ -95,7 +106,8 @@ class SignUp extends React.Component {
             />
             <TextField
               name={"email"}
-              hintText="enter email"
+              hintText="email"
+							value={this.state.email}
               onChange={(evt) => {
                 this.setState({
             			email: evt.target.value
@@ -103,17 +115,20 @@ class SignUp extends React.Component {
               }}
             />
             <TextField
-              name={"username"}
-              hintText="enter username"
+              name={"userName"}
+              hintText="username"
+							value={this.state.userName}
               onChange={(evt) => {
                 this.setState({
-            			username: evt.target.value
+            			userName: evt.target.value
             		});
               }}
             />
 						<TextField
               name={"password"}
-							hintText="enter password"
+							hintText="password"
+							value={this.state.password}
+							type={"password"}
               onChange={(evt) => {
                 this.setState({
             			password: evt.target.value
@@ -143,7 +158,7 @@ const mapDispatchToProps = dispatch => {
       dispatch(stopCanvas()),
     closeSignup: () => {
       dispatch(closeSignup());
-			dispatch(openSignupAlert())
+			dispatch(openLoginAlert())
     }
   };
 };
