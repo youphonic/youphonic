@@ -17,7 +17,7 @@ const lowBump = new Tone.Filter(210, 'lowshelf');
 // a volume fader
 // this value passed in here could be retrieved from
 // a redux store for values used by Tone
-const masterGain = new Tone.Volume(-12);
+const masterGain = new Tone.Volume(-8);
 
 
 //route everything through the filter

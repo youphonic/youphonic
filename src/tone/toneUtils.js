@@ -7,7 +7,7 @@ export const toggleTransport = (doIt = true) => {
   // without ever stopping the Transport
   // maybe this is useless?
   } else if (doIt) {
-    // Tone.Transport.stop();
+    Tone.Transport.stop();
   }
 };
 
