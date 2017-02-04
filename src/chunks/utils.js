@@ -118,3 +118,9 @@ export const scale = (input, inMin, inMax, outMin, outMax) => {
   let percent = (input - inMin) / (inMax - inMin);
   return percent * (outMax - outMin) + outMin;
 };
+
+export const randomNumberWithinRange = (low, high) => {
+	let range = high - low;
+	let randomNumber = low + (range) * Math.random();
+	return randomNumber;
+};

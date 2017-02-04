@@ -110,17 +110,24 @@ export default function(props) {
             }
           });
         }
-        // this is temporary for PhysBall & Attractor
         if (shape.type === 'physics') {
           shape.applyForce(forces.gravity);
         } else if (shape.type === 'attractor') {
-          // shape.fixed = true;
           shapes.forEach(otherShape => {
             if (otherShape.isMoving && otherShape.id !== shape.id) {
               force = shape.calculateAttraction(otherShape);
               otherShape.applyForce(force);
             }
           });
+        } else if (shape.type === 'fizzler') {
+          // for testing purposes make sure that
+          // generateParticles is only called once
+          // if (shape.particles.length < shape.numParticles) {
+          //   console.log(`GENERATING PARTICLES: ${shape.particles.length} && num: ${shape.numParticles}`);
+          // }
+          shape.generateParticles();
+          // always update the particles that fizzler emitted
+          shape.updateParticles();
         }
         // update every moving shape's position each frame
         shape.update(event.time);

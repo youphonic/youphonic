@@ -14,9 +14,9 @@ export const rhombusGenerator = (startx, starty, length, angle, color = 'white')
     segments: [point1, point2, point3, point4],
     fillColor: color,
     closed: true
-  })
-  return newRhombus
-}
+  });
+  return newRhombus;
+};
 
 // this generates a drop shape
 // in this, height represents height of trailing triangle only
@@ -45,4 +45,12 @@ export const dropGenerator = (x, y, size, color) => {
     resultPath.closed = true;
     // groups the two together
     return new Group([path, resultPath])
-}
+};
+
+// for now this just makes a tiny Circle
+// may want to make a more interesting shape in the future
+export const particleGenerator = (position, color, radius = 5) => {
+  let particle = new Path.Circle(position, radius);
+  particle.fillColor = color;
+  return particle;
+};
