@@ -3,8 +3,7 @@ import Circle from '../chunks/Circle';
 import Rope from '../chunks/Rope';
 import Emitter from '../chunks/Emitter';
 import Rectangle from '../chunks/Rectangle';
-import Emitter from '../chunks/Emitter'
-import Drone from '../chunks/Drone'
+import Drone from '../chunks/Drone';
 import { addChunk } from './allChunks';
 import store from '../store';
 import colors from '../colors';
