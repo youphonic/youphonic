@@ -6,6 +6,7 @@ import { removeChunk } from '../redux/allChunks';
 import { togglePlay } from '../redux/play';
 import { synthOne, synthTwo } from '../tone/tonePatchOne';
 import { player, drumBuffers, possibilities } from '../tone/drums';
+import { nearIntersect } from '../chunks/utils';
 
 // These variables must be kept outside drawing scope for
 // proper update on receiving new props
@@ -14,7 +15,7 @@ let shapes;
 let force;
 let localSelectedChunk;
 let isVectorArrowBeingDragged = false;
-let grid = 25;
+let grid = 1; // was 25
 let shiftPressed = false;
 
 
@@ -50,7 +51,10 @@ module.exports = function(props) {
 
   // when play is called, erase any currently drawn vector
   if (props.isPlaying) {
-    if (localSelectedChunk) localSelectedChunk.eraseVector();
+    if (localSelectedChunk) {
+			localSelectedChunk.eraseVector();
+			localSelectedChunk.eraseAlignment();
+		}
   }
 
   // main drawing Loop
@@ -110,13 +114,17 @@ module.exports = function(props) {
     // check to see if mouse is clicking the body ('fill') of a Chunk
     if (!isPlaying && hitResult && hitResult.type === 'fill') {
       // erase currently drawn vector if necessary
-      if (localSelectedChunk) localSelectedChunk.eraseVector();
+      if (localSelectedChunk) {
+				localSelectedChunk.eraseVector();
+				localSelectedChunk.eraseAlignment();
+			}
       // search for the clicked shape
       shapes.forEach((shape, index) => {
         if (hitResult.item === shape.path) {
           // store currently clicked shape, draw its vector, update store
           localSelectedChunk = shape;
           localSelectedChunk.drawVector();
+					localSelectedChunk.drawAlignment();
           store.dispatch(selectChunk({
             id: shape.id,
             frequency: shape.frequency
@@ -128,11 +136,16 @@ module.exports = function(props) {
       isVectorArrowBeingDragged = true;
     } else if (localSelectedChunk) {
       // reset selected chunk to null and update state to none selected
-      localSelectedChunk.eraseVector()
+      localSelectedChunk.eraseVector();
+			localSelectedChunk.eraseAlignment();
       localSelectedChunk = null;
       store.dispatch(selectChunk({}));
     }
   };
+
+	tool.onMouseUp = (event) => {
+		localSelectedChunk.eraseAlignment();
+	};
 
   // display item paths on mouseOver
   tool.onMouseMove = (event) => {
@@ -150,10 +163,15 @@ module.exports = function(props) {
 			localSelectedChunk.dragVector(event.point, shiftPressed)
     // drag selected chunk, redraw vector
     } else if (localSelectedChunk && !isPlaying) {
-      localSelectedChunk.path.position.x += Math.round(event.delta.x / grid) * grid;
-      localSelectedChunk.path.position.y += Math.round(event.delta.y / grid) * grid;
+			// Older non-snapping logic
+			// localSelectedChunk.path.position.x += Math.round(event.delta.x / grid) * grid;
+      // localSelectedChunk.path.position.y += Math.round(event.delta.y / grid) * grid;
+			// New snapping logic
+			localSelectedChunk.path.position = nearIntersect(localSelectedChunk, shapes, event.delta, event.point, grid);
       localSelectedChunk.eraseVector();
       localSelectedChunk.drawVector();
+      localSelectedChunk.eraseAlignment();
+      localSelectedChunk.drawAlignment();
 			if (localSelectedChunk.type === 'pendulum') {
 				localSelectedChunk.erasePendulum();
 				localSelectedChunk.drawPendulum();
@@ -167,6 +185,7 @@ module.exports = function(props) {
     if (event.key === 'backspace' && localSelectedChunk) {
       store.dispatch(removeChunk(localSelectedChunk));
       localSelectedChunk.eraseVector();
+			localSelectedChunk.eraseAlignment();
       localSelectedChunk.path.remove();
       localSelectedChunk = null;
       store.dispatch(selectChunk({}));
@@ -174,6 +193,7 @@ module.exports = function(props) {
     } else if (event.key === 'space') {
       if (localSelectedChunk) {
         localSelectedChunk.eraseVector();
+				localSelectedChunk.eraseAlignment();
         localSelectedChunk.path.remove();
         localSelectedChunk = null;
         store.dispatch(selectChunk({}));

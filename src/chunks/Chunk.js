@@ -1,6 +1,6 @@
 import Tone from 'tone';
 
-import {movingBounceOffMoving, movingBounceOffFixed, drawArrow} from './utils'
+import {movingBounceOffMoving, movingBounceOffFixed, drawArrow, drawAlignment} from './utils'
 
 // auto incrementing id
 let idCount = 1;
@@ -14,6 +14,7 @@ export default class Chunk {
     this.fixed = false;
     this.flashColor = '';
     this.acceleration = acceleration;
+    this.aligned = false;
   }
 
   get isMoving () {
@@ -86,6 +87,23 @@ export default class Chunk {
     if (this.vectorItem) {
       this.vectorItem.remove();
       this.vectorItem = null;
+    }
+  }
+
+  drawAlignment() {
+    if (!this.aligned) return; 
+    this.centerAlignment = drawAlignment(this.path.position);
+  }
+
+  dragAlignment(mousePoint, shiftPressed) {
+    this.eraseAlignment();
+    this.centerAlignment = drawArrow(this.path.position);
+  }
+
+  eraseAlignment() {
+    if (this.centerAlignment) {
+      this.centerAlignment.remove();
+      this.centerAlignment = null;
     }
   }
 }
