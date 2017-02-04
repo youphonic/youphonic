@@ -62,8 +62,7 @@ const thingsAreClose = (selected, comparison) => {
       comparisonX = comparison.path.position.x,
       comparisonY = comparison.path.position.y,
       dist = selected.x ? 50 : 10;
-  // returns true if comparison path's position i
-  // within 10 pixels of the selected path
+
   if ((comparisonX <= selectedX + dist) && (comparisonX >= selectedX - dist)) {
     return 'xIntersect';
   }
@@ -87,12 +86,10 @@ export const nearIntersect = (selected, allChunks, delta, point, grid) => {
       switch (chunksIntersect) {
         case 'xIntersect':
           x = chunk.path.position.x;
-          // y = selected.path.position.y + Math.round(delta.y / grid) * grid;
           selected.aligned = true;
           break;
 
         case 'yIntersect':
-          // x = selected.path.position.x + Math.round(delta.x / grid) * grid;
           y = chunk.path.position.y;
           selected.aligned = true;
           break;
