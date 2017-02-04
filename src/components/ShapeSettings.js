@@ -20,12 +20,12 @@ import {startCanvas, stopCanvas} from '../redux/appState'
  * Dialog content can be scrollable.
  */
 class ShapeSettings extends React.Component {
-  constructor() {
-    super();
+  constructor(props) {
+    super(props);
     this.state = {
       open: false,
-      frequency: '',
-      drum: ''
+      frequency: this.props.selectedChunk.frequency,
+      drum: this.props.selectedChunk.drum
     };
     this.handleOpen = this.handleOpen.bind(this);
     this.handleClose = this.handleClose.bind(this);
@@ -59,9 +59,9 @@ class ShapeSettings extends React.Component {
     });
     this.props.startCanvas();
     this.setState({
-	    open: false,
-		  frequency: '',
-      drum: ''
+	    open: false
+		  // frequency: '',
+      // drum: ''
 	  });
   }
 
@@ -126,6 +126,7 @@ class ShapeSettings extends React.Component {
 							filter={AutoComplete.caseInsensitiveFilter}
 							dataSource={frequencies}
 							onUpdateInput={this.changeFrequency}
+							searchText={this.state.frequency}
 						/>
             <DropDownMenu value={this.state.drum} onChange={this.changeDrum}>
               <MenuItem value={'kick'} primaryText="Kick" />

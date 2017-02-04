@@ -26,7 +26,7 @@ export default function () {
 
   circleSeed.forEach((circle, index) => {
     circle.fixed = true;
-    circle.frequency = 100 * (index + 2);
+    circle.frequency = "C" + (index + 2);
     circle.color = colors.papayaWhip;
     circle.flashColor = colors.newYorkPink;
     store.dispatch(addChunk(circle));
