@@ -3,14 +3,15 @@
 import Chunk from './Chunk';
 
 export default class Rectangle extends Chunk {
-  constructor(x, y, w, h, direction, color = 'white') {
+  constructor(x, y, w, h, direction = new Point(0, 0), color = 'white') {
     super(direction, color);
     this.type = 'rectangle';
     this.width = w;
-    this.height = h || w;
+    this.height = h;
     this.path = new Path.Rectangle(new Point(x, y), new Size(this.width, this.height));
     this.path.fillColor = color;
-    this.center = [x + (this.width / 2), y + (this.height / 2)];
+    this.center = [x + (this.width / 2), y + (this.hewight / 2)];
+    this.fixed = true;
   }
 
   get bound() {
