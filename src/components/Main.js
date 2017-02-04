@@ -20,6 +20,7 @@ import SnackBar from 'material-ui/Snackbar';
 import { whoami } from '../redux/login';
 import { save, load, deconstruct, reconstruct } from '../paper/saver';
 
+
 // Our root component
 injectTapEventPlugin();
 const styles = {
@@ -65,7 +66,7 @@ class Main extends Component {
 	        <Login/>
 	        <SignUp />
 					{/* check for logged in user then deliver welcome alert */}
-					{this.props.auth && <SnackBar message={'Welcome ' + this.props.auth.firstName} open={this.props.signUpAlertOpen}/>}
+					{this.props.auth && <SnackBar message={'Welcome ' + this.props.auth.firstName} open={this.props.loginAlertOpen}/>}
 	        <UserMenu />
 	        <RightMenu/>
 	        {this.props.selectedChunk.id && <ShapeSettings style={styles.settingsButton}/>}
@@ -104,7 +105,7 @@ const mapStateToProps = (state) => {
     isPlaying: state.isPlaying,
     selectedChunk: state.selectedChunk,
 		auth: state.auth,
-		signUpAlertOpen: state.navState.signUpAlertOpen,
+		loginAlertOpen: state.navState.loginAlertOpen,
     allChunks: state.allChunks
   };
 };

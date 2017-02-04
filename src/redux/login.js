@@ -1,5 +1,5 @@
 import axios from 'axios';
-import {openSignupAlert} from "./navState"
+import {openLoginAlert} from "./navState"
 
 const AUTHENTICATED = 'AUTHENTICATED'
 export const authenticated = user => ({
@@ -28,7 +28,7 @@ const reducer = (state=null, action) => {
   }
 }
 
-// persists user to db upon oAuth/passport login
+// persists user to db upon oAuth/passport login if not already there
 export const saveUser = (info) =>
   dispatch =>
     axios.post('/api/users', info)
@@ -58,7 +58,7 @@ export const whoami = () =>
         const user = response.data
         dispatch(authenticated(user))
       })
-			.then( () => dispatch(openSignupAlert()))
+			.then( () => dispatch(openLoginAlert()))
 			.catch(failed => dispatch(authenticated(null)))
 
 export default reducer;

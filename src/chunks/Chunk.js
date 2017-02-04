@@ -1,6 +1,6 @@
 import Tone from 'tone';
 
-import {movingBounceOffMoving, movingBounceOffFixed, movingCircleBounceOffRectangle, drawArrow} from './utils'
+import {movingBounceOffMoving, movingBounceOffFixed, movingCircleBounceOffRectangle, drawArrow, drawAlignment} from './utils'
 
 // auto incrementing id
 let idCount = 1;
@@ -14,6 +14,7 @@ export default class Chunk {
     this.fixed = false;
     this.flashColor = '';
     this.acceleration = acceleration;
+    this.aligned = false;
   }
 
   get isMoving () {
@@ -72,16 +73,40 @@ export default class Chunk {
     this.vectorItem = drawArrow(this.path.position, endPoint, this.direction)
   }
 
-  dragVector(mousePoint) {
-    this.eraseVector()
-    this.vectorItem = drawArrow(this.path.position, mousePoint, this.direction)
-    this.direction = (this.path.position.subtract(mousePoint)).divide(-15)
+  dragVector(mousePoint, shiftPressed) {
+    this.eraseVector();
+    // let startPoint = this.path.position.add(this.direction.normalize(this.radius));
+    let angle = this.path.position.getAngle(mousePoint);
+    if (shiftPressed && Math.round(angle) % 45 === 0) {
+      this.vectorItem = drawArrow(this.path.position, mousePoint, this.direction);
+      this.direction = (this.path.position.subtract(mousePoint)).divide(-15);
+    } else if (!shiftPressed) {
+      this.vectorItem = drawArrow(this.path.position, mousePoint, this.direction);
+      this.direction = (this.path.position.subtract(mousePoint)).divide(-15);
+    }
   }
 
   eraseVector() {
     if (this.vectorItem) {
       this.vectorItem.remove();
       this.vectorItem = null;
+    }
+  }
+
+  drawAlignment() {
+    if (!this.aligned) return; 
+    this.centerAlignment = drawAlignment(this.path.position);
+  }
+
+  dragAlignment(mousePoint, shiftPressed) {
+    this.eraseAlignment();
+    this.centerAlignment = drawArrow(this.path.position);
+  }
+
+  eraseAlignment() {
+    if (this.centerAlignment) {
+      this.centerAlignment.remove();
+      this.centerAlignment = null;
     }
   }
 }

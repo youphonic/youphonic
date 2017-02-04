@@ -127,7 +127,7 @@ export const reconstruct = (savedChunks) => {
           );
           break;
 
-        case 'emitter':
+				case 'emitter':
           // Construct a new Emitter
           // TODO: Check with Robbyn on how this is moving over to right at pause then play
           reborn = new Emitter(

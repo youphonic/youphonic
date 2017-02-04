@@ -2,6 +2,7 @@ const app = require('../../app')//, {env} = app
 const debug = require('debug')(`${app.name}:auth`)
 const passport = require('passport')
 const GoogleStrategy = require('passport-google-oauth').OAuth2Strategy;
+const LocalStrategy = require('passport-local');
 const {env} = require('../../../index');
 const {User} = require('../../index');
 const OAuth = require('./oauth.model');
@@ -62,26 +63,23 @@ OAuth.setupStrategy({
 
 passport.use(new (require('passport-local').Strategy) (
   (email, password, done) => {
-    debug('will authenticate user(email: "%s")', email)
     User.findOne({where: {email}})
       .then(user => {
         if (!user) {
-          debug('authenticate user(email: "%s") did fail: no such user', email)
           return done(null, false, { message: 'Login incorrect' })
         }
         return user.authenticate(password)
           .then(ok => {
             if (!ok) {
-              debug('authenticate user(email: "%s") did fail: bad password')
               return done(null, false, { message: 'Login incorrect' })
             }
-            debug('authenticate user(email: "%s") did ok: user.id=%d', user.id)
             done(null, user)
           })
       })
       .catch(done)
   }
 ))
+
 
 // Our Google strategy
 // Google needs the GOOGLE_CONSUMER_SECRET AND GOOGLE_CONSUMER_KEY
@@ -111,11 +109,10 @@ passport.use(theGoogleStrategy);
 
 auth.get('/whoami', (req, res) => res.send(req.user))
 
-auth.post('/login/:strategy', (req, res, next) => {
-  passport.authenticate(req.params.strategy, {
-    successRedirect: '/'
-  })(req, res, next)
-})
+auth.post('/login/local', passport.authenticate('local', {
+    successRedirect: '/',
+		failureRedirect: '/'
+  }));
 
 auth.get('/google', passport.authenticate('google', {
 		scope: 'email'}
