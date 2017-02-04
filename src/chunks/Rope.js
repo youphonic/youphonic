@@ -19,7 +19,7 @@ export default class Rope extends Chunk {
       dampening : 7000,
       resonance : 0.95
     }).toMaster();
-    this.type = 'string';
+    this.type = 'rope';
     // animation/Tone variables:
     // can it be played currently?
     this.enabled = true;
@@ -32,20 +32,14 @@ export default class Rope extends Chunk {
   }
 
   triggerSynth() {
-    if (this.enabled) {
-      let that = this;
-      this.synth.triggerAttack('C4');
-      this.enabled = false;
-      setTimeout(function() {
-        that.enabled = true;
-      }, 500)
-    }
+    this.synth.triggerAttack(this.frequency);
   }
 
   // gets called whenever string is intersected
   // sets isAnimating to true if not already animating
   triggerAnimate(time) {
     if (!this.isAnimating) {
+      this.triggerSynth();
       this.isAnimating = true;
       this.currentAnimateTime = time;
     }
