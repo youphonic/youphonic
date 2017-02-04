@@ -5,3 +5,5 @@ bundle.js
 bundle.js.map
 
 musicmachine.env.js
+
+.eslintrc.json

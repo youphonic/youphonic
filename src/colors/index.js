@@ -5,4 +5,6 @@ export default {
   blueStone: '#125E68',
   chinook: '#A9D7BF',
   flamingo: '#EF503B',
+	dullMagenta: '#C84AAB',
+	madang: '#BEE2A7'
 }

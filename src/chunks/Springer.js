@@ -61,12 +61,5 @@ export default class Springer extends Circle {
     if (!this.isMoving) return;
     let endPoint = this.path.position;
     this.spring = new Path([endPoint, this.anchorPoint]);
-
-    // the following is the logic from this.update();
-    // this.direction = this.direction.add(this.acceleration);
-    // this.direction = this.direction.mult(this.damping);
-    // this.position = this.position.add(this.direction);
-    // this.acceleration = this.acceleration.multiply(0);
-
   }
 }

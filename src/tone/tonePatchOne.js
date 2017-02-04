@@ -1,9 +1,10 @@
 import Tone from 'tone';
 
 import drums from './drums';
+import masterBuss from './masterBuss';
 
 export const mainFilter = new Tone.Filter(1900, 'lowpass')
-  .toMaster();
+  .connect(masterBuss);
 
 export const feedbackDel = new Tone.FeedbackDelay(0.12, 0.62);
 feedbackDel.wet.value = 0.062;
@@ -36,7 +37,7 @@ const basicSynth = {
 		sustain: 0.09,
 		release: 0.4
 	}
-}
+};
 
 export const synthOne = new Tone.PolySynth(4, Tone.Synth, basicSynth).connect(bandSplitter);
 

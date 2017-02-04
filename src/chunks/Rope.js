@@ -20,9 +20,14 @@ export default class Rope extends Chunk {
       resonance : 0.95
     }).toMaster();
     this.type = 'string';
+    // animation/Tone variables:
+    // can it be played currently?
     this.enabled = true;
-    this.animating = false;
+    // is it in 'animation' mode
+    this.isAnimating = false;
+    // total duration of an animation cycle (in seconds)
     this.animateTime = 0.5;
+    // will hold the time that an animation was triggered
     this.currentAnimateTime = 0;
   }
 
@@ -37,26 +42,33 @@ export default class Rope extends Chunk {
     }
   }
 
+  // gets called whenever string is intersected
+  // sets isAnimating to true if not already animating
   triggerAnimate(time) {
-    if (!this.animating) {
-      this.animating = true;
+    if (!this.isAnimating) {
+      this.isAnimating = true;
       this.currentAnimateTime = time;
     }
   }
 
+  // update the view animation
+  // called by update function
   animate(time) {
+    // iterate through the segments of the Rope and update their position
     for (let i = 0; i < points; i++) {
       let segment = this.path.segments[i];
       let checkNum = scale(i, 0, points, -Math.PI * 3, Math.PI * 3)
       let sinus = Math.sin(checkNum * time);
-
       // Change the y position of the segment point:
       segment.point.y += sinus;
       segment.point.x += sinus;
     }
+    // makes the path smooth
     this.path.smooth();
   }
 
+  // called once at the end of the animation to redraw Rope into a straight line
+  // maybe hacky - had to reset to prevent slight animation artifacts from compounding
   resetAnimation() {
     let direction = this.end.subtract(this.start)
     for (let i = 0; i < points; i++) {
@@ -67,12 +79,15 @@ export default class Rope extends Chunk {
   }
 
   update(time) {
-    if (this.animating) {
+    if (this.isAnimating) {
+      // if the current event time (time) is within the animateTime window
+      // trigger animation
       if (time <= this.currentAnimateTime + this.animateTime) {
         let nextTime = ((time - this.currentAnimateTime) * 2 / this.animateTime) - 1;
         this.animate(nextTime)
+      // otherwise, stop animation and reset
       } else {
-        this.animating = false;
+        this.isAnimating = false;
         this.resetAnimation();
       }
     }

@@ -1,9 +1,13 @@
-import {ADD_CHUNK, REMOVE_CHUNK, CLEAR_ALL_CHUNKS, UPDATE_ONE_CHUNK} from '../constants';
+import {ADD_CHUNK, REMOVE_CHUNK, CLEAR_ALL_CHUNKS, UPDATE_ONE_CHUNK, LOAD_CHUNKS} from '../constants';
 const initialState = [];
 
 // action creator
 export const addChunk = (chunk) => {
   return {type: ADD_CHUNK, chunk};
+};
+
+export const loadChunks = (chunks) => {
+  return {type: LOAD_CHUNKS, chunks};
 };
 
 export const removeChunk = (chunk) => {
@@ -31,6 +35,9 @@ export default (state = initialState, action) => {
       newState.push(action.chunk);
       return newState;
 
+    case LOAD_CHUNKS:
+      return action.chunks;
+
     case REMOVE_CHUNK:
       newState = newState.filter(chunk => {
         return chunk.id !== action.chunk.id;
@@ -43,8 +50,10 @@ export default (state = initialState, action) => {
 
 	  case UPDATE_ONE_CHUNK:
       newState = newState.map( chunk => {
+        // when it finds the chunk it updates it
         if (chunk.id === action.chunkUpdates.id) {
           return Object.assign(chunk, action.chunkUpdates);
+        // if id's don't match, it just returns the chunk
         } else {
           return chunk;
         }
