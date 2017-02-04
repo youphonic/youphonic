@@ -18,6 +18,7 @@ import SignUp from './SignUp';
 import SnackBar from 'material-ui/Snackbar';
 import { whoami } from '../redux/login';
 
+
 // Our root component
 injectTapEventPlugin();
 const styles = {

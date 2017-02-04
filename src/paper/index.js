@@ -6,6 +6,8 @@ import { removeChunk } from '../redux/allChunks';
 import { togglePlay } from '../redux/play';
 import { synthOne, synthTwo } from '../tone/tonePatchOne';
 import { player, drumBuffers, possibilities } from '../tone/drums';
+import { granulator } from '../tone/grainDrone';
+import { start, stop, toggleTransport } from '../tone/toneUtils';
 
 // These variables must be kept outside drawing scope for
 // proper update on receiving new props
@@ -14,6 +16,7 @@ let shapes;
 let force;
 let localSelectedChunk;
 let isVectorArrowBeingDragged = false;
+
 
 module.exports = function(props) {
   // tool represents mouse/keyboard input
@@ -62,7 +65,7 @@ module.exports = function(props) {
                 // eventually, this should be dependent upon a shape's settings
                 // this 'string' if check is temporary
                 if (innerShape.type === 'string') {
-                  innerShape.triggerAnimate(event.time)
+                  innerShape.triggerAnimate(event.time);
                   innerShape.triggerSynth();
                 } else {
                   synthOne.triggerAttackRelease(innerShape.frequency, '8n');
@@ -115,13 +118,13 @@ module.exports = function(props) {
             frequency: shape.frequency
           }));
         }
-      })
+      });
     } else if (hitResult && hitResult.item && (hitResult.item.type === 'vectorArrow')) {
       // if clicked item is a vector, enable vector dragging
       isVectorArrowBeingDragged = true;
     } else if (localSelectedChunk) {
       // reset selected chunk to null and update state to none selected
-      localSelectedChunk.eraseVector()
+      localSelectedChunk.eraseVector();
       localSelectedChunk = null;
       store.dispatch(selectChunk({}));
     }
@@ -140,7 +143,7 @@ module.exports = function(props) {
   tool.onMouseDrag = (event) => {
     // if in vector drawing mode, call selected Chunk's drag function
     if (isVectorArrowBeingDragged) {
-      localSelectedChunk.dragVector(event.point)
+      localSelectedChunk.dragVector(event.point);
     // drag selected chunk, redraw vector
     } else if (localSelectedChunk && !isPlaying) {
       localSelectedChunk.path.position.x += event.delta.x;
@@ -153,7 +156,7 @@ module.exports = function(props) {
 			}
     }
   };
-
+  let toggleDrone = false;
   // key listener
   tool.onKeyDown = (event) => {
     // delete Chunk on backspace deletion
@@ -172,7 +175,16 @@ module.exports = function(props) {
         store.dispatch(selectChunk({}));
       }
       store.dispatch(togglePlay(isPlaying));
+		// this is temporary for testing the granulator
+    } else if (event.key === 'p') {
+      toggleTransport();
+      toggleDrone = !toggleDrone;
+      if (toggleDrone) {
+        start(granulator);
+      } else {
+        stop(granulator);
+      }
     }
-  }
+  };
 
 };
