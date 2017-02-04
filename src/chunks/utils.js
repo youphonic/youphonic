@@ -35,6 +35,75 @@ export const drawArrow = function(start, end, direction) {
   return resultArrow;
 };
 
+// Alignment drawing
+export const drawAlignment = function(start) {
+  var horizontalLine = new Path([
+      new Point(0, start.y),
+      start,
+      new Point(start.x + window.innerWidth, start.y)
+    ]);
+  horizontalLine.strokeColor = 'black';
+  var verticalLine = new Path([
+        new Point(start.x, 0),
+        start,
+        new Point(start.x, start.y + window.innerHeight)
+      ]);
+  verticalLine.strokeColor = 'black';
+  let lines = new Group([
+    horizontalLine,
+    verticalLine
+  ]);
+  return lines;
+};
+
+const thingsAreClose = (selected, comparison) => {
+  let selectedX = selected.x ? selected.x : selected.path.position.x,
+      selectedY = selected.y ? selected.y : selected.path.position.y,
+      comparisonX = comparison.path.position.x,
+      comparisonY = comparison.path.position.y,
+      dist = selected.x ? 50 : 10;
+  // returns true if comparison path's position i
+  // within 10 pixels of the selected path
+  if ((comparisonX <= selectedX + dist) && (comparisonX >= selectedX - dist)) {
+    return 'xIntersect';
+  }
+  if ((comparisonY >= selectedY - dist) && (comparisonY <= selectedY + dist)) {
+    return 'yIntersect';
+  }
+  return false;
+};
+
+export const nearIntersect = (selected, allChunks, delta, point, grid) => {
+  let x = selected.path.position.x + Math.round(delta.x / grid) * grid,
+      y = selected.path.position.y + Math.round(delta.y / grid) * grid;
+
+  selected.aligned = false;
+
+  for (var i = 0; i < allChunks.length; i++) {
+    let chunk = allChunks[i];
+    let chunksIntersect = thingsAreClose(selected, chunk);
+    let mouseIntersects = thingsAreClose(point, chunk);
+    if (chunk.id !== selected.id && chunksIntersect && mouseIntersects) {
+      switch (chunksIntersect) {
+        case 'xIntersect':
+          x = chunk.path.position.x;
+          // y = selected.path.position.y + Math.round(delta.y / grid) * grid;
+          selected.aligned = true;
+          break;
+
+        case 'yIntersect':
+          // x = selected.path.position.x + Math.round(delta.x / grid) * grid;
+          y = chunk.path.position.y;
+          selected.aligned = true;
+          break;
+      }
+    }
+  }
+
+  return new Point(x, y);
+};
+
+
 export const constrain = function(value, min, max) {
   if (value < min) {
     return min;

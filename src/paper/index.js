@@ -6,6 +6,7 @@ import { removeChunk } from '../redux/allChunks';
 import { togglePlay } from '../redux/play';
 import { synthOne, synthTwo } from '../tone/tonePatchOne';
 import { player, drumBuffers, possibilities } from '../tone/drums';
+import { nearIntersect } from '../chunks/utils';
 
 // These variables must be kept outside drawing scope for
 // proper update on receiving new props
@@ -14,6 +15,9 @@ export let shapes;
 let force;
 let localSelectedChunk;
 let isVectorArrowBeingDragged = false;
+let grid = 1; // was 25
+let shiftPressed = false;
+
 
 export const shapesFilterOutId = (id) => {
 	shapes = shapes.filter( shape => shape.id !== id)
@@ -28,8 +32,12 @@ export const removeAllShapePaths = () => {
 export default function(props) {
   // tool represents mouse/keyboard input
 	const tool = new Tool();
-	tool.minDistance = 1;
-	tool.maxDistance = 30;
+	if (grid) {
+		tool.fixedDistance = grid;
+	} else {
+		tool.minDistance = 1;
+		tool.maxDistance = 30;
+	}
 
   // options object sent to project.hitTest
   // represents types of Paper.js objects that will be tested against
@@ -53,7 +61,10 @@ export default function(props) {
 
   // when play is called, erase any currently drawn vector
   if (props.isPlaying) {
-    if (localSelectedChunk) localSelectedChunk.eraseVector();
+    if (localSelectedChunk) {
+			localSelectedChunk.eraseVector();
+			localSelectedChunk.eraseAlignment();
+		}
   }
 
   // main drawing Loop
@@ -123,13 +134,17 @@ export default function(props) {
       // Group path in order to compare to local state in shapes array
       if (hitResult.item.parent.className === 'Group') hitResult.item = hitResult.item.parent;
       // erase currently drawn vector if necessary
-      if (localSelectedChunk) localSelectedChunk.eraseVector();
+      if (localSelectedChunk) {
+				localSelectedChunk.eraseVector();
+				localSelectedChunk.eraseAlignment();
+			}
       // search for the clicked shape
       shapes.forEach((shape, index) => {
         if (hitResult.item === shape.path) {
           // store currently clicked shape, draw its vector, update store
           localSelectedChunk = shape;
           localSelectedChunk.drawVector();
+					localSelectedChunk.drawAlignment();
           store.dispatch(selectChunk({
             id: shape.id,
             frequency: shape.frequency
@@ -142,10 +157,15 @@ export default function(props) {
     } else if (localSelectedChunk) {
       // reset selected chunk to null and update state to none selected
       localSelectedChunk.eraseVector();
+			localSelectedChunk.eraseAlignment();
       localSelectedChunk = null;
       store.dispatch(selectChunk({}));
     }
   };
+
+	tool.onMouseUp = (event) => {
+		localSelectedChunk.eraseAlignment();
+	};
 
   // display item paths on mouseOver
   tool.onMouseMove = (event) => {
@@ -160,17 +180,25 @@ export default function(props) {
   tool.onMouseDrag = (event) => {
     // if in vector drawing mode, call selected Chunk's drag function
     if (isVectorArrowBeingDragged) {
-      localSelectedChunk.dragVector(event.point);
+			localSelectedChunk.dragVector(event.point, shiftPressed)
     // drag selected chunk, redraw vector
     } else if (localSelectedChunk && !isPlaying) {
-      localSelectedChunk.path.position.x += event.delta.x;
-      localSelectedChunk.path.position.y += event.delta.y;
+			// Older non-snapping logic
+			// localSelectedChunk.path.position.x += Math.round(event.delta.x / grid) * grid;
+      // localSelectedChunk.path.position.y += Math.round(event.delta.y / grid) * grid;
+			// New snapping logic
+			localSelectedChunk.path.position = nearIntersect(localSelectedChunk, shapes, event.delta, event.point, grid);
       localSelectedChunk.eraseVector();
       localSelectedChunk.drawVector();
+
+      localSelectedChunk.eraseAlignment();
+      localSelectedChunk.drawAlignment();
+
       // update Emitter's home position - emitter is reset to this position after each animation loop
       if (localSelectedChunk.type = 'emitter') {
         localSelectedChunk.homePosition = new Point(localSelectedChunk.path.position.x, localSelectedChunk.path.position.y)
       }
+      
 			if (localSelectedChunk.type === 'pendulum') {
 				localSelectedChunk.erasePendulum();
 				localSelectedChunk.drawPendulum();
@@ -183,6 +211,7 @@ export default function(props) {
     if (event.key === 'backspace' && localSelectedChunk) {
       store.dispatch(removeChunk(localSelectedChunk));
       localSelectedChunk.eraseVector();
+			localSelectedChunk.eraseAlignment();
       localSelectedChunk.path.remove();
       localSelectedChunk = null;
       store.dispatch(selectChunk({}));
@@ -190,12 +219,19 @@ export default function(props) {
     } else if (event.key === 'space') {
       if (localSelectedChunk) {
         localSelectedChunk.eraseVector();
+				localSelectedChunk.eraseAlignment();
         localSelectedChunk.path.remove();
         localSelectedChunk = null;
         store.dispatch(selectChunk({}));
       }
       store.dispatch(togglePlay(isPlaying));
-    }
+    } else if (event.key === 'shift') {
+			shiftPressed = true;
+		}
   };
+
+	tool.onKeyUp = (event) => {
+		shiftPressed = false;
+	};
 
 }
