@@ -6,9 +6,11 @@ import injectTapEventPlugin from 'react-tap-event-plugin';
 import RightMenu from './RightMenu';
 import UserMenu from './UserMenu';
 import ShapeSettings from './ShapeSettings';
+
 import FloatingActionButton from 'material-ui/FloatingActionButton';
 import FontIcon from 'material-ui/FontIcon';
 import {red500, yellow500, blue500} from 'material-ui/styles/colors';
+
 import MainCanvas from './MainCanvas';
 import {togglePlay} from '../redux/play';
 import { selectChunk } from '../redux/chunk';
@@ -23,6 +25,7 @@ import { save, load, deconstruct, reconstruct } from '../paper/saver';
 
 // Our root component
 injectTapEventPlugin();
+
 const styles = {
   icon: {
     marginRight: 24
@@ -53,10 +56,22 @@ const styles = {
 class Main extends Component {
 	constructor(props) {
 		super(props)
-	}
-	componentDidMount(){
+		// this is necessary to avoid repeating welcome pop up
+		// works with componentWillReceiveProps block
+		this.state = {
+			newUser: false
+		}
+}
+
+componentDidMount(){
 		this.props.fetchInitialData();
 	}
+
+componentWillReceiveProps(nextProps){
+	this.setState({
+		newUser: this.props.auth !== nextProps.auth
+})
+}
 
 	render(){
 	  return (
@@ -66,7 +81,7 @@ class Main extends Component {
 	        <Login/>
 	        <SignUp />
 					{/* check for logged in user then deliver welcome alert */}
-					{this.props.auth && <SnackBar message={'Welcome ' + this.props.auth.firstName} open={this.props.loginAlertOpen}/>}
+					{this.state.newUser && <SnackBar message={'Welcome ' + this.props.auth.firstName} open={this.props.loginAlertOpen}/>}
 	        <UserMenu />
 	        <RightMenu/>
 	        {this.props.selectedChunk.id && <ShapeSettings style={styles.settingsButton}/>}
