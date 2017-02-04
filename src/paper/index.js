@@ -84,9 +84,8 @@ export default function(props) {
                 // hard coded: trigger inner shape's synth on impact
                 // eventually, this should be dependent upon a shape's settings
                 // this 'string' if check is temporary
-                if (innerShape.type === 'string') {
+                if (innerShape.type === 'rope') {
                   innerShape.triggerAnimate(event.time);
-                  innerShape.triggerSynth();
                 } else {
                   if (shape.drum) {
                     player.buffer = drumBuffers.get(shape.drum);

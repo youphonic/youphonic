@@ -11,7 +11,7 @@ import TextField from 'material-ui/TextField';
 import MenuItem from 'material-ui/MenuItem';
 
 import { whoami, login } from '../redux/login';
-import { closeLogin, openSignupAlert } from '../redux/navState';
+import { closeLogin, openLoginAlert } from '../redux/navState';
 
 import {startCanvas, stopCanvas} from '../redux/appState';
 import {red500, yellow500, blue500} from 'material-ui/styles/colors';
@@ -23,7 +23,7 @@ class Login extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-			username: '',
+			userName: '',
 			password: ''
     };
     this.handleSubmit = this.handleSubmit.bind(this);
@@ -45,9 +45,9 @@ class Login extends React.Component {
 	// login then close deliver welcome alert
   handleSubmit(event) {
 		event.preventDefault();
-		this.props.login(this.state.username, this.state.password);
+		this.props.login(this.state.userName, this.state.password);
 		this.props.closeLogin();
-		this.props.openSignupAlert();
+		this.props.openLoginAlert();
   }
 
   render() {
@@ -85,10 +85,6 @@ class Login extends React.Component {
     ];
     return (
       <div>
-				{/* <FloatingActionButton style={this.styles.loginButton} color={yellow500}>
-					<FontIcon onClick={() => this.handleOpen()} style={this.styles.buttonIcon} className="material-icons">account_box
-					</FontIcon>
-				</FloatingActionButton> */}
         <Dialog
           modal={false}
           actions={actions}
@@ -99,17 +95,18 @@ class Login extends React.Component {
         >
           <form>
             <TextField
-              name={"username"}
-              hintText="enter username"
+              name={"userName"}
+              hintText="username"
               onChange={(evt) => {
                 this.setState({
-            			username: evt.target.value
+            			userName: evt.target.value
             		});
               }}
             />
 						<TextField
               name={"password"}
 							hintText="enter password"
+							type={'password'}
               onChange={(evt) => {
                 this.setState({
             			password: evt.target.value
@@ -141,8 +138,8 @@ const mapDispatchToProps = dispatch => {
       dispatch(stopCanvas()),
 		closeLogin: () =>
 			dispatch(closeLogin()),
-		openSignupAlert: () =>
-			dispatch(openSignupAlert())
+		openLoginAlert: () =>
+			dispatch(openLoginAlert())
   };
 };
 
