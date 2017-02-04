@@ -1,6 +1,7 @@
 /*eslint-disable id-length */
 /*globals Tool view project */
 import store from '../store';
+import colors from '../colors';
 import { selectChunk } from '../redux/chunk';
 import { removeChunk } from '../redux/allChunks';
 import { togglePlay } from '../redux/play';
@@ -120,11 +121,6 @@ export default function(props) {
             }
           });
         } else if (shape.type === 'fizzler') {
-          // for testing purposes make sure that
-          // generateParticles is only called once
-          // if (shape.particles.length < shape.numParticles) {
-          //   console.log(`GENERATING PARTICLES: ${shape.particles.length} && num: ${shape.numParticles}`);
-          // }
           shape.generateParticles();
           // always update the particles that fizzler emitted
           shape.updateParticles();

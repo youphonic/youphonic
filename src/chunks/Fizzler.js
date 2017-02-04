@@ -1,11 +1,13 @@
 /*eslint-disable id-length */
+import Tone from 'tone';
 import Chunk from './Chunk';
 import colors from '../colors';
+import twang from '../tone/fizzler';
 import { randomNumberWithinRange } from './utils';
 import { particleGenerator } from './shapeGenerators';
 
 export default class Fizzler extends Chunk {
-  constructor(x, y, radius, direction = new Point(0, 0), color = 'white', dispersion = {x: -2, y: 2}) {
+  constructor(x, y, radius, direction = new Point(0, 0), color = colors.mangoTango, dispersion = new Point(-2, 2)) {
     super(direction, color);
     this.path = new Path.RegularPolygon({
       center: [x, y],
@@ -14,9 +16,10 @@ export default class Fizzler extends Chunk {
       fillColor: color
     });
     this.fixed = true;
+    this.synth = twang;
     this.particles = [];
     this.particleAges = [];
-    this.numParticles = 20;
+    this.numParticles = 30;
     this.particlesForceX = [];
     this.particlesForceY = [];
     this.dispersion = dispersion;
@@ -25,7 +28,7 @@ export default class Fizzler extends Chunk {
     this.type = 'fizzler';
   }
 
-  generateParticles(color = colors.salmon) {
+  generateParticles(color = colors.supernova) {
     while (this.particles.length < this.numParticles) {
 
       let lifespan = randomNumberWithinRange(0.5, 1);
@@ -39,7 +42,7 @@ export default class Fizzler extends Chunk {
       this.particles.push(newParticle);
 
       // trigger a sound every time a particle is emmited
-      this.triggerSound();
+      this.synth.triggerAttack(Tone.Transport.now());
     }
   }
 
@@ -72,9 +75,5 @@ export default class Fizzler extends Chunk {
         this.particleAges.splice(i, 1);
       }
     }
-  }
-
-  triggerSound() {
-    // trigger a sound
   }
 }

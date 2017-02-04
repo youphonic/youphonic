@@ -49,7 +49,7 @@ export const dropGenerator = (x, y, size, color) => {
 
 // for now this just makes a tiny Circle
 // may want to make a more interesting shape in the future
-export const particleGenerator = (position, color, radius = 5) => {
+export const particleGenerator = (position, color, radius = 3) => {
   let particle = new Path.Circle(position, radius);
   particle.fillColor = color;
   return particle;
