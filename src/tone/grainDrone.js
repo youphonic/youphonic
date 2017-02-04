@@ -35,7 +35,7 @@ const tremolo = new Tone.Tremolo().set(
 const pitchShift = new Tone.PitchShift(-9).fan(reverb, tremolo);
 const crushSend = new Tone.Volume(-32).chain(channelBuss);
 
-export const granulator = new Tone.GrainPlayer(
+const granulator = new Tone.GrainPlayer(
   {
     url: '/samples/granSource_E.mp3',
     loop: true,
@@ -46,6 +46,8 @@ export const granulator = new Tone.GrainPlayer(
     playbackRate: 0.618
   }
 ).fan(crushSend, pitchShift);
+
+export default granulator;
 
 
 //

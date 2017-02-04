@@ -39,7 +39,7 @@ circle3.shadowOffset = new Point(5, 5);
 circle3.shadowBlur = 20;
 circle3.rotate(120)
 
-function onFrame(event) {
+module.exports = function onFrame(event) {
     circle.rotate(2)
     circle.shadowOffset.x = Math.cos(event.time*4) * 10;
     circle.shadowOffset.y = Math.sin(event.time*4)* 10;

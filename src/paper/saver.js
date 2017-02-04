@@ -126,16 +126,16 @@ export const reconstruct = (savedChunks) => {
           );
           break;
 
-					case 'emitter':
-	          // Construct a new Emitter
-            // TODO: Check with Robbyn on how this is moving over to right at pause then play
-	          reborn = new Emitter(
-	            props.homePosition[1],
-	            props.homePosition[2],
-	            props.length,
-	            props.color
-	          );
-	          break;
+				case 'emitter':
+          // Construct a new Emitter
+          // TODO: Check with Robbyn on how this is moving over to right at pause then play
+          reborn = new Emitter(
+            props.homePosition[1],
+            props.homePosition[2],
+            props.length,
+            props.color
+          );
+          break;
 
         default:
           reborn = {};
