@@ -53,10 +53,20 @@ const styles = {
 class Main extends Component {
 	constructor(props) {
 		super(props)
-	}
+		this.state = {
+			newUser: false
+		}
+}
 	componentDidMount(){
+		console.log('componentDidMount running')
 		this.props.fetchInitialData();
 	}
+
+componentWillReceiveProps(nextProps){
+	this.setState({
+		newUser: this.props.auth !== nextProps.auth
+})
+}
 
 	render(){
 	  return (
@@ -66,7 +76,7 @@ class Main extends Component {
 	        <Login/>
 	        <SignUp />
 					{/* check for logged in user then deliver welcome alert */}
-					{this.props.auth && <SnackBar message={'Welcome ' + this.props.auth.firstName} open={this.props.loginAlertOpen}/>}
+					{this.state.newUser && <SnackBar message={'Welcome ' + this.props.auth.firstName} open={this.props.loginAlertOpen}/>}
 	        <UserMenu />
 	        <RightMenu/>
 	        {this.props.selectedChunk.id && <ShapeSettings style={styles.settingsButton}/>}
