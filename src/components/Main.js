@@ -12,11 +12,13 @@ import {red500, yellow500, blue500} from 'material-ui/styles/colors';
 import MainCanvas from './MainCanvas';
 import {togglePlay} from '../redux/play';
 import { selectChunk } from '../redux/chunk';
+import { addChunk, updateOneChunk, clearAllChunks } from '../redux/allChunks';
 import { startCanvas } from '../redux/appState'
 import Login from './Login';
 import SignUp from './SignUp';
 import SnackBar from 'material-ui/Snackbar';
 import { whoami } from '../redux/login';
+import { save, load, deconstruct, reconstruct } from '../paper/saver';
 
 
 // Our root component
@@ -71,11 +73,19 @@ class Main extends Component {
 	        <FloatingActionButton style={styles.playButton} color={blue500}>
 	          <FontIcon onClick={() => {
 	          if (!this.props.isPlaying) {
+              // this saves all chunks to local storage
+              // for now ...
+              save(this.props.allChunks);
 	            // this hides the settings component
 	            this.props.startCanvas();
 	            // this guarantees no chunk is selected when playMode is entered
 	            this.props.selectChunk({});
-	          }
+	          } else {
+              // Gets all saved chunks off local storage
+              // And remove previous chunks from both
+              // Paper project and Redux Store
+              load(this.props.allChunks, this.props.clearAllChunks, this.props.addChunk);
+            }
 	          this.props.togglePlay(this.props.isPlaying)
 	        }} style={styles.buttonIcon} className="material-icons">{this.props.isPlaying
 	              ? 'pause_circle_outline'
@@ -95,7 +105,8 @@ const mapStateToProps = (state) => {
     isPlaying: state.isPlaying,
     selectedChunk: state.selectedChunk,
 		auth: state.auth,
-		signUpAlertOpen: state.navState.signUpAlertOpen
+		signUpAlertOpen: state.navState.signUpAlertOpen,
+    allChunks: state.allChunks
   };
 };
 const mapDispatchToProps = (dispatch) => {
@@ -103,6 +114,13 @@ const mapDispatchToProps = (dispatch) => {
     selectChunk: (chunk) => {
       dispatch(selectChunk(chunk));
     },
+    addChunk: (chunk) => {
+      dispatch(addChunk(chunk));
+    },
+    updateOneChunk: (chunk) => {
+      dispatch(updateOneChunk(chunk))
+    },
+    clearAllChunks: () => dispatch(clearAllChunks()),
     startCanvas: () => {
       dispatch(startCanvas())
     },

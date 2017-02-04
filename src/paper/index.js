@@ -10,13 +10,22 @@ import { player, drumBuffers, possibilities } from '../tone/drums';
 // These variables must be kept outside drawing scope for
 // proper update on receiving new props
 let isPlaying;
-let shapes;
+export let shapes;
 let force;
 let localSelectedChunk;
 let isVectorArrowBeingDragged = false;
 
+export const shapesFilterOutId = (id) => {
+	shapes = shapes.filter( shape => shape.id !== id)
+}
 
-module.exports = function(props) {
+export const removeAllShapePaths = () => {
+  shapes.forEach(shape => {
+    shape.path.remove();
+  })
+}
+
+export default function(props) {
   // tool represents mouse/keyboard input
 	const tool = new Tool();
 	tool.minDistance = 1;
@@ -66,14 +75,21 @@ module.exports = function(props) {
                   innerShape.triggerAnimate(event.time);
                   innerShape.triggerSynth();
                 } else {
-                  synthOne.triggerAttackRelease(innerShape.frequency, '8n');
-                  if (shape.frequency) synthTwo.triggerAttackRelease(shape.frequency, '8n');
                   if (shape.drum) {
                     player.buffer = drumBuffers.get(shape.drum);
                     player.start();
                   }
-                  // call shape's respond to hit function
-                  shape.respondToHit(innerShape);
+  						// if not a photon, call shape's respond to hit function and play synth
+                  if (shape.type !== 'photon') {
+                    synthOne.triggerAttackRelease(innerShape.frequency, '8n');
+                    if (shape.frequency) synthTwo.triggerAttackRelease(shape.frequency, '8n');
+                    shape.respondToHit(innerShape);
+                  } else {
+                    if (!shape.alreadyTriggeredChunkIds.includes(innerShape.id)) {
+                      synthOne.triggerAttackRelease(innerShape.frequency, '8n');
+                      shape.addTriggeredChunk(innerShape.id)
+                    }
+                  }
                 }
               }
             }
@@ -103,6 +119,9 @@ module.exports = function(props) {
 		const hitResult = project.hitTest(event.point, hitOptions);
     // check to see if mouse is clicking the body ('fill') of a Chunk
     if (!isPlaying && hitResult && hitResult.type === 'fill') {
+      // if a fill that is part of a Group is selected, this will give us access to the
+      // Group path in order to compare to local state in shapes array
+      if (hitResult.item.parent.className === 'Group') hitResult.item = hitResult.item.parent;
       // erase currently drawn vector if necessary
       if (localSelectedChunk) localSelectedChunk.eraseVector();
       // search for the clicked shape
@@ -148,6 +167,10 @@ module.exports = function(props) {
       localSelectedChunk.path.position.y += event.delta.y;
       localSelectedChunk.eraseVector();
       localSelectedChunk.drawVector();
+      // update Emitter's home position - emitter is reset to this position after each animation loop
+      if (localSelectedChunk.type = 'emitter') {
+        localSelectedChunk.homePosition = new Point(localSelectedChunk.path.position.x, localSelectedChunk.path.position.y)
+      }
 			if (localSelectedChunk.type === 'pendulum') {
 				localSelectedChunk.erasePendulum();
 				localSelectedChunk.drawPendulum();
@@ -175,4 +198,4 @@ module.exports = function(props) {
     }
   };
 
-};
+}
