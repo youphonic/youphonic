@@ -8,6 +8,7 @@ import { synthOne, synthTwo } from '../tone/tonePatchOne';
 import { player, drumBuffers, possibilities } from '../tone/drums';
 import { nearIntersect } from '../chunks/utils';
 
+
 // These variables must be kept outside drawing scope for
 // proper update on receiving new props
 let isPlaying;
@@ -90,7 +91,10 @@ export default function(props) {
                     player.buffer = drumBuffers.get(shape.drum);
                     player.start();
                   }
-  						// if not a photon, call shape's respond to hit function and play synth
+                  if (innerShape.type === 'drone') {
+                    innerShape.toggleDrone();
+                  }
+                  // if not a photon, call shape's respond to hit function and play synth
                   if (shape.type !== 'photon') {
                     synthOne.triggerAttackRelease(innerShape.frequency, '8n');
                     if (shape.frequency) synthTwo.triggerAttackRelease(shape.frequency, '8n');
