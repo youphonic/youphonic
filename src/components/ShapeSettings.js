@@ -6,6 +6,10 @@ import RaisedButton from 'material-ui/RaisedButton';
 import TextField from 'material-ui/TextField';
 import DropDownMenu from 'material-ui/DropDownMenu';
 import MenuItem from 'material-ui/MenuItem';
+
+import FloatingActionButton from 'material-ui/FloatingActionButton';
+import FontIcon from 'material-ui/FontIcon';
+import {red500, yellow500, blue500} from 'material-ui/styles/colors';
 import AutoComplete from 'material-ui/AutoComplete';
 
 import { updateAndPlaceChunk } from '../redux/chunk';
@@ -46,7 +50,6 @@ class ShapeSettings extends React.Component {
     this.setState({drum: value});
   }
 
-
   handleSubmit() {
 		event.preventDefault();
 	  this.props.updateOneChunk({
@@ -61,8 +64,20 @@ class ShapeSettings extends React.Component {
       drum: ''
 	  });
   }
+
+
   render() {
-		console.log('localState:', this.state)
+
+		const styles = {
+			buttonIcon: {
+				fontSize: 50
+			},
+			settingsButton: {
+				position: 'absolute',
+				right: 15,
+				bottom: 15
+			}
+		}
     const actions = [
       <FlatButton
         key="button1"
@@ -92,7 +107,11 @@ class ShapeSettings extends React.Component {
 
     return (
       <div>
-        <RaisedButton style={this.props.style} label="Update Settings" onTouchTap={this.handleOpen} />
+				<FloatingActionButton style={styles.settingsButton}>
+					<FontIcon onTouchTap={this.handleOpen} className="material-icons" style={styles.buttonIcon}>{'music_note'}
+					</FontIcon>
+				</FloatingActionButton>
+
         <Dialog
           modal={false}
           actions={actions}
@@ -102,17 +121,10 @@ class ShapeSettings extends React.Component {
           onRequestClose={this.handleClose}
         >
           <form>
-            {/* <TextField
-              floatingLabelText="Frequency"
-              defaultValue={this.props.selectedChunk.frequency}
-              onChange={this.changeFrequency}
-              hintText="Choose a frequency"
-            /> */}
 						<AutoComplete
 							floatingLabelText="Enter note: C1, C#1, Db1, etc"
 							filter={AutoComplete.caseInsensitiveFilter}
 							dataSource={frequencies}
-							// defaultValue={this.props.selectedChunk.frequency}
 							onUpdateInput={this.changeFrequency}
 						/>
             <DropDownMenu value={this.state.drum} onChange={this.changeDrum}>
