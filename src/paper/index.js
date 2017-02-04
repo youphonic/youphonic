@@ -6,8 +6,6 @@ import { removeChunk } from '../redux/allChunks';
 import { togglePlay } from '../redux/play';
 import { synthOne, synthTwo } from '../tone/tonePatchOne';
 import { player, drumBuffers, possibilities } from '../tone/drums';
-import { granulator } from '../tone/grainDrone';
-import { start, stop, toggleTransport } from '../tone/toneUtils';
 
 // These variables must be kept outside drawing scope for
 // proper update on receiving new props
@@ -156,7 +154,6 @@ module.exports = function(props) {
 			}
     }
   };
-  let toggleDrone = false;
   // key listener
   tool.onKeyDown = (event) => {
     // delete Chunk on backspace deletion
@@ -175,15 +172,6 @@ module.exports = function(props) {
         store.dispatch(selectChunk({}));
       }
       store.dispatch(togglePlay(isPlaying));
-		// this is temporary for testing the granulator
-    } else if (event.key === 'p') {
-      toggleTransport();
-      toggleDrone = !toggleDrone;
-      if (toggleDrone) {
-        start(granulator);
-      } else {
-        stop(granulator);
-      }
     }
   };
 
