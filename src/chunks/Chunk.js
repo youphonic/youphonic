@@ -1,6 +1,6 @@
 import Tone from 'tone';
 
-import {movingBounceOffMoving, movingBounceOffFixed, drawArrow, drawAlignment} from './utils'
+import {movingBounceOffMoving, movingBounceOffFixed, movingCircleBounceOffRectangle, drawArrow, drawAlignment} from './utils'
 
 // auto incrementing id
 let idCount = 1;
@@ -46,7 +46,9 @@ export default class Chunk {
   }
 
   respondToHit(hitter) {
-    if (hitter.fixed) {
+    if(hitter.type === 'rectangle') {
+      movingCircleBounceOffRectangle(this, hitter)
+    } else if (hitter.fixed) {
       movingBounceOffFixed(this, hitter);
     } else {
       movingBounceOffMoving(this, hitter);
@@ -67,7 +69,6 @@ export default class Chunk {
 
   drawVector() {
     if (!this.isMoving) return;
-    // let startPoint = this.path.position.add(this.direction.normalize(this.radius));
     let endPoint = this.path.position.add(this.direction.multiply(15));
     this.vectorItem = drawArrow(this.path.position, endPoint, this.direction)
   }

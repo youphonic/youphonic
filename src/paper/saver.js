@@ -35,6 +35,7 @@ export const load = (allChunks, clearAllChunks, addChunk) => {
 // serialize and deserialize chunks
 export const deconstruct = (allChunks) => {
   const saved = {};
+  console.log(allChunks)
   allChunks.forEach(chunk => {
     // Copy everything stored in chunk
     saved[chunk.id] = Object.assign({}, chunk);

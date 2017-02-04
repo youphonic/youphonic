@@ -1,8 +1,9 @@
 /*eslint-disable id-length */
 import Circle from '../chunks/Circle';
 import Rope from '../chunks/Rope';
-import Emitter from '../chunks/Emitter'
-import Drone from '../chunks/Drone'
+import Emitter from '../chunks/Emitter';
+import Rectangle from '../chunks/Rectangle';
+import Drone from '../chunks/Drone';
 import { addChunk } from './allChunks';
 import store from '../store';
 import colors from '../colors';
@@ -42,7 +43,13 @@ export default function () {
   // uncomment to seed a Rope Chunk
   //let seedRope = new Rope(center.x - 100, center.y + 100, center.x + 100, center.y - 100, colors.blueStone)
   //store.dispatch(addChunk(seedRope));
-  //
+
+  // uncomment to seed an Emitter Chunk
   // let newEmitter = new Emitter(center.x-240, center.y, 50, Math.PI / 4);
   // store.dispatch(addChunk(newEmitter))
+
+  // uncomment to seed a Rectangle
+  // let newRect = new Rectangle(center.x + 40, center.y + 40, 75, 75, noMotion, colors.flamingo);
+  // newRect.path.rotate(30);
+  // store.dispatch(addChunk(newRect))
 }
