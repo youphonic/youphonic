@@ -20,6 +20,7 @@ import SnackBar from 'material-ui/Snackbar';
 import { whoami } from '../redux/login';
 import { save, load, deconstruct, reconstruct } from '../paper/saver';
 
+
 // Our root component
 injectTapEventPlugin();
 const styles = {

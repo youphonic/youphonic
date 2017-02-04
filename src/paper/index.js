@@ -72,7 +72,7 @@ export default function(props) {
                 // eventually, this should be dependent upon a shape's settings
                 // this 'string' if check is temporary
                 if (innerShape.type === 'string') {
-                  innerShape.triggerAnimate(event.time)
+                  innerShape.triggerAnimate(event.time);
                   innerShape.triggerSynth();
                 } else {
                   if (shape.drum) {
@@ -135,13 +135,13 @@ export default function(props) {
             frequency: shape.frequency
           }));
         }
-      })
+      });
     } else if (hitResult && hitResult.item && (hitResult.item.type === 'vectorArrow')) {
       // if clicked item is a vector, enable vector dragging
       isVectorArrowBeingDragged = true;
     } else if (localSelectedChunk) {
       // reset selected chunk to null and update state to none selected
-      localSelectedChunk.eraseVector()
+      localSelectedChunk.eraseVector();
       localSelectedChunk = null;
       store.dispatch(selectChunk({}));
     }
@@ -160,7 +160,7 @@ export default function(props) {
   tool.onMouseDrag = (event) => {
     // if in vector drawing mode, call selected Chunk's drag function
     if (isVectorArrowBeingDragged) {
-      localSelectedChunk.dragVector(event.point)
+      localSelectedChunk.dragVector(event.point);
     // drag selected chunk, redraw vector
     } else if (localSelectedChunk && !isPlaying) {
       localSelectedChunk.path.position.x += event.delta.x;
@@ -177,7 +177,6 @@ export default function(props) {
 			}
     }
   };
-
   // key listener
   tool.onKeyDown = (event) => {
     // delete Chunk on backspace deletion
@@ -197,6 +196,6 @@ export default function(props) {
       }
       store.dispatch(togglePlay(isPlaying));
     }
-  }
+  };
 
 }
