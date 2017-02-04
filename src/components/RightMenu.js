@@ -41,8 +41,6 @@ function RightMenu (props) {
       <MenuItem
         primaryText="Circle"
         onTouchTap={() => {
-          console.log('X', props.center.x);
-          console.log('Y', props.center.y);
 					props.addChunk(new Circle(props.center.x, props.center.y, 20, new Point(1, 1)));
 					enterEditMode(props.isPlaying);
 				}}
