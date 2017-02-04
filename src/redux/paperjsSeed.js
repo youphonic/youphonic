@@ -36,9 +36,9 @@ export default function () {
   store.dispatch(addChunk(bounceCircle));
 
   // just testing the drone
-  const droneChunk = new Circle(center.x, center.y, 30, noMotion, colors.madang);
-  store.dispatch(addChunk(droneChunk));
-  
+  // const droneChunk = new Drone(center.x, center.y, 30, noMotion, colors.madang);
+  // store.dispatch(addChunk(droneChunk));
+
   // uncomment to seed a Rope Chunk
   //let seedRope = new Rope(center.x - 100, center.y + 100, center.x + 100, center.y - 100, colors.blueStone)
   //store.dispatch(addChunk(seedRope));

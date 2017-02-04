@@ -1,16 +1,14 @@
 import Tone from 'tone';
 
-export const toggleTransport = (doIt = true) => {
+export const toggleTransport = (toggle = true) => {
   if (Tone.Transport.state === 'stopped') {
     Tone.Transport.start();
-  // doIt is so you can call this function more than once
+  // toggle is so you can call this function more than once
   // without ever stopping the Transport
-  // maybe this is useless?
-  } else if (doIt) {
+} else if (toggle) {
     Tone.Transport.stop();
   }
 };
-
 
 // these may prove to be useless
 export const start = audioSource => audioSource.start();

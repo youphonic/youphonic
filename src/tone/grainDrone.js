@@ -3,7 +3,7 @@ import Tone from 'tone';
 import masterBuss from './masterBuss';
 import { now } from './toneUtils';
 
-const comp = new Tone.Compressor(-48, 10);
+const comp = new Tone.Compressor(-42, 10);
 const channelVolume = new Tone.Volume(-4);
 const channelBuss = channelVolume.chain(comp, masterBuss);
 
@@ -33,13 +33,13 @@ const tremolo = new Tone.Tremolo().set(
 .start();
 
 const pitchShift = new Tone.PitchShift(-9).fan(reverb, tremolo);
-const crushSend = new Tone.Volume(-32).chain(channelBuss);
+const crushSend = new Tone.Volume(-24).chain(channelBuss);
 
 const granulator = new Tone.GrainPlayer(
   {
     url: '/samples/granSource_E.mp3',
     loop: true,
-    detune: 15,
+    detune: 30,
     drift: 0.038,
     overlap: 0.1,
     grainSize: 0.162,
