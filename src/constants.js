@@ -5,7 +5,7 @@ export const OPEN_LOGIN = 'OPEN_LOGIN';
 export const CLOSE_LOGIN = 'CLOSE_LOGIN';
 export const OPEN_SIGNUP = 'OPEN_SIGNUP';
 export const CLOSE_SIGNUP = 'CLOSE_SIGNUP';
-export const OPEN_SIGNUP_ALERT = 'OPEN_SIGNUP_ALERT';
+export const OPEN_LOGIN_ALERT = 'OPEN_LOGIN_ALERT';
 export const CLOSE_SIGNUP_ALERT = 'CLOSE_SIGNUP_ALERT';
 
 export const ADD_CHUNK = 'ADD_CHUNK';
