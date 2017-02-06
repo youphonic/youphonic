@@ -19,7 +19,7 @@ export const save = (allChunks) => {
 
 // implemented in UserMenu component as 'Save Play'
 // requires logged in user, errors in console silently with 401
-export const savePlay = (user, allChunks) => {
+export const savePlayToServer = (user, allChunks) => {
 	const playToSave = JSON.stringify(deconstruct(allChunks));
 	axios.post('api/plays', {
 		player_id: user.id,
