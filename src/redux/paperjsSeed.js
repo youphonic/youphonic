@@ -41,8 +41,8 @@ export default function () {
   // store.dispatch(addChunk(droneChunk));
 
   // uncomment to seed a Rope Chunk
-  //let seedRope = new Rope(center.x - 100, center.y + 100, center.x + 100, center.y - 100, colors.blueStone)
-  //store.dispatch(addChunk(seedRope));
+  let seedRope = new Rope(center.x - 100, center.y + 100, center.x + 100, center.y - 100, colors.blueStone)
+  store.dispatch(addChunk(seedRope));
 
   // uncomment to seed an Emitter Chunk
   // let newEmitter = new Emitter(center.x-240, center.y, 50, Math.PI / 4);

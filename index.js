@@ -1,16 +1,8 @@
 'use strict'
 
-const {resolve} = require('path')
-const chalk = require('chalk')
 const pkg = require('./package.json')
 const debug = require('debug')(`${pkg.name}:boot`)
 const secretsFile = require('./musicmachine.env');
-
-
-const reasonableName = /^[a-z0-9\-_]+$/
-if (!reasonableName.test(pkg.name)) {
-  console.error(chalk.red(nameError))
-}
 
 // This loads a secrets file from
 //   or ~/.musicmachine.env.json
@@ -23,6 +15,7 @@ try {
   debug('%s: env file not found or invalid, moving on', secretsFile)
 }
 
+// sets our server port for development
 const PORT = process.env.PORT || 1337
 
 module.exports = {

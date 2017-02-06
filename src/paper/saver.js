@@ -1,3 +1,4 @@
+import axios from 'axios';
 import Circle from '../chunks/Circle';
 import PhysBall from '../chunks/PhysBall';
 import Attractor from '../chunks/Attractor';
@@ -5,6 +6,9 @@ import Springer from '../chunks/Springer';
 import Pendulum from '../chunks/Pendulum';
 import Rectangle from '../chunks/Rectangle';
 import Emitter from '../chunks/Emitter';
+import Rope from '../chunks/Rope';
+import Fizzler from '../chunks/Fizzler';
+
 
 import { removeAllShapePaths } from '../paper'
 
@@ -12,6 +16,18 @@ export const save = (allChunks) => {
   window.localStorage.setItem('savedChunks', JSON.stringify({
     savedChunks: deconstruct(allChunks)
   }));
+};
+
+// implemented in UserMenu component as 'Save Play'
+// requires logged in user, errors in console silently with 401
+export const savePlayToServer = (user, allChunks) => {
+	const playToSave = JSON.stringify(deconstruct(allChunks));
+	axios.post('api/plays', {
+		player_id: user.id,
+		playJson: playToSave
+		})
+		.then(response => console.log(response))
+		.catch(error => console.log(error));
 };
 
 export const load = (allChunks, clearAllChunks, addChunk) => {
@@ -35,7 +51,6 @@ export const load = (allChunks, clearAllChunks, addChunk) => {
 // serialize and deserialize chunks
 export const deconstruct = (allChunks) => {
   const saved = {};
-  console.log(allChunks)
   allChunks.forEach(chunk => {
     // Copy everything stored in chunk
     saved[chunk.id] = Object.assign({}, chunk);
@@ -55,6 +70,7 @@ export const reconstruct = (savedChunks) => {
       let props = savedChunks[chunk], // properties for the new chunk
           reborn; // var for the new chunk
       // make a new chunk depending on type
+        console.log(props);
       switch (props.type) {
         case 'circle':
           // Construct a new Circle
@@ -118,8 +134,8 @@ export const reconstruct = (savedChunks) => {
         case 'rectangle':
           // Construct a new Rectangle
           reborn = new Rectangle(
-            props.x,
-            props.y,
+            props.redrawPos[1],
+            props.redrawPos[2],
             props.width,
             props.height,
             new Point(props.direction[1], props.direction[2]),
@@ -128,14 +144,33 @@ export const reconstruct = (savedChunks) => {
           break;
 
 				case 'emitter':
+          console.log(props);
           // Construct a new Emitter
           // TODO: Check with Robbyn on how this is moving over to right at pause then play
           reborn = new Emitter(
-            props.homePosition[1],
-            props.homePosition[2],
+            props.redrawPos[1],
+            props.redrawPos[2],
             props.length,
             props.color
           );
+          break;
+
+        case 'rope':
+          reborn = new Rope(
+            props.start[1],
+            props.start[2],
+            props.end[1],
+            props.end[2],
+            props.color
+          )
+          break;
+
+        case 'fizzler':
+          reborn = new Fizzler(
+            props.x,
+            props.y,
+            props.radius
+          )
           break;
 
         default:

@@ -47,7 +47,8 @@ class PaperWrapper extends React.Component {
 const mapStateToProps = (state) => {
   return {
     allChunks: state.allChunks,
-    isPlaying: state.isPlaying
+    isPlaying: state.isPlaying,
+    appState: state.appState
   };
 };
 

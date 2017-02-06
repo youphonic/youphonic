@@ -14,6 +14,7 @@ import Attractor from '../chunks/Attractor';
 import Fizzler from '../chunks/Fizzler';
 import Rectangle from '../chunks/Rectangle';
 import Pendulum from '../chunks/Pendulum';
+import Emitter from '../chunks/Emitter';
 import Login from './Login';
 import colors from '../colors'
 
@@ -45,6 +46,11 @@ function RightMenu (props) {
 					props.addChunk(new Circle(props.center.x, props.center.y, 20, new Point(1, 1)));
 					enterEditMode(props.isPlaying);
 				}}
+      />
+    <MenuItem primaryText="Rectangle" onTouchTap={() => {
+        props.addChunk(new Rectangle(props.center.x, props.center.y, 60, 60, new Point(0, 0)));
+        enterEditMode(props.isPlaying);
+      }}
       />
       <MenuItem
         primaryText="PhysBall"
@@ -128,16 +134,9 @@ function RightMenu (props) {
 				}}
       />
       <MenuItem
-        primaryText="Pendulum"
+        primaryText="Emitter"
         onTouchTap={() => {
-					props.addChunk(
-            new Pendulum(
-              props.center.x,
-              props.center.y,
-              24,
-              new Point(0, 0)
-            )
-          );
+          props.addChunk(new Emitter(props.center.x, props.center.y, 50));
 					enterEditMode(props.isPlaying);
 				}}
       />
@@ -156,10 +155,12 @@ function RightMenu (props) {
 					enterEditMode(props.isPlaying);
 				}}
       />
-      <MenuItem primaryText="Rectangle" onTouchTap={() => {
-					props.addChunk(new Rectangle(props.center.x, props.center.y, 60, 60, new Point(0, 0)));
-					enterEditMode(props.isPlaying);
-				}}
+    <MenuItem
+      primaryText="Pendulum"
+      onTouchTap={() => {
+        props.addChunk(new Pendulum(props.center.x, props.center.y, 24, new Point(0, 0)));
+        enterEditMode(props.isPlaying);
+      }}
       />
       <MenuItem primaryText="Share" />
     </IconMenu>

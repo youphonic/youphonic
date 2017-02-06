@@ -16,9 +16,7 @@ import { updateAndPlaceChunk } from '../redux/chunk';
 import {updateOneChunk} from '../redux/allChunks';
 import {startCanvas, stopCanvas} from '../redux/appState'
 
-/**
- * Dialog content can be scrollable.
- */
+
 class ShapeSettings extends React.Component {
   constructor(props) {
     super(props);
@@ -32,6 +30,7 @@ class ShapeSettings extends React.Component {
     this.handleSubmit = this.handleSubmit.bind(this);
     this.changeFrequency = this.changeFrequency.bind(this);
     this.changeDrum = this.changeDrum.bind(this);
+    this.handleFrequencyEnterKey = this.handleFrequencyEnterKey.bind(this);
   }
   handleOpen() {
     this.setState({open: true});
@@ -42,32 +41,34 @@ class ShapeSettings extends React.Component {
     this.props.startCanvas();
   }
 
-  changeFrequency(searchText) {
+  changeFrequency(searchText, dataSource, params) {
     this.setState({frequency: searchText});
+  }
+
+  handleFrequencyEnterKey(event) {
+    // prevent enter key on frequency field from forcing an HTTP redirect
+    if (event.keyCode === 13) event.preventDefault();
   }
 
   changeDrum(event, id, value) {
     this.setState({drum: value});
   }
 
-  handleSubmit() {
+  handleSubmit(event) {
+    event.stopPropagation();
 		event.preventDefault();
 	  this.props.updateOneChunk({
       id: this.props.selectedChunk.id,
       frequency: this.state.frequency,
       drum: this.state.drum
     });
-    this.props.startCanvas();
     this.setState({
 	    open: false
-		  // frequency: '',
-      // drum: ''
 	  });
+    this.props.startCanvas();
   }
 
-
   render() {
-
 		const styles = {
 			buttonIcon: {
 				fontSize: 50
@@ -127,6 +128,7 @@ class ShapeSettings extends React.Component {
 							dataSource={frequencies}
 							onUpdateInput={this.changeFrequency}
 							searchText={this.state.frequency}
+              onKeyDown={this.handleFrequencyEnterKey}
 						/>
             <DropDownMenu value={this.state.drum} onChange={this.changeDrum}>
               <MenuItem value={'kick'} primaryText="Kick" />
