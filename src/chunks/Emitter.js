@@ -15,12 +15,14 @@ export default class Emitter extends Chunk {
     this.emitDirection = new Point(0, -3);
     // Animation/emitting variables:
     this.homePosition = new Point(this.path.position.x, this.path.position.y)
+    this.redrawPos = new Point(x, y);
     this.isEmitting = false;
     // timing of emit events
     this.emitCycle = 1.0;
     this.currentEmitCycleStartTime = 0;
     // so things bounce off emitter and will not disappear
     this.fixed = true;
+    this.causeHitResponse = false;
   }
 
   emit() {
@@ -48,6 +50,11 @@ export default class Emitter extends Chunk {
       // this might be inefficient - we are recentering on every non animation frame
       this.path.position = this.homePosition;
     }
+  }
+
+  updateRedrawPos () {
+    // Hard coded for now
+    this.redrawPos = new Point(this.path.position.x - this.length / 2, this.path.position.y - 9.17087727650437);
   }
 }
 

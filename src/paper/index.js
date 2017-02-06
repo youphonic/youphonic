@@ -17,7 +17,7 @@ export let shapes;
 let force;
 let localSelectedChunk;
 let isVectorArrowBeingDragged = false;
-let grid = 1; // was 25
+let grid = 25; // was 25
 let shiftPressed = false;
 
 
@@ -202,8 +202,12 @@ export default function(props) {
       localSelectedChunk.eraseAlignment();
       localSelectedChunk.drawAlignment();
 
+			if (localSelectedChunk.updateRedrawPos) {
+				localSelectedChunk.updateRedrawPos();
+			}
+
       // update Emitter's home position - emitter is reset to this position after each animation loop
-      if (localSelectedChunk.type = 'emitter') {
+      if (localSelectedChunk.type === 'emitter') {
         localSelectedChunk.homePosition = new Point(localSelectedChunk.path.position.x, localSelectedChunk.path.position.y)
       }
 
