@@ -3,11 +3,12 @@
 import store from '../store';
 import colors from '../colors';
 import { selectChunk } from '../redux/chunk';
-import { removeChunk } from '../redux/allChunks';
+import { addChunk, removeChunk } from '../redux/allChunks';
 import { togglePlay } from '../redux/play';
 import { synthOne, synthTwo } from '../tone/tonePatchOne';
 import { player, drumBuffers, possibilities } from '../tone/drums';
 import { nearIntersect } from '../chunks/utils';
+import { deconstruct, reconstruct } from './saver';
 
 
 // These variables must be kept outside drawing scope for
@@ -167,6 +168,14 @@ export default function(props) {
           }));
         }
       });
+
+      // clone Chunk if option/alt key is pressed
+      if(event.modifiers.option) {
+        let duplicate = clone(localSelectedChunk);
+        store.dispatch(addChunk(duplicate));
+        store.dispatch(selectChunk(duplicate));
+      }
+
     // allow dragging if rope edge point is clicked
     } else if (!isPlaying && hitResult && hitResult.type === 'segment' && hitResult.item.name === 'ropeBody') {
       isRopeEndBeingDragged = true;
@@ -217,6 +226,7 @@ export default function(props) {
       localSelectedChunk.eraseAlignment();
       localSelectedChunk.drawAlignment();
 
+      //
 			if (localSelectedChunk.updateRedrawPos) {
 				localSelectedChunk.updateRedrawPos();
 			}
@@ -266,3 +276,17 @@ export default function(props) {
 	};
 
 }
+
+// helper function - clone and return a new copy of Chunk
+  function clone(chunk) {
+    let duplicateObj = deconstruct([chunk]);
+    for (let key in duplicateObj) {
+      // update property format to suit the reconstruct function
+      duplicateObj[key].direction = [, duplicateObj[key].direction.x, duplicateObj[key].direction.y];
+      if (duplicateObj[key].redrawPos) {
+        duplicateObj[key].redrawPos = [, duplicateObj[key].redrawPos.x, duplicateObj[key].redrawPos.y];
+      }
+    }
+    let duplicate = reconstruct(duplicateObj)[0];
+    return duplicate;
+  }
