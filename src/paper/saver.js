@@ -1,3 +1,4 @@
+import axios from 'axios';
 import Circle from '../chunks/Circle';
 import PhysBall from '../chunks/PhysBall';
 import Attractor from '../chunks/Attractor';
@@ -8,12 +9,25 @@ import Emitter from '../chunks/Emitter';
 import Rope from '../chunks/Rope';
 import Fizzler from '../chunks/Fizzler';
 
+
 import { removeAllShapePaths } from '../paper'
 
 export const save = (allChunks) => {
   window.localStorage.setItem('savedChunks', JSON.stringify({
     savedChunks: deconstruct(allChunks)
   }));
+};
+
+// implemented in UserMenu component as 'Save Play'
+// requires logged in user, errors in console silently with 401
+export const savePlayToServer = (user, allChunks) => {
+	const playToSave = JSON.stringify(deconstruct(allChunks));
+	axios.post('api/plays', {
+		player_id: user.id,
+		playJson: playToSave
+		})
+		.then(response => console.log(response))
+		.catch(error => console.log(error));
 };
 
 export const load = (allChunks, clearAllChunks, addChunk) => {
