@@ -1,10 +1,10 @@
 import Tone from 'tone';
 
-import drums from './drums';
+// import drums from './drums';
 import masterBuss from './masterBuss';
 
 export const mainFilter = new Tone.Filter(1900, 'lowpass')
-  .connect(masterBuss);
+  .send('masterBuss');
 
 export const feedbackDel = new Tone.FeedbackDelay(0.12, 0.62);
 feedbackDel.wet.value = 0.062;
