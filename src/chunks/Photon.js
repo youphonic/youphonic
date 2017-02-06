@@ -8,6 +8,7 @@ export default class Photon extends Chunk {
 		this.path = dropGenerator(x, y, size, color)
 		this.type = 'photon';
 		this.alreadyTriggeredChunkIds = [];
+		this.causeHitResponse = false;
 	}
 
 	update(){

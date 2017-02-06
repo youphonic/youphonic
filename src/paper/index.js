@@ -17,7 +17,9 @@ export let shapes;
 let force;
 let localSelectedChunk;
 let isVectorArrowBeingDragged = false;
-let grid = 25; // was 25
+let isRopeEndBeingDragged = false;
+let ropeEndSelected = false;
+let grid = 20; // was 2
 let shiftPressed = false;
 
 
@@ -44,9 +46,10 @@ export default function(props) {
   // options object sent to project.hitTest
   // represents types of Paper.js objects that will be tested against
   const hitOptions = {
-    segments: true,
+    // segments: true,
     stroke: true,
     fill: true,
+    ends: true,
     tolerance: 5
   };
 
@@ -135,7 +138,14 @@ export default function(props) {
     isVectorArrowBeingDragged = false;
 		const hitResult = project.hitTest(event.point, hitOptions);
     // check to see if mouse is clicking the body ('fill') of a Chunk
-    if (!isPlaying && hitResult && hitResult.type === 'fill') {
+    if (!isPlaying && hitResult && (hitResult.type === 'fill' || (hitResult.item && hitResult.item.name === 'ropeBody'))) {
+      // if a Rope endpoint is selected, set the corner to drag mode
+      if (hitResult.item.name === 'ropeBody' && hitResult.type === 'segment') {
+        // keep track of which end of the rope was selected
+        ropeEndSelected = (!hitResult.segment.next)
+        isRopeEndBeingDragged = true;
+      }
+
       // if a fill that is part of a Group is selected, this will give us access to the
       // Group path in order to compare to local state in shapes array
       if (hitResult.item.parent.className === 'Group') hitResult.item = hitResult.item.parent;
@@ -157,6 +167,9 @@ export default function(props) {
           }));
         }
       });
+    // allow dragging if rope edge point is clicked
+    } else if (!isPlaying && hitResult && hitResult.type === 'segment' && hitResult.item.name === 'ropeBody') {
+      isRopeEndBeingDragged = true;
     } else if (hitResult && hitResult.item && (hitResult.item.type === 'vectorArrow')) {
       // if clicked item is a vector, enable vector dragging
       isVectorArrowBeingDragged = true;
@@ -173,6 +186,7 @@ export default function(props) {
 		if (localSelectedChunk) {
 			localSelectedChunk.eraseAlignment();
 		}
+    isRopeEndBeingDragged = false;
 	};
 
   // display item paths on mouseOver
@@ -190,6 +204,8 @@ export default function(props) {
     if (isVectorArrowBeingDragged) {
 			localSelectedChunk.dragVector(event.point, shiftPressed)
     // drag selected chunk, redraw vector
+    } else if (isRopeEndBeingDragged) {
+      localSelectedChunk.onDrag(event, ropeEndSelected);
     } else if (localSelectedChunk && !isPlaying) {
 			// Older non-snapping logic
 			// localSelectedChunk.path.position.x += Math.round(event.delta.x / grid) * grid;
@@ -198,7 +214,6 @@ export default function(props) {
 			localSelectedChunk.path.position = nearIntersect(localSelectedChunk, shapes, event.delta, event.point, grid);
       localSelectedChunk.eraseVector();
       localSelectedChunk.drawVector();
-
       localSelectedChunk.eraseAlignment();
       localSelectedChunk.drawAlignment();
 
@@ -215,6 +230,10 @@ export default function(props) {
 				localSelectedChunk.erasePendulum();
 				localSelectedChunk.drawPendulum();
 			}
+
+      if (localSelectedChunk.type === 'rope') {
+        localSelectedChunk.updateStartEnd();
+      }
     }
   };
   // key listener
