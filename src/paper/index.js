@@ -22,6 +22,7 @@ let isRopeEndBeingDragged = false;
 let ropeEndSelected = false;
 let grid = 20; // was 2
 let shiftPressed = false;
+let appState;
 
 
 export const shapesFilterOutId = (id) => {
@@ -65,6 +66,7 @@ export default function(props) {
   // set state variables on new props
   shapes = props.allChunks;
   isPlaying = props.isPlaying;
+  appState = props.appState;
 
   // when play is called, erase any currently drawn vector
   if (props.isPlaying) {
@@ -249,6 +251,7 @@ export default function(props) {
   };
   // key listener
   tool.onKeyDown = (event) => {
+    if (!appState) return;
     // delete Chunk on backspace deletion
     if (event.key === 'backspace' && localSelectedChunk) {
       store.dispatch(removeChunk(localSelectedChunk));
