@@ -8,6 +8,7 @@ import MoreVertIcon from 'material-ui/svg-icons/navigation/more-vert';
 import {addChunk} from '../redux/allChunks';
 import {togglePlay} from '../redux/play';
 import Circle from '../chunks/Circle';
+import Drone from '../chunks/Drone';
 import PhysBall from '../chunks/PhysBall';
 import Attractor from '../chunks/Attractor';
 import Fizzler from '../chunks/Fizzler';
@@ -77,6 +78,13 @@ function RightMenu (props) {
         primaryText="Pendulum"
         onTouchTap={() => {
 					props.addChunk(new Pendulum(props.center.x, props.center.y, 24, new Point(0, 0)));
+					enterEditMode(props.isPlaying);
+				}}
+      />
+      <MenuItem
+        primaryText="Drone"
+        onTouchTap={() => {
+					props.addChunk(new Drone(props.center.x, props.center.y, 30, new Point(0, 0), colors.blueStone));
 					enterEditMode(props.isPlaying);
 				}}
       />
