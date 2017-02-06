@@ -5,6 +5,7 @@ import Springer from '../chunks/Springer';
 import Pendulum from '../chunks/Pendulum';
 import Rectangle from '../chunks/Rectangle';
 import Emitter from '../chunks/Emitter';
+import Rope from '../chunks/Rope';
 
 import { removeAllShapePaths } from '../paper'
 
@@ -136,6 +137,16 @@ export const reconstruct = (savedChunks) => {
             props.length,
             props.color
           );
+          break;
+
+        case 'rope':
+          reborn = new Rope(
+            props.start.x,
+            props.start.y,
+            props.end.x,
+            props.end.y,
+            props.color
+          )
           break;
 
         default:
