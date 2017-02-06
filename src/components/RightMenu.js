@@ -49,42 +49,110 @@ function RightMenu (props) {
       <MenuItem
         primaryText="PhysBall"
         onTouchTap={() => {
-					props.addChunk(new PhysBall(props.center.x, props.center.y, 20, new Point(-0.00001, 0), colors.blueStone));
+					props.addChunk(
+            new PhysBall(
+              props.center.x,
+              props.center.y,
+              20,
+              new Point(-0.00001, 0),
+              colors.blueStone
+            )
+          );
 					enterEditMode(props.isPlaying);
 				}}
       />
       <MenuItem
         primaryText="Static Attractor"
         onTouchTap={() => {
-					props.addChunk(new Attractor(props.center.x, props.center.y, 20, new Point(0, 0), colors.flamingo, true));
+					props.addChunk(
+            new Attractor(
+              props.center.x,
+              props.center.y,
+              20,
+              new Point(0, 0),
+              colors.flamingo,
+              true
+            )
+          );
 					enterEditMode(props.isPlaying);
 				}}
       />
       <MenuItem
         primaryText="Flying Attractor"
         onTouchTap={() => {
-					props.addChunk(new Attractor(props.center.x, props.center.y, 20, new Point(0, 0), colors.newYorkPink, false));
+					props.addChunk(
+            new Attractor(
+              props.center.x,
+              props.center.y,
+              20,
+              new Point(0, 0),
+              colors.newYorkPink,
+              false
+            )
+          );
 					enterEditMode(props.isPlaying);
 				}}
       />
       <MenuItem
         primaryText="Fizzler"
         onTouchTap={() => {
-					props.addChunk(new Fizzler(props.center.x, props.center.y, 24, new Point(0, 0)));
+					props.addChunk(
+            new Fizzler(
+              props.center.x,
+              props.center.y,
+              24,
+              new Point(0, 0),
+              colors.mangoTango,
+              new Point(-2, 2),
+              true
+            )
+          );
+					enterEditMode(props.isPlaying);
+				}}
+      />
+      <MenuItem
+        primaryText="Crackler"
+        onTouchTap={() => {
+					props.addChunk(
+            new Fizzler(
+              props.center.x,
+              props.center.y,
+              24,
+              new Point(0, 0),
+              colors.mangoTango,
+              new Point(-2, 2),
+              false
+            )
+          );
 					enterEditMode(props.isPlaying);
 				}}
       />
       <MenuItem
         primaryText="Pendulum"
         onTouchTap={() => {
-					props.addChunk(new Pendulum(props.center.x, props.center.y, 24, new Point(0, 0)));
+					props.addChunk(
+            new Pendulum(
+              props.center.x,
+              props.center.y,
+              24,
+              new Point(0, 0)
+            )
+          );
 					enterEditMode(props.isPlaying);
 				}}
       />
       <MenuItem
         primaryText="Drone"
         onTouchTap={() => {
-					props.addChunk(new Drone(props.center.x, props.center.y, 30, new Point(0, 0), colors.blueStone));
+					props.addChunk(
+            new Drone(
+              props.center.x,
+              props.center.y,
+              30,
+              new Point(0, 0),
+              colors.blueStone
+            )
+          );
 					enterEditMode(props.isPlaying);
 				}}
       />

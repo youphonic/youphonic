@@ -9,13 +9,14 @@ const channelBuss = new Tone.Volume(-12)
 // synth for "crackle"
 export const twang = new Tone.MetalSynth(
   {
-		harmonicity: 12,
-		resonance: 800,
-		modulationIndex: 20,
+		harmonicity: 1,
+		resonance: 440,
+		modulationIndex: 1,
 		envelope: {
-			decay: 0.4,
+			decay: 0.2,
 		},
-		volume: -15
+    octaves: 3,
+		volume: -16
 	}
 ).connect(channelBuss);
 
@@ -24,7 +25,7 @@ export const fizz = new Tone.AmplitudeEnvelope(
   {
     attack: 0.003,
     decay: 0.2,
-    sustain: 1,
+    sustain: 0.06,
     release: 0.8
   }
 ).connect(channelBuss);

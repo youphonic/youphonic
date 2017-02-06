@@ -20,13 +20,20 @@ export default class Fizzler extends Chunk {
     this.radius = radius;
     this.fizzle = fizzle;
     this.particleAges = [];
-    this.numParticles = 30;
+    this.numParticles = 15;
     this.particlesForceX = [];
     this.particlesForceY = [];
     this.dispersion = dispersion;
     this.synth = fizzle ? fizz : twang;
 
     this.type = 'fizzler';
+  }
+
+  // this function lets a user toggle from "Fizzler" to "Crackler"
+  toggleMode() {
+    this.fizzle = !this.fizzle;
+    this.path.sides = this.fizzle ? 7 : 6;
+    this.synth = this.fizzle ? fizz : twang;
   }
 
   generateParticles(color = colors.supernova) {
