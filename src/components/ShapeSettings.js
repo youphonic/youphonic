@@ -57,17 +57,13 @@ class ShapeSettings extends React.Component {
       frequency: this.state.frequency,
       drum: this.state.drum
     });
-    this.props.startCanvas();
     this.setState({
 	    open: false
-		  // frequency: '',
-      // drum: ''
 	  });
+    this.props.startCanvas();
   }
 
-
   render() {
-
 		const styles = {
 			buttonIcon: {
 				fontSize: 50
