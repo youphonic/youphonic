@@ -6,8 +6,10 @@ const {mustBeLoggedIn, forbidden} = require('../auth/auth.filters')
 
 module.exports = require('express').Router()
 
-	.param('id', function (req, res, next, id) {
-	  Play.findById(id)
+// sets found play on req for later routes
+	.param('hashedPlay', function (req, res, next, hashedPlay) {
+	  Play.findOne(
+			{where: {hashedPlay: hashedPlay}})
 	  .then(function (play) {
 	    req.requestedPlay = play;
 	    next();
@@ -15,28 +17,25 @@ module.exports = require('express').Router()
 	  .catch(next)
 	})
 
+// get all plays, must be logged in (ideally as admin)
 	.get('/', (req, res, next) =>
 		Play.findAll()
 		.then(plays => res.json(plays))
 		.catch(next))
 
-	.post('/', (req, res, next) => {
+// create one play, must be logged in
+	.post('/', mustBeLoggedIn, (req, res, next) => {
 		Play.create(req.body)
 		.then(play => res.status(201).json(play))
 		.catch(next)
 	})
 
-// this will require recipient to register to view a play they were sent
-// consider having them be able to view play outside app
-// TODO: discuss this as it relates to stickiness strategy
-	.get('/:id', mustBeLoggedIn, (req, res, next) =>
-	res.json(req.requestedUser))
+// get one play, doesn't require login for viewing shared play
+	.get('/:hashedPlay', (req, res, next) =>
+	res.json(req.requestedPlay))
 
-	.get('/:id/plays', mustBeLoggedIn, (req, res, next) =>
-	res.json(req.requestedUser.plays[0]))
-
-
-	.put('/:id', (req, res, next) => {
+// update one play, must be logged in
+	.put('/:hashedPlay', mustBeLoggedIn, (req, res, next) => {
 		req.requestedPlay.update(req.body)
 		.then(updatedPlay => {
 			res.send(updatedPlay)
@@ -44,7 +43,8 @@ module.exports = require('express').Router()
 		.catch(next)
 	})
 
-	.delete('/:id', function (req, res, next) {
+// delete one play, must be logged in
+	.delete('/:hashedPlay', mustBeLoggedIn, function (req, res, next) {
 	  req.requestedPlay.destroy()
 	  .then( () => res.status(204).end())
 	  .catch(next);
