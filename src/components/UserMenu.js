@@ -18,6 +18,8 @@ import Rectangle from '../chunks/Rectangle';
 import Login from './Login';
 import SignUp from './SignUp';
 
+import { savePlay } from '../paper/saver';
+
 //testing tone, doesn't belong here for prod
 import {synthOne} from '../tone/tonePatchOne'
 import { whoami, login, logout } from '../redux/login';
@@ -135,6 +137,11 @@ class UserMenu extends React.Component {
           this.props.openSignup(event);
         }}>
         </MenuItem>
+				<MenuItem primaryText="Save Play" onTouchTap={(event) => {
+          event.preventDefault();
+					savePlay(this.props.auth, this.props.allChunks);
+        }}>
+        </MenuItem>
         </IconMenu>
         </div>);
       }
@@ -145,7 +152,8 @@ const mapStateToProps = (state) => {
 	return {
 		center: state.canvas.center,
 		isPlaying: state.isPlaying,
-    auth: state.auth
+    auth: state.auth,
+		allChunks: state.allChunks
 	};
 };
 
