@@ -265,7 +265,6 @@ export default function(props) {
       if (localSelectedChunk) {
         localSelectedChunk.eraseVector();
 				localSelectedChunk.eraseAlignment();
-        localSelectedChunk.path.remove();
         localSelectedChunk = null;
         store.dispatch(selectChunk({}));
       }
