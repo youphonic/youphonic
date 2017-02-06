@@ -16,9 +16,7 @@ import { updateAndPlaceChunk } from '../redux/chunk';
 import {updateOneChunk} from '../redux/allChunks';
 import {startCanvas, stopCanvas} from '../redux/appState'
 
-/**
- * Dialog content can be scrollable.
- */
+
 class ShapeSettings extends React.Component {
   constructor(props) {
     super(props);
