@@ -29,6 +29,7 @@ export const shapesFilterOutId = (id) => {
 
 export const removeAllShapePaths = () => {
   shapes.forEach(shape => {
+		if (shape.type === 'fizzler') shape.removeAllParticles();
     shape.path.remove();
   })
 }

@@ -6,6 +6,7 @@ import Pendulum from '../chunks/Pendulum';
 import Rectangle from '../chunks/Rectangle';
 import Emitter from '../chunks/Emitter';
 import Rope from '../chunks/Rope';
+import Fizzler from '../chunks/Fizzler';
 
 import { removeAllShapePaths } from '../paper'
 
@@ -141,11 +142,19 @@ export const reconstruct = (savedChunks) => {
 
         case 'rope':
           reborn = new Rope(
-            props.start.x,
-            props.start.y,
-            props.end.x,
-            props.end.y,
+            props.start[1],
+            props.start[2],
+            props.end[1],
+            props.end[2],
             props.color
+          )
+          break;
+
+        case 'fizzler':
+          reborn = new Fizzler(
+            props.x,
+            props.y,
+            props.radius
           )
           break;
 
