@@ -62,23 +62,28 @@ export const drawArrow = function(start, end, direction) {
 };
 
 // Alignment drawing
-export const drawAlignment = function(start) {
-  var horizontalLine = new Path([
+export const drawAlignment = function(start, x, y) {
+  const lines = new Group([]);
+  if (y) {
+    var horizontalLine = new Path([
       new Point(0, start.y),
       start,
       new Point(start.x + window.innerWidth, start.y)
     ]);
-  horizontalLine.strokeColor = 'black';
-  var verticalLine = new Path([
-        new Point(start.x, 0),
-        start,
-        new Point(start.x, start.y + window.innerHeight)
-      ]);
-  verticalLine.strokeColor = 'black';
-  let lines = new Group([
-    horizontalLine,
-    verticalLine
-  ]);
+    horizontalLine.strokeColor = new Color(0.4, 0.7);
+    horizontalLine.dashArray = [10, 12];
+    lines.addChild(horizontalLine);
+  }
+  if (x) {
+    var verticalLine = new Path([
+      new Point(start.x, 0),
+      start,
+      new Point(start.x, start.y + window.innerHeight)
+    ]);
+    verticalLine.strokeColor = new Color(0.4, 0.7);
+    verticalLine.dashArray = [10, 12];
+    lines.addChild(verticalLine);
+  }
   return lines;
 };
 
@@ -87,22 +92,24 @@ const thingsAreClose = (selected, comparison) => {
       selectedY = selected.y ? selected.y : selected.path.position.y,
       comparisonX = comparison.path.position.x,
       comparisonY = comparison.path.position.y,
-      dist = selected.x ? 50 : 10;
+      dist = selected.x ? 30 : 10,
+      result = '';
 
   if ((comparisonX <= selectedX + dist) && (comparisonX >= selectedX - dist)) {
-    return 'xIntersect';
+    result += 'xIntersect';
   }
   if ((comparisonY >= selectedY - dist) && (comparisonY <= selectedY + dist)) {
-    return 'yIntersect';
+    result += 'yIntersect';
   }
-  return false;
+  return result;
 };
 
 export const nearIntersect = (selected, allChunks, delta, point, grid) => {
   let x = selected.path.position.x + Math.round(delta.x / grid) * grid,
       y = selected.path.position.y + Math.round(delta.y / grid) * grid;
 
-  selected.aligned = false;
+  selected.xAligned = false;
+  selected.yAligned = false;
 
   for (var i = 0; i < allChunks.length; i++) {
     let chunk = allChunks[i];
@@ -112,12 +119,19 @@ export const nearIntersect = (selected, allChunks, delta, point, grid) => {
       switch (chunksIntersect) {
         case 'xIntersect':
           x = chunk.path.position.x;
-          selected.aligned = true;
+          selected.xAligned = true;
           break;
 
         case 'yIntersect':
           y = chunk.path.position.y;
-          selected.aligned = true;
+          selected.yAligned = true;
+          break;
+
+        case 'xIntersectyIntersect':
+          x = chunk.path.position.x;
+          selected.xAligned = true;
+          y = chunk.path.position.y;
+          selected.yAligned = true;
           break;
       }
     }

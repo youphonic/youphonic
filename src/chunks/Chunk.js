@@ -14,7 +14,8 @@ export default class Chunk {
     this.fixed = false;
     this.flashColor = '';
     this.acceleration = acceleration;
-    this.aligned = false;
+    this.xAligned = false;
+    this.yAligned = false;
   }
 
   get isMoving () {
@@ -99,8 +100,9 @@ export default class Chunk {
   }
 
   drawAlignment() {
-    if (!this.aligned) return;
-    this.centerAlignment = drawAlignment(this.path.position);
+    if (!this.xAligned && !this.yAligned) return;
+    this.eraseAlignment();
+    this.centerAlignment = drawAlignment(this.path.position, this.xAligned, this.yAligned);
   }
 
   dragAlignment(mousePoint, shiftPressed) {
