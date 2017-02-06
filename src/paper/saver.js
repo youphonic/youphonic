@@ -56,6 +56,7 @@ export const reconstruct = (savedChunks) => {
       let props = savedChunks[chunk], // properties for the new chunk
           reborn; // var for the new chunk
       // make a new chunk depending on type
+        console.log(props);
       switch (props.type) {
         case 'circle':
           // Construct a new Circle
