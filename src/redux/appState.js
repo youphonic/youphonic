@@ -1,4 +1,4 @@
-import { START_CANVAS, STOP_CANVAS } from '../constants';
+import { START_CANVAS, STOP_CANVAS} from '../constants';
 
 
 const initialState = true;

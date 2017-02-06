@@ -9,6 +9,7 @@ import Rope from '../chunks/Rope';
 
 import { removeAllShapePaths } from '../paper'
 
+// saves current play to local state
 export const save = (allChunks) => {
   window.localStorage.setItem('savedChunks', JSON.stringify({
     savedChunks: deconstruct(allChunks)

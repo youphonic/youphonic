@@ -6,7 +6,7 @@ const initialState = {
 };
 // action creators
 // opens and closes dialog box for user registration from upper left account
-// menu needs to be dispatched to redux since dialog opens from menu and both
+// menu -- needs to be dispatched to redux since dialog opens from menu and both
 // UI components require a local 'open' key for navigation. This pattern will
 // be required whenever mixing MaterialUI navigation components that
 // work together
@@ -49,7 +49,7 @@ export default(state = initialState, action) => {
 			break;
     case OPEN_LOGIN_ALERT:
 			newState.loginAlertOpen = true;
-			break
+			break;
     default:
       return state;
   }

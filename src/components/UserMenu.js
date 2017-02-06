@@ -23,7 +23,7 @@ import {synthOne} from '../tone/tonePatchOne'
 import { whoami, login, logout } from '../redux/login';
 import { openSignup, openLogin } from '../redux/navState';
 
-import {startCanvas, stopCanvas} from '../redux/appState';
+import {startCanvas, stopCanvas, savePlay} from '../redux/appState';
 
 import {red500, yellow500, blue500} from 'material-ui/styles/colors';
 
@@ -133,6 +133,11 @@ class UserMenu extends React.Component {
         <MenuItem primaryText="SignUp" onTouchTap={(event) => {
           event.preventDefault();
           this.props.openSignup(event);
+        }}>
+        </MenuItem>
+				<MenuItem primaryText="Save Play" onTouchTap={(event) => {
+          event.preventDefault();
+          this.props.savePlay(event);
         }}>
         </MenuItem>
         </IconMenu>
