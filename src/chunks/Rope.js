@@ -20,6 +20,7 @@ export default class Rope extends Chunk {
       resonance : 0.95
     }).toMaster();
     this.type = 'rope';
+    this.path.name = 'ropeBody';
     // animation/Tone variables:
     // can it be played currently?
     this.enabled = true;
@@ -29,6 +30,7 @@ export default class Rope extends Chunk {
     this.animateTime = 0.5;
     // will hold the time that an animation was triggered
     this.currentAnimateTime = 0;
+    this.frequency = 'C4';
   }
 
   triggerSynth() {
@@ -86,6 +88,27 @@ export default class Rope extends Chunk {
       }
     }
   }
+
+  // redraw path on drag
+  onDrag(event, endSelected) {
+    // remove from DOM
+    this.path.remove();
+    // endSelected tracks whether the 'end' or 'start' of string was selected
+    if (endSelected) {
+      // find current start point
+      this.start = new Point(this.path.segments[0].point.x, this.path.segments[0].point.y);
+      this.path = makePath(this.start, event.point, this.color);
+      this.end = event.point;
+    } else {
+      let endSegment = this.path.segments.pop();
+      // find current end point
+      this.end = new Point(endSegment.point.x, endSegment.point.y);
+      this.path = makePath(event.point, this.end, this.color);
+      this.start = event.point;
+    }
+    this.path.name = 'ropeBody'
+  }
+
 }
 
 // construct for the Rope path
@@ -98,7 +121,7 @@ function makePath(start, end, color) {
       strokeJoin: 'round'
     });
 
-  for (let i = 0; i < points; i++) {
+  for (let i = 0; i <= points; i++) {
     let xPoint = start.x + ((i / points) * direction.x);
     let yPoint = start.y + ((i / points) * direction.y);
     let nextPoint = new Point(xPoint, yPoint)
