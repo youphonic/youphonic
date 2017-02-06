@@ -18,7 +18,7 @@ import Rectangle from '../chunks/Rectangle';
 import Login from './Login';
 import SignUp from './SignUp';
 
-import { savePlay } from '../paper/saver';
+import { savePlayToServer } from '../paper/saver';
 
 //testing tone, doesn't belong here for prod
 import {synthOne} from '../tone/tonePatchOne'
