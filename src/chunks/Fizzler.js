@@ -76,4 +76,11 @@ export default class Fizzler extends Chunk {
       }
     }
   }
+
+  removeAllParticles () {
+    this.particles = this.particles.filter(particle => {
+      particle.remove();
+      return false;
+    });
+  }
 }
