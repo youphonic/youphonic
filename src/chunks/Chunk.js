@@ -13,12 +13,13 @@ export default class Chunk {
     this.shadowColor = '';
     this.flashColor = '';
     this.acceleration = acceleration;
-    // is it aligned with other Chunks on drag?
-    this.aligned = false;
     // will this Chunk trigger hit responses?
     this.causeHitResponse = true;
     // will this Chunk move in response to hits?
     this.fixed = false;
+    // is the Chunk aligned with others on drag?
+    this.xAligned = false;
+    this.yAligned = false;
   }
 
   get isMoving () {
@@ -81,15 +82,20 @@ export default class Chunk {
 
   dragVector(mousePoint, shiftPressed) {
     this.eraseVector();
-    // let startPoint = this.path.position.add(this.direction.normalize(this.radius));
-    let angle = this.path.position.getAngle(mousePoint);
-    if (shiftPressed && Math.round(angle) % 45 === 0) {
-      this.vectorItem = drawArrow(this.path.position, mousePoint, this.direction);
-      this.direction = (this.path.position.subtract(mousePoint)).divide(-15);
-    } else if (!shiftPressed) {
-      this.vectorItem = drawArrow(this.path.position, mousePoint, this.direction);
-      this.direction = (this.path.position.subtract(mousePoint)).divide(-15);
+    let angle = this.path.position.subtract(mousePoint).angle;
+    let newAngle = angle;
+    let end = mousePoint;
+
+    if (shiftPressed) {
+      newAngle = Math.round((Math.round(angle / 45) * 45));
+      let newDirection = new Point({
+        angle: newAngle,
+        length: mousePoint.subtract(this.path.position).length
+      });
+      end = this.path.position.subtract(newDirection);
     }
+    this.vectorItem = drawArrow(this.path.position, end, this.direction);
+    this.direction = (this.path.position.subtract(end)).divide(-15);
   }
 
   eraseVector() {
@@ -100,8 +106,9 @@ export default class Chunk {
   }
 
   drawAlignment() {
-    if (!this.aligned) return;
-    this.centerAlignment = drawAlignment(this.path.position);
+    if (!this.xAligned && !this.yAligned) return;
+    this.eraseAlignment();
+    this.centerAlignment = drawAlignment(this.path.position, this.xAligned, this.yAligned);
   }
 
   dragAlignment(mousePoint, shiftPressed) {

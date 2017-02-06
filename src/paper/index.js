@@ -1,6 +1,7 @@
 /*eslint-disable id-length */
 /*globals Tool view project */
 import store from '../store';
+import colors from '../colors';
 import { selectChunk } from '../redux/chunk';
 import { removeChunk } from '../redux/allChunks';
 import { togglePlay } from '../redux/play';
@@ -112,17 +113,19 @@ export default function(props) {
             }
           });
         }
-        // this is temporary for PhysBall & Attractor
         if (shape.type === 'physics') {
           shape.applyForce(forces.gravity);
         } else if (shape.type === 'attractor') {
-          // shape.fixed = true;
           shapes.forEach(otherShape => {
             if (otherShape.isMoving && otherShape.id !== shape.id) {
               force = shape.calculateAttraction(otherShape);
               otherShape.applyForce(force);
             }
           });
+        } else if (shape.type === 'fizzler') {
+          shape.generateParticles();
+          // always update the particles that fizzler emitted
+          shape.updateParticles();
         }
         // update every moving shape's position each frame
         shape.update(event.time);
