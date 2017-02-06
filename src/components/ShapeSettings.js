@@ -116,7 +116,7 @@ class ShapeSettings extends React.Component {
           modal={false}
           actions={actions}
           open={this.state.open}
-          title="Update Chunk"
+          title="Set Shape Tones"
           autoScrollBodyContent={true}
           onRequestClose={this.handleClose}
         >

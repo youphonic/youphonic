@@ -140,7 +140,6 @@ export const nearIntersect = (selected, allChunks, delta, point, grid) => {
   return new Point(x, y);
 };
 
-
 // keep an input within a min-max range
 export const constrain = function(value, min, max) {
   if (value < min) {
@@ -158,12 +157,18 @@ export const scale = (input, inMin, inMax, outMin, outMax) => {
   return percent * (outMax - outMin) + outMin;
 };
 
+export const randomNumberWithinRange = (low, high) => {
+	let range = high - low;
+	let randomNumber = low + (range) * Math.random();
+	return randomNumber;
+};
+
 // radians to degrees
 export function radToDeg(rad) {
   return rad * (180 / Math.PI);
-}
+};
 
 // degrees to radians
 export function degToRad(deg) {
   return deg * Math.PI / 180;
-}
+};

@@ -10,7 +10,7 @@ import {togglePlay} from '../redux/play';
 import Circle from '../chunks/Circle';
 import PhysBall from '../chunks/PhysBall';
 import Attractor from '../chunks/Attractor';
-import Springer from '../chunks/Springer';
+import Fizzler from '../chunks/Fizzler';
 import Rectangle from '../chunks/Rectangle';
 import Pendulum from '../chunks/Pendulum';
 import Login from './Login';
@@ -67,9 +67,9 @@ function RightMenu (props) {
 				}}
       />
       <MenuItem
-        primaryText="Springer"
+        primaryText="Fizzler"
         onTouchTap={() => {
-					props.addChunk(new Springer(props.center.x, props.center.y, 24, new Point(0, 0), 100));
+					props.addChunk(new Fizzler(props.center.x, props.center.y, 24, new Point(0, 0)));
 					enterEditMode(props.isPlaying);
 				}}
       />
