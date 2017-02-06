@@ -19,7 +19,7 @@ let localSelectedChunk;
 let isVectorArrowBeingDragged = false;
 let isRopeEndBeingDragged = false;
 let ropeEndSelected = false;
-let grid = 20; // was 25
+let grid = 20; // was 2
 let shiftPressed = false;
 
 
@@ -216,6 +216,10 @@ export default function(props) {
       localSelectedChunk.drawVector();
       localSelectedChunk.eraseAlignment();
       localSelectedChunk.drawAlignment();
+
+			if (localSelectedChunk.updateRedrawPos) {
+				localSelectedChunk.updateRedrawPos();
+			}
 
       // update Emitter's home position - emitter is reset to this position after each animation loop
       if (localSelectedChunk.type === 'emitter') {

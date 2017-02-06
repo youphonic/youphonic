@@ -9,6 +9,7 @@ export default class Rectangle extends Chunk {
     this.width = w;
     this.height = h;
     this.path = new Path.Rectangle(new Point(x, y), new Size(this.width, this.height));
+    this.redrawPos = new Point(x, y);
     this.path.fillColor = color;
     this.center = [x + (this.width / 2), y + (this.height / 2)];
     this.fixed = true;
@@ -21,6 +22,10 @@ export default class Rectangle extends Chunk {
       top: this.y + this.height,
       bottom: this.y - this.height
     }
+  }
+
+  updateRedrawPos () {
+    this.redrawPos = new Point(this.path.position.x - this.width / 2, this.path.position.y - this.height / 2);
   }
 
 }
