@@ -5,6 +5,7 @@ import Springer from '../chunks/Springer';
 import Pendulum from '../chunks/Pendulum';
 import Rectangle from '../chunks/Rectangle';
 import Emitter from '../chunks/Emitter';
+import Rope from '../chunks/Rope';
 
 import { removeAllShapePaths } from '../paper'
 
@@ -35,7 +36,6 @@ export const load = (allChunks, clearAllChunks, addChunk) => {
 // serialize and deserialize chunks
 export const deconstruct = (allChunks) => {
   const saved = {};
-  console.log(allChunks)
   allChunks.forEach(chunk => {
     // Copy everything stored in chunk
     saved[chunk.id] = Object.assign({}, chunk);
@@ -118,8 +118,8 @@ export const reconstruct = (savedChunks) => {
         case 'rectangle':
           // Construct a new Rectangle
           reborn = new Rectangle(
-            props.x,
-            props.y,
+            props.redrawPos[1],
+            props.redrawPos[2],
             props.width,
             props.height,
             new Point(props.direction[1], props.direction[2]),
@@ -128,14 +128,25 @@ export const reconstruct = (savedChunks) => {
           break;
 
 				case 'emitter':
+          console.log(props);
           // Construct a new Emitter
           // TODO: Check with Robbyn on how this is moving over to right at pause then play
           reborn = new Emitter(
-            props.homePosition[1],
-            props.homePosition[2],
+            props.redrawPos[1],
+            props.redrawPos[2],
             props.length,
             props.color
           );
+          break;
+
+        case 'rope':
+          reborn = new Rope(
+            props.start.x,
+            props.start.y,
+            props.end.x,
+            props.end.y,
+            props.color
+          )
           break;
 
         default:

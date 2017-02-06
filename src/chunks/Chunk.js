@@ -1,6 +1,6 @@
 import Tone from 'tone';
 
-import {movingBounceOffMoving, movingBounceOffFixed, movingCircleBounceOffRectangle, drawArrow, drawAlignment} from './utils'
+import {movingBounceOffMoving, movingBounceOffFixed, movingCircleBounceOffRectangle, drawArrow, drawAlignment} from './utils';
 
 // auto incrementing id
 let idCount = 1;
@@ -8,18 +8,22 @@ let idCount = 1;
 export default class Chunk {
   constructor(direction, color = 'white', acceleration = new Point(0, 0)) {
 	  this.id = idCount++;
-    this.direction = direction
+    this.direction = direction;
     this.color = color;
     this.shadowColor = '';
-    this.fixed = false;
     this.flashColor = '';
     this.acceleration = acceleration;
+    // will this Chunk trigger hit responses?
+    this.causeHitResponse = true;
+    // will this Chunk move in response to hits?
+    this.fixed = false;
+    // is the Chunk aligned with others on drag?
     this.xAligned = false;
     this.yAligned = false;
   }
 
   get isMoving () {
-    return !(this.direction.x === 0 && this.direction.y === 0)
+    return !(this.direction.x === 0 && this.direction.y === 0);
   }
 
   applyForce(force) {
@@ -47,8 +51,10 @@ export default class Chunk {
   }
 
   respondToHit(hitter) {
-    if(hitter.type === 'rectangle') {
-      movingCircleBounceOffRectangle(this, hitter)
+    if (!hitter.causeHitResponse) {
+      return this;
+    } else if(hitter.type === 'rectangle') {
+      movingCircleBounceOffRectangle(this, hitter);
     } else if (hitter.fixed) {
       movingBounceOffFixed(this, hitter);
     } else {
