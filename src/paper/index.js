@@ -74,6 +74,7 @@ export default function(props) {
 		}
   }
 
+  // EI: refactor here
   // main drawing Loop
   view.onFrame = (event) => {
     // only update shapes if playing state is enabled
@@ -135,6 +136,7 @@ export default function(props) {
     }
   };
 
+  // EI: refactor here?
   // respond to mouseDown events
   tool.onMouseDown = (event) => {
     isVectorArrowBeingDragged = false;

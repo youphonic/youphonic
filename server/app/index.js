@@ -46,6 +46,7 @@ const staticMiddleware = require('./static.middleware');
 app.use(staticMiddleware);
 
 //mount api and api routes
+// EI: why not just have api/index.js?
 app.use('/api', require('../api/api'));
 
 //TODO: This needs to be adjusted to serve api routes
