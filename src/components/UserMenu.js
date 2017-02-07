@@ -23,7 +23,8 @@ import { savePlay, getMyPlays } from '../paper/saver';
 //testing tone, doesn't belong here for prod
 import {synthOne} from '../tone/tonePatchOne'
 import { whoami, login, logout } from '../redux/login';
-import { openSignup, openLogin, openSharing } from '../redux/navState';
+import { openSignup, openLogin, openPlays, closePlays } from '../redux/navState';
+import { getAllPlays } from '../redux/plays';
 
 import {startCanvas, stopCanvas} from '../redux/appState';
 
@@ -144,12 +145,8 @@ class UserMenu extends React.Component {
         </MenuItem>
 				<MenuItem primaryText="My Plays" onTouchTap={(event) => {
 					event.preventDefault();
-					getMyPlays(this.props.auth);
-				}}>
-				</MenuItem>
-				<MenuItem primaryText="Share" onTouchTap={(event) => {
-					event.preventDefault();
-					share();
+					this.props.getAllPlays(this.props.auth)
+					this.props.openPlays();
 				}}>
 				</MenuItem>
         </IconMenu>
@@ -186,16 +183,17 @@ const mapDispatchToProps = dispatch => {
 			event.preventDefault();
 			dispatch(openLogin());
 		},
-		share: (event) => {
-			event.preventDefault();
-			dispatch(openSharing())
+		openPlays: () => {
+			dispatch(openPlays())
 		},
     saveUser: (info) =>
       dispatch(saveUser(info)),
 		startCanvas: () =>
       dispatch(startCanvas()),
     stopCanvas: () =>
-      dispatch(stopCanvas())
+      dispatch(stopCanvas()),
+		getAllPlays: (user) =>
+			dispatch(getAllPlays(user))
 	};
 };
 
