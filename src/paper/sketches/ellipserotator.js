@@ -1,3 +1,4 @@
+/*eslint-disable */
 var circle = new Path.Ellipse(new Point(100, 100), new Size(30, 60))
 circle.fillColor = {
     gradient: {
