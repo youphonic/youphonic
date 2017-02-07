@@ -7,10 +7,8 @@ const {mustBeLoggedIn, forbidden} = require('../auth/auth.filters')
 
 module.exports = require('express').Router()
 	.param('id', function (req, res, next, id) {
-		console.log('user id ', id);
 	  User.findById(id)
 	  .then(function (user) {
-			console.log('user ', user);
 	    req.requestedUser = user;
 	    next();
 	  })
@@ -23,17 +21,26 @@ module.exports = require('express').Router()
 	// 	.then(users => res.json(users))
 	// 	.catch(next))
 
+	// create one user
 	.post('/', (req, res, next) => {
 		User.create(req.body)
 		.then(user => res.status(201).json(user))
 		.catch(next);
 	})
 
+// get one user by id
 	.get('/:id', mustBeLoggedIn, (req, res, next) =>
 	res.json(req.requestedUser))
 
-	.get('/:id/plays', mustBeLoggedIn, (req, res, next) =>
-	res.json(req.requestedUser.plays[0]))
+// get all plays for one user by id
+	.get('/:id/plays', (req, res, next) => {
+		Play.findAll({
+			where: {player_id: req.requestedUser.id}
+		})
+		.then(foundPlays => 	res.json(foundPlays.data))
+		.catch(next)
+		}
+	)
 
 
 //updates user instance

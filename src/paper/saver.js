@@ -36,6 +36,19 @@ export const savePlayToServer = (user, allChunks, title = 'My new play') => {
 		.catch(error => console.log(error));
 };
 
+//called in UserMenu component as 'Get Plays'
+//route requires logged in user, errors in console silently with 401
+//if not logged in
+
+// export const getMyPlays = (user) => {
+// 	axios.get(`api/users/${+user.id}/plays`)
+// 		.then(foundPlays => console.log(foundPlays))
+// 		.catch(error => console.log(error));
+// };
+
+// 		// here we need to deliver the array of plays to front end
+		// for user selection then load the chunks from selected play
+
 export const load = (allChunks, clearAllChunks, addChunk) => {
   // Pull all chunks off local storage
   let savedChunks = reconstruct(JSON.parse(window.localStorage.getItem('savedChunks')).savedChunks);

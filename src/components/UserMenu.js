@@ -18,12 +18,13 @@ import Rectangle from '../chunks/Rectangle';
 import Login from './Login';
 import SignUp from './SignUp';
 
-import { savePlayToServer } from '../paper/saver';
+import { savePlayToServer, getMyPlays } from '../paper/saver';
 
 //testing tone, doesn't belong here for prod
 import {synthOne} from '../tone/tonePatchOne'
 import { whoami, login, logout } from '../redux/login';
-import { openSignup, openLogin } from '../redux/navState';
+import { openSignup, openLogin, openPlays, closePlays } from '../redux/navState';
+import { getAllPlays } from '../redux/plays';
 
 import {startCanvas, stopCanvas} from '../redux/appState';
 
@@ -142,6 +143,12 @@ class UserMenu extends React.Component {
 					savePlayToServer(this.props.auth, this.props.allChunks);
         }}>
         </MenuItem>
+				<MenuItem primaryText="My Plays" onTouchTap={(event) => {
+					event.preventDefault();
+					this.props.getAllPlays(this.props.auth)
+					this.props.openPlays();
+				}}>
+				</MenuItem>
         </IconMenu>
         </div>);
       }
@@ -176,12 +183,17 @@ const mapDispatchToProps = dispatch => {
 			event.preventDefault();
 			dispatch(openLogin());
 		},
+		openPlays: () => {
+			dispatch(openPlays())
+		},
     saveUser: (info) =>
       dispatch(saveUser(info)),
 		startCanvas: () =>
       dispatch(startCanvas()),
     stopCanvas: () =>
-      dispatch(stopCanvas())
+      dispatch(stopCanvas()),
+		getAllPlays: (user) =>
+			dispatch(getAllPlays(user))
 	};
 };
 

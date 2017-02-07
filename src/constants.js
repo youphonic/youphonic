@@ -7,6 +7,9 @@ export const OPEN_SIGNUP = 'OPEN_SIGNUP';
 export const CLOSE_SIGNUP = 'CLOSE_SIGNUP';
 export const OPEN_LOGIN_ALERT = 'OPEN_LOGIN_ALERT';
 export const CLOSE_SIGNUP_ALERT = 'CLOSE_SIGNUP_ALERT';
+export const OPEN_PLAYS = 'OPEN_PLAYS';
+export const CLOSE_PLAYS = 'CLOSE_PLAYS';
+export const GET_ALL_PLAYS = 'GET_ALL_PLAYS';
 
 export const ADD_CHUNK = 'ADD_CHUNK';
 export const LOAD_CHUNKS = 'LOAD_CHUNKS';
