@@ -26,7 +26,7 @@ export const closeSignup = () => {
 };
 export const toggleSaveAPlay = () => {
   return {type: TOGGLE_SAVE_A_PLAY};
-
+};
 export const openPlays = () => {
   return {type: OPEN_PLAYS};
 };
