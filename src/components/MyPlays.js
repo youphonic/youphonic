@@ -21,7 +21,6 @@ class MyPlays extends React.Component {
 
 
   render() {
-		console.log('allPlays:', this.props.allPlays)
     const actions = [
       <FlatButton
         label="Cancel"
