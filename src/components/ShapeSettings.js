@@ -6,6 +6,7 @@ import RaisedButton from 'material-ui/RaisedButton';
 import TextField from 'material-ui/TextField';
 import DropDownMenu from 'material-ui/DropDownMenu';
 import MenuItem from 'material-ui/MenuItem';
+import SvgIcon from 'material-ui/SvgIcon';
 
 import FloatingActionButton from 'material-ui/FloatingActionButton';
 import FontIcon from 'material-ui/FontIcon';
@@ -15,6 +16,16 @@ import AutoComplete from 'material-ui/AutoComplete';
 import { updateAndPlaceChunk } from '../redux/chunk';
 import {updateOneChunk} from '../redux/allChunks';
 import {startCanvas, stopCanvas} from '../redux/appState'
+
+// Instrument Icons
+import kickIcon from '../../public/icons/kick.svg.jsx';
+import cowbellIcon from '../../public/icons/cowbell.svg.jsx';
+import snareIcon from '../../public/icons/snare.svg.jsx';
+import floorTomIcon from '../../public/icons/floor-tom.svg.jsx';
+import hiHatIcon from '../../public/icons/hi-hat.svg.jsx';
+
+// Instrument Sounds
+import { player, drumBuffers, possibilities } from '../tone/drums';
 
 
 class ShapeSettings extends React.Component {
@@ -77,8 +88,26 @@ class ShapeSettings extends React.Component {
 				position: 'absolute',
 				right: 15,
 				bottom: 15
-			}
-		}
+			},
+      form: {
+        display: 'flex'
+      },
+      label: {
+        marginTop: 'auto',
+        marginLeft: 25
+      },
+      instMenu: {
+        marginTop: 15
+      },
+      icon: {
+        viewBox: "0 0 128 128",
+        position: 'absolute',
+        zIndex: 100,
+        height: 24,
+        width: 24,
+        enableBackground: "new 0 0 128 128"
+      }
+		};
     const actions = [
       <FlatButton
         key="button1"
@@ -121,7 +150,7 @@ class ShapeSettings extends React.Component {
           autoScrollBodyContent={true}
           onRequestClose={this.handleClose}
         >
-          <form>
+          <form style={styles.form}>
 						<AutoComplete
 							floatingLabelText="Enter note: C1, C#1, Db1, etc"
 							filter={AutoComplete.caseInsensitiveFilter}
@@ -130,11 +159,26 @@ class ShapeSettings extends React.Component {
 							searchText={this.state.frequency}
               onKeyDown={this.handleFrequencyEnterKey}
 						/>
-            <DropDownMenu value={this.state.drum} onChange={this.changeDrum}>
-              <MenuItem value={'kick'} primaryText="Kick" />
-              <MenuItem value={'snare'} primaryText="Snare" />
-              <MenuItem value={'floorTom'} primaryText="Floor Tom" />
-              <MenuItem value={'hiHatClose'} primaryText="Hi Hat Close" />
+          <p style={styles.label}>Instrument:</p>
+            <DropDownMenu value={this.state.drum} onChange={this.changeDrum} style={styles.instMenu}>
+              <MenuItem value={'kick'} primaryText="Kick" leftIcon={kickIcon} onTouchTap={() => {
+                  player.buffer = drumBuffers.get('kick');
+                  console.log('player', player);
+                  player.start();
+                }}/>
+              <MenuItem value={'snare'} primaryText="Snare" leftIcon={snareIcon} onTouchTap={() => {
+                  player.buffer = drumBuffers.get('snare');
+                  player.start();
+                }}/>
+              <MenuItem value={'floorTom'} primaryText="Floor Tom" leftIcon={floorTomIcon} onTouchTap={() => {
+                  player.buffer = drumBuffers.get('floorTom');
+                  player.start();
+                }}/>
+              <MenuItem value={'hiHatClose'} primaryText="Hi Hat Close" leftIcon={hiHatIcon} onTouchTap={() => {
+                  player.buffer = drumBuffers.get('hiHatClose');
+                  player.start();
+                }}/>
+              <MenuItem value={'cowbell'} primaryText="Cowbell" leftIcon={cowbellIcon}/>
             </DropDownMenu>
           </form>
         </Dialog>

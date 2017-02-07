@@ -69,8 +69,8 @@ componentDidMount(){
 
 componentWillReceiveProps(nextProps){
 	this.setState({
-		newUser: this.props.auth !== nextProps.auth
-})
+		newUser: (nextProps.auth.id !== undefined)
+});
 }
 
 	render(){
@@ -81,7 +81,7 @@ componentWillReceiveProps(nextProps){
 	        <Login/>
 	        <SignUp />
 					{/* check for logged in user then deliver welcome alert */}
-					{this.state.newUser && <SnackBar message={'Welcome ' + this.props.auth.firstName} open={this.props.loginAlertOpen}/>}
+					{this.state.newUser && <SnackBar message={'Welcome ' + this.props.auth.firstName} open={this.props.loginAlertOpen} autoHideDuration={3000}/>}
 	        <UserMenu />
 	        <RightMenu/>
 	        {this.props.selectedChunk.id && <ShapeSettings style={styles.settingsButton}/>}

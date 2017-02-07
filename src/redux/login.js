@@ -16,7 +16,7 @@ export const logout_user = user => ({
   type: LOGOUT_USER, user
 })
 
-const reducer = (state=null, action) => {
+const reducer = (state = '', action) => {
   switch(action.type) {
     case AUTHENTICATED:
       return action.user
