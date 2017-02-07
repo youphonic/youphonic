@@ -1,6 +1,8 @@
 import Tone from 'tone';
 import masterBuss from './masterBuss';
 
+// for some reason,
+// sending this to the masterBuss makes this break...
 export const player = new Tone.Player().toMaster();
 
 export const drumBuffers = new Tone.Buffers({
