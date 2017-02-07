@@ -174,7 +174,9 @@ export default function(props) {
 
       // clone Chunk if option/alt key is pressed
       if(event.modifiers.option) {
+        console.log('testing')
         let duplicate = clone(localSelectedChunk);
+        console.log(duplicate);
         store.dispatch(addChunk(duplicate));
         store.dispatch(selectChunk(duplicate));
       }
@@ -288,6 +290,12 @@ export default function(props) {
       duplicateObj[key].direction = [, duplicateObj[key].direction.x, duplicateObj[key].direction.y];
       if (duplicateObj[key].redrawPos) {
         duplicateObj[key].redrawPos = [, duplicateObj[key].redrawPos.x, duplicateObj[key].redrawPos.y];
+      }
+      if (duplicateObj[key].start) {
+        duplicateObj[key].start = [, duplicateObj[key].start.x, duplicateObj[key].start.y];
+      }
+      if (duplicateObj[key].end) {
+        duplicateObj[key].end = [, duplicateObj[key].end.x, duplicateObj[key].end.y];
       }
     }
     let duplicate = reconstruct(duplicateObj)[0];

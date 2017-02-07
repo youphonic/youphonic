@@ -2,7 +2,7 @@ import Tone from 'tone';
 
 import Chunk from './Chunk';
 import colors from '../colors';
-import { scale } from './utils'
+import { scale } from './utils';
 
 // hold total number of segments
 let numSegments = 17;
@@ -72,8 +72,8 @@ export default class Rope extends Chunk {
     let direction = this.end.subtract(this.start)
     for (let i = 0; i < numSegments; i++) {
       let segment = this.path.segments[i];
-      segment.point.x = this.start.x + ((i / numSegments) * direction.x)
-      segment.point.y = this.start.y + ((i/numSegments) * direction.y)
+      segment.point.x = this.start.x + ((i / numSegments) * direction.x);
+      segment.point.y = this.start.y + ((i/numSegments) * direction.y);
     }
   }
 
@@ -83,7 +83,7 @@ export default class Rope extends Chunk {
       // trigger animation
       if (time <= this.currentAnimateTime + this.animateTime) {
         let nextTime = ((time - this.currentAnimateTime) * 2 / this.animateTime) - 1;
-        this.animate(nextTime)
+        this.animate(nextTime);
       // otherwise, stop animation and reset
       } else {
         this.isAnimating = false;
@@ -122,7 +122,7 @@ export default class Rope extends Chunk {
 
 // construct for the Rope path
 function makePath(start, end, color) {
-  let direction = end.subtract(start)
+  let direction = end.subtract(start);
   let resultPath = new Path({
       strokeColor: color,
       strokeWidth: 2,
@@ -133,8 +133,8 @@ function makePath(start, end, color) {
   for (let i = 0; i <= numSegments; i++) {
     let xPoint = start.x + ((i / numSegments) * direction.x);
     let yPoint = start.y + ((i / numSegments) * direction.y);
-    let nextPoint = new Point(xPoint, yPoint)
-    resultPath.add(nextPoint)
+    let nextPoint = new Point(xPoint, yPoint);
+    resultPath.add(nextPoint);
   }
 
   return resultPath;

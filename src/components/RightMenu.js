@@ -15,6 +15,7 @@ import Fizzler from '../chunks/Fizzler';
 import Rectangle from '../chunks/Rectangle';
 import Pendulum from '../chunks/Pendulum';
 import Emitter from '../chunks/Emitter';
+import Rope from '../chunks/Rope';
 import Login from './Login';
 import colors from '../colors'
 
@@ -137,6 +138,13 @@ function RightMenu (props) {
         primaryText="Emitter"
         onTouchTap={() => {
           props.addChunk(new Emitter(props.center.x, props.center.y, 50));
+					enterEditMode(props.isPlaying);
+				}}
+      />
+      <MenuItem
+        primaryText="Rope"
+        onTouchTap={() => {
+          props.addChunk(new Rope(props.center.x - 100, props.center.y + 100, props.center.x + 100, props.center.y - 100, colors.blueStone));
 					enterEditMode(props.isPlaying);
 				}}
       />

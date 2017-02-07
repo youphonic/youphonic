@@ -49,7 +49,7 @@ export default function () {
   // store.dispatch(addChunk(newEmitter))
 
   // uncomment to seed a Rectangle
-  // let newRect = new Rectangle(center.x + 40, center.y + 40, 75, 75, noMotion, colors.flamingo);
+  let newRect = new Rectangle(center.x + 40, center.y + 40, 75, 75, noMotion, colors.flamingo, 45);
   // newRect.path.rotate(30);
-  // store.dispatch(addChunk(newRect))
+  store.dispatch(addChunk(newRect))
 }
