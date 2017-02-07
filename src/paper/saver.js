@@ -25,7 +25,6 @@ export const save = (allChunks) => {
 // title is set to default value at the moment until user can enter title
 export const savePlayToServer = (user, allChunks, title = 'My new play') => {
 	const playToSave = deconstruct(allChunks);
-  console.log(JSON.stringify(playToSave))
   const imageToSave = document.getElementById('paperCanvas').toDataURL();
 	axios.post('api/plays', {
     title,
@@ -66,7 +65,6 @@ export const loadPlayToStateFromServer = (play) => {
     });
   }
 };
-
 
 // serialize and deserialize chunks
 export const deconstruct = (allChunks) => {
