@@ -9,7 +9,8 @@ import axios from 'axios';
 import store from './store';
 import Main from './components/Main';
 
-import { loadPlayToStateFromServer } from './paper/saver'
+import { loadPlayToStateFromServer } from './paper/saver';
+import { clearAllChunks } from './redux/allChunks';
 
 
 export const fetchSinglePlay = (nextRouterState) => {
@@ -21,7 +22,7 @@ export const fetchSinglePlay = (nextRouterState) => {
       if (play) loadPlayToStateFromServer(play);
       else browserHistory.push('/');
     });
-}
+};
 
 paper.install(window);
 
@@ -30,7 +31,7 @@ render(
     <Provider store={ store }>
       <Router history={ browserHistory }>
         <Route path='/' component={ Main } >
-          <Route path='/:hash' component={ Main } onEnter={ fetchSinglePlay }/>
+          <Route path='/:hash' component={ Main } onEnter={fetchSinglePlay}/>
         </Route>
       </Router>
     </Provider>

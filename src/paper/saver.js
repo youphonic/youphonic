@@ -72,6 +72,12 @@ export const loadPlayToStateFromServer = (play) => {
   let savedChunks = reconstruct(play.playJson);
   // If there are any stored chunks ...
   if (savedChunks && savedChunks.length) {
+    // Remove chunks on state from paper
+    if (store.getState().allChunks.length) {
+      store.getState().allChunks.forEach(chunk => chunk.path.remove());
+    }
+    // Clear all chunks from state
+    store.dispatch(clearAllChunks());
     // Add the saved chunks to the Redux Store
     savedChunks.forEach(chunk => {
       store.dispatch(addChunk(chunk));
