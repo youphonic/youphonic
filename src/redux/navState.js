@@ -1,8 +1,9 @@
-import {OPEN_LOGIN, CLOSE_LOGIN, OPEN_SIGNUP, CLOSE_SIGNUP, OPEN_LOGIN_ALERT, CLOSE_SIGNUP_ALERT} from '../constants';
+import {OPEN_LOGIN, CLOSE_LOGIN, OPEN_SIGNUP, CLOSE_SIGNUP, OPEN_LOGIN_ALERT, CLOSE_SIGNUP_ALERT, TOGGLE_SAVE_A_PLAY} from '../constants';
 const initialState = {
 	loginOpen: false,
   signUpOpen: false,
-  loginAlertOpen: false
+  saveAPlayOpen: false,
+  loginAlertOpen: false,
 };
 // action creators
 // opens and closes dialog box for user registration from upper left account
@@ -22,6 +23,9 @@ export const openSignup = () => {
 export const closeSignup = () => {
   return {type: CLOSE_SIGNUP};
 };
+export const toggleSaveAPlay = () => {
+  return {type: TOGGLE_SAVE_A_PLAY};
+};
 // same pattern for opening and closing user signup alerts ('SnackBar')
 // allows for later refactoring to include user first name in alert
 // since we will login the user after they register
@@ -32,7 +36,7 @@ export const openLoginAlert = (user) => {
 // reducer
 export default(state = initialState, action) => {
 
-	let newState = Object.assign({}, state)
+	let newState = Object.assign({}, state);
 
   switch (action.type) {
 		case OPEN_LOGIN:
@@ -49,7 +53,10 @@ export default(state = initialState, action) => {
 			break;
     case OPEN_LOGIN_ALERT:
 			newState.loginAlertOpen = true;
-			break
+			break;
+    case TOGGLE_SAVE_A_PLAY:
+      newState.saveAPlayOpen = !newState.saveAPlayOpen;
+      break;
     default:
       return state;
   }

@@ -1,29 +1,24 @@
 import React from 'react';
 import {connect} from 'react-redux';
+import Divider from 'material-ui/Divider';
 import IconMenu from 'material-ui/IconMenu';
 import FontIcon from 'material-ui/FontIcon';
 import MenuItem from 'material-ui/MenuItem';
 import IconButton from 'material-ui/IconButton';
 import FloatingActionButton from 'material-ui/FloatingActionButton';
+import ArrowDropRight from 'material-ui/svg-icons/navigation-arrow-drop-right';
+
 import Dialog from 'material-ui/Dialog';
 import FlatButton from 'material-ui/FlatButton';
 import TextField from 'material-ui/TextField';
 
 import {addChunk} from '../redux/allChunks';
-import {togglePlay} from '../redux/play';
-import Circle from '../chunks/Circle';
-import PhysBall from '../chunks/PhysBall';
-import Attractor from '../chunks/Attractor';
-import Rectangle from '../chunks/Rectangle';
 import Login from './Login';
 import SignUp from './SignUp';
+import SaveAPlay from './SaveAPlay';
 
-import { savePlayToServer } from '../paper/saver';
-
-//testing tone, doesn't belong here for prod
-import {synthOne} from '../tone/tonePatchOne'
 import { whoami, login, logout } from '../redux/login';
-import { openSignup, openLogin } from '../redux/navState';
+import { openSignup, openLogin, toggleSaveAPlay } from '../redux/navState';
 
 import {startCanvas, stopCanvas} from '../redux/appState';
 
@@ -135,14 +130,18 @@ class UserMenu extends React.Component {
         <MenuItem primaryText="SignUp" onTouchTap={(event) => {
           event.preventDefault();
           this.props.openSignup(event);
-        }}>
-        </MenuItem>
-				<MenuItem primaryText="Save Play" onTouchTap={(event) => {
-          event.preventDefault();
-					savePlay(this.props.auth, this.props.allChunks);
-        }}>
-        </MenuItem>
+        }} />
+        <Divider />
+        <MenuItem
+          primaryText="Save Play"
+          rightIcon={<ArrowDropRight />}
+          onTouchTap={event => {
+            this.props.stopCanvas();
+            this.props.toggleSavePlay();
+          }}
+        />
         </IconMenu>
+        <SaveAPlay />
         </div>);
       }
   }
@@ -162,9 +161,6 @@ const mapDispatchToProps = dispatch => {
 		addChunk: (chunk) => {
 			dispatch(addChunk(chunk));
 		},
-		togglePlay: (isPlaying) => {
-			dispatch(togglePlay(isPlaying));
-		},
     logout: () => {
       dispatch(logout());
     },
@@ -181,7 +177,9 @@ const mapDispatchToProps = dispatch => {
 		startCanvas: () =>
       dispatch(startCanvas()),
     stopCanvas: () =>
-      dispatch(stopCanvas())
+      dispatch(stopCanvas()),
+    toggleSavePlay: () =>
+      dispatch(toggleSaveAPlay())
 	};
 };
 
