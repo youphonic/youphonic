@@ -73,15 +73,15 @@ class Login extends React.Component {
         style={this.styles.socialButton}
         icon={<FontIcon className="fa fa-google" />}
       />,
-      <RaisedButton
-  			onTouchTap={()=>this.props.facebookLogin()}
-        label="Facebook"
-  			target="_blank"
-        labelPosition="before"
-        primary={true}
-        icon={<FontIcon className="fa fa-facebook-square" />}
-        style={this.styles.socialButton}
-      />,
+      // <RaisedButton
+  		// 	onTouchTap={()=>this.props.facebookLogin()}
+      //   label="Facebook"
+  		// 	target="_blank"
+      //   labelPosition="before"
+      //   primary={true}
+      //   icon={<FontIcon className="fa fa-facebook-square" />}
+      //   style={this.styles.socialButton}
+      // />,
     ];
     return (
       <div>
