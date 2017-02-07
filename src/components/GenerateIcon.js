@@ -42,7 +42,7 @@ export function GenerateIcon(network) {
       const classes = `social-icon social-icon--${network} ${className || ''}`;
 
       const finalIconBgStyle = {
-        ...iconBgStyle,
+        iconBgStyle,
       };
 
       return (

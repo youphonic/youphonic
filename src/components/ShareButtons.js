@@ -8,19 +8,19 @@ const supportedNetworks = Object.keys(links);
 
 export default class ShareButton extends Component {
 
-  propTypes: {
-    children: PropTypes.node,
-    className: PropTypes.string,
-    disabled: PropTypes.bool,
-    disabledStyle: PropTypes.object,
-    network: PropTypes.oneOf(supportedNetworks),
-    opts: PropTypes.object,
-    url: PropTypes.string.isRequired,
-    style: PropTypes.object,
-    windowWidth: PropTypes.number,
-    windowHeight: PropTypes.number,
-    beforeOnClick: PropTypes.func
-  }
+  // propTypes: {
+  //   children: PropTypes.node,
+  //   className: PropTypes.string,
+  //   disabled: PropTypes.bool,
+  //   disabledStyle: PropTypes.object,
+  //   network: PropTypes.oneOf(supportedNetworks),
+  //   opts: PropTypes.object,
+  //   url: PropTypes.string.isRequired,
+  //   style: PropTypes.object,
+  //   windowWidth: PropTypes.number,
+  //   windowHeight: PropTypes.number,
+  //   beforeOnClick: PropTypes.func
+  // }
 
   static defaultProps = {
     disabledStyle: {
