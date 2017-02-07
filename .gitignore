@@ -5,5 +5,6 @@ bundle.js
 bundle.js.map
 
 musicmachine.env.js
+youphonic.env.js
 
 .eslintrc.json

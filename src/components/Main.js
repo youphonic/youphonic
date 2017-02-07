@@ -18,6 +18,7 @@ import { addChunk, updateOneChunk, clearAllChunks } from '../redux/allChunks';
 import { startCanvas } from '../redux/appState'
 import Login from './Login';
 import SignUp from './SignUp';
+import MyPlays from './MyPlays';
 import SnackBar from 'material-ui/Snackbar';
 import { whoami } from '../redux/login';
 import { save, load, deconstruct, reconstruct } from '../paper/saver';
@@ -84,6 +85,7 @@ componentWillReceiveProps(nextProps){
 					{this.state.newUser && <SnackBar message={'Welcome ' + this.props.auth.firstName} open={this.props.loginAlertOpen} autoHideDuration={3000}/>}
 	        <UserMenu />
 	        <RightMenu/>
+					<MyPlays/>
 	        {this.props.selectedChunk.id && <ShapeSettings style={styles.settingsButton}/>}
 	        <FloatingActionButton style={styles.playButton} color={blue500}>
 	          <FontIcon onClick={() => {

@@ -23,9 +23,10 @@ app.use(cookies({
 const logger = volleyball.custom({ debug: true });
 app.use(volleyball);
 
-//body parsing middleware
+// body parsing middleware
+// json limit must be large enough to transfer images
 app.use(bodyParser.urlencoded({ extended: true }));
-app.use(bodyParser.json());
+app.use(bodyParser.json({limit: '10mb'}));
 
 //authentication middleware
 app.use(passport.initialize());

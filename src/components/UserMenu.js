@@ -17,8 +17,13 @@ import Login from './Login';
 import SignUp from './SignUp';
 import SaveAPlay from './SaveAPlay';
 
+import { savePlayToServer, getMyPlays } from '../paper/saver';
+
+//testing tone, doesn't belong here for prod
+import {synthOne} from '../tone/tonePatchOne'
 import { whoami, login, logout } from '../redux/login';
-import { openSignup, openLogin, toggleSaveAPlay } from '../redux/navState';
+import { openSignup, openLogin, openPlays, closePlays, toggleSaveAPlay } from '../redux/navState';
+import { getAllPlays } from '../redux/plays';
 
 import {startCanvas, stopCanvas} from '../redux/appState';
 
@@ -140,6 +145,12 @@ class UserMenu extends React.Component {
             this.props.toggleSavePlay();
           }}
         />
+				<MenuItem primaryText="My Plays" onTouchTap={(event) => {
+					event.preventDefault();
+					this.props.getAllPlays(this.props.auth)
+					this.props.openPlays();
+				}}>
+				</MenuItem>
         </IconMenu>
         <SaveAPlay />
         </div>);
@@ -172,6 +183,9 @@ const mapDispatchToProps = dispatch => {
 			event.preventDefault();
 			dispatch(openLogin());
 		},
+		openPlays: () => {
+			dispatch(openPlays())
+		},
     saveUser: (info) =>
       dispatch(saveUser(info)),
 		startCanvas: () =>
@@ -180,6 +194,10 @@ const mapDispatchToProps = dispatch => {
       dispatch(stopCanvas()),
     toggleSavePlay: () =>
       dispatch(toggleSaveAPlay())
+
+		getAllPlays: (user) =>
+			dispatch(getAllPlays(user))
+
 	};
 };
 
