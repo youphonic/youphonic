@@ -34,6 +34,15 @@ module.exports = require('express').Router()
 	.get('/:hashedPlay', (req, res, next) =>
 	res.json(req.requestedPlay))
 
+// get all plays for one user, requires that user be logged in
+	.get('/:userId', mustBeLoggedIn, (req, res, next) =>
+		Play.findAll({
+			where: {player_id: +userId}
+		})
+		.then(plays => res.json(plays))
+		.catch(next)
+		)
+
 // update one play, must be logged in
 	.put('/:hashedPlay', mustBeLoggedIn, (req, res, next) => {
 		req.requestedPlay.update(req.body)

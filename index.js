@@ -5,8 +5,8 @@ const debug = require('debug')(`${pkg.name}:boot`)
 const secretsFile = require('./musicmachine.env');
 
 // This loads a secrets file from
-//   or ~/.musicmachine.env.json
-// and add it to the environment
+//  ~/.musicmachine.env.json
+// and adds it to the environment
 const env = Object.create(process.env)
 try {
   Object.assign(env, secretsFile)

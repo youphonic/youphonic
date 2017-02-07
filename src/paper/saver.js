@@ -17,8 +17,8 @@ export const save = (allChunks) => {
   }));
 };
 
-// implemented in UserMenu component as 'Save Play'
-// requires logged in user, errors in console silently with 401
+// called in UserMenu component as 'Save Play'
+// requires logged in user, errors in console silently with 401 if not
 export const savePlay = (user, allChunks) => {
 	const playToSave = JSON.stringify(deconstruct(allChunks));
 	axios.post('api/plays', {
@@ -26,6 +26,15 @@ export const savePlay = (user, allChunks) => {
 		playJson: playToSave
 		})
 		.then(response => console.log(response))
+		.catch(error => console.log(error));
+};
+
+//called in UserMenu component as 'Get Plays'
+//route requires logged in user, errors in console silently with 401
+//if not logged in
+export const getMyPlays = (user) => {
+	axios.get(`api/plays/${user.id}`, user)
+		.then(foundPlays => console.log(JSON.parse(foundPlays)))
 		.catch(error => console.log(error));
 };
 
