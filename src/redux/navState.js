@@ -1,7 +1,8 @@
-import {OPEN_LOGIN, CLOSE_LOGIN, OPEN_SIGNUP, CLOSE_SIGNUP, OPEN_LOGIN_ALERT, CLOSE_SIGNUP_ALERT, OPEN_PLAYS, CLOSE_PLAYS} from '../constants';
+import {OPEN_LOGIN, CLOSE_LOGIN, OPEN_SIGNUP, CLOSE_SIGNUP, OPEN_LOGIN_ALERT, CLOSE_SIGNUP_ALERT, OPEN_PLAYS, CLOSE_PLAYS, TOGGLE_SAVE_A_PLAY} from '../constants';
 const initialState = {
 	loginOpen: false,
   signUpOpen: false,
+  saveAPlayOpen: false,
   loginAlertOpen: false,
 	playsOpen: false
 };
@@ -23,6 +24,9 @@ export const openSignup = () => {
 export const closeSignup = () => {
   return {type: CLOSE_SIGNUP};
 };
+export const toggleSaveAPlay = () => {
+  return {type: TOGGLE_SAVE_A_PLAY};
+
 export const openPlays = () => {
   return {type: OPEN_PLAYS};
 };
@@ -39,7 +43,7 @@ export const openLoginAlert = (user) => {
 // reducer
 export default(state = initialState, action) => {
 
-	let newState = Object.assign({}, state)
+	let newState = Object.assign({}, state);
 
   switch (action.type) {
 		case OPEN_LOGIN:
@@ -56,13 +60,16 @@ export default(state = initialState, action) => {
 			break;
     case OPEN_LOGIN_ALERT:
 			newState.loginAlertOpen = true;
-			break
+			break;
+    case TOGGLE_SAVE_A_PLAY:
+      newState.saveAPlayOpen = !newState.saveAPlayOpen;
+      break;
 		case OPEN_PLAYS:
 			newState.playsOpen = true;
-			break
+			break;
 		case CLOSE_PLAYS:
 			newState.playsOpen = false;
-			break
+			break;
     default:
       return state;
   }
