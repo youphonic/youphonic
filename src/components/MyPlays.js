@@ -35,16 +35,18 @@ class MyPlays extends React.Component {
       />,
     ];
 
+		const plays = this.props.plays;
+
     return (
       <div>
         <Dialog
-          title="Dialog With Custom Width"
+          title="All Plays"
           actions={actions}
           modal={true}
           contentStyle={customContentStyle}
           open={this.props.open}
         >
-          <Play/>
+          <Play plays={this.props.allPlays}/>
         </Dialog>
       </div>
     );
