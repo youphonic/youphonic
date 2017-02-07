@@ -1,7 +1,6 @@
-import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { Divider, MenuItem, Dialog, TextField, FlatButton } from 'material-ui';
-import ArrowDropRight from 'material-ui/svg-icons/navigation-arrow-drop-right';
+import React, { Component } from 'react';
+import { Dialog, TextField, FlatButton } from 'material-ui';
 
 import { savePlayToServer } from '../paper/saver';
 import { toggleSaveAPlay } from '../redux/navState';
@@ -11,6 +10,7 @@ class SaveAPlay extends Component {
   constructor(props) {
     super(props);
     this.state = {
+      imgData: '',
       playTitle: ''
     };
     this.handleChange = this.handleChange.bind(this);
@@ -61,9 +61,16 @@ class SaveAPlay extends Component {
           this.props.start();
           this.props.toggleSavePlay();
         }}
+        style={{textAlign: 'center'}}
       >
+        <img
+          src={this.props.saveAPlayOpen && document.getElementById('paperCanvas').toDataURL()}
+          alt="snapshot of current play"
+          style={{width: '80%'}}
+        />
         <TextField
           id="playTitle"
+          hintText="Enter a Title for Your Play"
           value={this.state.playTitle}
           onChange={this.handleChange}
         />
