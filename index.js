@@ -2,7 +2,7 @@
 
 const pkg = require('./package.json')
 const debug = require('debug')(`${pkg.name}:boot`)
-const secretsFile = require('./musicmachine.env');
+const secretsFile = require('./youphonic.env');
 
 // This loads a secrets file from
 //  ~/.musicmachine.env.json

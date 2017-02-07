@@ -7,6 +7,8 @@ export const OPEN_SIGNUP = 'OPEN_SIGNUP';
 export const CLOSE_SIGNUP = 'CLOSE_SIGNUP';
 export const OPEN_LOGIN_ALERT = 'OPEN_LOGIN_ALERT';
 export const CLOSE_SIGNUP_ALERT = 'CLOSE_SIGNUP_ALERT';
+export const OPEN_SHARING = 'OPEN_SHARING';
+export const CLOSE_SHARING = 'CLOSE_SHARING';
 
 export const ADD_CHUNK = 'ADD_CHUNK';
 export const LOAD_CHUNKS = 'LOAD_CHUNKS';

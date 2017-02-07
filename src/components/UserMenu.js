@@ -23,7 +23,7 @@ import { savePlay, getMyPlays } from '../paper/saver';
 //testing tone, doesn't belong here for prod
 import {synthOne} from '../tone/tonePatchOne'
 import { whoami, login, logout } from '../redux/login';
-import { openSignup, openLogin } from '../redux/navState';
+import { openSignup, openLogin, openSharing } from '../redux/navState';
 
 import {startCanvas, stopCanvas} from '../redux/appState';
 
@@ -147,6 +147,11 @@ class UserMenu extends React.Component {
 					getMyPlays(this.props.auth);
 				}}>
 				</MenuItem>
+				<MenuItem primaryText="Share" onTouchTap={(event) => {
+					event.preventDefault();
+					share();
+				}}>
+				</MenuItem>
         </IconMenu>
         </div>);
       }
@@ -180,6 +185,10 @@ const mapDispatchToProps = dispatch => {
 		openLogin: (event) => {
 			event.preventDefault();
 			dispatch(openLogin());
+		},
+		share: (event) => {
+			event.preventDefault();
+			dispatch(openSharing())
 		},
     saveUser: (info) =>
       dispatch(saveUser(info)),

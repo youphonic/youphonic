@@ -1,8 +1,9 @@
-import {OPEN_LOGIN, CLOSE_LOGIN, OPEN_SIGNUP, CLOSE_SIGNUP, OPEN_LOGIN_ALERT, CLOSE_SIGNUP_ALERT} from '../constants';
+import {OPEN_LOGIN, CLOSE_LOGIN, OPEN_SIGNUP, CLOSE_SIGNUP, OPEN_LOGIN_ALERT, CLOSE_SIGNUP_ALERT, OPEN_SHARING, CLOSE_SHARING} from '../constants';
 const initialState = {
 	loginOpen: false,
   signUpOpen: false,
-  loginAlertOpen: false
+  loginAlertOpen: false,
+	sharingOpen: false
 };
 // action creators
 // opens and closes dialog box for user registration from upper left account
@@ -21,6 +22,12 @@ export const openSignup = () => {
 };
 export const closeSignup = () => {
   return {type: CLOSE_SIGNUP};
+};
+export const openSharing = () => {
+  return {type: OPEN_SHARING};
+};
+export const closeSharing = () => {
+  return {type: CLOSE_SHARING};
 };
 // same pattern for opening and closing user signup alerts ('SnackBar')
 // allows for later refactoring to include user first name in alert
@@ -49,6 +56,12 @@ export default(state = initialState, action) => {
 			break;
     case OPEN_LOGIN_ALERT:
 			newState.loginAlertOpen = true;
+			break
+		case OPEN_SHARING:
+			newState.sharingOpen = true;
+			break
+		case CLOSE_SHARING:
+			newState.sharingOpen = false;
 			break
     default:
       return state;

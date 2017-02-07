@@ -34,9 +34,11 @@ export const savePlay = (user, allChunks) => {
 //if not logged in
 export const getMyPlays = (user) => {
 	axios.get(`api/plays/${user.id}`, user)
-		.then(foundPlays => console.log(JSON.parse(foundPlays)))
+		.then(foundPlays => console.log(foundPlays))
 		.catch(error => console.log(error));
 };
+		// here we need to deliver the array of plays to front end
+		// for user selection then load the chunks from selected play
 
 export const load = (allChunks, clearAllChunks, addChunk) => {
   // Pull all chunks off local storage
