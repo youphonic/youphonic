@@ -31,7 +31,7 @@ render(
     <Provider store={ store }>
       <Router history={ browserHistory }>
         <Route path='/' component={ Main } >
-          <Route path='/:hash' component={ Main } onEnter={fetchSinglePlay}/>
+          <Route path='/:hash' component={ Main } onEnter={ fetchSinglePlay }/>
         </Route>
       </Router>
     </Provider>
