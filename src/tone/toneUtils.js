@@ -13,4 +13,4 @@ export const toggleTransport = (toggle = true) => {
 // these may prove to be useless
 export const start = audioSource => audioSource.start();
 export const stop = audioSource => audioSource.stop();
-export const now = () => Tone.Transport.now();
+export const now = (addTime) => Tone.now() + addTime;

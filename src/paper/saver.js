@@ -7,9 +7,12 @@ import Pendulum from '../chunks/Pendulum';
 import Rectangle from '../chunks/Rectangle';
 import Emitter from '../chunks/Emitter';
 import Rope from '../chunks/Rope';
+import Fizzler from '../chunks/Fizzler';
 
 
 import { removeAllShapePaths } from '../paper'
+import { clearAllChunks, addChunk } from '../redux/allChunks'
+import store from '../store'
 
 export const save = (allChunks) => {
   window.localStorage.setItem('savedChunks', JSON.stringify({
@@ -17,13 +20,17 @@ export const save = (allChunks) => {
   }));
 };
 
-// called in UserMenu component as 'Save Play'
-// requires logged in user, errors in console silently with 401 if not
-export const savePlay = (user, allChunks) => {
-	const playToSave = JSON.stringify(deconstruct(allChunks));
-	axios.put(`api/users/${user.id}/plays`, {
-      player_id: user.id,
-      playJson: playToSave
+// implemented in UserMenu component as 'Save Play'
+// requires logged in user, errors in console silently with 401
+// title is set to default value at the moment until user can enter title
+export const savePlayToServer = (user, allChunks, title = 'My new play') => {
+	const playToSave = deconstruct(allChunks);
+  const imageToSave = document.getElementById('paperCanvas').toDataURL();
+	axios.post('api/plays', {
+    title,
+		player_id: user.id,
+		playJson: playToSave,
+    image: imageToSave
 		})
 		.then(response => console.log(response))
 		.catch(error => console.log(error));
@@ -59,6 +66,18 @@ export const load = (allChunks, clearAllChunks, addChunk) => {
   }
 };
 
+// load Play onto state from server
+// called onEnter in index Component
+export const loadPlayToStateFromServer = (play) => {
+  let savedChunks = reconstruct(play.playJson);
+  // If there are any stored chunks ...
+  if (savedChunks && savedChunks.length) {
+    // Add the saved chunks to the Redux Store
+    savedChunks.forEach(chunk => {
+      store.dispatch(addChunk(chunk));
+    });
+  }
+};
 
 // serialize and deserialize chunks
 export const deconstruct = (allChunks) => {
@@ -78,7 +97,7 @@ export const reconstruct = (savedChunks) => {
   const ressurected = [];
   // loop through the saved chunks object
   for (var chunk in savedChunks) {
-    if (savedChunks.hasOwnProperty(chunk)) {
+    if (savedChunks.hasOwnProperty(chunk) && typeof savedChunks[chunk] === 'object') {
       let props = savedChunks[chunk], // properties for the new chunk
           reborn; // var for the new chunk
       // make a new chunk depending on type
@@ -168,11 +187,19 @@ export const reconstruct = (savedChunks) => {
 
         case 'rope':
           reborn = new Rope(
-            props.start.x,
-            props.start.y,
-            props.end.x,
-            props.end.y,
+            props.start[1],
+            props.start[2],
+            props.end[1],
+            props.end[2],
             props.color
+          )
+          break;
+
+        case 'fizzler':
+          reborn = new Fizzler(
+            props.x,
+            props.y,
+            props.radius
           )
           break;
 

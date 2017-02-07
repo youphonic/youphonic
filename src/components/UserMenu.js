@@ -18,7 +18,7 @@ import Rectangle from '../chunks/Rectangle';
 import Login from './Login';
 import SignUp from './SignUp';
 
-import { savePlay, getMyPlays } from '../paper/saver';
+import { savePlayToServer, getMyPlays } from '../paper/saver';
 
 //testing tone, doesn't belong here for prod
 import {synthOne} from '../tone/tonePatchOne'
@@ -140,7 +140,7 @@ class UserMenu extends React.Component {
         </MenuItem>
 				<MenuItem primaryText="Save Play" onTouchTap={(event) => {
           event.preventDefault();
-					savePlay(this.props.auth, this.props.allChunks);
+					savePlayToServer(this.props.auth, this.props.allChunks);
         }}>
         </MenuItem>
 				<MenuItem primaryText="My Plays" onTouchTap={(event) => {

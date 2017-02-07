@@ -3,17 +3,18 @@
 import store from '../store';
 import colors from '../colors';
 import { selectChunk } from '../redux/chunk';
-import { removeChunk } from '../redux/allChunks';
+import { addChunk, removeChunk } from '../redux/allChunks';
 import { togglePlay } from '../redux/play';
 import { synthOne, synthTwo } from '../tone/tonePatchOne';
 import { player, drumBuffers, possibilities } from '../tone/drums';
 import { nearIntersect } from '../chunks/utils';
+import { deconstruct, reconstruct } from './saver';
 
 
 // These variables must be kept outside drawing scope for
 // proper update on receiving new props
 let isPlaying;
-export let shapes;
+export let shapes = [];
 let force;
 let localSelectedChunk;
 let isVectorArrowBeingDragged = false;
@@ -21,17 +22,19 @@ let isRopeEndBeingDragged = false;
 let ropeEndSelected = false;
 let grid = 20; // was 2
 let shiftPressed = false;
+let appState;
 
 
 export const shapesFilterOutId = (id) => {
-	shapes = shapes.filter( shape => shape.id !== id)
-}
+	shapes = shapes.filter( shape => shape.id !== id);
+};
 
 export const removeAllShapePaths = () => {
   shapes.forEach(shape => {
+		if (shape.type === 'fizzler') shape.removeAllParticles();
     shape.path.remove();
-  })
-}
+  });
+};
 
 export default function(props) {
   // tool represents mouse/keyboard input
@@ -63,6 +66,7 @@ export default function(props) {
   // set state variables on new props
   shapes = props.allChunks;
   isPlaying = props.isPlaying;
+  appState = props.appState;
 
   // when play is called, erase any currently drawn vector
   if (props.isPlaying) {
@@ -95,7 +99,9 @@ export default function(props) {
                     player.start();
                   }
                   if (innerShape.type === 'drone') {
-                    innerShape.toggleDrone();
+										// ?temporary functionality? -- toggle the drone on/off
+										// when the drone chunk is hit by a moving chunk
+										innerShape.onOff(0, 1, event.time);
                   }
                   // if not a photon, call shape's respond to hit function and play synth
                   if (shape.type !== 'photon') {
@@ -115,6 +121,8 @@ export default function(props) {
         }
         if (shape.type === 'physics') {
           shape.applyForce(forces.gravity);
+        } else if (shape.type === 'drone') {
+          shape.shouldSpin(isPlaying, event.time);
         } else if (shape.type === 'attractor') {
           shapes.forEach(otherShape => {
             if (otherShape.isMoving && otherShape.id !== shape.id) {
@@ -167,6 +175,14 @@ export default function(props) {
           }));
         }
       });
+
+      // clone Chunk if option/alt key is pressed
+      if(event.modifiers.option) {
+        let duplicate = clone(localSelectedChunk);
+        store.dispatch(addChunk(duplicate));
+        store.dispatch(selectChunk(duplicate));
+      }
+
     // allow dragging if rope edge point is clicked
     } else if (!isPlaying && hitResult && hitResult.type === 'segment' && hitResult.item.name === 'ropeBody') {
       isRopeEndBeingDragged = true;
@@ -217,6 +233,7 @@ export default function(props) {
       localSelectedChunk.eraseAlignment();
       localSelectedChunk.drawAlignment();
 
+      //
 			if (localSelectedChunk.updateRedrawPos) {
 				localSelectedChunk.updateRedrawPos();
 			}
@@ -238,6 +255,7 @@ export default function(props) {
   };
   // key listener
   tool.onKeyDown = (event) => {
+    if (!appState) return;
     // delete Chunk on backspace deletion
     if (event.key === 'backspace' && localSelectedChunk) {
       store.dispatch(removeChunk(localSelectedChunk));
@@ -251,7 +269,6 @@ export default function(props) {
       if (localSelectedChunk) {
         localSelectedChunk.eraseVector();
 				localSelectedChunk.eraseAlignment();
-        localSelectedChunk.path.remove();
         localSelectedChunk = null;
         store.dispatch(selectChunk({}));
       }
@@ -266,3 +283,17 @@ export default function(props) {
 	};
 
 }
+
+// helper function - clone and return a new copy of Chunk
+  function clone(chunk) {
+    let duplicateObj = deconstruct([chunk]);
+    for (let key in duplicateObj) {
+      // update property format to suit the reconstruct function
+      duplicateObj[key].direction = [, duplicateObj[key].direction.x, duplicateObj[key].direction.y];
+      if (duplicateObj[key].redrawPos) {
+        duplicateObj[key].redrawPos = [, duplicateObj[key].redrawPos.x, duplicateObj[key].redrawPos.y];
+      }
+    }
+    let duplicate = reconstruct(duplicateObj)[0];
+    return duplicate;
+  }

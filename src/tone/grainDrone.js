@@ -1,12 +1,11 @@
 import Tone from 'tone';
-
 import masterBuss from './masterBuss';
-import { now } from './toneUtils';
+// import { now } from './toneUtils';
 
 const comp = new Tone.Compressor(-42, 10);
-const channelVolume = new Tone.Volume(-4);
-const channelBuss = channelVolume.chain(comp, masterBuss);
-
+const channelBuss = new Tone.Volume(-4)
+  .connect(comp)
+  .send('masterBuss');
 
 const lowPass = new Tone.Filter(
   {
@@ -46,11 +45,9 @@ const granulator = new Tone.GrainPlayer(
     playbackRate: 0.618
   }
 ).fan(crushSend, pitchShift);
-
 export default granulator;
 
 
-//
 // Automation
 new Tone.LFO(0.75, 0.03, 0.38)
   .set({ type: 'triangle' })
