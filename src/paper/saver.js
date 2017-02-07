@@ -23,14 +23,13 @@ export const save = (allChunks) => {
 // implemented in UserMenu component as 'Save Play'
 // requires logged in user, errors in console silently with 401
 // title is set to default value at the moment until user can enter title
-export const savePlayToServer = (user, allChunks, title = 'My new play') => {
+export const savePlayToServer = (user, allChunks, title = 'My new play', image) => {
 	const playToSave = deconstruct(allChunks);
-  const imageToSave = document.getElementById('paperCanvas').toDataURL();
 	axios.post('api/plays', {
     title,
 		player_id: user.id,
 		playJson: playToSave,
-    image: imageToSave
+    image: image
 		})
 		.then(response => console.log(response))
 		.catch(error => console.log(error));

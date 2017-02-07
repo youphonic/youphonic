@@ -23,6 +23,31 @@ class SaveAPlay extends Component {
   }
 
   render() {
+
+    let srcCanvas;
+    let imageData;
+
+    if (this.props.saveAPlayOpen) {
+      srcCanvas = document.getElementById('paperCanvas');
+
+      //create a dummy CANVAS
+      let destinationCanvas = document.createElement("canvas");
+      destinationCanvas.width = srcCanvas.width;
+      destinationCanvas.height = srcCanvas.height;
+
+      let destCtx = destinationCanvas.getContext('2d');
+
+      //create a rectangle with the desired color
+      destCtx.fillStyle = '#31B8B5';
+      destCtx.fillRect(0,0,srcCanvas.width,srcCanvas.height);
+
+      //draw the original canvas onto the destination canvas
+      destCtx.drawImage(srcCanvas, 0, 0);
+
+      //finally use the destinationCanvas.toDataURL() method to get the desired output;
+      imageData = destinationCanvas.toDataURL();
+    }
+
     const saveAPlayActions = [
       <FlatButton
         key="cancelBut"
@@ -41,12 +66,13 @@ class SaveAPlay extends Component {
         keyboardFocused={true}
         onTouchTap={(ev) => {
           this.props.start();
-          ev.preventDefault();
           savePlayToServer(
             this.props.user,
             this.props.playToSave,
-            this.state.playTitle
+            this.state.playTitle,
+            imageData
           );
+          this.props.toggleSavePlay();
         }}
       />
     ];
@@ -64,9 +90,9 @@ class SaveAPlay extends Component {
         style={{textAlign: 'center'}}
       >
         <img
-          src={this.props.saveAPlayOpen && document.getElementById('paperCanvas').toDataURL()}
+          src={this.props.saveAPlayOpen && imageData}
           alt="snapshot of current play"
-          style={{width: '80%'}}
+          style={{width: '70%'}}
         />
         <TextField
           id="playTitle"

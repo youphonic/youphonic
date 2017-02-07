@@ -193,8 +193,7 @@ const mapDispatchToProps = dispatch => {
     stopCanvas: () =>
       dispatch(stopCanvas()),
     toggleSavePlay: () =>
-      dispatch(toggleSaveAPlay())
-
+      dispatch(toggleSaveAPlay()),
 		getAllPlays: (user) =>
 			dispatch(getAllPlays(user))
 
