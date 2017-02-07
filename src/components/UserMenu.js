@@ -139,7 +139,7 @@ class UserMenu extends React.Component {
         </MenuItem>
 				<MenuItem primaryText="Save Play" onTouchTap={(event) => {
           event.preventDefault();
-					savePlay(this.props.auth, this.props.allChunks);
+					savePlayToServer(this.props.auth, this.props.allChunks);
         }}>
         </MenuItem>
         </IconMenu>

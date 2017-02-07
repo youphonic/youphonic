@@ -24,8 +24,6 @@ class PaperWrapper extends React.Component {
     // set up paperjs on the window
     this.canvas = document.getElementById('paperCanvas');
     paper.setup(this.canvas);
-    paper.install(window);
-    paperjsSeed();
   }
 
   componentWillReceiveProps(newProps) {

@@ -14,7 +14,7 @@ import { deconstruct, reconstruct } from './saver';
 // These variables must be kept outside drawing scope for
 // proper update on receiving new props
 let isPlaying;
-export let shapes;
+export let shapes = [];
 let force;
 let localSelectedChunk;
 let isVectorArrowBeingDragged = false;
