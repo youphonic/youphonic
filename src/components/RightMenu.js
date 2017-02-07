@@ -147,9 +147,10 @@ function RightMenu (props) {
             new Drone(
               props.center.x,
               props.center.y,
-              30,
-              new Point(0, 0),
-              colors.blueStone
+              40,
+              colors.hopbush,
+              colors.dullMagenta,
+              colors.vividViolet
             )
           );
 					enterEditMode(props.isPlaying);

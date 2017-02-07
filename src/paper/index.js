@@ -26,15 +26,15 @@ let appState;
 
 
 export const shapesFilterOutId = (id) => {
-	shapes = shapes.filter( shape => shape.id !== id)
-}
+	shapes = shapes.filter( shape => shape.id !== id);
+};
 
 export const removeAllShapePaths = () => {
   shapes.forEach(shape => {
 		if (shape.type === 'fizzler') shape.removeAllParticles();
     shape.path.remove();
-  })
-}
+  });
+};
 
 export default function(props) {
   // tool represents mouse/keyboard input
@@ -99,7 +99,9 @@ export default function(props) {
                     player.start();
                   }
                   if (innerShape.type === 'drone') {
-                    innerShape.toggleDrone();
+										// ?temporary functionality? -- toggle the drone on/off
+										// when the drone chunk is hit by a moving chunk
+										innerShape.onOff(0, 1, event.time);
                   }
                   // if not a photon, call shape's respond to hit function and play synth
                   if (shape.type !== 'photon') {
@@ -119,6 +121,8 @@ export default function(props) {
         }
         if (shape.type === 'physics') {
           shape.applyForce(forces.gravity);
+        } else if (shape.type === 'drone') {
+          shape.shouldSpin(isPlaying, event.time);
         } else if (shape.type === 'attractor') {
           shapes.forEach(otherShape => {
             if (otherShape.isMoving && otherShape.id !== shape.id) {
