@@ -46,7 +46,11 @@ class MyPlays extends React.Component {
           contentStyle={customContentStyle}
           open={this.props.open}
         >
-          <Play plays={this.props.allPlays}/>
+          {
+            plays && plays.map(play => (
+              <Play play={play}/>
+            ))
+          }
         </Dialog>
       </div>
     );

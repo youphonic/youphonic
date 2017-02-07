@@ -27,7 +27,7 @@ module.exports = require('express').Router()
 	.post('/', mustBeLoggedIn, (req, res, next) => {
 		Play.create(req.body)
 		.then(play => res.status(201).json(play))
-		.catch(next)
+		.catch(next);
 	})
 
 // get one play, doesn't require login for viewing shared play

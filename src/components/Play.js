@@ -9,13 +9,11 @@ const style = {
   display: 'inline-block',
 };
 
-const Play = () => (
+const Play = ({play}) => (
   <div>
-    <Paper style={style} zDepth={1} rounded={false} />
-    <Paper style={style} zDepth={2} rounded={false} />
-    <Paper style={style} zDepth={3} rounded={false} />
-    <Paper style={style} zDepth={4} rounded={false} />
-    <Paper style={style} zDepth={5} rounded={false} />
+    <Paper style={style} zDepth={1} rounded={false}>
+      {play.title}
+    </Paper>
   </div>
 );
 

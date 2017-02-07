@@ -21,9 +21,9 @@ export const save = (allChunks) => {
 // requires logged in user, errors in console silently with 401 if not
 export const savePlay = (user, allChunks) => {
 	const playToSave = JSON.stringify(deconstruct(allChunks));
-	axios.post('api/plays', {
-		player_id: user.id,
-		playJson: playToSave
+	axios.put(`api/users/${user.id}/plays`, {
+      player_id: user.id,
+      playJson: playToSave
 		})
 		.then(response => console.log(response))
 		.catch(error => console.log(error));
