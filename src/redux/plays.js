@@ -5,7 +5,6 @@ const initialState = [];
 
 // action creators
 export const getPlays = (plays) => {
-  console.log('Plays', plays);
   return {type: GET_ALL_PLAYS, plays};
 };
 
