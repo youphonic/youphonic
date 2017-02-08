@@ -8,11 +8,13 @@ import Rectangle from '../chunks/Rectangle';
 import Emitter from '../chunks/Emitter';
 import Rope from '../chunks/Rope';
 import Fizzler from '../chunks/Fizzler';
+import Drone from '../chunks/Drone';
 
+import colors from '../colors';
 
-import { removeAllShapePaths } from '../paper'
-import { clearAllChunks, addChunk } from '../redux/allChunks'
-import store from '../store'
+import { removeAllShapePaths } from '../paper';
+import { clearAllChunks, addChunk } from '../redux/allChunks';
+import store from '../store';
 
 export const save = (allChunks) => {
   window.localStorage.setItem('savedChunks', JSON.stringify({
@@ -178,10 +180,8 @@ export const reconstruct = (savedChunks) => {
           );
           break;
 
-				case 'emitter':
-          console.log(props);
+        case 'emitter':
           // Construct a new Emitter
-          // TODO: Check with Robbyn on how this is moving over to right at pause then play
           reborn = new Emitter(
             props.redrawPos[1],
             props.redrawPos[2],
@@ -208,6 +208,17 @@ export const reconstruct = (savedChunks) => {
           )
           break;
 
+        case 'drone':
+          reborn = new Drone(
+            props.x,
+            props.y,
+            props.radius,
+            colors.hopbush,
+            colors.dullMagenta,
+            colors.vividViolet
+          )
+          break;
+
         default:
           reborn = {};
           break;
@@ -218,6 +229,14 @@ export const reconstruct = (savedChunks) => {
         if (props.hasOwnProperty(prop) && !reborn[prop]) {
           reborn[prop] = props[prop];
         }
+      }
+      // set frequency
+      reborn.frequency = props.frequency;
+      reborn.triggerSynthResponse = props.triggerSynthResponse;
+
+      // set rotation
+      if (reborn.rotation) {
+        reborn.setInitialRotation(props.rotation);
       }
 
       ressurected.push(reborn);

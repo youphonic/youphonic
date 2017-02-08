@@ -11,6 +11,7 @@ import FloatingActionButton from 'material-ui/FloatingActionButton';
 import FontIcon from 'material-ui/FontIcon';
 import {red500, yellow500, blue500} from 'material-ui/styles/colors';
 
+import colors from '../colors';
 import MainCanvas from './MainCanvas';
 import {togglePlay} from '../redux/play';
 import { selectChunk } from '../redux/chunk';
@@ -36,7 +37,8 @@ const styles = {
     marginRight: 24
   },
   buttonIcon: {
-    fontSize: 50
+    fontSize: 50,
+    color: colors.puertoRico
   },
   playButton: {
     position: 'absolute',
@@ -65,7 +67,7 @@ class Main extends Component {
 		// this is necessary to avoid repeating welcome pop up
 		// works with componentWillReceiveProps block
 		this.state = {
-			newUser: false
+			newUser: null
 		}
 }
 
@@ -74,9 +76,26 @@ componentDidMount(){
 	}
 
 componentWillReceiveProps(nextProps){
-	this.setState({
-		newUser: (nextProps.auth.id !== undefined),
-	});
+  // Set newUser to nextProps.auth if there is one
+  let newUser = nextProps.auth
+                  ? nextProps.auth
+                  : null;
+  // if state changes occur other than
+  // loginAlertOpen or auth, we don't
+  // want it to count as a newUser
+  for (var key in this.props) {
+    if (this.props.hasOwnProperty(key)) {
+      if (key !== 'auth' &&
+          key !== 'loginAlertOpen' &&
+          nextProps[key] !== this.props[key]) {
+        newUser = null;
+      }
+    }
+  }
+  // Set local state to the newUser
+  this.setState({
+    newUser: newUser
+  });
 }
 
 	render(){
@@ -91,34 +110,41 @@ console.log('entered app?: ', this.state.enteredApp)
 	        <MainCanvas/>
 	        <Login/>
 					<SignUp />
-
 					{/* check for logged in user then deliver welcome alert */}
-					{this.state.newUser && <SnackBar message={'Welcome ' + this.props.auth.firstName} open={this.props.loginAlertOpen} autoHideDuration={3000}/>}
+					{this.state.newUser && <SnackBar message={'Welcome ' + this.props.auth.firstName} open={this.props.loginAlertOpen} autoHideDuration={3000} />}
 	        <UserMenu />
-	        <RightMenu/>
-					<MyPlays/>
-	        {this.props.selectedChunk.id && <ShapeSettings style={styles.settingsButton}/>}
-	        <FloatingActionButton style={styles.playButton} color={blue500}>
-	          <FontIcon onClick={() => {
-	          if (!this.props.isPlaying) {
-              // this saves all chunks to local storage
-              // for now ...
-              save(this.props.allChunks);
-	            // this hides the settings component
-	            this.props.startCanvas();
-	            // this guarantees no chunk is selected when playMode is entered
-	            this.props.selectChunk({});
-	          } else {
-              // Gets all saved chunks off local storage
-              // And remove previous chunks from both
-              // Paper project and Redux Store
-              load(this.props.allChunks, this.props.clearAllChunks, this.props.addChunk);
-            }
-	          this.props.togglePlay(this.props.isPlaying)
-	        }} style={styles.buttonIcon} className="material-icons">{this.props.isPlaying
+	        <RightMenu />
+					<MyPlays />
+	        {this.props.selectedChunk.id && <ShapeSettings style={styles.settingsButton} />}
+	        <FloatingActionButton
+            style={styles.playButton}
+            iconStyle={styles.buttonIcon}
+            backgroundColor={colors.papayaWhip}
+          >
+	          <FontIcon
+              onClick={() => {
+                if (!this.props.isPlaying) {
+                  // this saves all chunks to local storage
+                  // for now ...
+                  save(this.props.allChunks);
+                  // this hides the settings component
+                  this.props.startCanvas();
+                  // this guarantees no chunk is selected when playMode is entered
+                  this.props.selectChunk({});
+                } else {
+                  // Gets all saved chunks off local storage
+                  // And remove previous chunks from both
+                  // Paper project and Redux Store
+                  load(this.props.allChunks, this.props.clearAllChunks, this.props.addChunk);
+                }
+                this.props.togglePlay(this.props.isPlaying);
+              }}
+            className="material-icons"
+          >
+            {this.props.isPlaying
 	              ? 'pause_circle_outline'
 	              : 'play_circle_outline'}
-	          </FontIcon>
+	        </FontIcon>
 	        </FloatingActionButton>
 	      </main>
 	    </div>

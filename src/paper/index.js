@@ -20,7 +20,7 @@ let localSelectedChunk;
 let isVectorArrowBeingDragged = false;
 let isRopeEndBeingDragged = false;
 let ropeEndSelected = false;
-let grid = 20; // was 2
+let grid = 10; // was 2
 let shiftPressed = false;
 let appState;
 
@@ -60,7 +60,7 @@ export default function(props) {
   const forces = {
     wind1: new Point(0.01, 0),
     wind2: new Point(-0.01, 0),
-    gravity: new Point(0, 0.1)
+    gravity: new Point(0, 0.5)
   };
 
   // set state variables on new props
@@ -105,8 +105,8 @@ export default function(props) {
                   }
                   // if not a photon, call shape's respond to hit function and play synth
                   if (shape.type !== 'photon') {
-                    synthOne.triggerAttackRelease(innerShape.frequency, '8n');
-                    if (shape.frequency) synthTwo.triggerAttackRelease(shape.frequency, '8n');
+                    if (innerShape.triggerSynthResponse) synthOne.triggerAttackRelease(innerShape.frequency, '8n');
+                    if (shape.triggerSynthResponse) synthTwo.triggerAttackRelease(shape.frequency, '8n');
                     shape.respondToHit(innerShape);
                   } else {
                     if (!shape.alreadyTriggeredChunkIds.includes(innerShape.id)) {
@@ -169,10 +169,7 @@ export default function(props) {
           localSelectedChunk = shape;
           localSelectedChunk.drawVector();
 					localSelectedChunk.drawAlignment();
-          store.dispatch(selectChunk({
-            id: shape.id,
-            frequency: shape.frequency
-          }));
+          store.dispatch(selectChunk(shape));
         }
       });
 

@@ -16,6 +16,7 @@ import {addChunk} from '../redux/allChunks';
 import Login from './Login';
 import SignUp from './SignUp';
 import SaveAPlay from './SaveAPlay';
+import colors from '../colors'
 
 import { savePlayToServer, getMyPlays } from '../paper/saver';
 
@@ -27,7 +28,7 @@ import { getAllPlays } from '../redux/plays';
 
 import {startCanvas, stopCanvas} from '../redux/appState';
 
-import {red500, yellow500, blue500} from 'material-ui/styles/colors';
+// import {red500, yellow500, blue500} from 'material-ui/styles/colors';
 
 const styles = {
   menu: {
@@ -37,7 +38,7 @@ const styles = {
   },
   menuIcon: {
     fontSize: 60,
-    color: 'white'
+    color: colors.papayaWhip
   }
 };
 

@@ -44,6 +44,9 @@ export const dropGenerator = (x, y, size, color) => {
     resultPath.add(toPoint);
     // fill the shape
     resultPath.closed = true;
+    resultPath.shadowColor = '#125E68';
+    resultPath.shadowBlur = 5;
+    resultPath.shadowOffset = new Point(1, 1);
     // groups the two together
     return new Group([path, resultPath]);
 };
