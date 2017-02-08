@@ -3,8 +3,8 @@
 import Chunk from './Chunk';
 
 export default class Rectangle extends Chunk {
-  constructor(x, y, w, h, direction = new Point(0, 0), color = 'white') {
-    super(direction, color);
+  constructor(x, y, w, h, direction = new Point(0, 0), color = 'white', rotation) {
+    super(direction, color, rotation);
     this.type = 'rectangle';
     this.width = w;
     this.height = h;
@@ -13,6 +13,7 @@ export default class Rectangle extends Chunk {
     this.path.fillColor = color;
     this.center = [x + (this.width / 2), y + (this.height / 2)];
     this.fixed = true;
+    this.triggerSynthResponse = false;
   }
 
   get bound() {

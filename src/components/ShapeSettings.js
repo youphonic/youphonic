@@ -7,11 +7,14 @@ import TextField from 'material-ui/TextField';
 import DropDownMenu from 'material-ui/DropDownMenu';
 import MenuItem from 'material-ui/MenuItem';
 import SvgIcon from 'material-ui/SvgIcon';
+import Checkbox from 'material-ui/Checkbox';
 
 import FloatingActionButton from 'material-ui/FloatingActionButton';
 import FontIcon from 'material-ui/FontIcon';
 import {red500, yellow500, blue500} from 'material-ui/styles/colors';
 import AutoComplete from 'material-ui/AutoComplete';
+import VolumeOff from 'material-ui/svg-icons/av/volume-off';
+import VolumeUp from 'material-ui/svg-icons/av/volume-up';
 
 import { updateAndPlaceChunk } from '../redux/chunk';
 import {updateOneChunk} from '../redux/allChunks';
@@ -34,26 +37,41 @@ class ShapeSettings extends React.Component {
     this.state = {
       open: false,
       frequency: this.props.selectedChunk.frequency,
-      drum: this.props.selectedChunk.drum
+      drum: this.props.selectedChunk.drum,
+      rotation: this.props.selectedChunk.rotation.toString(),
+      triggerSynthResponse: this.props.selectedChunk.triggerSynthResponse
     };
+    this.initialRotation = this.props.selectedChunk.rotation;
     this.handleOpen = this.handleOpen.bind(this);
     this.handleClose = this.handleClose.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
     this.changeFrequency = this.changeFrequency.bind(this);
     this.changeDrum = this.changeDrum.bind(this);
     this.handleFrequencyEnterKey = this.handleFrequencyEnterKey.bind(this);
+    this.changeRotation = this.changeRotation.bind(this);
+    this.changeSynthEnabled = this.changeSynthEnabled.bind(this);
   }
+
   handleOpen() {
     this.setState({open: true});
     this.props.stopCanvas();
   }
+
   handleClose() {
     this.setState({open: false});
     this.props.startCanvas();
   }
 
+  changeSynthEnabled(event, isInputChecked) {
+    this.setState({triggerSynthResponse: isInputChecked});
+  }
+
   changeFrequency(searchText, dataSource, params) {
     this.setState({frequency: searchText});
+  }
+
+  changeRotation(event, id, value) {
+    this.setState({rotation: value});
   }
 
   handleFrequencyEnterKey(event) {
@@ -68,10 +86,13 @@ class ShapeSettings extends React.Component {
   handleSubmit(event) {
     event.stopPropagation();
 		event.preventDefault();
+    this.props.selectedChunk.setRotation(+this.state.rotation);
 	  this.props.updateOneChunk({
       id: this.props.selectedChunk.id,
       frequency: this.state.frequency,
-      drum: this.state.drum
+      drum: this.state.drum,
+      rotation: +this.state.rotation,
+      triggerSynthResponse: this.state.triggerSynthResponse
     });
     this.setState({
 	    open: false
@@ -92,12 +113,19 @@ class ShapeSettings extends React.Component {
       form: {
         display: 'flex'
       },
+      formGroup: {
+        display: 'inline-block'
+      },
       label: {
-        marginTop: 'auto',
-        marginLeft: 25
+        marginTop: 15,
+        marginLeft: 25,
+        marginBottom: 0,
+        display: 'inline-flex'
       },
       instMenu: {
-        marginTop: 15
+        marginTop: 15,
+        marginBottom: 0,
+        display: 'inline-flex'
       },
       icon: {
         viewBox: "0 0 128 128",
@@ -106,7 +134,12 @@ class ShapeSettings extends React.Component {
         height: 24,
         width: 24,
         enableBackground: "new 0 0 128 128"
-      }
+      },
+      checkbox: {
+        marginBottom: 16,
+        marginTop: 15,
+        display: 'inline-flex'
+      },
 		};
     const actions = [
       <FlatButton
@@ -145,40 +178,64 @@ class ShapeSettings extends React.Component {
           modal={false}
           actions={actions}
           open={this.state.open}
-          title="Set Shape Tones"
+          title="Set Chunk Options"
           autoScrollBodyContent={true}
           onRequestClose={this.handleClose}
         >
           <form style={styles.form}>
-						<AutoComplete
-							floatingLabelText="Enter note: C1, C#1, Db1, etc"
-							filter={AutoComplete.caseInsensitiveFilter}
-							dataSource={frequencies}
-							onUpdateInput={this.changeFrequency}
-							searchText={this.state.frequency}
-              onKeyDown={this.handleFrequencyEnterKey}
-						/>
-          <p style={styles.label}>Instrument:</p>
-            <DropDownMenu value={this.state.drum} onChange={this.changeDrum} style={styles.instMenu}>
-              <MenuItem value={'kick'} primaryText="Kick" leftIcon={kickIcon} onTouchTap={() => {
-                  player.buffer = drumBuffers.get('kick');
-                  console.log('player', player);
-                  player.start();
-                }}/>
-              <MenuItem value={'snare'} primaryText="Snare" leftIcon={snareIcon} onTouchTap={() => {
-                  player.buffer = drumBuffers.get('snare');
-                  player.start();
-                }}/>
-              <MenuItem value={'floorTom'} primaryText="Floor Tom" leftIcon={floorTomIcon} onTouchTap={() => {
-                  player.buffer = drumBuffers.get('floorTom');
-                  player.start();
-                }}/>
-              <MenuItem value={'hiHatClose'} primaryText="Hi Hat Close" leftIcon={hiHatIcon} onTouchTap={() => {
-                  player.buffer = drumBuffers.get('hiHatClose');
-                  player.start();
-                }}/>
-              <MenuItem value={'cowbell'} primaryText="Cowbell" leftIcon={cowbellIcon}/>
-            </DropDownMenu>
+          <div style={styles.formGroup}>
+            <div>
+              <Checkbox
+                checkedIcon={<VolumeUp />}
+                uncheckedIcon={<VolumeOff />}
+                style={styles.checkbox}
+                label="enable sound"
+                checked={this.state.triggerSynthResponse}
+                onCheck={this.changeSynthEnabled}
+              />
+            </div>
+            <div>
+              <AutoComplete
+                floatingLabelText="Enter note: C1, C#1, Db1, etc"
+                filter={AutoComplete.caseInsensitiveFilter}
+                dataSource={frequencies}
+                onUpdateInput={this.changeFrequency}
+                searchText={this.state.frequency}
+                onKeyDown={this.handleFrequencyEnterKey}
+
+              />
+            </div>
+          </div>
+          <div style={styles.formGroup}>
+            <span style={styles.label}>Instrument:</span>
+              <DropDownMenu value={this.state.drum} onChange={this.changeDrum} style={styles.instMenu}>
+                <MenuItem value={'kick'} primaryText="Kick" leftIcon={kickIcon} onTouchTap={() => {
+                    player.buffer = drumBuffers.get('kick');
+                    player.start();
+                  }}/>
+                <MenuItem value={'snare'} primaryText="Snare" leftIcon={snareIcon} onTouchTap={() => {
+                    player.buffer = drumBuffers.get('snare');
+                    player.start();
+                  }}/>
+                <MenuItem value={'floorTom'} primaryText="Floor Tom" leftIcon={floorTomIcon} onTouchTap={() => {
+                    player.buffer = drumBuffers.get('floorTom');
+                    player.start();
+                  }}/>
+                <MenuItem value={'hiHatClose'} primaryText="Hi Hat Close" leftIcon={hiHatIcon} onTouchTap={() => {
+                    player.buffer = drumBuffers.get('hiHatClose');
+                    player.start();
+                  }}/>
+                <MenuItem value={'cowbell'} primaryText="Cowbell" leftIcon={cowbellIcon}/>
+              </DropDownMenu>
+              <p style={styles.label}>Rotation:</p>
+              <DropDownMenu value={this.state.rotation} onChange={this.changeRotation} style={styles.instMenu}>
+                <MenuItem value={'0'} primaryText="0"/>
+                <MenuItem value={'30'} primaryText="30"/>
+                <MenuItem value={'45'} primaryText="45"/>
+                <MenuItem value={'60'} primaryText="60"/>
+                <MenuItem value={'90'} primaryText="90"/>
+              </DropDownMenu>
+            </div>
           </form>
         </Dialog>
       </div>

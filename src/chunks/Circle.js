@@ -10,5 +10,6 @@ export default class Circle extends Chunk {
       fillColor: color,
     });
     this.type = 'circle';
+    this.triggerSynthResponse = true;
   }
 }

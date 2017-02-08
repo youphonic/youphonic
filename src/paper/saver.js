@@ -172,10 +172,8 @@ export const reconstruct = (savedChunks) => {
           );
           break;
 
-				case 'emitter':
-          console.log(props);
+        case 'emitter':
           // Construct a new Emitter
-          // TODO: Check with Robbyn on how this is moving over to right at pause then play
           reborn = new Emitter(
             props.redrawPos[1],
             props.redrawPos[2],
@@ -212,6 +210,11 @@ export const reconstruct = (savedChunks) => {
         if (props.hasOwnProperty(prop) && !reborn[prop]) {
           reborn[prop] = props[prop];
         }
+      }
+
+      // set rotation
+      if (reborn.rotation) {
+        reborn.setInitialRotation(props.rotation);
       }
 
       ressurected.push(reborn);
