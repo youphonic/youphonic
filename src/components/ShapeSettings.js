@@ -26,9 +26,11 @@ import cowbellIcon from '../../public/icons/cowbell.svg.jsx';
 import snareIcon from '../../public/icons/snare.svg.jsx';
 import floorTomIcon from '../../public/icons/floor-tom.svg.jsx';
 import hiHatIcon from '../../public/icons/hi-hat.svg.jsx';
+import synthIcon from '../../public/icons/keyboard.svg.jsx';
 
 // Instrument Sounds
 import { player, drumBuffers, possibilities } from '../tone/drums';
+import { synthOne, synthTwo } from '../tone/tonePatchOne';
 
 
 class ShapeSettings extends React.Component {
@@ -225,7 +227,10 @@ class ShapeSettings extends React.Component {
                     player.buffer = drumBuffers.get('hiHatClose');
                     player.start();
                   }}/>
-                <MenuItem value={'cowbell'} primaryText="Cowbell" leftIcon={cowbellIcon}/>
+                <MenuItem value={'cowbell'} primaryText="Cowbell" leftIcon={cowbellIcon} onTouchTap={() => {
+                  player.buffer = drumBuffers.get('cowBell');
+                  player.start();
+                }}/>
               </DropDownMenu>
               <p style={styles.label}>Rotation:</p>
               <DropDownMenu value={this.state.rotation} onChange={this.changeRotation} style={styles.instMenu}>

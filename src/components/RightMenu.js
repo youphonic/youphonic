@@ -26,6 +26,8 @@ const styles = {
   }
 };
 
+const circleRadius = 30;
+
 function RightMenu (props) {
   const enterEditMode = isPlaying => {
     if (isPlaying) props.togglePlay(isPlaying);
@@ -43,7 +45,7 @@ function RightMenu (props) {
       <MenuItem
         primaryText="Circle"
         onTouchTap={() => {
-					props.addChunk(new Circle(props.center.x, props.center.y, 20, new Point(1, 1)));
+					props.addChunk(new Circle(props.center.x, props.center.y, circleRadius, new Point(1, 1)));
 					enterEditMode(props.isPlaying);
 				}}
       />
@@ -60,7 +62,7 @@ function RightMenu (props) {
             new PhysBall(
               props.center.x,
               props.center.y,
-              20,
+              circleRadius,
               new Point(-0.00001, 0),
               colors.blueStone
             )
@@ -75,7 +77,7 @@ function RightMenu (props) {
             new Attractor(
               props.center.x,
               props.center.y,
-              20,
+              circleRadius,
               new Point(0, 0),
               colors.flamingo,
               true
@@ -91,7 +93,7 @@ function RightMenu (props) {
             new Attractor(
               props.center.x,
               props.center.y,
-              20,
+              circleRadius,
               new Point(0, 0),
               colors.newYorkPink,
               false
@@ -107,7 +109,7 @@ function RightMenu (props) {
             new Fizzler(
               props.center.x,
               props.center.y,
-              24,
+              circleRadius,
               new Point(0, 0),
               colors.mangoTango,
               new Point(-2, 2),
@@ -124,7 +126,7 @@ function RightMenu (props) {
             new Fizzler(
               props.center.x,
               props.center.y,
-              24,
+              circleRadius,
               new Point(0, 0),
               colors.mangoTango,
               new Point(-2, 2),
@@ -160,7 +162,7 @@ function RightMenu (props) {
     <MenuItem
       primaryText="Pendulum"
       onTouchTap={() => {
-        props.addChunk(new Pendulum(props.center.x, props.center.y, 24, new Point(0, 0)));
+        props.addChunk(new Pendulum(props.center.x, props.center.y, circleRadius, new Point(0, 0)));
         enterEditMode(props.isPlaying);
       }}
       />

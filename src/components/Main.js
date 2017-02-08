@@ -60,7 +60,7 @@ class Main extends Component {
 		// this is necessary to avoid repeating welcome pop up
 		// works with componentWillReceiveProps block
 		this.state = {
-			newUser: false
+			newUser: null
 		}
 }
 
@@ -69,9 +69,26 @@ componentDidMount(){
 	}
 
 componentWillReceiveProps(nextProps){
-	this.setState({
-		newUser: (nextProps.auth.id !== undefined)
-});
+  // Set newUser to nextProps.auth if there is one
+  let newUser = nextProps.auth
+                  ? nextProps.auth
+                  : null;
+  // if state changes occur other than
+  // loginAlertOpen or auth, we don't
+  // want it to count as a newUser
+  for (var key in this.props) {
+    if (this.props.hasOwnProperty(key)) {
+      if (key !== 'auth' &&
+          key !== 'loginAlertOpen' &&
+          nextProps[key] !== this.props[key]) {
+        newUser = null;
+      }
+    }
+  }
+  // Set local state to the newUser
+  this.setState({
+    newUser: newUser
+  });
 }
 
 	render(){
