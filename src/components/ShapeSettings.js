@@ -13,6 +13,7 @@ import FontIcon from 'material-ui/FontIcon';
 import {red500, yellow500, blue500} from 'material-ui/styles/colors';
 import AutoComplete from 'material-ui/AutoComplete';
 
+import colors from '../colors';
 import { updateAndPlaceChunk } from '../redux/chunk';
 import {updateOneChunk} from '../redux/allChunks';
 import {startCanvas, stopCanvas} from '../redux/appState'
@@ -84,7 +85,8 @@ class ShapeSettings extends React.Component {
   render() {
 		const styles = {
 			buttonIcon: {
-				fontSize: 50
+				fontSize: 50,
+        color: colors.puertoRico
 			},
 			settingsButton: {
 				position: 'absolute',
@@ -102,12 +104,12 @@ class ShapeSettings extends React.Component {
         marginTop: 15
       },
       icon: {
-        viewBox: "0 0 128 128",
+        viewBox: '0 0 128 128',
         position: 'absolute',
         zIndex: 100,
         height: 24,
         width: 24,
-        enableBackground: "new 0 0 128 128"
+        enableBackground: 'new 0 0 128 128'
       }
 		};
     const actions = [
@@ -138,8 +140,16 @@ class ShapeSettings extends React.Component {
 
     return (
       <div>
-				<FloatingActionButton style={styles.settingsButton}>
-					<FontIcon onTouchTap={this.handleOpen} className="material-icons" style={styles.buttonIcon}>{'music_note'}
+				<FloatingActionButton
+          style={styles.settingsButton}
+          iconStyle={styles.buttonIcon}
+          backgroundColor={colors.papayaWhip}
+        >
+					<FontIcon
+            onTouchTap={this.handleOpen}
+            className="material-icons"
+          >
+            music_note
 					</FontIcon>
 				</FloatingActionButton>
 

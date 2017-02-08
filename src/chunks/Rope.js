@@ -127,7 +127,10 @@ function makePath(start, end, color) {
       strokeColor: color,
       strokeWidth: 2,
       strokeCap: 'round',
-      strokeJoin: 'round'
+      strokeJoin: 'round',
+      shadowColor: colors.blueStone,
+      shadowBlur: 10,
+      shadowOffset: new Point(2, 3)
     });
 
   for (let i = 0; i <= numSegments; i++) {

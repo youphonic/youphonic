@@ -13,7 +13,10 @@ export default class Fizzler extends Chunk {
       center: [x, y],
       sides: fizzle ? 7 : 6,
       radius: radius,
-      fillColor: color
+      fillColor: color,
+      shadowColor: colors.blueStone,
+      shadowBlur: 25,
+      shadowOffset: new Point(3, 5)
     });
     this.fixed = true;
     this.particles = [];
