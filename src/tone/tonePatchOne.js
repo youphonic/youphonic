@@ -51,6 +51,7 @@ export const synthTwo = new Tone.Synth({
 		sustain: 0.09,
 		release: 0.04
 	},
+  volume: -18
 }).connect(bandSplitter);
 
 
