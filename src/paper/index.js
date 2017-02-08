@@ -306,8 +306,6 @@ export default function(props) {
     let duplicate = reconstruct(duplicateObj)[0];
 		delete duplicate.x;
 		delete duplicate.y;
-		console.log('chunk', chunk);
-		console.log('clone', duplicate);
 
     return duplicate;
   }
