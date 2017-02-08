@@ -5,7 +5,7 @@ const pkg = require('./package.json')
 const debug = require('debug')(`${pkg.name}:boot`)
 
 // This loads a secrets file from
-//  ~/youphonic.env.js
+//  ~/youphonic.env.js for any API keys
 // and adds it to the environment
 const env = Object.create(process.env)
 const secretsFile = resolve(__dirname, `${pkg.name}.env.js`)

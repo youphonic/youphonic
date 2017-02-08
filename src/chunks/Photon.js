@@ -3,12 +3,13 @@ import { dropGenerator } from './shapeGenerators'
 import { shapesFilterOutId } from '../paper'
 
 export default class Photon extends Chunk {
-	constructor(x, y, size, direction, color){
+	constructor(x, y, size, direction, color, triggerSynthResponse){
 		super(direction, color);
 		this.path = dropGenerator(x, y, size, color)
 		this.type = 'photon';
 		this.alreadyTriggeredChunkIds = [];
 		this.causeHitResponse = false;
+		this.triggerSynthResponse = triggerSynthResponse;
 	}
 
 	update(){

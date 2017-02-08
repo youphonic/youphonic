@@ -1,7 +1,8 @@
 'use strict';
 
 var Sequelize = require('sequelize');
-var databaseURI = 'postgres://localhost:5432/musicmachine';
+
+var databaseURI = process.env.DATABASE_URL || `postgres://localhost:5432/musicmachine`;
 
 const db = module.exports = new Sequelize(databaseURI, {
 		logging: false

@@ -103,10 +103,6 @@ export default function(props) {
                 if (innerShape.type === 'rope') {
                   innerShape.triggerAnimate(event.time);
                 } else {
-                  if (shape.drum) {
-                    player.buffer = drumBuffers.get(shape.drum);
-                    player.start();
-                  }
                   if (innerShape.type === 'drone') {
 										// ?temporary functionality? -- toggle the drone on/off
 										// when the drone chunk is hit by a moving chunk
@@ -114,14 +110,28 @@ export default function(props) {
                   }
                   // if not a photon, call shape's respond to hit function and play synth
                   if (shape.type !== 'photon') {
+										if (shape.drum) {
+											player.buffer = drumBuffers.get(shape.drum);
+											player.start();
+										}
+										if (innerShape.drum) {
+											player.buffer = drumBuffers.get(innerShape.drum);
+											player.start();
+										}
                     if (innerShape.triggerSynthResponse) synthOne.triggerAttackRelease(innerShape.frequency, '8n');
                     if (shape.triggerSynthResponse) synthTwo.triggerAttackRelease(shape.frequency, '8n');
                     shape.respondToHit(innerShape);
                   } else {
                     if (!shape.alreadyTriggeredChunkIds.includes(innerShape.id)) {
-                      synthOne.triggerAttackRelease(innerShape.frequency, '8n');
-                      shape.addTriggeredChunk(innerShape.id)
+											if (shape.triggerSynthResponse) {
+												synthOne.triggerAttackRelease(innerShape.frequency, '8n');
+												shape.addTriggeredChunk(innerShape.id);
+											}
                     }
+										if (innerShape.drum) {
+											player.buffer = drumBuffers.get(innerShape.drum);
+											player.start();
+										}
                   }
                 }
               }

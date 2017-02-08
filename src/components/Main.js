@@ -99,7 +99,6 @@ componentWillReceiveProps(nextProps){
 }
 
 	render(){
-
 	  return (
 
 	    <div id="outer-container">

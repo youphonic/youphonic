@@ -29,7 +29,10 @@ export default class Emitter extends Chunk {
     // could be streamlined to appear that chunk actually comes from emitter
     // currently skips some space but if it doesnt, it triggers an intersect detection in
     //main paper draw loop which destroys the particle
-    let particle = new Photon(this.path.position.x - 5, this.path.position.y - (this.length * 1.3), 20, this.emitDirection, colors.dullMagenta);
+    let triggerSynthResponse = this.triggerSynthResponse
+                                ? this.triggerSynthResponse
+                                : false;
+    let particle = new Photon(this.path.position.x - 5, this.path.position.y - (this.length * 1.3), 20, this.emitDirection, colors.dullMagenta, triggerSynthResponse);
     shapes.push(particle);
   }
 
