@@ -49,7 +49,33 @@ export const synthTwo = new Tone.Synth({
 		attack: 0.016,
 		decay: 0.1,
 		sustain: 0.09,
+		release: 0.04
+	},
+}).connect(bandSplitter);
+
+
+export const triSynth = new Tone.Synth({
+	oscillator: {
+		type: 'triangle'
+	},
+	envelope: {
+		attack: 0.016,
+		decay: 0.1,
+		sustain: 0.9,
 		release: 0.4
 	},
-	volume: -12
 }).connect(bandSplitter);
+
+export const ropeSynthFactory = () => {
+	return new Tone.Synth({
+		oscillator: {
+			type: 'triangle'
+		},
+		envelope: {
+			attack: 0.016,
+			decay: 0.1,
+			sustain: 0.9,
+			release: 0.4
+		},
+	}).connect(bandSplitter);
+}
