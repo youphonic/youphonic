@@ -237,7 +237,7 @@ class ShapeSettings extends React.Component {
                     player.buffer = drumBuffers.get('hiHatClose');
                     player.start();
                   }}/>
-                <MenuItem value={'cowbell'} primaryText="Cowbell" leftIcon={cowbellIcon} onTouchTap={() => {
+                <MenuItem value={'cowBell'} primaryText="Cowbell" leftIcon={cowbellIcon} onTouchTap={() => {
                   player.buffer = drumBuffers.get('cowBell');
                   player.start();
                 }}/>
