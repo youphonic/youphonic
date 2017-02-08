@@ -32,7 +32,7 @@ const styles = {
 	button: {
 		position: 'absolute',
 		bottom: 50,
-		left: 600,
+		left: 650,
 		zIndex: 26,
 		backgroundColor: 'rgba(0,0,0,0)',
 		flex: 1
