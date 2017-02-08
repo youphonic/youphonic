@@ -60,7 +60,7 @@ export default function(props) {
   const forces = {
     wind1: new Point(0.01, 0),
     wind2: new Point(-0.01, 0),
-    gravity: new Point(0, 0.1)
+    gravity: new Point(0, 0.5)
   };
 
   // set state variables on new props

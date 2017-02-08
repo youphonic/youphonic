@@ -16,6 +16,7 @@ import AutoComplete from 'material-ui/AutoComplete';
 import VolumeOff from 'material-ui/svg-icons/av/volume-off';
 import VolumeUp from 'material-ui/svg-icons/av/volume-up';
 
+import colors from '../colors';
 import { updateAndPlaceChunk } from '../redux/chunk';
 import {updateOneChunk} from '../redux/allChunks';
 import {startCanvas, stopCanvas} from '../redux/appState'
@@ -105,7 +106,8 @@ class ShapeSettings extends React.Component {
   render() {
 		const styles = {
 			buttonIcon: {
-				fontSize: 50
+				fontSize: 50,
+        color: colors.puertoRico
 			},
 			settingsButton: {
 				position: 'absolute',
@@ -130,7 +132,7 @@ class ShapeSettings extends React.Component {
         display: 'inline-flex'
       },
       icon: {
-        viewBox: "0 0 128 128",
+        viewBox: '0 0 128 128',
         position: 'absolute',
         zIndex: 100,
         height: 24,
@@ -141,7 +143,7 @@ class ShapeSettings extends React.Component {
         marginBottom: 16,
         marginTop: 15,
         display: 'inline-flex'
-      },
+      }
 		};
     const actions = [
       <FlatButton
@@ -171,8 +173,16 @@ class ShapeSettings extends React.Component {
 
     return (
       <div>
-				<FloatingActionButton style={styles.settingsButton}>
-					<FontIcon onTouchTap={this.handleOpen} className="material-icons" style={styles.buttonIcon}>{'music_note'}
+				<FloatingActionButton
+          style={styles.settingsButton}
+          iconStyle={styles.buttonIcon}
+          backgroundColor={colors.papayaWhip}
+        >
+					<FontIcon
+            onTouchTap={this.handleOpen}
+            className="material-icons"
+          >
+            music_note
 					</FontIcon>
 				</FloatingActionButton>
 

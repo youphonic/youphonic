@@ -1,9 +1,12 @@
+import {
+  IconMenu,
+  MenuItem,
+  FontIcon,
+  IconButton
+} from 'material-ui';
 import React from 'react';
 import {connect} from 'react-redux';
-import IconMenu from 'material-ui/IconMenu';
-import MenuItem from 'material-ui/MenuItem';
-import IconButton from 'material-ui/IconButton';
-import MoreVertIcon from 'material-ui/svg-icons/navigation/more-vert';
+// import AddCircleIcon from 'material-ui/svg-icons/content/add-circle';
 
 import {addChunk} from '../redux/allChunks';
 import {togglePlay} from '../redux/play';
@@ -15,14 +18,20 @@ import Fizzler from '../chunks/Fizzler';
 import Rectangle from '../chunks/Rectangle';
 import Pendulum from '../chunks/Pendulum';
 import Emitter from '../chunks/Emitter';
+import Rope from '../chunks/Rope';
 import Login from './Login';
-import colors from '../colors'
+import colors from '../colors';
 
 const styles = {
   menu: {
     position: 'absolute',
     right: 10,
     top: 5
+  },
+  chunkIcon: {
+    right: 25,
+    fontSize: 50,
+    color: colors.papayaWhip
   }
 };
 
@@ -31,14 +40,14 @@ const circleRadius = 30;
 function RightMenu (props) {
   const enterEditMode = isPlaying => {
     if (isPlaying) props.togglePlay(isPlaying);
-  }
+  };
   return (<div style={styles.menu}>
     <IconMenu
-		iconButtonElement={
-			<IconButton>
-				<MoreVertIcon />
-			</IconButton>
-		}
+      iconButtonElement={
+        <IconButton iconStyle={styles.chunkIcon}>
+          <FontIcon className="material-icons" >add_circle</FontIcon>
+        </IconButton>
+      }
     anchorOrigin={{horizontal: 'right', vertical: 'top'}}
     targetOrigin={{horizontal: 'right', vertical: 'top'}}
     >
@@ -166,7 +175,13 @@ function RightMenu (props) {
         enterEditMode(props.isPlaying);
       }}
       />
-      <MenuItem primaryText="Share" />
+    <MenuItem
+      primaryText="Rope"
+      onTouchTap={() => {
+        props.addChunk(new Rope(props.center.x - 100, props.center.y + 100, props.center.x + 100, props.center.y - 100, colors.blueStone));
+        enterEditMode(props.isPlaying);
+      }}
+      />
     </IconMenu>
   </div>);
 }
