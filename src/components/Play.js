@@ -32,7 +32,7 @@ const Play = ({play, closePlays}) => (
         <img src={play.image} style={style.image}/>
         <h4 style={style.title} >{play.title}</h4>
       </Link>
-      <ReactShare sharedURL={`/${play.hashedPlay}`} title={play.title} image={play.image}/>
+      <ReactShare sharedURL={`youphonic.co/${play.hashedPlay}`} title={play.title} image={play.image}/>
     </Paper>
   </div>
 );
