@@ -23,24 +23,24 @@ const styles = {
 	title: {
 		fontFamily: "'Roboto', sans-serif",
 		position: 'absolute',
-		fontSize: 125,
-		right: 500,
-		bottom: 190,
+		fontSize: 85,
+		right: 520,
+		bottom: 130,
 		zIndex: 26,
 		padding: 0
 	},
 	button: {
 		position: 'absolute',
-		bottom: 100,
-		left: 500,
+		bottom: 50,
+		left: 650,
 		zIndex: 26,
 		backgroundColor: 'rgba(0,0,0,0)',
 		flex: 1
 	},
 	icon: {
 		zIndex: 26,
-		width: 300,
-		height: 300
+		width: 200,
+		height: 200
 
 	},
 	silentDiv: {
@@ -66,7 +66,6 @@ const styles = {
 				<FloatingActionButton
 						iconStyle={styles.icon}
 						style={styles.button}
-						primary={true}
 			      onTouchTap={this.handleClose}
 						backgroundColor={colors.flamingo}>
 						<PlayCircle />
