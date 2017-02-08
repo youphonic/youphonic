@@ -99,7 +99,7 @@ componentWillReceiveProps(nextProps){
 }
 
 	render(){
-console.log('entered app?: ', this.state.enteredApp)
+
 	  return (
 
 	    <div id="outer-container">

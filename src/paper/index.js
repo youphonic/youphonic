@@ -3,13 +3,13 @@
 import store from '../store';
 import colors from '../colors';
 import { selectChunk } from '../redux/chunk';
-import { addChunk, removeChunk } from '../redux/allChunks';
+import { clearAllChunks, addChunk, removeChunk } from '../redux/allChunks';
 import { togglePlay } from '../redux/play';
 import { synthOne, synthTwo } from '../tone/tonePatchOne';
 import { player, drumBuffers, possibilities } from '../tone/drums';
 import { nearIntersect } from '../chunks/utils';
 import { deconstruct, reconstruct } from './saver';
-
+import { save, load } from './saver';
 
 // These variables must be kept outside drawing scope for
 // proper update on receiving new props
@@ -23,6 +23,7 @@ let ropeEndSelected = false;
 let grid = 10; // was 2
 let shiftPressed = false;
 let appState;
+let allChunks;
 
 
 export const shapesFilterOutId = (id) => {
@@ -67,6 +68,7 @@ export default function(props) {
   shapes = props.allChunks;
   isPlaying = props.isPlaying;
   appState = props.appState;
+  allChunks = props.allChunks;
 
   // when play is called, erase any currently drawn vector
   if (props.isPlaying) {
@@ -75,6 +77,13 @@ export default function(props) {
 			localSelectedChunk.eraseAlignment();
 		}
   }
+
+  // not working right now....
+  // redraw screen on screen resize
+  // view.onResize = (event) => {
+  //   save(props.allChunks);
+  //   load(props.allChunks, clearAllChunks, addChunk);
+  // }
 
   // main drawing Loop
   view.onFrame = (event) => {
