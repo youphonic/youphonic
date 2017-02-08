@@ -4,6 +4,7 @@ import { Router, Route, Link } from 'react-router';
 import {Dialog, RaisedButton, FlatButton, FloatingActionButton} from 'material-ui';
 import PlayCircle from 'material-ui/svg-icons/av/play-circle-outline';
 import {connect} from 'react-redux';
+import colors from '../colors';
 
 
 const styles = {
@@ -16,30 +17,34 @@ const styles = {
 		zIndex: 25,
 		WebkitTransition: 'all',
 		msTransition: 'all',
-		display: 'flex'
+		display: 'flex',
+
 	},
 	title: {
 		fontFamily: "'Roboto', sans-serif",
 		position: 'absolute',
-		fontSize: 90,
+		fontSize: 125,
 		right: 500,
 		bottom: 190,
 		zIndex: 26,
-		padding: 0,
-		display: 'flex'
+		padding: 0
 	},
 	button: {
 		position: 'absolute',
-		bottom: 170,
-		right: 200,
-		zIndex: 26
+		bottom: 100,
+		left: 500,
+		zIndex: 26,
+		backgroundColor: 'rgba(0,0,0,0)',
+		flex: 1
+	},
+	icon: {
+		zIndex: 26,
+		width: 300,
+		height: 300
+
 	},
 	silentDiv: {
-		padding: 0,
-		display: 'flex'
-	},
-	container: {
-		display: 'flex'
+		padding: 0
 	}
 }
 
@@ -58,18 +63,14 @@ const styles = {
 
 	  render() {
 	    const actions = [
-	      // <FlatButton
-				// 	style={styles.button}
-	      //   label="Enter"
-	      //   primary={true}
-	      //   onTouchTap={this.handleClose}
-	      // />,
 				<FloatingActionButton
+						iconStyle={styles.icon}
 						style={styles.button}
 						primary={true}
-			      onTouchTap={this.handleClose}>
-						<PlayCircle/>
-    		</FloatingActionButton>
+			      onTouchTap={this.handleClose}
+						backgroundColor={colors.flamingo}>
+						<PlayCircle />
+    			</FloatingActionButton>
 	    ]
 
 	    return (
@@ -81,7 +82,6 @@ const styles = {
 						actionsContainerStyle = {styles.silentDiv}
 	          title="youphonic"
 	          actions={actions}
-	          // modal={true}
 	          open={this.state.open}
 	        >
 	        </Dialog>
