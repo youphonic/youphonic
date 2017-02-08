@@ -56,7 +56,7 @@ class Login extends React.Component {
         key="button1"
         label="Cancel"
         primary={true}
-        onTouchTap={this.handleClose}
+        onTouchTap={this.props.closeLogin}
       />,
       <FlatButton
         key="button2"
@@ -91,7 +91,7 @@ class Login extends React.Component {
           open={this.props.open}
           title="User Login"
           autoScrollBodyContent={true}
-          onRequestClose={this.handleClose}
+          onRequestClose={this.props.closeLogin}
         >
           <form>
             <TextField
