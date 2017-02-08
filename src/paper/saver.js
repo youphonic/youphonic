@@ -230,6 +230,9 @@ export const reconstruct = (savedChunks) => {
           reborn[prop] = props[prop];
         }
       }
+      // set frequency
+      reborn.frequency = props.frequency;
+      reborn.triggerSynthResponse = props.triggerSynthResponse;
 
       // set rotation
       if (reborn.rotation) {
