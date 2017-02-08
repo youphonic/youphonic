@@ -1,15 +1,16 @@
 'use strict'
 
+const {resolve} = require('path')
 const pkg = require('./package.json')
 const debug = require('debug')(`${pkg.name}:boot`)
-const secretsFile = require('./youphonic.env');
 
 // This loads a secrets file from
 //  ~/.musicmachine.env.json
 // and adds it to the environment
 const env = Object.create(process.env)
+const secretsFile = resolve(env.HOME, `.${pkg.name}.env`)
 try {
-  Object.assign(env, secretsFile)
+  Object.assign(env, require(secretsFile))
 } catch (error) {
   debug('%s: %s', secretsFile, error.message)
   debug('%s: env file not found or invalid, moving on', secretsFile)
