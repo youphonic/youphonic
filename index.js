@@ -5,10 +5,10 @@ const pkg = require('./package.json')
 const debug = require('debug')(`${pkg.name}:boot`)
 
 // This loads a secrets file from
-//  ~/.musicmachine.env.json
+//  ~/youphonic.env.js
 // and adds it to the environment
 const env = Object.create(process.env)
-const secretsFile = resolve(env.HOME, `.${pkg.name}.env`)
+const secretsFile = resolve(__dirname, `${pkg.name}.env.js`)
 try {
   Object.assign(env, require(secretsFile))
 } catch (error) {
