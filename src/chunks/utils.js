@@ -92,7 +92,7 @@ const thingsAreClose = (selected, comparison) => {
       selectedY = selected.y ? selected.y : selected.path.position.y,
       comparisonX = comparison.path.position.x,
       comparisonY = comparison.path.position.y,
-      dist = selected.x ? 10 : 10,
+      dist = selected.x ? 30 : 10,
       result = '';
 
   if ((comparisonX <= selectedX + dist) && (comparisonX >= selectedX - dist)) {
@@ -101,6 +101,7 @@ const thingsAreClose = (selected, comparison) => {
   if ((comparisonY >= selectedY - dist) && (comparisonY <= selectedY + dist)) {
     result += 'yIntersect';
   }
+
   return result;
 };
 
@@ -113,9 +114,16 @@ export const nearIntersect = (selected, allChunks, delta, point, grid) => {
 
   for (var i = 0; i < allChunks.length; i++) {
     let chunk = allChunks[i];
-    let chunksIntersect = thingsAreClose(selected, chunk);
-    let mouseIntersects = thingsAreClose(point, chunk);
-    if (chunk.id !== selected.id && chunksIntersect && mouseIntersects) {
+    let chunkIsNotItself = (chunk.id !== selected.id);
+    let chunksIntersect = false;
+    let mouseIntersects = false;
+
+    if (chunkIsNotItself) {
+      chunksIntersect = thingsAreClose(selected, chunk);
+      mouseIntersects = thingsAreClose(point, chunk);
+    }
+
+    if (chunkIsNotItself && chunksIntersect && mouseIntersects) {
       switch (chunksIntersect) {
         case 'xIntersect':
           x = chunk.path.position.x;
@@ -127,12 +135,12 @@ export const nearIntersect = (selected, allChunks, delta, point, grid) => {
           selected.yAligned = true;
           break;
 
-        case 'xIntersectyIntersect':
-          x = chunk.path.position.x;
-          selected.xAligned = true;
-          y = chunk.path.position.y;
-          selected.yAligned = true;
-          break;
+        // case 'xIntersectyIntersect':
+        //   x = chunk.path.position.x;
+        //   selected.xAligned = true;
+        //   y = chunk.path.position.y;
+        //   selected.yAligned = true;
+        //   break;
       }
     }
   }

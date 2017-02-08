@@ -288,12 +288,26 @@ export default function(props) {
   function clone(chunk) {
     let duplicateObj = deconstruct([chunk]);
     for (let key in duplicateObj) {
+			let chunk = duplicateObj[key];
+			// Give new chunks an offset
+			if (chunk.x && chunk.y && !chunk.redrawPos) {
+				chunk.x += chunk.radius;
+				chunk.y += chunk.radius;
+			} else if (chunk.redrawPos) {
+				chunk.redrawPos.x += grid;
+				chunk.redrawPos.y += grid;
+			}
       // update property format to suit the reconstruct function
-      duplicateObj[key].direction = [, duplicateObj[key].direction.x, duplicateObj[key].direction.y];
-      if (duplicateObj[key].redrawPos) {
-        duplicateObj[key].redrawPos = [, duplicateObj[key].redrawPos.x, duplicateObj[key].redrawPos.y];
+      chunk.direction = [, chunk.direction.x, chunk.direction.y];
+      if (chunk.redrawPos) {
+        chunk.redrawPos = [, chunk.redrawPos.x, chunk.redrawPos.y];
       }
     }
     let duplicate = reconstruct(duplicateObj)[0];
+		delete duplicate.x;
+		delete duplicate.y;
+		console.log('chunk', chunk);
+		console.log('clone', duplicate);
+
     return duplicate;
   }
