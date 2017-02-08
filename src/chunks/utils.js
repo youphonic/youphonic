@@ -19,7 +19,7 @@ export const movingBounceOffFixed = (obj1, obj2) => {
 // Rectangle Bounce Physics
 export const movingCircleBounceOffRectangle = (circle, rectangle) => {
   // array of collisions
-  let collisions = rectangle.path.getIntersections(circle.path)
+  let collisions = rectangle.path.getIntersections(circle.path);
   // tangent of the collision
   let tangent = collisions[0].tangent;
   // rotate -90 degrees to get the Normal vector
@@ -37,10 +37,10 @@ export const movingCircleBounceOffRectangle = (circle, rectangle) => {
   // handle vector reflection
   // see http://www.3dkingdoms.com/weekly/weekly.php?a=2 for explanation of forumula
   } else {
-    let dotProd = circle.direction.dot(rotTan)
-    circle.direction = circle.direction.add(rotTan.multiply(-2 * dotProd))
+    let dotProd = circle.direction.dot(rotTan);
+    circle.direction = circle.direction.add(rotTan.multiply(-2 * dotProd));
   }
-}
+};
 
 // Arrowhead drawing
 export const drawArrow = function(start, end, direction) {
@@ -49,7 +49,7 @@ export const drawArrow = function(start, end, direction) {
       end,
       end.add(direction.multiply(2).rotate(-160))
     ]);
-  let arrowShaft = new Path([start, end])
+  let arrowShaft = new Path([start, end]);
   arrowHead.type = 'vectorArrow';
   arrowShaft.type = 'vectorArrow';
   let resultArrow =  new Group([
@@ -92,7 +92,7 @@ const thingsAreClose = (selected, comparison) => {
       selectedY = selected.y ? selected.y : selected.path.position.y,
       comparisonX = comparison.path.position.x,
       comparisonY = comparison.path.position.y,
-      dist = selected.x ? 30 : 10,
+      dist = selected.x ? 10 : 10,
       result = '';
 
   if ((comparisonX <= selectedX + dist) && (comparisonX >= selectedX - dist)) {
@@ -166,9 +166,9 @@ export const randomNumberWithinRange = (low, high) => {
 // radians to degrees
 export function radToDeg(rad) {
   return rad * (180 / Math.PI);
-};
+}
 
 // degrees to radians
 export function degToRad(deg) {
   return deg * Math.PI / 180;
-};
+}
