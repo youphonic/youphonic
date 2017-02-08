@@ -36,7 +36,7 @@ class PaperWrapper extends React.Component {
   render() {
     return (
       <div id="test">
-        <canvas id="paperCanvas" style={styles.paperCanvas}></canvas>
+        <canvas id="paperCanvas" style={styles.paperCanvas} data-paper-resize></canvas>
       </div>
     );
   }
