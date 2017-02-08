@@ -11,6 +11,10 @@ const customContentStyle = {
   maxWidth: 'none',
 };
 
+const customBodyStyle = {
+  display: 'flex'
+};
+
 /**
  * The dialog width has been set to occupy the full width of browser through the `contentStyle` property.
 
@@ -21,21 +25,15 @@ class MyPlays extends React.Component {
 
 
   render() {
-		console.log('allPlays:', this.props.allPlays)
     const actions = [
       <FlatButton
         label="Cancel"
         primary={true}
         onTouchTap={this.props.closePlays}
-      />,
-      <FlatButton
-        label="Submit"
-        primary={true}
-        // onTouchTap={this.props.openPlays}
-      />,
+      />
     ];
 
-		const plays = this.props.plays;
+		const plays = this.props.allPlays;
 
     return (
       <div>
@@ -45,10 +43,11 @@ class MyPlays extends React.Component {
           modal={true}
           contentStyle={customContentStyle}
           open={this.props.open}
+          bodyStyle={customBodyStyle}
         >
           {
-            plays && plays.map(play => (
-              <Play play={play}/>
+            plays && plays.map((play, i) => (
+              <Play play={play} key={i} />
             ))
           }
         </Dialog>

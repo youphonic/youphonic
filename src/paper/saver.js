@@ -8,11 +8,13 @@ import Rectangle from '../chunks/Rectangle';
 import Emitter from '../chunks/Emitter';
 import Rope from '../chunks/Rope';
 import Fizzler from '../chunks/Fizzler';
+import Drone from '../chunks/Drone';
 
+import colors from '../colors';
 
-import { removeAllShapePaths } from '../paper'
-import { clearAllChunks, addChunk } from '../redux/allChunks'
-import store from '../store'
+import { removeAllShapePaths } from '../paper';
+import { clearAllChunks, addChunk } from '../redux/allChunks';
+import store from '../store';
 
 export const save = (allChunks) => {
   window.localStorage.setItem('savedChunks', JSON.stringify({
@@ -71,6 +73,12 @@ export const loadPlayToStateFromServer = (play) => {
   let savedChunks = reconstruct(play.playJson);
   // If there are any stored chunks ...
   if (savedChunks && savedChunks.length) {
+    // Remove chunks on state from paper
+    if (store.getState().allChunks.length) {
+      store.getState().allChunks.forEach(chunk => chunk.path.remove());
+    }
+    // Clear all chunks from state
+    store.dispatch(clearAllChunks());
     // Add the saved chunks to the Redux Store
     savedChunks.forEach(chunk => {
       store.dispatch(addChunk(chunk));
@@ -199,6 +207,17 @@ export const reconstruct = (savedChunks) => {
             props.x,
             props.y,
             props.radius
+          )
+          break;
+
+        case 'drone':
+          reborn = new Drone(
+            props.x,
+            props.y,
+            props.radius,
+            colors.hopbush,
+            colors.dullMagenta,
+            colors.vividViolet
           )
           break;
 

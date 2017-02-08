@@ -8,7 +8,9 @@ import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 
 import store from './store';
 import Main from './components/Main';
+
 import { loadPlayToStateFromServer } from './paper/saver';
+import { clearAllChunks } from './redux/allChunks';
 
 export const fetchSinglePlay = (nextRouterState) => {
   let hash = nextRouterState.params.hash;
