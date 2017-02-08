@@ -63,6 +63,10 @@ function emitterShapeGen(x, y, length) {
   // build the two bottom rhombuses
   var rhombus1 = rhombusGenerator(x, y, length, Math.PI / 4, colors.flamingo);
   var rhombus2 = rhombusGenerator(x, y, length, Math.PI / 4, colors.chinook);
+  // add dropShadow
+  rhombus1.shadowColor = colors.blueStone;
+  rhombus1.shadowBlur = 25;
+  rhombus1.shadowOffset = new Point(3, 5);
   // rotate and place them
   rhombus1.rotate(90);
   rhombus2.rotate(45);
