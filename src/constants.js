@@ -1,3 +1,4 @@
+export const ENTERED_APP = 'ENTERED_APP';
 export const START_CANVAS = 'START_CANVAS';
 export const STOP_CANVAS = 'STOP_CANVAS';
 

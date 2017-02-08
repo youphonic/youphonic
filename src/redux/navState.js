@@ -1,10 +1,11 @@
-import {OPEN_LOGIN, CLOSE_LOGIN, OPEN_SIGNUP, CLOSE_SIGNUP, OPEN_LOGIN_ALERT, CLOSE_SIGNUP_ALERT, OPEN_PLAYS, CLOSE_PLAYS, TOGGLE_SAVE_A_PLAY} from '../constants';
+import {ENTERED_APP, OPEN_LOGIN, CLOSE_LOGIN, OPEN_SIGNUP, CLOSE_SIGNUP, OPEN_LOGIN_ALERT, CLOSE_SIGNUP_ALERT, OPEN_PLAYS, CLOSE_PLAYS, TOGGLE_SAVE_A_PLAY} from '../constants';
 const initialState = {
+	enteredApp: false,
 	loginOpen: false,
   signUpOpen: false,
   saveAPlayOpen: false,
   loginAlertOpen: false,
-	playsOpen: false
+	playsOpen: false,
 };
 // action creators
 // opens and closes dialog box for user registration from upper left account
@@ -12,6 +13,9 @@ const initialState = {
 // UI components require a local 'open' key for navigation. This pattern will
 // be required whenever mixing MaterialUI navigation components that
 // work together
+export const enterApp = () => {
+  return {type: ENTERED_APP};
+};
 export const openLogin = () => {
   return {type: OPEN_LOGIN};
 };
@@ -46,6 +50,9 @@ export default(state = initialState, action) => {
 	let newState = Object.assign({}, state);
 
   switch (action.type) {
+		case ENTERED_APP:
+      newState.enteredApp = true;
+			break;
 		case OPEN_LOGIN:
       newState.loginOpen = true;
 			break;
