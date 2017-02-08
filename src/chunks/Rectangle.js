@@ -4,8 +4,8 @@ import Chunk from './Chunk';
 import colors from '../colors';
 
 export default class Rectangle extends Chunk {
-  constructor(x, y, w, h, direction = new Point(0, 0), color = colors.papayaWhip) {
-    super(direction, color);
+  constructor(x, y, w, h, direction = new Point(0, 0), color = colors.papayaWhip, rotation) {
+    super(direction, color, rotation);
     this.type = 'rectangle';
     this.width = w;
     this.height = h;
@@ -14,6 +14,7 @@ export default class Rectangle extends Chunk {
     this.path.fillColor = color;
     this.center = [x + (this.width / 2), y + (this.height / 2)];
     this.fixed = true;
+    this.triggerSynthResponse = false;
     //shadow
     this.path.shadowColor = colors.blueStone;
     this.path.shadowBlur = 20;

@@ -105,8 +105,8 @@ export default function(props) {
                   }
                   // if not a photon, call shape's respond to hit function and play synth
                   if (shape.type !== 'photon') {
-                    synthOne.triggerAttackRelease(innerShape.frequency, '8n');
-                    if (shape.frequency) synthTwo.triggerAttackRelease(shape.frequency, '8n');
+                    if (innerShape.triggerSynthResponse) synthOne.triggerAttackRelease(innerShape.frequency, '8n');
+                    if (shape.triggerSynthResponse) synthTwo.triggerAttackRelease(shape.frequency, '8n');
                     shape.respondToHit(innerShape);
                   } else {
                     if (!shape.alreadyTriggeredChunkIds.includes(innerShape.id)) {
@@ -169,10 +169,7 @@ export default function(props) {
           localSelectedChunk = shape;
           localSelectedChunk.drawVector();
 					localSelectedChunk.drawAlignment();
-          store.dispatch(selectChunk({
-            id: shape.id,
-            frequency: shape.frequency
-          }));
+          store.dispatch(selectChunk(shape));
         }
       });
 

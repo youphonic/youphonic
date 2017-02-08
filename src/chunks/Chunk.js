@@ -6,7 +6,7 @@ import {movingBounceOffMoving, movingBounceOffFixed, movingCircleBounceOffRectan
 let idCount = 1;
 
 export default class Chunk {
-  constructor(direction, color = 'white', acceleration = new Point(0, 0)) {
+  constructor(direction, color = 'white', acceleration = new Point(0, 0), rotation = 0) {
 	  this.id = idCount++;
     this.direction = direction;
     this.color = color;
@@ -20,6 +20,9 @@ export default class Chunk {
     // is the Chunk aligned with others on drag?
     this.xAligned = false;
     this.yAligned = false;
+    this.rotation = rotation;
+    this.frequency = 'C4';
+    this.triggerSynthResponse = false;
   }
 
   get isMoving () {
@@ -122,4 +125,19 @@ export default class Chunk {
       this.centerAlignment = null;
     }
   }
+
+  setRotation(angle) {
+    this.path.rotate(this.rotation - angle);
+    this.rotation = angle;
+  }
+
+  setInitialRotation(angle) {
+    this.path.rotate(angle)
+  }
+
+  rotate(angle) {
+    this.path.rotate(angle);
+    this.rotation += angle;
+  }
+
 }

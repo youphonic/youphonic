@@ -14,5 +14,6 @@ export default class Circle extends Chunk {
       shadowOffset: new Point(3, 5)
     });
     this.type = 'circle';
+    this.triggerSynthResponse = true;
   }
 }
