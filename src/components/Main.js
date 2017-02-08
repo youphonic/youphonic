@@ -22,6 +22,8 @@ import SnackBar from 'material-ui/Snackbar';
 import { whoami } from '../redux/login';
 import { save, load, deconstruct, reconstruct } from '../paper/saver';
 
+let mediaRecorder;
+let recordedChunks = [];
 
 // Our root component
 injectTapEventPlugin();
@@ -65,7 +67,40 @@ class Main extends Component {
 
 componentDidMount(){
 		this.props.fetchInitialData();
+
+    var canvas = document.querySelector('#paperCanvas');
+    var stream = canvas.captureStream(20);
+    console.log("canvas", canvas)
+
+    console.log("stream", stream)
+
+    var options = {mimeType: 'video/webm; codecs=vp9'};
+
+
+    mediaRecorder = new MediaRecorder(stream, options);
+    console.log(mediaRecorder)
+    mediaRecorder.ondataavailable = handleDataAvailable;
+    function handleDataAvailable(event) {
+      console.log("handle data available", event)
+      if (event.data.size > 0) {
+            recordedChunks.push(event.data);
+          }
+    }
 	}
+
+start() {
+  mediaRecorder.start(1000);
+}
+
+stop() {
+  mediaRecorder.stop();
+  var videoElement = document.querySelector('video');
+
+  var superBuffer = new Blob(recordedChunks);
+  videoElement.src =
+        window.URL.createObjectURL(superBuffer);
+  videoElement.play();
+}
 
 componentWillReceiveProps(nextProps){
 	this.setState({
@@ -74,9 +109,14 @@ componentWillReceiveProps(nextProps){
 }
 
 	render(){
+
+
 	  return (
 	    <div id="outer-container">
 	      <main id="page-wrap">
+          <video autoplay id="videoPlayback" width="125" height="50"/>
+          <button onClick={this.start.bind(this)}> start </button>
+          <button onClick={this.stop.bind(this)}> stop  </button>
 	        <MainCanvas/>
 	        <Login/>
 	        <SignUp />
