@@ -1,8 +1,8 @@
 import React, {Component} from 'react';
 import { render } from 'react-dom';
 import { Router, Route, Link } from 'react-router';
-import {Dialog, RaisedButton, FlatButton} from 'material-ui';
-//import { enterApp } from '../redux/navState';
+import {Dialog, RaisedButton, FlatButton, FloatingActionButton} from 'material-ui';
+import PlayCircle from 'material-ui/svg-icons/av/play-circle-outline';
 import {connect} from 'react-redux';
 
 
@@ -13,43 +13,35 @@ const styles = {
 		backgroundRepeat: 'no-repeat',
 		backgroundImage: "url('./home_background.png')",
 		overflow: 'hidden',
-		zIndex: 9999,
+		zIndex: 25,
 		WebkitTransition: 'all',
 		msTransition: 'all',
 		display: 'flex'
 	},
 	title: {
-		// position: 'absolute',
-		// left: 300,
-		// top: 200,
-		display: 'flex'
-	},
-	h3: {
 		fontFamily: "'Roboto', sans-serif",
 		position: 'absolute',
-		fontSize: 45,
-		top: 15
+		fontSize: 90,
+		right: 500,
+		bottom: 190,
+		zIndex: 26,
+		padding: 0,
+		display: 'flex'
 	},
 	button: {
 		position: 'absolute',
-		marginTop: 70,
-		marginLeft: 7
+		bottom: 170,
+		right: 200,
+		zIndex: 26
+	},
+	silentDiv: {
+		padding: 0,
+		display: 'flex'
+	},
+	container: {
+		display: 'flex'
 	}
 }
-
-// export default class Start extends Component{
-// 	render() {
-// 	    return (
-// 				<Card containerStyle={styles.divStyle}>
-// 							<div style={styles.title}>
-// 							<h2 style={styles.h3}>youphonic</h2>
-// 								<RaisedButton label="Play" primary={true} style={styles.button} onClick={()=>this.props.enterApp()}/>
-// 							</div>
-// 				</Card>
-// 	    );
-// 		}
-// 	}
-
 
 	export default class Start extends React.Component {
 	  constructor(props){
@@ -66,37 +58,33 @@ const styles = {
 
 	  render() {
 	    const actions = [
-	      <FlatButton
-	        label="Enter"
-	        primary={true}
-	        onTouchTap={this.handleClose}
-	      />
+	      // <FlatButton
+				// 	style={styles.button}
+	      //   label="Enter"
+	      //   primary={true}
+	      //   onTouchTap={this.handleClose}
+	      // />,
+				<FloatingActionButton
+						style={styles.button}
+						primary={true}
+			      onTouchTap={this.handleClose}>
+						<PlayCircle/>
+    		</FloatingActionButton>
 	    ]
 
 	    return (
-	      <div>
 	        <Dialog
 						overlayStyle = {styles.divStyle}
-						titleStyle = {styles.h3}
+						titleStyle = {styles.title}
+						contentStyle = {styles.silentDiv}
+						bodyStyle = {styles.silentDiv}
+						actionsContainerStyle = {styles.silentDiv}
 	          title="youphonic"
 	          actions={actions}
-	          modal={true}
+	          // modal={true}
 	          open={this.state.open}
 	        >
 	        </Dialog>
-	      </div>
 	    );
 	  }
 	}
-
-	// const mapStateToProps = () => {
-	//   return {
-	//   };
-	// };
-	// const mapDispatchToProps = (dispatch) => {
-	//   return {
-	// 		enterApp: () => dispatch(enterApp()),
-	//   };
-	// };
-	//
-	// export default connect(mapStateToProps, mapDispatchToProps)(Start);

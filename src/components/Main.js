@@ -54,8 +54,8 @@ const styles = {
     /* This centers our sketch horizontally. */
     justifyContent: 'center',
     /* This centers our sketch vertically. */
-    alignItems: 'center',
-		zIndex: -999
+    alignItems: 'center'
+		// zIndex: -999
   }
 };
 
