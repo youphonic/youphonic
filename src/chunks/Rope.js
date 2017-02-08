@@ -2,7 +2,8 @@ import Tone from 'tone';
 
 import Chunk from './Chunk';
 import colors from '../colors';
-import { scale } from './utils'
+import { scale } from './utils';
+import { ropeSynthFactory } from '../tone/tonePatchOne';
 
 // hold total number of segments
 let numSegments = 17;
@@ -15,11 +16,7 @@ export default class Rope extends Chunk {
     this.end = new Point(x2, y2);
     this.color = color;
     this.path = makePath(this.start, this.end, color);
-    this.synth = new Tone.PluckSynth({
-      attackNoise : 10,
-      dampening : 7000,
-      resonance : 0.95
-    }).toMaster();
+    this.synth = ropeSynthFactory();
     this.type = 'rope';
     this.path.name = 'ropeBody';
     // don't cause hit responses in other Chunks
@@ -37,7 +34,7 @@ export default class Rope extends Chunk {
   }
 
   triggerSynth() {
-    this.synth.triggerAttack(this.frequency);
+    this.synth.triggerAttackRelease(this.frequency, '16n');
   }
 
   // gets called whenever string is intersected

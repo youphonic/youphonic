@@ -20,7 +20,7 @@ let localSelectedChunk;
 let isVectorArrowBeingDragged = false;
 let isRopeEndBeingDragged = false;
 let ropeEndSelected = false;
-let grid = 20; // was 2
+let grid = 10; // was 2
 let shiftPressed = false;
 let appState;
 
