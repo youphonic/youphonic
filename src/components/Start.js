@@ -17,37 +17,34 @@ const styles = {
 		zIndex: 25,
 		WebkitTransition: 'all',
 		msTransition: 'all',
-		display: 'flex'
+		display: 'flex',
+
 	},
 	title: {
 		fontFamily: "'Roboto', sans-serif",
 		position: 'absolute',
-		fontSize: 90,
+		fontSize: 125,
 		right: 500,
 		bottom: 190,
 		zIndex: 26,
-		padding: 0,
-		display: 'flex'
+		padding: 0
 	},
 	button: {
 		position: 'absolute',
-		bottom: 155,
-		right: 160,
+		bottom: 100,
+		left: 500,
 		zIndex: 26,
-		backgroundColor: 'rgba(0,0,0,0)'
+		backgroundColor: 'rgba(0,0,0,0)',
+		flex: 1
 	},
 	icon: {
 		zIndex: 26,
-		width: 150,
-		height: 150
+		width: 300,
+		height: 300
 
 	},
 	silentDiv: {
-		padding: 0,
-		display: 'flex'
-	},
-	container: {
-		display: 'flex'
+		padding: 0
 	}
 }
 
