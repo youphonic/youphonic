@@ -32,7 +32,7 @@ const styles = {
 	button: {
 		position: 'absolute',
 		bottom: 100,
-		left: 500,
+		left: 600,
 		zIndex: 26,
 		backgroundColor: 'rgba(0,0,0,0)',
 		flex: 1
@@ -66,7 +66,6 @@ const styles = {
 				<FloatingActionButton
 						iconStyle={styles.icon}
 						style={styles.button}
-						primary={true}
 			      onTouchTap={this.handleClose}
 						backgroundColor={colors.flamingo}>
 						<PlayCircle />
