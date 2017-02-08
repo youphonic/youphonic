@@ -23,9 +23,11 @@ import cowbellIcon from '../../public/icons/cowbell.svg.jsx';
 import snareIcon from '../../public/icons/snare.svg.jsx';
 import floorTomIcon from '../../public/icons/floor-tom.svg.jsx';
 import hiHatIcon from '../../public/icons/hi-hat.svg.jsx';
+import synthIcon from '../../public/icons/keyboard.svg.jsx';
 
 // Instrument Sounds
 import { player, drumBuffers, possibilities } from '../tone/drums';
+import { synthOne, synthTwo } from '../tone/tonePatchOne';
 
 
 class ShapeSettings extends React.Component {
@@ -160,9 +162,11 @@ class ShapeSettings extends React.Component {
 						/>
           <p style={styles.label}>Instrument:</p>
             <DropDownMenu value={this.state.drum} onChange={this.changeDrum} style={styles.instMenu}>
+              <MenuItem value={'synth'} primaryText="Synth" leftIcon={synthIcon} onTouchTap={() => {
+                  synthTwo.triggerAttackRelease('A4', '8n');
+                }}/>
               <MenuItem value={'kick'} primaryText="Kick" leftIcon={kickIcon} onTouchTap={() => {
                   player.buffer = drumBuffers.get('kick');
-                  console.log('player', player);
                   player.start();
                 }}/>
               <MenuItem value={'snare'} primaryText="Snare" leftIcon={snareIcon} onTouchTap={() => {
@@ -177,7 +181,10 @@ class ShapeSettings extends React.Component {
                   player.buffer = drumBuffers.get('hiHatClose');
                   player.start();
                 }}/>
-              <MenuItem value={'cowbell'} primaryText="Cowbell" leftIcon={cowbellIcon}/>
+              <MenuItem value={'cowbell'} primaryText="Cowbell" leftIcon={cowbellIcon} onTouchTap={() => {
+                  player.buffer = drumBuffers.get('cowBell');
+                  player.start();
+                }}/>
             </DropDownMenu>
           </form>
         </Dialog>

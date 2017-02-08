@@ -14,8 +14,9 @@ export const drumBuffers = new Tone.Buffers({
   'hiHatOpen': '/samples/hi-hat-open.mp3',
   'hiHatHit': '/samples/hi-hat-hit.mp3',
   'rideCrash': '/samples/ride-crash.mp3',
-  'crossStick': '/samples/xstick.mp3'
+  'crossStick': '/samples/xstick.mp3',
+  'cowBell': '/samples/CowBell_05.wav'
 }, function() {
 });
 
-export const possibilities = ['kick', 'snare', 'floorTom', 'hiTom', 'hiHatClose', 'hiHatOpen', 'hiHatHit', 'rideCrash', 'crossStick'];
+export const possibilities = ['kick', 'snare', 'floorTom', 'hiTom', 'hiHatClose', 'hiHatOpen', 'hiHatHit', 'rideCrash', 'crossStick', 'cowBell'];
