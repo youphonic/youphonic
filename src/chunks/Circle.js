@@ -16,4 +16,14 @@ export default class Circle extends Chunk {
     this.type = 'circle';
     this.triggerSynthResponse = true;
   }
+
+  react(time) {
+    if (this.drum) {
+
+    }
+  }
+
+  update() {
+    return;
+  }
 }

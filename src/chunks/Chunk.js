@@ -36,7 +36,7 @@ export default class Chunk {
     this.acceleration = this.acceleration.add(f);
   }
 
-  update() {
+  move() {
     if (this.specialUpdate) {
       this.specialUpdate();
     }

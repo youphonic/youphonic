@@ -33,18 +33,18 @@ export default class Rope extends Chunk {
     this.frequency = 'C4';
   }
 
-  triggerSynth() {
-    this.synth.triggerAttackRelease(this.frequency, '16n');
-  }
-
   // gets called whenever string is intersected
   // sets isAnimating to true if not already animating
-  triggerAnimate(time) {
+  react(time) {
     if (!this.isAnimating) {
       this.triggerSynth();
       this.isAnimating = true;
       this.currentAnimateTime = time;
     }
+  }
+
+  triggerSynth() {
+    this.synth.triggerAttackRelease(this.frequency, '16n');
   }
 
   // update the view animation
@@ -73,6 +73,7 @@ export default class Rope extends Chunk {
       segment.point.y = this.start.y + ((i/numSegments) * direction.y)
     }
   }
+
 
   update(time) {
     if (this.isAnimating) {

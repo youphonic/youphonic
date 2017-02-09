@@ -1,6 +1,6 @@
 import Chunk from './Chunk'
 import { dropGenerator } from './shapeGenerators'
-import { shapesFilterOutId } from '../paper'
+import { drawnChunksFilterOutId } from '../paper'
 
 export default class Photon extends Chunk {
 	constructor(x, y, size, direction, color, triggerSynthResponse){
@@ -19,7 +19,7 @@ export default class Photon extends Chunk {
 				this.path.position.y < 0 ||
 				this.path.position.y > window.innerHeight) {
 			this.path.remove();
-			shapesFilterOutId(this.id);
+			drawnChunksFilterOutId(this.id);
 		}
 		// else update position
 		this.path.position = this.path.position.add(this.direction);

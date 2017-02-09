@@ -30,6 +30,10 @@ export default class Drone extends Chunk {
     this.type = 'drone';
   }
 
+  react(time) {
+    this.onOff(0, 1, time);
+  }
+
   switchSample(sampleName) {
     switch (sampleName) {
       case 'drone1':
