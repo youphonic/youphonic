@@ -57,7 +57,7 @@ export const load = (allChunks, clearAllChunks, addChunk) => {
   if (savedChunks && savedChunks.length) {
     // Get rid of the chunks that were being drawn
     allChunks.forEach(chunk => {
-      if (chunk.type === 'drone') chunk.killNoise()
+      if (chunk.type === 'drone') chunk.killNoise();
       chunk.path.remove();
     });
     removeAllShapePaths();
