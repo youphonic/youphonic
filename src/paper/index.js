@@ -9,7 +9,8 @@ import { synthOne, synthTwo } from '../tone/tonePatchOne';
 import { player, drumBuffers, possibilities } from '../tone/drums';
 import { nearIntersect } from '../chunks/utils';
 import { deconstruct, reconstruct } from './saver';
-import { save, load } from './saver';
+import { clone } from './utils'
+
 
 // These variables must be kept outside drawing scope for
 // proper update on receiving new props
@@ -21,7 +22,7 @@ let localSelectedChunk;
 let isVectorArrowBeingDragged = false;
 let isRopeEndBeingDragged = false;
 let ropeEndSelected = false;
-let grid = 10; // was 2
+export let grid = 10; // was 2
 let shiftPressed = false;
 let appState;
 
@@ -123,6 +124,7 @@ export default function(props) {
   tool.onMouseDown = (event) => {
     isVectorArrowBeingDragged = false;
 		const hitResult = project.hitTest(event.point, hitOptions);
+    console.log(hitResult);
     // check to see if mouse is clicking the body ('fill') of a Chunk
     if (!isPlaying && hitResult && (hitResult.type === 'fill' || (hitResult.item && hitResult.item.name === 'ropeBody'))) {
       // if a Rope endpoint is selected, set the corner to drag mode
@@ -153,7 +155,8 @@ export default function(props) {
 
       // clone Chunk if option/alt key is pressed
       if(event.modifiers.option) {
-        let duplicate = clone(localSelectedChunk);
+        let duplicate = clone(localSelectedChunk, grid);
+        localSelectedChunk = duplicate;
         store.dispatch(addChunk(duplicate));
         store.dispatch(selectChunk(duplicate));
       }
@@ -257,30 +260,4 @@ export default function(props) {
 		shiftPressed = false;
 	};
 
-}
-
-// helper function - clone and return a new copy of Chunk
-function clone(chunk) {
-  let duplicateObj = deconstruct([chunk]);
-  for (let key in duplicateObj) {
-    let chunk = duplicateObj[key];
-    // Give new chunks an offset
-    if (chunk.x && chunk.y && !chunk.redrawPos) {
-      chunk.x += chunk.radius;
-      chunk.y += chunk.radius;
-    } else if (chunk.redrawPos) {
-      chunk.redrawPos.x += grid;
-      chunk.redrawPos.y += grid;
-    }
-    // update property format to suit the reconstruct function
-    chunk.direction = [, chunk.direction.x, chunk.direction.y];
-    if (chunk.redrawPos) {
-      chunk.redrawPos = [, chunk.redrawPos.x, chunk.redrawPos.y];
-    }
-  }
-  let duplicate = reconstruct(duplicateObj)[0];
-  delete duplicate.x;
-  delete duplicate.y;
-
-  return duplicate;
 }
