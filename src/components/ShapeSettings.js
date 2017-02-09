@@ -33,19 +33,20 @@ import synthIcon from '../../public/icons/keyboard.svg.jsx';
 import { player, drumBuffers, possibilities } from '../tone/drums';
 import { synthOne, synthTwo } from '../tone/tonePatchOne';
 
+// Action creators
+import { openShapeSettings, closeShapeSettings } from '../redux/navState'
+
 
 class ShapeSettings extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      open: false,
       frequency: this.props.selectedChunk.frequency,
       drum: this.props.selectedChunk.drum,
       rotation: this.props.selectedChunk.rotation.toString(),
       triggerSynthResponse: this.props.selectedChunk.triggerSynthResponse
     };
     this.initialRotation = this.props.selectedChunk.rotation;
-    this.handleOpen = this.handleOpen.bind(this);
     this.handleClose = this.handleClose.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
     this.changeFrequency = this.changeFrequency.bind(this);
@@ -55,13 +56,7 @@ class ShapeSettings extends React.Component {
     this.changeSynthEnabled = this.changeSynthEnabled.bind(this);
   }
 
-  handleOpen() {
-    this.setState({open: true});
-    this.props.stopCanvas();
-  }
-
   handleClose() {
-    this.setState({open: false});
     this.props.startCanvas();
   }
 
@@ -97,10 +92,8 @@ class ShapeSettings extends React.Component {
       rotation: +this.state.rotation,
       triggerSynthResponse: this.state.triggerSynthResponse
     });
-    this.setState({
-	    open: false
-	  });
     this.props.startCanvas();
+    this.props.closeShapeSettings();
   }
 
   render() {
@@ -150,7 +143,7 @@ class ShapeSettings extends React.Component {
         key="button1"
         label="Cancel"
         primary={true}
-        onTouchTap={this.handleClose}
+        onTouchTap={this.props.closeShapeSettings}
       />,
       <FlatButton
         key="button2"
@@ -179,7 +172,7 @@ class ShapeSettings extends React.Component {
           backgroundColor={colors.papayaWhip}
         >
 					<FontIcon
-            onTouchTap={this.handleOpen}
+            onTouchTap={this.props.openShapeSettings}
             className="material-icons"
           >
             music_note
@@ -189,10 +182,10 @@ class ShapeSettings extends React.Component {
         <Dialog
           modal={false}
           actions={actions}
-          open={this.state.open}
+          open={this.props.shapeSettingsOpen}
           title="Set Chunk Options"
           autoScrollBodyContent={true}
-          onRequestClose={this.handleClose}
+          onRequestClose={this.props.closeShapeSettings}
         >
           <form style={styles.form}>
           <div style={styles.formGroup}>
@@ -260,7 +253,8 @@ class ShapeSettings extends React.Component {
 
 const mapStateToProps = state => {
   return {
-    selectedChunk: state.selectedChunk
+    selectedChunk: state.selectedChunk,
+    shapeSettingsOpen: state.navState.shapeSettingsOpen
   };
 };
 
@@ -271,7 +265,11 @@ const mapDispatchToProps = dispatch => {
     startCanvas: () =>
       dispatch(startCanvas()),
     stopCanvas: () =>
-      dispatch(stopCanvas())
+      dispatch(stopCanvas()),
+    closeShapeSettings: () =>
+      dispatch(closeShapeSettings()),
+    openShapeSettings: () =>
+      dispatch(openShapeSettings())
   };
 };
 

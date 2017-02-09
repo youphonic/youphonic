@@ -2,9 +2,12 @@
 /*globals Tool view project */
 import store from '../store';
 import colors from '../colors';
+
 import { selectChunk } from '../redux/chunk';
 import { clearAllChunks, addChunk, removeChunk } from '../redux/allChunks';
 import { togglePlay } from '../redux/play';
+import { openShapeSettings, closeShapeSettings } from '../redux/navState'
+
 import { synthOne, synthTwo } from '../tone/tonePatchOne';
 import { player, drumBuffers, possibilities } from '../tone/drums';
 import { nearIntersect } from '../chunks/utils';
@@ -119,8 +122,16 @@ export default function(props) {
     }
   };
 
+  // goes on view - doubleClick events bubble up from whatever was clicked
+  view.onDoubleClick = (event) => {
+    if (localSelectedChunk) {
+      store.dispatch(openShapeSettings())
+    }
+  }
+
   // respond to mouseDown events
   tool.onMouseDown = (event) => {
+    store.dispatch(selectChunk({}));
     isVectorArrowBeingDragged = false;
 		const hitResult = project.hitTest(event.point, hitOptions);
     // check to see if mouse is clicking the body ('fill') of a Chunk
@@ -169,7 +180,6 @@ export default function(props) {
       localSelectedChunk.eraseVector();
 			localSelectedChunk.eraseAlignment();
       localSelectedChunk = null;
-      store.dispatch(selectChunk({}));
     }
   };
 
