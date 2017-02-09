@@ -4,7 +4,7 @@ import Photon from './Photon'
 import colors from '../colors'
 
 import { rhombusGenerator } from './shapeGenerators';
-import { shapes } from '../paper';
+import { movingChunks, allChunks } from '../paper';
 
 export default class Emitter extends Chunk {
   constructor(x, y, length, color = 'white') {
@@ -23,17 +23,23 @@ export default class Emitter extends Chunk {
     // so things bounce off emitter and will not disappear
     this.fixed = true;
     this.causeHitResponse = false;
+    this.frequency = '';
+  }
+
+  // overwrites super's react()
+  // do not trigger any synth or interaction
+  react() {
+    return;
   }
 
   emit() {
     // could be streamlined to appear that chunk actually comes from emitter
     // currently skips some space but if it doesnt, it triggers an intersect detection in
     //main paper draw loop which destroys the particle
-    let triggerSynthResponse = this.triggerSynthResponse
-                                ? this.triggerSynthResponse
-                                : false;
-    let particle = new Photon(this.path.position.x - 5, this.path.position.y - (this.length * 1.3), 20, this.emitDirection, colors.dullMagenta, triggerSynthResponse);
-    shapes.push(particle);
+    let particle = new Photon(this.path.position.x - 5, this.path.position.y - 20, 20, this.emitDirection, colors.supernova, this.id);
+    particle.path.insertBelow(this.path)
+    movingChunks.push(particle);
+    allChunks.push(particle);
   }
 
   // current 'jiggle' animation can be altered in the future
