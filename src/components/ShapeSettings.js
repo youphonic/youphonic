@@ -15,6 +15,7 @@ import {red500, yellow500, blue500} from 'material-ui/styles/colors';
 import AutoComplete from 'material-ui/AutoComplete';
 import VolumeOff from 'material-ui/svg-icons/av/volume-off';
 import VolumeUp from 'material-ui/svg-icons/av/volume-up';
+import Deselect from 'material-ui/svg-icons/notification/do-not-disturb-alt';
 
 import colors from '../colors';
 import { updateAndPlaceChunk } from '../redux/chunk';
@@ -82,7 +83,7 @@ class ShapeSettings extends React.Component {
     if (event.keyCode === 13) event.preventDefault();
   }
 
-  changeDrum(event, id, value) {
+  changeDrum(event, id, value = '') {
     this.setState({drum: value});
   }
 
@@ -137,7 +138,7 @@ class ShapeSettings extends React.Component {
         zIndex: 100,
         height: 24,
         width: 24,
-        enableBackground: "new 0 0 128 128"
+        enableBackground: 'new 0 0 128 128'
       },
       checkbox: {
         marginBottom: 16,
@@ -221,34 +222,63 @@ class ShapeSettings extends React.Component {
           <div style={styles.formGroup}>
             <span style={styles.label}>Instrument:</span>
               <DropDownMenu value={this.state.drum} onChange={this.changeDrum} style={styles.instMenu}>
-                <MenuItem value={'kick'} primaryText="Kick" leftIcon={kickIcon} onTouchTap={() => {
+                <MenuItem
+                  primaryText="No Drum"
+                  leftIcon={<Deselect />}
+                />
+                <MenuItem
+                  value="kick"
+                  primaryText="Kick"
+                  leftIcon={kickIcon}
+                  onTouchTap={() => {
                     player.buffer = drumBuffers.get('kick');
                     player.start();
-                  }}/>
-                <MenuItem value={'snare'} primaryText="Snare" leftIcon={snareIcon} onTouchTap={() => {
+                  }}
+                />
+                <MenuItem
+                  value="snare"
+                  primaryText="Snare"
+                  leftIcon={snareIcon}
+                  onTouchTap={() => {
                     player.buffer = drumBuffers.get('snare');
                     player.start();
-                  }}/>
-                <MenuItem value={'floorTom'} primaryText="Floor Tom" leftIcon={floorTomIcon} onTouchTap={() => {
+                  }}
+                />
+                <MenuItem
+                  value="floorTom"
+                  primaryText="Floor Tom"
+                  leftIcon={floorTomIcon}
+                  onTouchTap={() => {
                     player.buffer = drumBuffers.get('floorTom');
                     player.start();
-                  }}/>
-                <MenuItem value={'hiHatClose'} primaryText="Hi Hat Close" leftIcon={hiHatIcon} onTouchTap={() => {
+                  }}
+                />
+                <MenuItem
+                  value="hiHatClose"
+                  primaryText="Hi Hat Close"
+                  leftIcon={hiHatIcon}
+                  onTouchTap={() => {
                     player.buffer = drumBuffers.get('hiHatClose');
                     player.start();
-                  }}/>
-                <MenuItem value={'cowBell'} primaryText="Cowbell" leftIcon={cowbellIcon} onTouchTap={() => {
+                  }}
+                />
+                <MenuItem
+                  value="cowBell"
+                  primaryText="Cowbell"
+                  leftIcon={cowbellIcon}
+                  onTouchTap={() => {
                   player.buffer = drumBuffers.get('cowBell');
                   player.start();
-                }}/>
+                }}
+              />
               </DropDownMenu>
               <p style={styles.label}>Rotation:</p>
               <DropDownMenu value={this.state.rotation} onChange={this.changeRotation} style={styles.instMenu}>
-                <MenuItem value={'0'} primaryText="0"/>
-                <MenuItem value={'30'} primaryText="30"/>
-                <MenuItem value={'45'} primaryText="45"/>
-                <MenuItem value={'60'} primaryText="60"/>
-                <MenuItem value={'90'} primaryText="90"/>
+                <MenuItem value="0" primaryText="0" />
+                <MenuItem value="30" primaryText="30" />
+                <MenuItem value="45" primaryText="45" />
+                <MenuItem value="60" primaryText="60" />
+                <MenuItem value="90" primaryText="90" />
               </DropDownMenu>
             </div>
           </form>
