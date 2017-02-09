@@ -30,7 +30,7 @@ export default class Drone extends Chunk {
     this.type = 'drone';
   }
 
-  react(time) {
+  react(shape, time) {
     this.onOff(0, 1, time);
   }
 

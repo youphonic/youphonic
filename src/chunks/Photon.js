@@ -1,15 +1,31 @@
-import Chunk from './Chunk'
-import { dropGenerator } from './shapeGenerators'
-import { drawnChunksFilterOutId } from '../paper'
+import Chunk from './Chunk';
+import { dropGenerator } from './shapeGenerators';
+import { drawnChunksFilterOutId } from '../paper';
+import { synthOne, synthTwo } from '../tone/tonePatchOne';
+import { player, drumBuffers, possibilities } from '../tone/drums';
 
 export default class Photon extends Chunk {
-	constructor(x, y, size, direction, color, triggerSynthResponse){
+	constructor(x, y, size, direction, color, emitterId){
 		super(direction, color);
 		this.path = dropGenerator(x, y, size, color)
 		this.type = 'photon';
-		this.alreadyTriggeredChunkIds = [];
+		this.alreadyTriggeredChunkIds = [emitterId];
 		this.causeHitResponse = false;
-		this.triggerSynthResponse = triggerSynthResponse;
+		this.triggerSynthResponse = false;
+		this.frequency = 0;
+	}
+
+	react(shape) {
+		if (!this.alreadyTriggeredChunkIds.includes(shape.id)) {
+			if (shape.triggerSynthResponse) {
+				synthOne.triggerAttackRelease(shape.frequency, '8n');
+			}
+			if (shape.drum) {
+				player.buffer = drumBuffers.get(shape.drum);
+				player.start();
+			}
+			this.addTriggeredChunk(shape.id);
+		}
 	}
 
 	update(){
@@ -21,8 +37,6 @@ export default class Photon extends Chunk {
 			this.path.remove();
 			drawnChunksFilterOutId(this.id);
 		}
-		// else update position
-		this.path.position = this.path.position.add(this.direction);
 	}
 
 	// when Photon triggers another Chunk, add it to this array

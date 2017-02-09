@@ -1,5 +1,7 @@
 import Chunk from './Chunk';
 import colors from '../colors';
+import { player, drumBuffers, possibilities } from '../tone/drums';
+import { synthOne, synthTwo } from '../tone/tonePatchOne';
 
 export default class Circle extends Chunk {
   constructor(x, y, radius, direction, color = colors.papayaWhip) {
@@ -17,12 +19,8 @@ export default class Circle extends Chunk {
     this.triggerSynthResponse = true;
   }
 
-  react(time) {
-    if (this.drum) {
-
-    }
-  }
-
+  // update is called in main draw loop
+  // circles do not need to do any updating
   update() {
     return;
   }

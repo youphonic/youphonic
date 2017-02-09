@@ -14,6 +14,7 @@ import { save, load } from './saver';
 // These variables must be kept outside drawing scope for
 // proper update on receiving new props
 export let allChunks = [];
+export let movingChunks = [];
 let isPlaying;
 let force;
 let localSelectedChunk;
@@ -24,11 +25,10 @@ let grid = 10; // was 2
 let shiftPressed = false;
 let appState;
 
-let movingChunks = [];
-
 
 export const drawnChunksFilterOutId = (id) => {
 	allChunks = allChunks.filter( shape => shape.id !== id);
+  movingChunks = movingChunks.filter( shape => shape.id !== id);
 };
 
 export const removeAllShapePaths = () => {
@@ -38,6 +38,7 @@ export const removeAllShapePaths = () => {
   });
 };
 
+// create another
 function makeMovingChunksArray(allChunks) {
   return allChunks.filter(chunk => !chunk.fixed);
 }
@@ -62,12 +63,6 @@ export default function(props) {
     tolerance: 5
   };
 
-  // Force Constants
-  const forces = {
-    wind1: new Point(0.01, 0),
-    wind2: new Point(-0.01, 0),
-    gravity: new Point(0, 0.5)
-  };
 
   // set state variables on new props
   allChunks = props.allChunks;
@@ -94,72 +89,29 @@ export default function(props) {
     // only update Chunk if playing state is enabled
     if (isPlaying) {
       // iterate through every moving shape
-      movingChunks.forEach(shape => {
+      allChunks.forEach(shape => {
         // check for collisions with every other shape
-        allChunks.forEach(innerShape => {
+        movingChunks.forEach(innerShape => {
           // do not check shape intersections against itself
           if (innerShape.id !== shape.id) {
             if (shape.path.intersects(innerShape.path)) {
-              shape.react(event.time);
-              innerShape.react(event.time);
-
-              // hard coded: trigger inner shape's synth on impact
-              // eventually, this should be dependent upon a shape's settings
-              // this 'string' if check is temporary
-              // if (innerShape.type === 'rope') {
-              //   innerShape.triggerAnimate(event.time);
-              // } else {
-                // if (innerShape.type === 'drone') {
-                //   // ?temporary functionality? -- toggle the drone on/off
-                //   // when the drone chunk is hit by a moving chunk
-                //   innerShape.onOff(0, 1, event.time);
-                // }
-                // if not a photon, call shape's respond to hit function and play synth
-                if (shape.type !== 'photon') {
-                  if (shape.drum) {
-                    player.buffer = drumBuffers.get(shape.drum);
-                    player.start();
-                  }
-                  if (innerShape.drum) {
-                    player.buffer = drumBuffers.get(innerShape.drum);
-                    player.start();
-                  }
-                  if (innerShape.triggerSynthResponse) synthOne.triggerAttackRelease(innerShape.frequency, '8n');
-                  if (shape.triggerSynthResponse) synthTwo.triggerAttackRelease(shape.frequency, '8n');
-                  shape.respondToHit(innerShape);
-                } else {
-                  if (!shape.alreadyTriggeredChunkIds.includes(innerShape.id)) {
-                    if (shape.triggerSynthResponse) {
-                      synthOne.triggerAttackRelease(innerShape.frequency, '8n');
-                      shape.addTriggeredChunk(innerShape.id);
-                    }
-                  }
-                  if (innerShape.drum) {
-                    player.buffer = drumBuffers.get(innerShape.drum);
-                    player.start();
-                  }
-                }
-              // }
+              // on intersect, trigger reaction from both
+              shape.react(innerShape, event.time);
+              innerShape.react(shape, event.time);
+              innerShape.respondToHit(shape);
             }
           }
         });
 
-        if (shape.type === 'physics') {
-          shape.applyForce(forces.gravity);
-        } else if (shape.type === 'drone') {
-          shape.shouldSpin(isPlaying, event.time);
-        } else if (shape.type === 'attractor') {
-          allChunks.forEach(otherShape => {
-            if (otherShape.isMoving && otherShape.id !== shape.id) {
+        if (shape.type === 'attractor') {
+          movingChunks.forEach(otherShape => {
+            if (otherShape.id !== shape.id && otherShape.type !== 'photon') {
               force = shape.calculateAttraction(otherShape);
               otherShape.applyForce(force);
             }
           });
-        } else if (shape.type === 'fizzler') {
-          shape.generateParticles();
-          // always update the particles that fizzler emitted
-          shape.updateParticles();
         }
+
         // update every moving shape's position each frame
         shape.update(event.time);
         shape.move(event.time);

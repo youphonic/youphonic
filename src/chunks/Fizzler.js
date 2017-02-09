@@ -28,8 +28,13 @@ export default class Fizzler extends Chunk {
     this.particlesForceY = [];
     this.dispersion = dispersion;
     this.synth = fizzle ? fizz : twang;
-
     this.type = 'fizzler';
+  }
+
+  update() {
+    this.generateParticles();
+    // always update the particles that fizzler emitted
+    this.updateParticles();
   }
 
   // this function lets a user toggle from "Fizzler" to "Crackler"
