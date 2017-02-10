@@ -9,7 +9,8 @@
     "build-watch": "webpack -w",
     "build": "webpack",
     "startup": "npm install && npm run build && npm start",
-    "seed": "node seed.js"
+    "seed": "node seed.js",
+    "postinstall": "webpack"
   },
   "repository": {
     "type": "git",
@@ -22,21 +23,20 @@
   },
   "homepage": "https://github.com/ianmunrobot/youphonic#readme",
   "devDependencies": {
-    "babel": "^6.5.2",
-    "babel-core": "^6.22.1",
-    "babel-loader": "^6.2.10",
-    "babel-preset-es2015": "^6.22.0",
-    "babel-preset-react": "^6.22.0",
     "chai": "^3.5.0",
     "chai-enzyme": "^0.6.1",
     "enzyme": "^2.7.1",
     "nodemon": "^1.11.0",
     "supertest": "^3.0.0",
-    "supertest-as-promised": "^4.0.2",
-    "webpack": "^1.14.0"
+    "supertest-as-promised": "^4.0.2"
   },
   "dependencies": {
     "axios": "^0.15.3",
+    "babel": "^6.5.2",
+    "babel-core": "^6.22.1",
+    "babel-loader": "^6.2.10",
+    "babel-preset-es2015": "^6.22.0",
+    "babel-preset-react": "^6.22.0",
     "bcrypt": "^1.0.2",
     "body-parser": "^1.16.0",
     "chalk": "^1.1.3",
@@ -66,6 +66,7 @@
     "redux-thunk": "^2.2.0",
     "sequelize": "^3.30.0",
     "tone": "^0.9.0",
-    "volleyball": "^1.4.1"
+    "volleyball": "^1.4.1",
+    "webpack": "^1.14.0"
   }
 }
