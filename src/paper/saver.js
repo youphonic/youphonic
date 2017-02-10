@@ -56,7 +56,10 @@ export const load = (allChunks, clearAllChunks, addChunk) => {
   // If there are any stored chunks ...
   if (savedChunks && savedChunks.length) {
     // Get rid of the chunks that were being drawn
-    allChunks.forEach(chunk => chunk.path.remove());
+    allChunks.forEach(chunk => {
+      if (chunk.type === 'drone') chunk.killNoise();
+      chunk.path.remove();
+    });
     removeAllShapePaths();
     // Take all chunks out of the Redux Store
     clearAllChunks();
