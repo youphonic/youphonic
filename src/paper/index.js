@@ -49,7 +49,6 @@ function makeMovingChunksArray(allChunks) {
 }
 
 export default function(props) {
-	console.log('RUNNING');
   // tool represents mouse/keyboard input
 	const tool = new Tool();
 	if (grid) {
@@ -77,6 +76,21 @@ export default function(props) {
   allChunks = props.allChunks;
   movingChunks = makeMovingChunksArray(props.allChunks);
 	if (!gridDots) gridDots = new Group();
+	// Draw the grid if it hasn't been drawn and it's toggled on
+	if (props.canvas.displayGrid && !gridDots.children.length) {
+		for (var i = grid; i < window.innerHeight; i += grid) {
+			for (var j = grid; j < window.innerWidth; j += grid) {
+				let gridDot = new Path.Circle({
+					center: [j, i],
+					radius: 1,
+					fillColor: 'black'
+				});
+				gridDots.addChild(gridDot);
+			}
+		}
+	} else if (!props.canvas.displayGrid) {
+		gridDots.removeChildren();
+	}
 
   // when play is called, erase any currently drawn vector
   if (props.isPlaying) {
@@ -125,19 +139,7 @@ export default function(props) {
         shape.update(event.time);
         shape.move(event.time);
       });
-    } else if (!isPlaying && !gridDots.children.length) {
-			console.log('in the else if');
-			for (var i = grid; i < window.innerHeight; i += grid) {
-				for (var j = grid; j < window.innerWidth; j += grid) {
-					let gridDot = new Path.Circle({
-			      center: [j, i],
-			      radius: 1,
-			      fillColor: 'black'
-			    });
-					gridDots.addChild(gridDot);
-				}
-			}
-		}
+    }
   };
 
   // goes on view - doubleClick events bubble up from whatever was clicked
@@ -174,8 +176,6 @@ export default function(props) {
         if (hitResult.item === shape.path) {
           // store currently clicked shape, draw its vector, update store
           localSelectedChunk = shape;
-					console.log('DIRECTION', localSelectedChunk.direction);
-					console.log('POSITION', localSelectedChunk.path.position);
           localSelectedChunk.drawVector();
 					localSelectedChunk.drawAlignment();
           store.dispatch(selectChunk(shape));
@@ -185,7 +185,7 @@ export default function(props) {
       // clone Chunk if option/alt key is pressed
       if(event.modifiers.option) {
         let duplicate = clone(localSelectedChunk, grid);
-        localSelectedChunk = duplicate;
+	localSelectedChunk = duplicate;
         store.dispatch(addChunk(duplicate));
         store.dispatch(selectChunk(duplicate));
       }

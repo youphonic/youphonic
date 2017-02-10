@@ -19,10 +19,9 @@ export const setGrid = (num) => {
   };
 };
 
-export const toggleGrid = (bool) => {
+export const toggleGrid = () => {
   return {
-    type: TOGGLE_GRID,
-    displayGrid: bool
+    type: TOGGLE_GRID
   };
 };
 
@@ -32,9 +31,12 @@ export default(state = initialState, action) => {
 
   switch (action.type) {
     case TOGGLE_GRID:
-      return Object.assign({}, state, {displayGrid: action.displayGrid});
+      newState.displayGrid = !newState.displayGrid;
+      break;
 
     default:
-      return newState;
+      break;
   }
+
+  return newState;
 };
