@@ -97,8 +97,8 @@ export const deconstruct = (allChunks) => {
     saved[chunk.id] = Object.assign({}, chunk);
     // Chunks x & y position don't get copied
     // so we do this manually
-    saved[chunk.id].x = chunk.path.position._x;
-    saved[chunk.id].y = chunk.path.position._y;
+    saved[chunk.id].x = chunk.path.position.x;
+    saved[chunk.id].y = chunk.path.position.y;
   });
   return saved;
 };
@@ -210,7 +210,9 @@ export const reconstruct = (savedChunks) => {
             props.radius,
             new Point(props.direction[1], props.direction[2]),
             props.color,
-            new Point(props.dispersion[1], props.dispersion[2]),
+            // hard coded for now -- to make
+            // the clone function work properly
+            new Point(-2, 2),
             props.fizzle
           );
           break;
@@ -244,6 +246,8 @@ export const reconstruct = (savedChunks) => {
         reborn.setInitialRotation(props.rotation);
       }
 
+      delete reborn.x;
+      delete reborn.y;
       ressurected.push(reborn);
     }
   }

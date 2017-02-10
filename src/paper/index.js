@@ -185,7 +185,7 @@ export default function(props) {
       // clone Chunk if option/alt key is pressed
       if(event.modifiers.option) {
         let duplicate = clone(localSelectedChunk, grid);
-        localSelectedChunk = duplicate;
+	localSelectedChunk = duplicate;
         store.dispatch(addChunk(duplicate));
         store.dispatch(selectChunk(duplicate));
       }
