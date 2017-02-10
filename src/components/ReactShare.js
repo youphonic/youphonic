@@ -2,7 +2,6 @@
 import React from 'react';
 import {
   ShareButtons,
-  ShareCounts,
   generateShareIcon,
 } from 'react-share';
 
@@ -33,12 +32,12 @@ class ReactShare extends React.Component {
 
   render() {
     return (
-      <div >
+      <div>
         <div style={styles.icons}>
           <FacebookShareButton
             url={this.props.sharedURL}
             title={this.props.title}
-            description={'Check out my awesome Youphonic!'}
+            description={'Check out my awesome youphonic!'}
             picture={this.props.image}>
             <FacebookIcon
               size={32}
@@ -75,6 +74,7 @@ class ReactShare extends React.Component {
               size={32}
               round />
           </LinkedinShareButton>
+
         </div>
       </div>
     );
