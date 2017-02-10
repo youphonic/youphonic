@@ -81,4 +81,3 @@ function shareCountFactory(getCount) {
 export const FacebookShareCount = shareCountFactory(getFacebookShareCount);
 export const LinkedinShareCount = shareCountFactory(getLinkedinShareCount);
 export const GooglePlusShareCount = shareCountFactory(getGooglePlusShareCount);
-export const PinterestShareCount = shareCountFactory(getPinterestShareCount);

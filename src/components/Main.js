@@ -5,6 +5,7 @@ import injectTapEventPlugin from 'react-tap-event-plugin';
 
 import RightMenu from './RightMenu';
 import UserMenu from './UserMenu';
+import Tutorial from './Tutorial';
 import ShapeSettings from './ShapeSettings';
 import WindowSettings from './WindowSettings';
 
@@ -51,6 +52,11 @@ const styles = {
     right: 15,
     bottom: 15
   },
+	tutorialButton: {
+		postion: 'absolute',
+		right: 15,
+		bottom: 300
+	},
   canvas: {
     margin: 0,
     display: 'flex',
@@ -58,7 +64,6 @@ const styles = {
     justifyContent: 'center',
     /* This centers our sketch vertically. */
     alignItems: 'center'
-		// zIndex: -999
   }
 };
 
@@ -103,9 +108,7 @@ componentWillReceiveProps(nextProps){
 	  return (
 
 	    <div id="outer-container">
-
 			<Start />
-
 	      <main id="page-wrap">
 	        <MainCanvas/>
 	        <Login/>
@@ -115,8 +118,9 @@ componentWillReceiveProps(nextProps){
 					{this.state.newUser && <SnackBar message={'Welcome ' + this.props.auth.firstName} open={this.props.loginAlertOpen} autoHideDuration={3000} />}
 	        <UserMenu />
 	        <RightMenu />
+					<Tutorial />
 					<MyPlays />
-	        {this.props.selectedChunk.id && <ShapeSettings style={styles.settingsButton} />}
+	        {this.props.selectedChunk.id && <ShapeSettings 		style={styles.settingsButton} />}
 	        <FloatingActionButton
             style={styles.playButton}
             iconStyle={styles.buttonIcon}
@@ -145,14 +149,12 @@ componentWillReceiveProps(nextProps){
             {this.props.isPlaying
 	              ? 'pause_circle_outline'
 	              : 'play_circle_outline'}
-	        </FontIcon>
+		        </FontIcon>
 	        </FloatingActionButton>
 	      </main>
 	    </div>
 	  );
-
   }
-
 }
 
 const mapStateToProps = (state) => {
