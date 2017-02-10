@@ -10,15 +10,15 @@ let numSegments = 17;
 
 export default class Rope extends Chunk {
 
-  constructor(x1, y1, x2, y2, color = 'white') {
+  constructor(x1, y1, x2, y2, color = colors.smokeOnTheWater) {
     super(new Point(0, 0), color)
     this.start = new Point(x1, y1);
     this.end = new Point(x2, y2);
     this.color = color;
     this.path = makePath(this.start, this.end, color);
     this.synth = ropeSynthFactory();
-    this.type = 'rope';
     this.path.name = 'ropeBody';
+    this.type = 'rope';
     // don't cause hit responses in other Chunks
     this.causeHitResponse = false;
     // animation/Tone variables:
@@ -130,10 +130,10 @@ function makePath(start, end, color) {
   let direction = end.subtract(start)
   let resultPath = new Path({
       strokeColor: color,
-      strokeWidth: 2,
+      strokeWidth: 4,
       strokeCap: 'round',
       strokeJoin: 'round',
-      shadowColor: colors.blueStone,
+      shadowColor: color,
       shadowBlur: 10,
       shadowOffset: new Point(2, 3)
     });

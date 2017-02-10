@@ -195,7 +195,7 @@ function RightMenu (props) {
     <MenuItem
       primaryText="Rope"
       onTouchTap={() => {
-        props.addChunk(new Rope(props.center.x - 100, props.center.y + 100, props.center.x + 100, props.center.y - 100, colors.blueStone));
+        props.addChunk(new Rope(props.center.x - 100, props.center.y + 100, props.center.x + 100, props.center.y - 100));
         enterEditMode(props.isPlaying);
       }}
       />
