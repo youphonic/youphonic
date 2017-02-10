@@ -111,8 +111,8 @@ componentWillReceiveProps(nextProps){
 					<SignUp />
 					{/* check for logged in user then deliver welcome alert */}
 					{this.state.newUser && <SnackBar message={'Welcome ' + this.props.auth.firstName} open={this.props.loginAlertOpen} autoHideDuration={3000} />}
-	        <UserMenu />
-	        <RightMenu />
+	        {!this.props.isPlaying && <UserMenu />}
+	        {!this.props.isPlaying && <RightMenu />}
 					<MyPlays />
 	        {this.props.selectedChunk.id && <ShapeSettings style={styles.settingsButton} />}
 	        <FloatingActionButton

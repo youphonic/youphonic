@@ -48,7 +48,7 @@ function RightMenu (props) {
   return (<div style={styles.menu}>
     <IconMenu
       iconButtonElement={
-        <IconButton iconStyle={styles.chunkIcon}>
+        <IconButton iconStyle={styles.chunkIcon} tooltip="Add Chunk" tooltipPosition="bottom-left">
           <FontIcon className="material-icons" >add_circle</FontIcon>
         </IconButton>
       }
