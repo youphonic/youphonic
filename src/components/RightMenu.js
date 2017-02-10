@@ -189,13 +189,13 @@ function RightMenu (props) {
 					enterEditMode(props.isPlaying);
 				}}
       />
-    <MenuItem
+    {/*<MenuItem
       primaryText="Pendulum"
       onTouchTap={() => {
         props.addChunk(new Pendulum(props.center.x, props.center.y, circleRadius, new Point(0, 0)));
         enterEditMode(props.isPlaying);
       }}
-      />
+      />*/}
     <MenuItem
       primaryText="Rope"
       onTouchTap={() => {
