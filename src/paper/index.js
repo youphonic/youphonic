@@ -124,7 +124,6 @@ export default function(props) {
   tool.onMouseDown = (event) => {
     isVectorArrowBeingDragged = false;
 		const hitResult = project.hitTest(event.point, hitOptions);
-    console.log(hitResult);
     // check to see if mouse is clicking the body ('fill') of a Chunk
     if (!isPlaying && hitResult && (hitResult.type === 'fill' || (hitResult.item && hitResult.item.name === 'ropeBody'))) {
       // if a Rope endpoint is selected, set the corner to drag mode
