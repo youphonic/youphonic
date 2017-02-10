@@ -20,7 +20,8 @@ let localSelectedChunk;
 let isVectorArrowBeingDragged = false;
 let isRopeEndBeingDragged = false;
 let ropeEndSelected = false;
-let grid = 10; // was 2
+let grid = 32; // was 25
+let gridDots;
 let shiftPressed = false;
 let appState;
 let allChunks;
@@ -38,6 +39,7 @@ export const removeAllShapePaths = () => {
 };
 
 export default function(props) {
+	console.log('RUNNING');
   // tool represents mouse/keyboard input
 	const tool = new Tool();
 	if (grid) {
@@ -69,7 +71,7 @@ export default function(props) {
   isPlaying = props.isPlaying;
   appState = props.appState;
   allChunks = props.allChunks;
-
+	if (!gridDots) gridDots = new Group();
   // when play is called, erase any currently drawn vector
   if (props.isPlaying) {
     if (localSelectedChunk) {
@@ -89,6 +91,8 @@ export default function(props) {
   view.onFrame = (event) => {
     // only update shapes if playing state is enabled
     if (isPlaying) {
+			// get rid of the grid
+			gridDots.removeChildren();
       // iterate through every shape
       shapes.forEach(shape => {
         // if shape is moving, look for collisions
@@ -157,7 +161,19 @@ export default function(props) {
         // update every moving shape's position each frame
         shape.update(event.time);
       });
-    }
+    } else if (!isPlaying && !gridDots.children.length) {
+			console.log('in the else if');
+			for (var i = grid; i < window.innerHeight; i += grid) {
+				for (var j = grid; j < window.innerWidth; j += grid) {
+					let gridDot = new Path.Circle({
+			      center: [j, i],
+			      radius: 1,
+			      fillColor: 'black'
+			    });
+					gridDots.addChild(gridDot);
+				}
+			}
+		}
   };
 
   // respond to mouseDown events
@@ -186,6 +202,8 @@ export default function(props) {
         if (hitResult.item === shape.path) {
           // store currently clicked shape, draw its vector, update store
           localSelectedChunk = shape;
+					console.log('DIRECTION', localSelectedChunk.direction);
+					console.log('POSITION', localSelectedChunk.path.position);
           localSelectedChunk.drawVector();
 					localSelectedChunk.drawAlignment();
           store.dispatch(selectChunk(shape));

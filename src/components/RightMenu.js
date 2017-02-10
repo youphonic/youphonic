@@ -10,6 +10,7 @@ import {connect} from 'react-redux';
 
 import {addChunk} from '../redux/allChunks';
 import {togglePlay} from '../redux/play';
+import {openWindowSettings, closeWindowSettings} from '../redux/navState';
 import Circle from '../chunks/Circle';
 import Drone from '../chunks/Drone';
 import PhysBall from '../chunks/PhysBall';
@@ -182,6 +183,13 @@ function RightMenu (props) {
         enterEditMode(props.isPlaying);
       }}
       />
+    <MenuItem
+      primaryText="Window"
+      onTouchTap={() => {
+        props.openWindowSettings();
+        enterEditMode(props.isPlaying);
+      }}
+      />
     </IconMenu>
   </div>);
 }
@@ -200,7 +208,10 @@ const mapDispatchToProps = dispatch => {
 		},
 		togglePlay: (isPlaying) => {
 			dispatch(togglePlay(isPlaying));
-		}
+		},
+    openWindowSettings: () => {
+      dispatch(openWindowSettings());
+    }
 	};
 };
 

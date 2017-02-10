@@ -91,11 +91,13 @@ export default class Chunk {
 
     if (shiftPressed) {
       newAngle = Math.round((Math.round(angle / 45) * 45));
+      let quantizedLength = Math.round((Math.round(mousePoint.subtract(this.path.position).length / 30) * 30));
       let newDirection = new Point({
         angle: newAngle,
-        length: mousePoint.subtract(this.path.position).length
+        length: quantizedLength// mousePoint.subtract(this.path.position).length
       });
       end = this.path.position.subtract(newDirection);
+      console.log(quantizedLength);
     }
     this.vectorItem = drawArrow(this.path.position, end, this.direction);
     this.direction = (this.path.position.subtract(end)).divide(-15);

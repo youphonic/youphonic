@@ -1,4 +1,4 @@
-import {ENTERED_APP, OPEN_LOGIN, CLOSE_LOGIN, OPEN_SIGNUP, CLOSE_SIGNUP, OPEN_LOGIN_ALERT, CLOSE_SIGNUP_ALERT, OPEN_PLAYS, CLOSE_PLAYS, TOGGLE_SAVE_A_PLAY} from '../constants';
+import {ENTERED_APP, OPEN_LOGIN, CLOSE_LOGIN, OPEN_SIGNUP, CLOSE_SIGNUP, OPEN_LOGIN_ALERT, CLOSE_SIGNUP_ALERT, OPEN_PLAYS, CLOSE_PLAYS, TOGGLE_SAVE_A_PLAY, OPEN_WINDOW_SETTINGS, CLOSE_WINDOW_SETTINGS} from '../constants';
 const initialState = {
 	enteredApp: false,
 	loginOpen: false,
@@ -6,6 +6,7 @@ const initialState = {
   saveAPlayOpen: false,
   loginAlertOpen: false,
 	playsOpen: false,
+	windowSettingOpen: false
 };
 // action creators
 // opens and closes dialog box for user registration from upper left account
@@ -27,6 +28,12 @@ export const openSignup = () => {
 };
 export const closeSignup = () => {
   return {type: CLOSE_SIGNUP};
+};
+export const openWindowSettings = () => {
+  return {type: OPEN_WINDOW_SETTINGS};
+};
+export const closeWindowSettings = () => {
+  return {type: CLOSE_WINDOW_SETTINGS};
 };
 export const toggleSaveAPlay = () => {
   return {type: TOGGLE_SAVE_A_PLAY};
@@ -76,6 +83,12 @@ export default(state = initialState, action) => {
 			break;
 		case CLOSE_PLAYS:
 			newState.playsOpen = false;
+			break;
+		case OPEN_WINDOW_SETTINGS:
+			newState.windowSettingOpen = true;
+			break;
+		case CLOSE_WINDOW_SETTINGS:
+			newState.windowSettingOpen = false;
 			break;
     default:
       return state;
