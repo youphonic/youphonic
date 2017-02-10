@@ -11,4 +11,5 @@ export default {
   hopbush:     '#c3679b',
   dullMagenta: '#C84AAB',
   vividViolet: '#9f309c',
+  deepPurple:  '#3F235F',
 };
