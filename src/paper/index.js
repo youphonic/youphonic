@@ -3,16 +3,12 @@
 import store from '../store';
 import colors from '../colors';
 
-import { selectChunk } from '../redux/chunk';
-import { clearAllChunks, addChunk, removeChunk } from '../redux/allChunks';
-import { togglePlay } from '../redux/play';
-import { openShapeSettings, closeShapeSettings } from '../redux/navState'
-
 import { synthOne, synthTwo } from '../tone/tonePatchOne';
 import { player, drumBuffers, possibilities } from '../tone/drums';
 import { nearIntersect } from '../chunks/utils';
 import { deconstruct, reconstruct } from './saver';
 import { clone } from './utils'
+import { save, load } from './saver';
 
 
 // These variables must be kept outside drawing scope for
@@ -145,13 +141,13 @@ export default function(props) {
   // goes on view - doubleClick events bubble up from whatever was clicked
   view.onDoubleClick = (event) => {
     if (localSelectedChunk) {
-      store.dispatch(openShapeSettings())
+      props.openShapeSettings();
     }
   }
 
   // respond to mouseDown events
   tool.onMouseDown = (event) => {
-    store.dispatch(selectChunk({}));
+    props.selectChunk({});
     isVectorArrowBeingDragged = false;
 		const hitResult = project.hitTest(event.point, hitOptions);
     // check to see if mouse is clicking the body ('fill') of a Chunk
@@ -178,16 +174,16 @@ export default function(props) {
           localSelectedChunk = shape;
           localSelectedChunk.drawVector();
 					localSelectedChunk.drawAlignment();
-          store.dispatch(selectChunk(shape));
+          props.selectChunk(shape);
         }
       });
 
       // clone Chunk if option/alt key is pressed
       if(event.modifiers.option) {
         let duplicate = clone(localSelectedChunk, grid);
-	localSelectedChunk = duplicate;
-        store.dispatch(addChunk(duplicate));
-        store.dispatch(selectChunk(duplicate));
+        localSelectedChunk = duplicate;
+        props.addChunk(duplicate);
+        props.selectChunk(duplicate);
       }
 
     // allow dragging if rope edge point is clicked
@@ -264,21 +260,33 @@ export default function(props) {
     if (!appState) return;
     // delete Chunk on backspace deletion
     if (event.key === 'backspace' && localSelectedChunk) {
-      store.dispatch(removeChunk(localSelectedChunk));
+      props.removeChunk(localSelectedChunk);
       localSelectedChunk.eraseVector();
 			localSelectedChunk.eraseAlignment();
       localSelectedChunk.path.remove();
       localSelectedChunk = null;
-      store.dispatch(selectChunk({}));
+      props.selectChunk({});
     // toggle play on spacebar
     } else if (event.key === 'space') {
       if (localSelectedChunk) {
         localSelectedChunk.eraseVector();
 				localSelectedChunk.eraseAlignment();
         localSelectedChunk = null;
-        store.dispatch(selectChunk({}));
+        props.selectChunk({});
       }
-      store.dispatch(togglePlay(isPlaying));
+			if (!isPlaying) {
+				// this saves all chunks to local storage
+				// for now ...
+				save(allChunks);
+				// this hides the settings component
+				props.startCanvas();
+			} else {
+				// Gets all saved chunks off local storage
+				// And remove previous chunks from both
+				// Paper project and Redux Store
+				load(allChunks, props.clearAllChunks, props.addChunk);
+			}
+      props.togglePlay(isPlaying);
     } else if (event.key === 'shift') {
 			shiftPressed = true;
 		}

@@ -3,6 +3,11 @@ import {connect} from 'react-redux';
 import paper from 'paper';
 import paperFrames from '../paper';
 import paperjsSeed from '../redux/paperjsSeed';
+import { startCanvas } from '../redux/appState'
+import { selectChunk } from '../redux/chunk';
+import { clearAllChunks, addChunk, removeChunk } from '../redux/allChunks';
+import { togglePlay } from '../redux/play';
+import { openShapeSettings, closeShapeSettings } from '../redux/navState'
 
 const styles = {
   paperCanvas: {
@@ -51,4 +56,25 @@ const mapStateToProps = (state) => {
   };
 };
 
-export default connect(mapStateToProps)(PaperWrapper);
+const mapDispatchToProps = (dispatch) => {
+  return {
+    startCanvas: () =>
+      dispatch(startCanvas()),
+    openShapeSettings: () =>
+      dispatch(openShapeSettings()),
+    closeShapeSettings: () =>
+      dispatch(closeShapeSettings()),
+    selectChunk: (chunk) =>
+      dispatch(selectChunk(chunk)),
+    clearAllChunks: () =>
+      dispatch(clearAllChunks()),
+    addChunk: (chunk) =>
+      dispatch(addChunk(chunk)),
+    removeChunk: (chunk) =>
+      dispatch(removeChunk(chunk)),
+    togglePlay: (isPlaying) =>
+      dispatch(togglePlay(isPlaying))
+  };
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(PaperWrapper);
