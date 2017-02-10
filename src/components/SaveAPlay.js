@@ -5,6 +5,7 @@ import { Dialog, TextField, FlatButton } from 'material-ui';
 import { savePlayToServer } from '../paper/saver';
 import { toggleSaveAPlay } from '../redux/navState';
 import {startCanvas} from '../redux/appState';
+import colors from '../colors'
 
 class SaveAPlay extends Component {
   constructor(props) {
@@ -28,24 +29,24 @@ class SaveAPlay extends Component {
     let imageData;
 
     if (this.props.saveAPlayOpen) {
+      // grab current canvas
       srcCanvas = document.getElementById('paperCanvas');
+      //create a dummy canvas
+      let dummyCanvas = document.createElement("canvas");
+      dummyCanvas.width = srcCanvas.width;
+      dummyCanvas.height = srcCanvas.height;
+      let destCtx = dummyCanvas.getContext('2d');
 
-      //create a dummy CANVAS
-      let destinationCanvas = document.createElement("canvas");
-      destinationCanvas.width = srcCanvas.width;
-      destinationCanvas.height = srcCanvas.height;
-
-      let destCtx = destinationCanvas.getContext('2d');
-
-      //create a rectangle with the desired color
-      destCtx.fillStyle = '#31B8B5';
+      //create a background draw rectangle on dummy canvas
+      destCtx.fillStyle = colors.puertoRico;
       destCtx.fillRect(0,0,srcCanvas.width,srcCanvas.height);
 
       //draw the original canvas onto the destination canvas
       destCtx.drawImage(srcCanvas, 0, 0);
 
-      //finally use the destinationCanvas.toDataURL() method to get the desired output;
-      imageData = destinationCanvas.toDataURL();
+      // finally use the dummyCanvas.toDataURL() method to get the desired output
+      // save to medium quality jpeg
+      imageData = dummyCanvas.toDataURL('image/jpeg', 0.5);
     }
 
     const saveAPlayActions = [
