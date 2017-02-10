@@ -24,17 +24,20 @@ const logger = volleyball.custom({ debug: true });
 app.use(volleyball);
 
 // body parsing middleware
-// json limit must be large enough to transfer images
 app.use(bodyParser.urlencoded({ extended: true }));
+// json limit must be large enough to transfer images
 app.use(bodyParser.json({limit: '10mb'}));
 
 //authentication middleware
 app.use(passport.initialize());
 app.use(passport.session());
 
+//upon login places user on session object as 'user.id'
 passport.serializeUser(function (user, done){
 	done(null, user.id);
 });
+
+//upon login places user on every route as 'req.user'
 passport.deserializeUser(function (id, done){
 	User.findById(id)
 	.then(function (user) {
@@ -47,10 +50,8 @@ const staticMiddleware = require('./static.middleware');
 app.use(staticMiddleware);
 
 //mount api and api routes
-app.use('/api', require('../api/api'));
+app.use('/api', require('../api'));
 
-//TODO: This needs to be adjusted to serve api routes
-// currently serving index.html to all routes with wildcard
 app.get('*', (req, res, next) => {
   res.sendFile(path.join(__dirname, '..', '..', 'src', 'index.html'));
 });

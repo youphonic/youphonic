@@ -16,8 +16,7 @@ const styles = {
 		overflow: 'hidden',
 		zIndex: 25,
 		WebkitTransition: 'all',
-		msTransition: 'all',
-		display: 'flex',
+		msTransition: 'all'
 
 	},
 	title: {
@@ -34,8 +33,7 @@ const styles = {
 		bottom: 50,
 		left: 650,
 		zIndex: 26,
-		backgroundColor: 'rgba(0,0,0,0)',
-		flex: 1
+		backgroundColor: 'rgba(0,0,0,0)'
 	},
 	icon: {
 		zIndex: 26,
