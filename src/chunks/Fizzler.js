@@ -27,6 +27,7 @@ export default class Fizzler extends Chunk {
     this.particlesForceX = [];
     this.particlesForceY = [];
     this.dispersion = dispersion;
+    this.redrawPos = new Point(x, y);
     this.synth = fizzle ? fizz : twang;
     this.type = 'fizzler';
   }
@@ -35,6 +36,16 @@ export default class Fizzler extends Chunk {
     this.generateParticles();
     // always update the particles that fizzler emitted
     this.updateParticles();
+  }
+
+  updateRedrawPos() {
+    // if the instance is a "crackler" the redrawPos should be tweaked
+    let yPos = (this.fizzle)
+              ? this.path.position.y + 1.48546698146
+              : this.path.position.y;
+
+    // Hard coded for now -- will break if the radius changes
+    this.redrawPos = new Point(this.path.position.x, yPos);
   }
 
   // this function lets a user toggle from "Fizzler" to "Crackler"
