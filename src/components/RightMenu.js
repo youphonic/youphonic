@@ -1,4 +1,5 @@
 import {
+  Divider,
   IconMenu,
   MenuItem,
   FontIcon,
@@ -6,9 +7,11 @@ import {
 } from 'material-ui';
 import React from 'react';
 import {connect} from 'react-redux';
+import Deselect from 'material-ui/svg-icons/notification/do-not-disturb-alt';
 
-import {addChunk} from '../redux/allChunks';
+import {addChunk, clearAllChunks} from '../redux/allChunks';
 import {togglePlay} from '../redux/play';
+import {toggleGrid} from '../redux/canvas-reducer';
 import {openWindowSettings, closeWindowSettings} from '../redux/navState';
 import Circle from '../chunks/Circle';
 import Drone from '../chunks/Drone';
@@ -20,6 +23,7 @@ import Pendulum from '../chunks/Pendulum';
 import Emitter from '../chunks/Emitter';
 import Rope from '../chunks/Rope';
 import Login from './Login';
+import ToggleGrid from './ToggleGrid';
 import colors from '../colors';
 
 const styles = {
@@ -199,13 +203,21 @@ function RightMenu (props) {
         enterEditMode(props.isPlaying);
       }}
       />
+    <Divider style={{height: '2px'}} />
     <MenuItem
-      primaryText="Show Grid" // can add capabilities and reset this to WindowSettings
+      leftIcon={<Deselect />}
+      primaryText="Clear" // can add capabilities and reset this to WindowSettings
       onTouchTap={() => {
-        props.openWindowSettings();
+        props.allChunks.forEach(chunk => chunk.path.remove());
+        props.clearAllChunks();
         enterEditMode(props.isPlaying);
       }}
       />
+    <Divider style={{height: '2px'}} />
+    <ToggleGrid
+      toggleGrid={props.toggleGrid}
+      displayGrid={props.displayGrid}
+    />
     </IconMenu>
   </div>);
 }
@@ -213,7 +225,9 @@ function RightMenu (props) {
 const mapStateToProps = (state) => {
 	return {
 		center: state.canvas.center,
-		isPlaying: state.isPlaying
+		isPlaying: state.isPlaying,
+    allChunks: state.allChunks,
+    displayGrid: state.canvas.displayGrid
 	};
 };
 
@@ -227,7 +241,11 @@ const mapDispatchToProps = dispatch => {
 		},
     openWindowSettings: () => {
       dispatch(openWindowSettings());
-    }
+    },
+    clearAllChunks: () =>
+      dispatch(clearAllChunks()),
+    toggleGrid: () =>
+      dispatch(toggleGrid())
 	};
 };
 

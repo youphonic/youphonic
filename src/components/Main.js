@@ -6,7 +6,6 @@ import injectTapEventPlugin from 'react-tap-event-plugin';
 import RightMenu from './RightMenu';
 import UserMenu from './UserMenu';
 import ShapeSettings from './ShapeSettings';
-import WindowSettings from './WindowSettings';
 
 import FloatingActionButton from 'material-ui/FloatingActionButton';
 import FontIcon from 'material-ui/FontIcon';
@@ -110,7 +109,6 @@ componentWillReceiveProps(nextProps){
 	        <MainCanvas/>
 	        <Login/>
 					<SignUp />
-          <WindowSettings />
 					{/* check for logged in user then deliver welcome alert */}
 					{this.state.newUser && <SnackBar message={'Welcome ' + this.props.auth.firstName} open={this.props.loginAlertOpen} autoHideDuration={3000} />}
 	        <UserMenu />
