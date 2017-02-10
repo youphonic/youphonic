@@ -6,10 +6,10 @@ import {
 } from 'material-ui';
 import React from 'react';
 import {connect} from 'react-redux';
-// import AddCircleIcon from 'material-ui/svg-icons/content/add-circle';
 
 import {addChunk} from '../redux/allChunks';
 import {togglePlay} from '../redux/play';
+import {openWindowSettings, closeWindowSettings} from '../redux/navState';
 import Circle from '../chunks/Circle';
 import Drone from '../chunks/Drone';
 import PhysBall from '../chunks/PhysBall';
@@ -199,6 +199,13 @@ function RightMenu (props) {
         enterEditMode(props.isPlaying);
       }}
       />
+    <MenuItem
+      primaryText="Show Grid" // can add capabilities and reset this to WindowSettings
+      onTouchTap={() => {
+        props.openWindowSettings();
+        enterEditMode(props.isPlaying);
+      }}
+      />
     </IconMenu>
   </div>);
 }
@@ -217,7 +224,10 @@ const mapDispatchToProps = dispatch => {
 		},
 		togglePlay: (isPlaying) => {
 			dispatch(togglePlay(isPlaying));
-		}
+		},
+    openWindowSettings: () => {
+      dispatch(openWindowSettings());
+    }
 	};
 };
 

@@ -9,6 +9,8 @@ import {  ENTERED_APP,
           OPEN_SHAPESETTINGS,
           CLOSE_SHAPESETTINGS,
           TOGGLE_SAVE_A_PLAY,
+          OPEN_WINDOW_SETTINGS, 
+          CLOSE_WINDOW_SETTINGS
         } from '../constants';
 
 const initialState = {
@@ -18,6 +20,7 @@ const initialState = {
   saveAPlayOpen: false,
   loginAlertOpen: false,
 	playsOpen: false,
+	windowSettingOpen: false,
   shapeSettingsOpen: false,
 };
 // action creators
@@ -40,6 +43,12 @@ export const openSignup = () => {
 };
 export const closeSignup = () => {
   return {type: CLOSE_SIGNUP};
+};
+export const openWindowSettings = () => {
+  return {type: OPEN_WINDOW_SETTINGS};
+};
+export const closeWindowSettings = () => {
+  return {type: CLOSE_WINDOW_SETTINGS};
 };
 export const toggleSaveAPlay = () => {
   return {type: TOGGLE_SAVE_A_PLAY};
@@ -97,6 +106,12 @@ export default(state = initialState, action) => {
 		case CLOSE_PLAYS:
 			newState.playsOpen = false;
 			break;
+		case OPEN_WINDOW_SETTINGS:
+			newState.windowSettingOpen = true;
+			break;
+		case CLOSE_WINDOW_SETTINGS:
+			newState.windowSettingOpen = false;
+      break;
     case OPEN_SHAPESETTINGS:
 			newState.shapeSettingsOpen = true;
 			break;
