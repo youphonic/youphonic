@@ -8,7 +8,7 @@ const initialState = {
     y: Math.round(((Math.round(window.innerHeight / grid) * grid) / 2) / grid) * grid
   },
   grid: grid,
-  displayGrid: true
+  displayGrid: false
 };
 
 // action creator
