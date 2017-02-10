@@ -4,7 +4,7 @@ const passport = require('passport')
 const GoogleStrategy = require('passport-google-oauth').OAuth2Strategy;
 const LocalStrategy = require('passport-local');
 const {env} = require('../../../index');
-const {User} = require('../../index');
+const {User} = require('../../index'); //
 const OAuth = require('./oauth.model');
 const auth = require('express').Router();
 

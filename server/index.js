@@ -10,4 +10,4 @@ User.hasOne(OAuth);
 
 User.hasMany(Play, {foreignKey: 'player_id'});
 
-module.exports = {Play, User};
+module.exports = {Play, User, OAuth};
