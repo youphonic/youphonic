@@ -2,25 +2,25 @@ import React from 'react';
 import { connect } from 'react-redux';
 import Dialog from 'material-ui/Dialog';
 import FlatButton from 'material-ui/FlatButton';
-import RaisedButton from 'material-ui/RaisedButton';
-import TextField from 'material-ui/TextField';
+// import RaisedButton from 'material-ui/RaisedButton';
+// import TextField from 'material-ui/TextField';
 import DropDownMenu from 'material-ui/DropDownMenu';
 import MenuItem from 'material-ui/MenuItem';
-import SvgIcon from 'material-ui/SvgIcon';
-import Checkbox from 'material-ui/Checkbox';
+// import SvgIcon from 'material-ui/SvgIcon';
 
 import FloatingActionButton from 'material-ui/FloatingActionButton';
 import FontIcon from 'material-ui/FontIcon';
-import {red500, yellow500, blue500} from 'material-ui/styles/colors';
+// import {red500, yellow500, blue500} from 'material-ui/styles/colors';
 import AutoComplete from 'material-ui/AutoComplete';
 import VolumeOff from 'material-ui/svg-icons/av/volume-off';
 import VolumeUp from 'material-ui/svg-icons/av/volume-up';
 import Deselect from 'material-ui/svg-icons/notification/do-not-disturb-alt';
 
 import colors from '../colors';
-import { updateAndPlaceChunk } from '../redux/chunk';
+// import { updateAndPlaceChunk } from '../redux/chunk';
 import {updateOneChunk} from '../redux/allChunks';
-import {startCanvas, stopCanvas} from '../redux/appState'
+import {startCanvas, stopCanvas} from '../redux/appState';
+import SoundOnOffCheckbox from './SoundOnOffCheckbox';
 
 // Instrument Icons
 import kickIcon from '../../public/icons/kick.svg.jsx';
@@ -28,14 +28,14 @@ import cowbellIcon from '../../public/icons/cowbell.svg.jsx';
 import snareIcon from '../../public/icons/snare.svg.jsx';
 import floorTomIcon from '../../public/icons/floor-tom.svg.jsx';
 import hiHatIcon from '../../public/icons/hi-hat.svg.jsx';
-import synthIcon from '../../public/icons/keyboard.svg.jsx';
+// import synthIcon from '../../public/icons/keyboard.svg.jsx';
 
 // Instrument Sounds
 import { player, drumBuffers, possibilities } from '../tone/drums';
-import { synthOne, synthTwo } from '../tone/tonePatchOne';
+// import { synthOne, synthTwo } from '../tone/tonePatchOne';
 
 // Action creators
-import { openShapeSettings, closeShapeSettings } from '../redux/navState'
+import { openShapeSettings, closeShapeSettings } from '../redux/navState';
 
 
 class ShapeSettings extends React.Component {
@@ -190,16 +190,10 @@ class ShapeSettings extends React.Component {
         >
           <form style={styles.form}>
           <div style={styles.formGroup}>
-            <div>
-              <Checkbox
-                checkedIcon={<VolumeUp />}
-                uncheckedIcon={<VolumeOff />}
-                style={styles.checkbox}
-                label="enable sound"
-                checked={this.state.triggerSynthResponse}
-                onCheck={this.changeSynthEnabled}
-              />
-            </div>
+            <SoundOnOffCheckbox
+              changeSynthEnabled={this.changeSynthEnabled}
+              triggerSynthResponse={this.state.triggerSynthResponse}
+            />
             <div>
               <AutoComplete
                 floatingLabelText="Enter note: C1, C#1, Db1, etc"
