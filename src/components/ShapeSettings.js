@@ -148,7 +148,7 @@ class ShapeSettings extends React.Component {
         <Dialog
           modal={false}
           actions={actions}
-          title="Set Chunk Options"
+          title={`Set ${this.props.selectedChunk.type[0].toUpperCase() + this.props.selectedChunk.type.slice(1)} Options`}
           autoScrollBodyContent={true}
           open={this.props.shapeSettingsOpen}
           onRequestClose={this.props.closeShapeSettings}
@@ -166,20 +166,28 @@ class ShapeSettings extends React.Component {
             />
           </div>
           <div style={styles.formGroup}>
-            <span style={styles.label}>Instrument:</span>
-              <DrumsDropdownSettings
-                drum={this.state.drum}
-                changeDrum={this.changeDrum}
-              />
-              <p style={styles.label}>Rotation:</p>
-              <RotationDropdownSettings
-                rotation={this.state.rotation}
-                changeRotation={this.changeRotation}
-              />
-            </div>
-          </form>
-        </Dialog>
-      </div>
+            {(this.props.selectedChunk.type !== 'rope') && (
+              <div style={{display: 'inline-block'}}>
+                <span style={styles.label}>Instrument:</span>
+                <DrumsDropdownSettings
+                  drum={this.state.drum}
+                  changeDrum={this.changeDrum}
+                />
+              </div>
+            )}
+            {(this.props.selectedChunk.type === 'rectangle') && (
+              <div style={{display: 'inline-block'}}>
+                <p style={styles.label}>Rotation:</p>
+                <RotationDropdownSettings
+                  rotation={this.state.rotation}
+                  changeRotation={this.changeRotation}
+                />
+              </div>
+            )}
+          </div>
+        </form>
+      </Dialog>
+    </div>
     );
   }
 }
