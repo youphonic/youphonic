@@ -68,9 +68,9 @@ function RightMenu (props) {
       <MenuItem
         primaryText="Fixed Circle"
         onTouchTap={() => {
-          let newCircle = new Circle(props.center.x, props.center.y, circleRadius, new Point(0, 0));
+          let newCircle = new Circle(props.center.x, props.center.y, circleRadius, new Point(0, 0), colors.madang);
           newCircle.fixed = true;
-          newCircle.flashColor = colors.newYorkPink;
+          newCircle.flashColor = colors.laRioja;
 					props.addChunk(newCircle);
 					enterEditMode(props.isPlaying);
 				}}

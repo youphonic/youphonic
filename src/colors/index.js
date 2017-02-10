@@ -6,6 +6,7 @@ export default {
   supernova:        '#fcb339',
   chinook:          '#A9D7BF',
   madang:           '#BEE2A7',
+  laRioja:          '#B6C812',
   puertoRico:       '#31B8B5',
   blueStone:        '#125E68',
   hopbush:          '#c3679b',
