@@ -106,7 +106,7 @@ export default class Chunk {
       let quantizedLength = Math.round((Math.round(mousePoint.subtract(this.path.position).length / 30) * 30));
       let newDirection = new Point({
         angle: newAngle,
-        length: quantizedLength// mousePoint.subtract(this.path.position).length
+        length: quantizedLength
       });
       end = this.path.position.subtract(newDirection);
       console.log(quantizedLength);
