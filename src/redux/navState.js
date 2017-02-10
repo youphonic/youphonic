@@ -9,8 +9,10 @@ import {  ENTERED_APP,
           OPEN_SHAPESETTINGS,
           CLOSE_SHAPESETTINGS,
           TOGGLE_SAVE_A_PLAY,
-          OPEN_WINDOW_SETTINGS, 
-          CLOSE_WINDOW_SETTINGS
+          OPEN_WINDOW_SETTINGS,
+          CLOSE_WINDOW_SETTINGS,
+					OPEN_TUTORIAL,
+          CLOSE_TUTORIAL
         } from '../constants';
 
 const initialState = {
@@ -21,7 +23,7 @@ const initialState = {
   loginAlertOpen: false,
 	playsOpen: false,
 	windowSettingOpen: false,
-  shapeSettingsOpen: false,
+  shapeSettingsOpen: false
 };
 // action creators
 // opens and closes dialog box for user registration from upper left account

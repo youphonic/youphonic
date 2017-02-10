@@ -19,16 +19,11 @@ import SaveAPlay from './SaveAPlay';
 import colors from '../colors'
 
 import { savePlayToServer, getMyPlays } from '../paper/saver';
-
-//testing tone, doesn't belong here for prod
-import {synthOne} from '../tone/tonePatchOne'
 import { whoami, login, logout } from '../redux/login';
 import { openSignup, openLogin, openPlays, closePlays, toggleSaveAPlay } from '../redux/navState';
 import { getAllPlays } from '../redux/plays';
 
 import {startCanvas, stopCanvas} from '../redux/appState';
-
-// import {red500, yellow500, blue500} from 'material-ui/styles/colors';
 
 const styles = {
   menu: {
@@ -58,9 +53,6 @@ class UserMenu extends React.Component {
     this.handleSubmit = this.handleSubmit.bind(this);
 
 		this.styles = {
-			signUpButton: {
-
-			},
 			buttonIcon: {
 				fontSize: 50
 			},
