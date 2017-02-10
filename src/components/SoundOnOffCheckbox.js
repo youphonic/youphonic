@@ -1,6 +1,7 @@
 import React from 'react';
 import { Checkbox } from 'material-ui';
-import { VolumeOff, VolumeUp } from 'material-ui/svg-icons/av';
+import VolumeUp from 'material-ui/svg-icons/av/volume-up';
+import VolumeOff from 'material-ui/svg-icons/av/volume-off';
 
 
 const styles = {

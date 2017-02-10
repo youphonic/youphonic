@@ -12,8 +12,6 @@ import FloatingActionButton from 'material-ui/FloatingActionButton';
 import FontIcon from 'material-ui/FontIcon';
 // import {red500, yellow500, blue500} from 'material-ui/styles/colors';
 import AutoComplete from 'material-ui/AutoComplete';
-import VolumeOff from 'material-ui/svg-icons/av/volume-off';
-import VolumeUp from 'material-ui/svg-icons/av/volume-up';
 import Deselect from 'material-ui/svg-icons/notification/do-not-disturb-alt';
 
 import colors from '../colors';
@@ -132,11 +130,6 @@ class ShapeSettings extends React.Component {
         height: 24,
         width: 24,
         enableBackground: 'new 0 0 128 128'
-      },
-      checkbox: {
-        marginBottom: 16,
-        marginTop: 15,
-        display: 'inline-flex'
       }
 		};
     const actions = [
