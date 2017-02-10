@@ -56,7 +56,10 @@ export const load = (allChunks, clearAllChunks, addChunk) => {
   // If there are any stored chunks ...
   if (savedChunks && savedChunks.length) {
     // Get rid of the chunks that were being drawn
-    allChunks.forEach(chunk => chunk.path.remove());
+    allChunks.forEach(chunk => {
+      if (chunk.type === 'drone') chunk.killNoise();
+      chunk.path.remove();
+    });
     removeAllShapePaths();
     // Take all chunks out of the Redux Store
     clearAllChunks();
@@ -197,15 +200,19 @@ export const reconstruct = (savedChunks) => {
             props.end[1],
             props.end[2],
             props.color
-          )
+          );
           break;
 
         case 'fizzler':
           reborn = new Fizzler(
-            props.x,
-            props.y,
-            props.radius
-          )
+            props.redrawPos[1],
+            props.redrawPos[2],
+            props.radius,
+            new Point(props.direction[1], props.direction[2]),
+            props.color,
+            new Point(props.dispersion[1], props.dispersion[2]),
+            props.fizzle
+          );
           break;
 
         case 'drone':
@@ -213,10 +220,8 @@ export const reconstruct = (savedChunks) => {
             props.x,
             props.y,
             props.radius,
-            colors.hopbush,
-            colors.dullMagenta,
-            colors.vividViolet
-          )
+            colors.hopbush
+          );
           break;
 
         default:

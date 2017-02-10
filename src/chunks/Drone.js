@@ -30,6 +30,10 @@ export default class Drone extends Chunk {
     this.type = 'drone';
   }
 
+  react(shape, time) {
+    this.onOff(0, 1, time);
+  }
+
   switchSample(sampleName) {
     switch (sampleName) {
       case 'drone1':
@@ -47,14 +51,20 @@ export default class Drone extends Chunk {
   }
 
   onOff(pitchOffset, vel, time) {
-    if (this.enabled) {
-      this.enabled = false;
-      this.synth.triggerRelease(now(0.01));
-    } else {
-      this.enabled = true;
-      this.currentPlayTime = time;
-      this.synth.triggerAttack(pitchOffset, now(0.005), vel);
-    }
+    return (this.enabled)
+      ? this.killNoise()
+      : this.play(pitchOffset, vel, time);
+  }
+
+  killNoise() {
+    this.enabled = false;
+    this.synth.triggerRelease(now(0.01));
+  }
+
+  play(pitchOffset, vel, time) {
+    this.enabled = true;
+    this.currentPlayTime = time;
+    this.synth.triggerAttack(pitchOffset, now(0.005), vel);
   }
 
   // // this is for the granulator synth

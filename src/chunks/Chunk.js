@@ -1,6 +1,8 @@
 import Tone from 'tone';
 
 import {movingBounceOffMoving, movingBounceOffFixed, movingCircleBounceOffRectangle, drawArrow, drawAlignment} from './utils';
+import { synthOne, synthTwo } from '../tone/tonePatchOne';
+import { player, drumBuffers, possibilities } from '../tone/drums';
 
 // auto incrementing id
 let idCount = 1;
@@ -36,7 +38,7 @@ export default class Chunk {
     this.acceleration = this.acceleration.add(f);
   }
 
-  update() {
+  move() {
     if (this.specialUpdate) {
       this.specialUpdate();
     }
@@ -53,9 +55,20 @@ export default class Chunk {
     }
   }
 
+  react(hitter) {
+    // trigger synth and drum responses if necessary
+    if (hitter.drum) {
+      player.buffer = drumBuffers.get(hitter.drum);
+      player.start();
+    }
+    if (hitter.triggerSynthResponse) {
+      synthOne.triggerAttackRelease(hitter.frequency, '8n');
+    }
+  }
+
   respondToHit(hitter) {
-    if (!hitter.causeHitResponse) {
-      return this;
+    if (!hitter.causeHitResponse || this.type === 'photon') {
+      return;
     } else if(hitter.type === 'rectangle') {
       movingCircleBounceOffRectangle(this, hitter);
     } else if (hitter.fixed) {
@@ -64,7 +77,6 @@ export default class Chunk {
       movingBounceOffMoving(this, hitter);
     }
     hitter.flash();
-    return this;
   }
 
   flash() {

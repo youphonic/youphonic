@@ -34,4 +34,8 @@ export default class Rectangle extends Chunk {
     this.redrawPos = new Point(this.path.position.x - this.width / 2, this.path.position.y - this.height / 2);
   }
 
+  update() {
+    return;
+  }
+
 }

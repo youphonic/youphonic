@@ -53,17 +53,34 @@ function RightMenu (props) {
     targetOrigin={{horizontal: 'right', vertical: 'top'}}
     >
       <MenuItem
-        primaryText="Circle"
+        primaryText="Moving Circle"
         onTouchTap={() => {
 					props.addChunk(new Circle(props.center.x, props.center.y, circleRadius, new Point(1, 1)));
 					enterEditMode(props.isPlaying);
 				}}
       />
-    <MenuItem primaryText="Rectangle" onTouchTap={() => {
-        let rectangle = new Rectangle(props.center.x, props.center.y, 60, 60, new Point(0, 0));
-        props.addChunk(rectangle);
-        enterEditMode(props.isPlaying);
-      }}
+      <MenuItem
+        primaryText="Particle"
+        onTouchTap={() => {
+					props.addChunk(new Circle(props.center.x, props.center.y, 10, new Point(1, 1)));
+					enterEditMode(props.isPlaying);
+				}}
+      />
+      <MenuItem
+        primaryText="Fixed Circle"
+        onTouchTap={() => {
+          let newCircle = new Circle(props.center.x, props.center.y, circleRadius, new Point(0, 0));
+          newCircle.fixed = true;
+          newCircle.flashColor = colors.newYorkPink;
+					props.addChunk(newCircle);
+					enterEditMode(props.isPlaying);
+				}}
+      />
+      <MenuItem primaryText="Rectangle" onTouchTap={() => {
+          let rectangle = new Rectangle(props.center.x, props.center.y, 60, 60, new Point(0, 0));
+          props.addChunk(rectangle);
+          enterEditMode(props.isPlaying);
+        }}
       />
       <MenuItem
         primaryText="PhysBall"

@@ -1,4 +1,18 @@
-import {ENTERED_APP, OPEN_LOGIN, CLOSE_LOGIN, OPEN_SIGNUP, CLOSE_SIGNUP, OPEN_LOGIN_ALERT, CLOSE_SIGNUP_ALERT, OPEN_PLAYS, CLOSE_PLAYS, TOGGLE_SAVE_A_PLAY, OPEN_WINDOW_SETTINGS, CLOSE_WINDOW_SETTINGS} from '../constants';
+import {  ENTERED_APP,
+          OPEN_LOGIN,
+          CLOSE_LOGIN,
+          OPEN_SIGNUP,
+          CLOSE_SIGNUP,
+          OPEN_LOGIN_ALERT,
+          CLOSE_SIGNUP_ALERT,
+          OPEN_PLAYS, CLOSE_PLAYS,
+          OPEN_SHAPESETTINGS,
+          CLOSE_SHAPESETTINGS,
+          TOGGLE_SAVE_A_PLAY,
+          OPEN_WINDOW_SETTINGS, 
+          CLOSE_WINDOW_SETTINGS
+        } from '../constants';
+
 const initialState = {
 	enteredApp: false,
 	loginOpen: false,
@@ -6,7 +20,8 @@ const initialState = {
   saveAPlayOpen: false,
   loginAlertOpen: false,
 	playsOpen: false,
-	windowSettingOpen: false
+	windowSettingOpen: false,
+  shapeSettingsOpen: false,
 };
 // action creators
 // opens and closes dialog box for user registration from upper left account
@@ -44,6 +59,13 @@ export const openPlays = () => {
 export const closePlays = () => {
   return {type: CLOSE_PLAYS};
 };
+export const openShapeSettings = () => {
+  return {type: OPEN_SHAPESETTINGS};
+};
+export const closeShapeSettings = () => {
+  return {type: CLOSE_SHAPESETTINGS};
+};
+
 // same pattern for opening and closing user signup alerts ('SnackBar')
 // allows for later refactoring to include user first name in alert
 // since we will login the user after they register
@@ -89,6 +111,12 @@ export default(state = initialState, action) => {
 			break;
 		case CLOSE_WINDOW_SETTINGS:
 			newState.windowSettingOpen = false;
+      break;
+    case OPEN_SHAPESETTINGS:
+			newState.shapeSettingsOpen = true;
+			break;
+		case CLOSE_SHAPESETTINGS:
+			newState.shapeSettingsOpen = false;
 			break;
     default:
       return state;

@@ -30,21 +30,28 @@ export default class Rope extends Chunk {
     this.animateTime = 0.5;
     // will hold the time that an animation was triggered
     this.currentAnimateTime = 0;
-    this.frequency = 'C4';
+    this.fixed = true;
   }
 
-  triggerSynth() {
-    this.synth.triggerAttackRelease(this.frequency, '16n');
+  // overrides super move()
+  // don't move a rope position in animation
+  move() {
+    return;
   }
 
+  // overrides super react()
   // gets called whenever string is intersected
   // sets isAnimating to true if not already animating
-  triggerAnimate(time) {
+  react(shape, time) {
     if (!this.isAnimating) {
       this.triggerSynth();
       this.isAnimating = true;
       this.currentAnimateTime = time;
     }
+  }
+
+  triggerSynth() {
+    this.synth.triggerAttackRelease(this.frequency, '16n');
   }
 
   // update the view animation
@@ -73,6 +80,7 @@ export default class Rope extends Chunk {
       segment.point.y = this.start.y + ((i/numSegments) * direction.y)
     }
   }
+
 
   update(time) {
     if (this.isAnimating) {

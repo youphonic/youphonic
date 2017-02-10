@@ -34,12 +34,10 @@ module.exports = require('express').Router()
 
 // get all plays for one user by id
 	.get('/:id/plays', (req, res, next) => {
-		console.log('hitting the get route');
 		Play.findAll({
 			where: {player_id: req.requestedUser.id}
 		})
 		.then(foundPlays => {
-			console.log('FOUND FROM DB', foundPlays);
 			res.send(foundPlays);
 		})
 		.catch(next)

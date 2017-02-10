@@ -2,19 +2,24 @@
 /*globals Tool view project */
 import store from '../store';
 import colors from '../colors';
+
 import { selectChunk } from '../redux/chunk';
 import { clearAllChunks, addChunk, removeChunk } from '../redux/allChunks';
 import { togglePlay } from '../redux/play';
+import { openShapeSettings, closeShapeSettings } from '../redux/navState'
+
 import { synthOne, synthTwo } from '../tone/tonePatchOne';
 import { player, drumBuffers, possibilities } from '../tone/drums';
 import { nearIntersect } from '../chunks/utils';
 import { deconstruct, reconstruct } from './saver';
-import { save, load } from './saver';
+import { clone } from './utils'
+
 
 // These variables must be kept outside drawing scope for
 // proper update on receiving new props
+export let allChunks = [];
+export let movingChunks = [];
 let isPlaying;
-export let shapes = [];
 let force;
 let localSelectedChunk;
 let isVectorArrowBeingDragged = false;
@@ -24,19 +29,24 @@ let grid = 32; // was 25
 let gridDots;
 let shiftPressed = false;
 let appState;
-let allChunks;
 
 
-export const shapesFilterOutId = (id) => {
-	shapes = shapes.filter( shape => shape.id !== id);
+export const drawnChunksFilterOutId = (id) => {
+	allChunks = allChunks.filter( shape => shape.id !== id);
+  movingChunks = movingChunks.filter( shape => shape.id !== id);
 };
 
 export const removeAllShapePaths = () => {
-  shapes.forEach(shape => {
+  allChunks.forEach(shape => {
 		if (shape.type === 'fizzler') shape.removeAllParticles();
     shape.path.remove();
   });
 };
+
+// create another
+function makeMovingChunksArray(allChunks) {
+  return allChunks.filter(chunk => !chunk.fixed);
+}
 
 export default function(props) {
 	console.log('RUNNING');
@@ -59,19 +69,15 @@ export default function(props) {
     tolerance: 5
   };
 
-  // Force Constants
-  const forces = {
-    wind1: new Point(0.01, 0),
-    wind2: new Point(-0.01, 0),
-    gravity: new Point(0, 0.5)
-  };
 
   // set state variables on new props
-  shapes = props.allChunks;
+  allChunks = props.allChunks;
   isPlaying = props.isPlaying;
   appState = props.appState;
   allChunks = props.allChunks;
+  movingChunks = makeMovingChunksArray(props.allChunks);
 	if (!gridDots) gridDots = new Group();
+
   // when play is called, erase any currently drawn vector
   if (props.isPlaying) {
     if (localSelectedChunk) {
@@ -80,86 +86,44 @@ export default function(props) {
 		}
   }
 
-  // not working right now....
-  // redraw screen on screen resize
-  // view.onResize = (event) => {
-  //   save(props.allChunks);
-  //   load(props.allChunks, clearAllChunks, addChunk);
-  // }
+  // on Canvas resize
+  view.onResize = (event) => {
+
+  }
 
   // main drawing Loop
   view.onFrame = (event) => {
-    // only update shapes if playing state is enabled
+    // only update Chunk if playing state is enabled
     if (isPlaying) {
-			// get rid of the grid
+      // get rid of the grid
 			gridDots.removeChildren();
-      // iterate through every shape
-      shapes.forEach(shape => {
-        // if shape is moving, look for collisions
-        if (shape.isMoving) {
-          shapes.forEach(innerShape => {
-            // do not check shape intersections against itself
-            if (innerShape.id !== shape.id) {
-              if (shape.path.intersects(innerShape.path)) {
-                // hard coded: trigger inner shape's synth on impact
-                // eventually, this should be dependent upon a shape's settings
-                // this 'string' if check is temporary
-                if (innerShape.type === 'rope') {
-                  innerShape.triggerAnimate(event.time);
-                } else {
-                  if (innerShape.type === 'drone') {
-										// ?temporary functionality? -- toggle the drone on/off
-										// when the drone chunk is hit by a moving chunk
-										innerShape.onOff(0, 1, event.time);
-                  }
-                  // if not a photon, call shape's respond to hit function and play synth
-                  if (shape.type !== 'photon') {
-										if (shape.drum) {
-											player.buffer = drumBuffers.get(shape.drum);
-											player.start();
-										}
-										if (innerShape.drum) {
-											player.buffer = drumBuffers.get(innerShape.drum);
-											player.start();
-										}
-                    if (innerShape.triggerSynthResponse) synthOne.triggerAttackRelease(innerShape.frequency, '8n');
-                    if (shape.triggerSynthResponse) synthTwo.triggerAttackRelease(shape.frequency, '8n');
-                    shape.respondToHit(innerShape);
-                  } else {
-                    if (!shape.alreadyTriggeredChunkIds.includes(innerShape.id)) {
-											if (shape.triggerSynthResponse) {
-												synthOne.triggerAttackRelease(innerShape.frequency, '8n');
-												shape.addTriggeredChunk(innerShape.id);
-											}
-                    }
-										if (innerShape.drum) {
-											player.buffer = drumBuffers.get(innerShape.drum);
-											player.start();
-										}
-                  }
-                }
-              }
+      // iterate through every moving shape
+      allChunks.forEach(shape => {
+        // check for collisions with every other shape
+        movingChunks.forEach(innerShape => {
+          // do not check shape intersections against itself
+          if (innerShape.id !== shape.id) {
+            if (shape.path.intersects(innerShape.path)) {
+              // on intersect, trigger reaction from both
+              shape.react(innerShape, event.time);
+              innerShape.react(shape, event.time);
+              innerShape.respondToHit(shape);
             }
-          });
-        }
-        if (shape.type === 'physics') {
-          shape.applyForce(forces.gravity);
-        } else if (shape.type === 'drone') {
-          shape.shouldSpin(isPlaying, event.time);
-        } else if (shape.type === 'attractor') {
-          shapes.forEach(otherShape => {
-            if (otherShape.isMoving && otherShape.id !== shape.id) {
+          }
+        });
+
+        if (shape.type === 'attractor') {
+          movingChunks.forEach(otherShape => {
+            if (otherShape.id !== shape.id && otherShape.type !== 'photon') {
               force = shape.calculateAttraction(otherShape);
               otherShape.applyForce(force);
             }
           });
-        } else if (shape.type === 'fizzler') {
-          shape.generateParticles();
-          // always update the particles that fizzler emitted
-          shape.updateParticles();
         }
+
         // update every moving shape's position each frame
         shape.update(event.time);
+        shape.move(event.time);
       });
     } else if (!isPlaying && !gridDots.children.length) {
 			console.log('in the else if');
@@ -176,8 +140,16 @@ export default function(props) {
 		}
   };
 
+  // goes on view - doubleClick events bubble up from whatever was clicked
+  view.onDoubleClick = (event) => {
+    if (localSelectedChunk) {
+      store.dispatch(openShapeSettings())
+    }
+  }
+
   // respond to mouseDown events
   tool.onMouseDown = (event) => {
+    store.dispatch(selectChunk({}));
     isVectorArrowBeingDragged = false;
 		const hitResult = project.hitTest(event.point, hitOptions);
     // check to see if mouse is clicking the body ('fill') of a Chunk
@@ -190,7 +162,7 @@ export default function(props) {
       }
 
       // if a fill that is part of a Group is selected, this will give us access to the
-      // Group path in order to compare to local state in shapes array
+      // Group path in order to compare to local state in allChunks array
       if (hitResult.item.parent.className === 'Group') hitResult.item = hitResult.item.parent;
       // erase currently drawn vector if necessary
       if (localSelectedChunk) {
@@ -198,7 +170,7 @@ export default function(props) {
 				localSelectedChunk.eraseAlignment();
 			}
       // search for the clicked shape
-      shapes.forEach((shape, index) => {
+      allChunks.forEach((shape, index) => {
         if (hitResult.item === shape.path) {
           // store currently clicked shape, draw its vector, update store
           localSelectedChunk = shape;
@@ -212,7 +184,8 @@ export default function(props) {
 
       // clone Chunk if option/alt key is pressed
       if(event.modifiers.option) {
-        let duplicate = clone(localSelectedChunk);
+        let duplicate = clone(localSelectedChunk, grid);
+        localSelectedChunk = duplicate;
         store.dispatch(addChunk(duplicate));
         store.dispatch(selectChunk(duplicate));
       }
@@ -228,7 +201,6 @@ export default function(props) {
       localSelectedChunk.eraseVector();
 			localSelectedChunk.eraseAlignment();
       localSelectedChunk = null;
-      store.dispatch(selectChunk({}));
     }
   };
 
@@ -261,7 +233,7 @@ export default function(props) {
 			// localSelectedChunk.path.position.x += Math.round(event.delta.x / grid) * grid;
       // localSelectedChunk.path.position.y += Math.round(event.delta.y / grid) * grid;
 			// New snapping logic
-			localSelectedChunk.path.position = nearIntersect(localSelectedChunk, shapes, event.delta, event.point, grid);
+			localSelectedChunk.path.position = nearIntersect(localSelectedChunk, allChunks, event.delta, event.point, grid);
       localSelectedChunk.eraseVector();
       localSelectedChunk.drawVector();
       localSelectedChunk.eraseAlignment();
@@ -317,29 +289,3 @@ export default function(props) {
 	};
 
 }
-
-// helper function - clone and return a new copy of Chunk
-  function clone(chunk) {
-    let duplicateObj = deconstruct([chunk]);
-    for (let key in duplicateObj) {
-			let chunk = duplicateObj[key];
-			// Give new chunks an offset
-			if (chunk.x && chunk.y && !chunk.redrawPos) {
-				chunk.x += chunk.radius;
-				chunk.y += chunk.radius;
-			} else if (chunk.redrawPos) {
-				chunk.redrawPos.x += grid;
-				chunk.redrawPos.y += grid;
-			}
-      // update property format to suit the reconstruct function
-      chunk.direction = [, chunk.direction.x, chunk.direction.y];
-      if (chunk.redrawPos) {
-        chunk.redrawPos = [, chunk.redrawPos.x, chunk.redrawPos.y];
-      }
-    }
-    let duplicate = reconstruct(duplicateObj)[0];
-		delete duplicate.x;
-		delete duplicate.y;
-
-    return duplicate;
-  }

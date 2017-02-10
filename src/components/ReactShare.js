@@ -49,7 +49,7 @@ class ReactShare extends React.Component {
         <div style={styles.icons}>
           <TwitterShareButton
             url={this.props.sharedURL}
-            title={this.props.title}>
+            title={`Check out my new youphonic! ${this.props.sharedURL}`}>
             <TwitterIcon
               size={32}
               round />

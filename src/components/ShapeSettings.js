@@ -15,6 +15,7 @@ import {red500, yellow500, blue500} from 'material-ui/styles/colors';
 import AutoComplete from 'material-ui/AutoComplete';
 import VolumeOff from 'material-ui/svg-icons/av/volume-off';
 import VolumeUp from 'material-ui/svg-icons/av/volume-up';
+import Deselect from 'material-ui/svg-icons/notification/do-not-disturb-alt';
 
 import colors from '../colors';
 import { updateAndPlaceChunk } from '../redux/chunk';
@@ -33,19 +34,20 @@ import synthIcon from '../../public/icons/keyboard.svg.jsx';
 import { player, drumBuffers, possibilities } from '../tone/drums';
 import { synthOne, synthTwo } from '../tone/tonePatchOne';
 
+// Action creators
+import { openShapeSettings, closeShapeSettings } from '../redux/navState'
+
 
 class ShapeSettings extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      open: false,
       frequency: this.props.selectedChunk.frequency,
       drum: this.props.selectedChunk.drum,
       rotation: this.props.selectedChunk.rotation.toString(),
       triggerSynthResponse: this.props.selectedChunk.triggerSynthResponse
     };
     this.initialRotation = this.props.selectedChunk.rotation;
-    this.handleOpen = this.handleOpen.bind(this);
     this.handleClose = this.handleClose.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
     this.changeFrequency = this.changeFrequency.bind(this);
@@ -55,13 +57,7 @@ class ShapeSettings extends React.Component {
     this.changeSynthEnabled = this.changeSynthEnabled.bind(this);
   }
 
-  handleOpen() {
-    this.setState({open: true});
-    this.props.stopCanvas();
-  }
-
   handleClose() {
-    this.setState({open: false});
     this.props.startCanvas();
   }
 
@@ -82,7 +78,7 @@ class ShapeSettings extends React.Component {
     if (event.keyCode === 13) event.preventDefault();
   }
 
-  changeDrum(event, id, value) {
+  changeDrum(event, id, value = '') {
     this.setState({drum: value});
   }
 
@@ -97,10 +93,8 @@ class ShapeSettings extends React.Component {
       rotation: +this.state.rotation,
       triggerSynthResponse: this.state.triggerSynthResponse
     });
-    this.setState({
-	    open: false
-	  });
     this.props.startCanvas();
+    this.props.closeShapeSettings();
   }
 
   render() {
@@ -137,7 +131,7 @@ class ShapeSettings extends React.Component {
         zIndex: 100,
         height: 24,
         width: 24,
-        enableBackground: "new 0 0 128 128"
+        enableBackground: 'new 0 0 128 128'
       },
       checkbox: {
         marginBottom: 16,
@@ -150,7 +144,7 @@ class ShapeSettings extends React.Component {
         key="button1"
         label="Cancel"
         primary={true}
-        onTouchTap={this.handleClose}
+        onTouchTap={this.props.closeShapeSettings}
       />,
       <FlatButton
         key="button2"
@@ -179,7 +173,7 @@ class ShapeSettings extends React.Component {
           backgroundColor={colors.papayaWhip}
         >
 					<FontIcon
-            onTouchTap={this.handleOpen}
+            onTouchTap={this.props.openShapeSettings}
             className="material-icons"
           >
             music_note
@@ -189,10 +183,10 @@ class ShapeSettings extends React.Component {
         <Dialog
           modal={false}
           actions={actions}
-          open={this.state.open}
+          open={this.props.shapeSettingsOpen}
           title="Set Chunk Options"
           autoScrollBodyContent={true}
-          onRequestClose={this.handleClose}
+          onRequestClose={this.props.closeShapeSettings}
         >
           <form style={styles.form}>
           <div style={styles.formGroup}>
@@ -221,34 +215,63 @@ class ShapeSettings extends React.Component {
           <div style={styles.formGroup}>
             <span style={styles.label}>Instrument:</span>
               <DropDownMenu value={this.state.drum} onChange={this.changeDrum} style={styles.instMenu}>
-                <MenuItem value={'kick'} primaryText="Kick" leftIcon={kickIcon} onTouchTap={() => {
+                <MenuItem
+                  primaryText="No Drum"
+                  leftIcon={<Deselect />}
+                />
+                <MenuItem
+                  value="kick"
+                  primaryText="Kick"
+                  leftIcon={kickIcon}
+                  onTouchTap={() => {
                     player.buffer = drumBuffers.get('kick');
                     player.start();
-                  }}/>
-                <MenuItem value={'snare'} primaryText="Snare" leftIcon={snareIcon} onTouchTap={() => {
+                  }}
+                />
+                <MenuItem
+                  value="snare"
+                  primaryText="Snare"
+                  leftIcon={snareIcon}
+                  onTouchTap={() => {
                     player.buffer = drumBuffers.get('snare');
                     player.start();
-                  }}/>
-                <MenuItem value={'floorTom'} primaryText="Floor Tom" leftIcon={floorTomIcon} onTouchTap={() => {
+                  }}
+                />
+                <MenuItem
+                  value="floorTom"
+                  primaryText="Floor Tom"
+                  leftIcon={floorTomIcon}
+                  onTouchTap={() => {
                     player.buffer = drumBuffers.get('floorTom');
                     player.start();
-                  }}/>
-                <MenuItem value={'hiHatClose'} primaryText="Hi Hat Close" leftIcon={hiHatIcon} onTouchTap={() => {
+                  }}
+                />
+                <MenuItem
+                  value="hiHatClose"
+                  primaryText="Hi Hat Close"
+                  leftIcon={hiHatIcon}
+                  onTouchTap={() => {
                     player.buffer = drumBuffers.get('hiHatClose');
                     player.start();
-                  }}/>
-                <MenuItem value={'cowbell'} primaryText="Cowbell" leftIcon={cowbellIcon} onTouchTap={() => {
+                  }}
+                />
+                <MenuItem
+                  value="cowBell"
+                  primaryText="Cowbell"
+                  leftIcon={cowbellIcon}
+                  onTouchTap={() => {
                   player.buffer = drumBuffers.get('cowBell');
                   player.start();
-                }}/>
+                }}
+              />
               </DropDownMenu>
               <p style={styles.label}>Rotation:</p>
               <DropDownMenu value={this.state.rotation} onChange={this.changeRotation} style={styles.instMenu}>
-                <MenuItem value={'0'} primaryText="0"/>
-                <MenuItem value={'30'} primaryText="30"/>
-                <MenuItem value={'45'} primaryText="45"/>
-                <MenuItem value={'60'} primaryText="60"/>
-                <MenuItem value={'90'} primaryText="90"/>
+                <MenuItem value="0" primaryText="0" />
+                <MenuItem value="30" primaryText="30" />
+                <MenuItem value="45" primaryText="45" />
+                <MenuItem value="60" primaryText="60" />
+                <MenuItem value="90" primaryText="90" />
               </DropDownMenu>
             </div>
           </form>
@@ -260,7 +283,8 @@ class ShapeSettings extends React.Component {
 
 const mapStateToProps = state => {
   return {
-    selectedChunk: state.selectedChunk
+    selectedChunk: state.selectedChunk,
+    shapeSettingsOpen: state.navState.shapeSettingsOpen
   };
 };
 
@@ -271,7 +295,11 @@ const mapDispatchToProps = dispatch => {
     startCanvas: () =>
       dispatch(startCanvas()),
     stopCanvas: () =>
-      dispatch(stopCanvas())
+      dispatch(stopCanvas()),
+    closeShapeSettings: () =>
+      dispatch(closeShapeSettings()),
+    openShapeSettings: () =>
+      dispatch(openShapeSettings())
   };
 };
 
