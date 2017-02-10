@@ -6,7 +6,6 @@ import {
 } from 'material-ui';
 import React from 'react';
 import {connect} from 'react-redux';
-// import AddCircleIcon from 'material-ui/svg-icons/content/add-circle';
 
 import {addChunk} from '../redux/allChunks';
 import {togglePlay} from '../redux/play';
@@ -201,7 +200,7 @@ function RightMenu (props) {
       }}
       />
     <MenuItem
-      primaryText="Window"
+      primaryText="Show Grid" // can add capabilities and reset this to WindowSettings
       onTouchTap={() => {
         props.openWindowSettings();
         enterEditMode(props.isPlaying);
