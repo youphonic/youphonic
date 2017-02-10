@@ -44,19 +44,12 @@ class WindowSettings extends React.Component {
   handleSubmit(event) {
     event.stopPropagation();
 		event.preventDefault();
-	  this.props.updateOneChunk({
-      id: this.props.selectedChunk.id,
-      frequency: this.state.frequency,
-      drum: this.state.drum,
-      rotation: +this.state.rotation,
-      triggerSynthResponse: this.state.triggerSynthResponse
-    });
+	  this.props.toggleGrid(this.state.displayGrid);
     this.handleClose();
   }
 
   changeGridDisplayed (event, isGridDisplayed) {
     this.setState({displayGrid: isGridDisplayed});
-    console.log(this.state);
   }
 
   render() {
@@ -128,8 +121,7 @@ class WindowSettings extends React.Component {
           onRequestClose={this.handleClose}
         >
           <form style={styles.form}>
-          <div style={styles.formGroup}>
-            <div>
+            <div style={styles.formGroup}>
               <Checkbox
                 checkedIcon={<SvgIcon viewBox="0 0 24 24">
               		<path d="M20 2H4c-1.1 0-2 .9-2 2v16c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2zM8 20H4v-4h4v4zm0-6H4v-4h4v4zm0-6H4V4h4v4zm6 12h-4v-4h4v4zm0-6h-4v-4h4v4zm0-6h-4V4h4v4zm6 12h-4v-4h4v4zm0-6h-4v-4h4v4zm0-6h-4V4h4v4z"/>
@@ -143,7 +135,6 @@ class WindowSettings extends React.Component {
                 onCheck={this.changeGridDisplayed}
               />
             </div>
-          </div>
           </form>
         </Dialog>
       </div>
@@ -160,8 +151,8 @@ const mapStateToProps = state => {
 
 const mapDispatchToProps = dispatch => {
   return {
-    toggleGrid: () =>
-      dispatch(toggleGrid()),
+    toggleGrid: (bool) =>
+      dispatch(toggleGrid(bool)),
     startCanvas: () =>
       dispatch(startCanvas()),
     stopCanvas: () =>

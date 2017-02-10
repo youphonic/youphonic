@@ -46,7 +46,8 @@ const mapStateToProps = (state) => {
   return {
     allChunks: state.allChunks,
     isPlaying: state.isPlaying,
-    appState: state.appState
+    appState: state.appState,
+    canvas: state.canvas
   };
 };
 
