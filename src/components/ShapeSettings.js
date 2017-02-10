@@ -1,38 +1,20 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import Dialog from 'material-ui/Dialog';
-import FlatButton from 'material-ui/FlatButton';
-// import RaisedButton from 'material-ui/RaisedButton';
-// import TextField from 'material-ui/TextField';
-import DropDownMenu from 'material-ui/DropDownMenu';
-import MenuItem from 'material-ui/MenuItem';
-// import SvgIcon from 'material-ui/SvgIcon';
-
+import { Dialog, FontIcon, FlatButton} from 'material-ui';
 import FloatingActionButton from 'material-ui/FloatingActionButton';
-import FontIcon from 'material-ui/FontIcon';
-// import {red500, yellow500, blue500} from 'material-ui/styles/colors';
-import Deselect from 'material-ui/svg-icons/notification/do-not-disturb-alt';
 
 import colors from '../colors';
-// import { updateAndPlaceChunk } from '../redux/chunk';
-import {updateOneChunk} from '../redux/allChunks';
-import {startCanvas, stopCanvas} from '../redux/appState';
+
+// components
 import AutoCompleteNotes from './AutoCompleteNotes';
 import SoundOnOffCheckbox from './SoundOnOffCheckbox';
-
-// Instrument Icons
-import kickIcon from '../../public/icons/kick.svg.jsx';
-import cowbellIcon from '../../public/icons/cowbell.svg.jsx';
-import snareIcon from '../../public/icons/snare.svg.jsx';
-import floorTomIcon from '../../public/icons/floor-tom.svg.jsx';
-import hiHatIcon from '../../public/icons/hi-hat.svg.jsx';
-// import synthIcon from '../../public/icons/keyboard.svg.jsx';
-
-// Instrument Sounds
-import { player, drumBuffers, possibilities } from '../tone/drums';
-// import { synthOne, synthTwo } from '../tone/tonePatchOne';
+import DrumsDropdownSettings from './DrumsDropdownSettings';
+import RotationDropdownSettings from './RotationDropdownSettings';
 
 // Action creators
+import {updateOneChunk} from '../redux/allChunks';
+// import { updateAndPlaceChunk } from '../redux/chunk';
+import {startCanvas, stopCanvas} from '../redux/appState';
 import { openShapeSettings, closeShapeSettings } from '../redux/navState';
 
 
@@ -166,9 +148,9 @@ class ShapeSettings extends React.Component {
         <Dialog
           modal={false}
           actions={actions}
-          open={this.props.shapeSettingsOpen}
           title="Set Chunk Options"
           autoScrollBodyContent={true}
+          open={this.props.shapeSettingsOpen}
           onRequestClose={this.props.closeShapeSettings}
         >
           <form style={styles.form}>
@@ -185,65 +167,15 @@ class ShapeSettings extends React.Component {
           </div>
           <div style={styles.formGroup}>
             <span style={styles.label}>Instrument:</span>
-              <DropDownMenu value={this.state.drum} onChange={this.changeDrum} style={styles.instMenu}>
-                <MenuItem
-                  primaryText="No Drum"
-                  leftIcon={<Deselect />}
-                />
-                <MenuItem
-                  value="kick"
-                  primaryText="Kick"
-                  leftIcon={kickIcon}
-                  onTouchTap={() => {
-                    player.buffer = drumBuffers.get('kick');
-                    player.start();
-                  }}
-                />
-                <MenuItem
-                  value="snare"
-                  primaryText="Snare"
-                  leftIcon={snareIcon}
-                  onTouchTap={() => {
-                    player.buffer = drumBuffers.get('snare');
-                    player.start();
-                  }}
-                />
-                <MenuItem
-                  value="floorTom"
-                  primaryText="Floor Tom"
-                  leftIcon={floorTomIcon}
-                  onTouchTap={() => {
-                    player.buffer = drumBuffers.get('floorTom');
-                    player.start();
-                  }}
-                />
-                <MenuItem
-                  value="hiHatClose"
-                  primaryText="Hi Hat Close"
-                  leftIcon={hiHatIcon}
-                  onTouchTap={() => {
-                    player.buffer = drumBuffers.get('hiHatClose');
-                    player.start();
-                  }}
-                />
-                <MenuItem
-                  value="cowBell"
-                  primaryText="Cowbell"
-                  leftIcon={cowbellIcon}
-                  onTouchTap={() => {
-                  player.buffer = drumBuffers.get('cowBell');
-                  player.start();
-                }}
+              <DrumsDropdownSettings
+                drum={this.state.drum}
+                changeDrum={this.changeDrum}
               />
-              </DropDownMenu>
               <p style={styles.label}>Rotation:</p>
-              <DropDownMenu value={this.state.rotation} onChange={this.changeRotation} style={styles.instMenu}>
-                <MenuItem value="0" primaryText="0" />
-                <MenuItem value="30" primaryText="30" />
-                <MenuItem value="45" primaryText="45" />
-                <MenuItem value="60" primaryText="60" />
-                <MenuItem value="90" primaryText="90" />
-              </DropDownMenu>
+              <RotationDropdownSettings
+                rotation={this.state.rotation}
+                changeRotation={this.changeRotation}
+              />
             </div>
           </form>
         </Dialog>
