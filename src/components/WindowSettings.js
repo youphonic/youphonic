@@ -1,3 +1,5 @@
+// used in RightMenu 'Show Grid' menu selection
+
 import React from 'react';
 import { connect } from 'react-redux';
 import Dialog from 'material-ui/Dialog';
