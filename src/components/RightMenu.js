@@ -19,20 +19,20 @@ import PhysBall from '../chunks/PhysBall';
 import Attractor from '../chunks/Attractor';
 import Fizzler from '../chunks/Fizzler';
 import Rectangle from '../chunks/Rectangle';
-import Pendulum from '../chunks/Pendulum';
+// import Pendulum from '../chunks/Pendulum';
 import Emitter from '../chunks/Emitter';
 import Rope from '../chunks/Rope';
-import Login from './Login';
 import ToggleGrid from './ToggleGrid';
 import colors from '../colors';
 
 const styles = {
-  menu: {
-    position: 'absolute',
+  button: {
+    // top: 15,
     right: 10,
-    top: 5
+    position: 'absolute'
   },
-  chunkIcon: {
+  addChunkIcon: {
+    // top: 15,
     right: 25,
     fontSize: 50,
     color: colors.papayaWhip
@@ -45,15 +45,20 @@ function RightMenu (props) {
   const enterEditMode = isPlaying => {
     if (isPlaying) props.togglePlay(isPlaying);
   };
-  return (<div style={styles.menu}>
+  return (<div>
     <IconMenu
+      style={styles.button}
       iconButtonElement={
-        <IconButton iconStyle={styles.chunkIcon} tooltip="Add Chunk" tooltipPosition="bottom-left">
-          <FontIcon className="material-icons" >add_circle</FontIcon>
+        <IconButton
+          tooltip="Add Chunk"
+          tooltipPosition="bottom-left"
+          iconStyle={styles.addChunkIcon}
+        >
+          <FontIcon className="material-icons" >add_circle_outline</FontIcon>
         </IconButton>
       }
-    anchorOrigin={{horizontal: 'right', vertical: 'top'}}
-    targetOrigin={{horizontal: 'right', vertical: 'top'}}
+      anchorOrigin={{horizontal: 'right', vertical: 'top'}}
+      targetOrigin={{horizontal: 'right', vertical: 'top'}}
     >
       <MenuItem
         primaryText="Moving Circle"
