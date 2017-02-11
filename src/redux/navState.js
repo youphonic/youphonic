@@ -21,6 +21,7 @@ const initialState = {
 	loginOpen: false,
   signUpOpen: false,
   enteredApp: false,
+  saveAPlayOpen: false,
   toggleDevInfo: false,
   loginAlertOpen: false,
   devInfoOpenClose: false,
