@@ -8,9 +8,13 @@ const db = module.exports = new Sequelize(databaseURI, {
 		logging: false
 });
 
+// Tests if we're in test mode or not
+// by looking for Mocha's global.it function
+let isInTest = typeof global.it === 'function';
+
 // sync the db, creating it if necessary
-function sync() {
-  return db.sync()  //{force: true}
+function sync(force=isInTest) {
+  return db.sync({force}) // true if in tests, false if not
     .then(ok => console.log('Synced models'))
 }
 

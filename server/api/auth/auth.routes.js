@@ -110,8 +110,7 @@ passport.use(theGoogleStrategy);
 auth.get('/whoami', (req, res) => res.send(req.user))
 
 auth.post('/login/local', passport.authenticate('local', {
-    successRedirect: '/',
-		failureRedirect: '/'
+    successRedirect: '/'
   }));
 
 auth.get('/google', passport.authenticate('google', {

@@ -72,16 +72,7 @@ class Login extends React.Component {
         secondary={true}
         style={this.styles.socialButton}
         icon={<FontIcon className="fa fa-google" />}
-      />,
-      // <RaisedButton
-  		// 	onTouchTap={()=>this.props.facebookLogin()}
-      //   label="Facebook"
-  		// 	target="_blank"
-      //   labelPosition="before"
-      //   primary={true}
-      //   icon={<FontIcon className="fa fa-facebook-square" />}
-      //   style={this.styles.socialButton}
-      // />,
+      />
     ];
     return (
       <div>
@@ -123,15 +114,12 @@ class Login extends React.Component {
 const mapStateToProps = state => {
   return {
 		open: state.navState.loginOpen
-
   };
 };
 
 const mapDispatchToProps = dispatch => {
   return {
     login: (username, password) => dispatch(login(username, password)),
-		// googleLogin: () => dispatch(googleLogin()),
-		// facebookLogin: () => dispatch(facebookLogin()),
 		startCanvas: () =>
       dispatch(startCanvas()),
     stopCanvas: () =>
@@ -144,3 +132,16 @@ const mapDispatchToProps = dispatch => {
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(Login);
+export { Login as PureLogin };
+
+// FACEBOOK BUTTON IF WE WANT IT LATER:
+////////////////////////////////////////
+// <RaisedButton
+// 	onTouchTap={()=>this.props.facebookLogin()}
+//   label="Facebook"
+// 	target="_blank"
+//   labelPosition="before"
+//   primary={true}
+//   icon={<FontIcon className="fa fa-facebook-square" />}
+//   style={this.styles.socialButton}
+// />,
