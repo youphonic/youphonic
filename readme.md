@@ -1,3 +1,4 @@
+[![Stories in Ready](https://badge.waffle.io/ianmunrobot/youphonic.png?label=ready&title=Ready)](https://waffle.io/ianmunrobot/youphonic)
 # musicmachine:
 https://thawing-caverns-30946.herokuapp.com/
 ======
