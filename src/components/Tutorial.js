@@ -25,6 +25,9 @@ const styles = {
 		top: 12,
 		position: 'absolute',
 		right: 15
+	},
+	menuBar: {
+		backgroundColor: colors.laRioja
 	}
 }
 
@@ -50,8 +53,9 @@ export default class Tutorial extends React.Component {
 						width={1000}
 						openSecondary={true}
 						open={this.state.open}>
-	          <AppBar title="How to Play">
-							<FlatButton label="Close" primary={true} onTouchTap={this.handleToggle} style={styles.closeButton} />
+	          <AppBar title="How to Play" showMenuIconButton={false} style={styles.menuBar}>
+							<FlatButton label="Close" primary={true}
+								onTouchTap={this.handleToggle} style={styles.closeButton} />
 						</AppBar>
 						<TutorialList />
 	        </Drawer>
