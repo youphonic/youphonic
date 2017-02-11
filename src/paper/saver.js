@@ -104,7 +104,7 @@ export const deconstruct = (allChunks) => {
 };
 
 export const reconstruct = (savedChunks) => {
-  const ressurected = [];
+  const resurrected = [];
   // loop through the saved chunks object
   for (var chunk in savedChunks) {
     if (savedChunks.hasOwnProperty(chunk) && typeof savedChunks[chunk] === 'object') {
@@ -248,8 +248,8 @@ export const reconstruct = (savedChunks) => {
 
       delete reborn.x;
       delete reborn.y;
-      ressurected.push(reborn);
+      resurrected.push(reborn);
     }
   }
-  return ressurected;
+  return resurrected;
 };
