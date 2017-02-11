@@ -5,6 +5,7 @@ import { IconButton, FontIcon, IconMenu, FlatButton, FloatingActionButton } from
 import ActionHelp from 'material-ui/svg-icons/action/help-outline';
 import {connect} from 'react-redux';
 import { openTurial, closeTutorial } from '../redux/navState';
+import TutorialList from './TutorialList'
 import colors from '../colors';
 
 const styles = {
@@ -52,6 +53,7 @@ export default class Tutorial extends React.Component {
 	          <AppBar title="How to Play">
 							<FlatButton label="Close" primary={true} onTouchTap={this.handleToggle} style={styles.closeButton} />
 						</AppBar>
+						<TutorialList />
 	        </Drawer>
 			</div>
     );
