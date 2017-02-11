@@ -8,6 +8,7 @@ import {
 import React from 'react';
 import {connect} from 'react-redux';
 import Deselect from 'material-ui/svg-icons/notification/do-not-disturb-alt';
+import ArrowDropLeft from 'material-ui/svg-icons/hardware/keyboard-arrow-left';
 
 import {addChunk, clearAllChunks} from '../redux/allChunks';
 import {togglePlay} from '../redux/play';
@@ -52,162 +53,193 @@ function RightMenu (props) {
           <FontIcon className="material-icons" >add_circle</FontIcon>
         </IconButton>
       }
-    anchorOrigin={{horizontal: 'right', vertical: 'top'}}
-    targetOrigin={{horizontal: 'right', vertical: 'top'}}
+      anchorOrigin={{horizontal: 'right', vertical: 'top'}}
+      targetOrigin={{horizontal: 'right', vertical: 'top'}}
     >
       <MenuItem
-        primaryText="Moving Circle"
-        onTouchTap={() => {
-					props.addChunk(new Circle(props.center.x, props.center.y, circleRadius, new Point(1, 1)));
-					enterEditMode(props.isPlaying);
-				}}
+        primaryText="Moving Chunks"
+        leftIcon={<ArrowDropLeft />}
+        menuItems={[
+          <MenuItem
+            primaryText="Moving Circle"
+            onTouchTap={function (evt) {
+              console.log(this);
+    					props.addChunk(new Circle(props.center.x, props.center.y, circleRadius, new Point(1, 1)));
+    					enterEditMode(props.isPlaying);
+    				}}
+          />,
+          <MenuItem
+            primaryText="Particle"
+            onTouchTap={(evt) => {
+              evt.stopPropagation();
+              evt.preventDefault();
+    					props.addChunk(new Circle(props.center.x, props.center.y, 10, new Point(1, 1)));
+    					enterEditMode(props.isPlaying);
+    				}}
+          />,
+          <MenuItem
+            primaryText="PhysBall"
+            onTouchTap={(evt) => {
+              evt.stopPropagation();
+              evt.preventDefault();
+    					props.addChunk(
+                new PhysBall(
+                  props.center.x,
+                  props.center.y,
+                  circleRadius,
+                  new Point(-0.00001, 0),
+                  colors.blueStone
+                )
+              );
+    					enterEditMode(props.isPlaying);
+    				}}
+          />,
+          <MenuItem
+            primaryText="Flying Attractor"
+            onTouchTap={(evt) => {
+              evt.stopPropagation();
+              evt.preventDefault();
+    					props.addChunk(
+                new Attractor(
+                  props.center.x,
+                  props.center.y,
+                  circleRadius,
+                  new Point(0, 0),
+                  colors.newYorkPink,
+                  false
+                )
+              );
+    					enterEditMode(props.isPlaying);
+    				}}
+          />
+        ]}
       />
       <MenuItem
-        primaryText="Particle"
-        onTouchTap={() => {
-					props.addChunk(new Circle(props.center.x, props.center.y, 10, new Point(1, 1)));
-					enterEditMode(props.isPlaying);
-				}}
-      />
-      <MenuItem
-        primaryText="Fixed Circle"
-        onTouchTap={() => {
-          let newCircle = new Circle(props.center.x, props.center.y, circleRadius, new Point(0, 0), colors.madang);
-          newCircle.fixed = true;
-          newCircle.flashColor = colors.laRioja;
-					props.addChunk(newCircle);
-					enterEditMode(props.isPlaying);
-				}}
-      />
-      <MenuItem primaryText="Rectangle" onTouchTap={() => {
-          let rectangle = new Rectangle(props.center.x, props.center.y, 60, 60, new Point(0, 0));
-          props.addChunk(rectangle);
-          enterEditMode(props.isPlaying);
-        }}
-      />
-      <MenuItem
-        primaryText="PhysBall"
-        onTouchTap={() => {
-					props.addChunk(
-            new PhysBall(
-              props.center.x,
-              props.center.y,
-              circleRadius,
-              new Point(-0.00001, 0),
-              colors.blueStone
-            )
-          );
-					enterEditMode(props.isPlaying);
-				}}
-      />
-      <MenuItem
-        primaryText="Static Attractor"
-        onTouchTap={() => {
-					props.addChunk(
-            new Attractor(
-              props.center.x,
-              props.center.y,
-              circleRadius,
-              new Point(0, 0),
-              colors.flamingo,
-              true
-            )
-          );
-					enterEditMode(props.isPlaying);
-				}}
-      />
-      <MenuItem
-        primaryText="Flying Attractor"
-        onTouchTap={() => {
-					props.addChunk(
-            new Attractor(
-              props.center.x,
-              props.center.y,
-              circleRadius,
-              new Point(0, 0),
-              colors.newYorkPink,
-              false
-            )
-          );
-					enterEditMode(props.isPlaying);
-				}}
-      />
-      <MenuItem
-        primaryText="Fizzler"
-        onTouchTap={() => {
-					props.addChunk(
-            new Fizzler(
-              props.center.x,
-              props.center.y,
-              circleRadius,
-              new Point(0, 0),
-              colors.mangoTango,
-              new Point(-2, 2),
-              true
-            )
-          );
-					enterEditMode(props.isPlaying);
-				}}
-      />
-      <MenuItem
-        primaryText="Crackler"
-        onTouchTap={() => {
-					props.addChunk(
-            new Fizzler(
-              props.center.x,
-              props.center.y,
-              circleRadius,
-              new Point(0, 0),
-              colors.mangoTango,
-              new Point(-2, 2),
-              false
-            )
-          );
-					enterEditMode(props.isPlaying);
-				}}
-      />
-      <MenuItem
-        primaryText="Emitter"
-        onTouchTap={() => {
-          props.addChunk(new Emitter(props.center.x, props.center.y, 50));
-					enterEditMode(props.isPlaying);
-				}}
-      />
-      <MenuItem
-        primaryText="Drone"
-        onTouchTap={() => {
-					props.addChunk(
-            new Drone(
-              props.center.x,
-              props.center.y,
-              40,
-              colors.hopbush,
-              colors.dullMagenta,
-              colors.vividViolet
-            )
-          );
-					enterEditMode(props.isPlaying);
-				}}
-      />
-    {/*<MenuItem
-      primaryText="Pendulum"
-      onTouchTap={() => {
-        props.addChunk(new Pendulum(props.center.x, props.center.y, circleRadius, new Point(0, 0)));
-        enterEditMode(props.isPlaying);
-      }}
-      />*/}
-    <MenuItem
-      primaryText="Rope"
-      onTouchTap={() => {
-        props.addChunk(new Rope(props.center.x - 100, props.center.y + 100, props.center.x + 100, props.center.y - 100));
-        enterEditMode(props.isPlaying);
-      }}
+        primaryText="Static Chunks"
+        leftIcon={<ArrowDropLeft />}
+        menuItems={[
+          <MenuItem
+            primaryText="Fixed Circle"
+            onTouchTap={(evt) => {
+              evt.stopPropagation();
+              evt.preventDefault();
+              let newCircle = new Circle(props.center.x, props.center.y, circleRadius, new Point(0, 0), colors.madang);
+              newCircle.fixed = true;
+              newCircle.flashColor = colors.laRioja;
+    					props.addChunk(newCircle);
+    					enterEditMode(props.isPlaying);
+    				}}
+          />,
+        <MenuItem primaryText="Rectangle" onTouchTap={(evt) => {
+              evt.stopPropagation();
+              evt.preventDefault();
+              let rectangle = new Rectangle(props.center.x, props.center.y, 60, 60, new Point(0, 0));
+              props.addChunk(rectangle);
+              enterEditMode(props.isPlaying);
+            }}
+          />,
+          <MenuItem
+            primaryText="Static Attractor"
+            onTouchTap={(evt) => {
+              evt.stopPropagation();
+              evt.preventDefault();
+    					props.addChunk(
+                new Attractor(
+                  props.center.x,
+                  props.center.y,
+                  circleRadius,
+                  new Point(0, 0),
+                  colors.flamingo,
+                  true
+                )
+              );
+    					enterEditMode(props.isPlaying);
+    				}}
+          />,
+          <MenuItem
+            primaryText="Fizzler"
+            onTouchTap={(evt) => {
+              evt.stopPropagation();
+              evt.preventDefault();
+    					props.addChunk(
+                new Fizzler(
+                  props.center.x,
+                  props.center.y,
+                  circleRadius,
+                  new Point(0, 0),
+                  colors.mangoTango,
+                  new Point(-2, 2),
+                  true
+                )
+              );
+    					enterEditMode(props.isPlaying);
+    				}}
+          />,
+          <MenuItem
+            primaryText="Crackler"
+            onTouchTap={(evt) => {
+              evt.stopPropagation();
+              evt.preventDefault();
+    					props.addChunk(
+                new Fizzler(
+                  props.center.x,
+                  props.center.y,
+                  circleRadius,
+                  new Point(0, 0),
+                  colors.mangoTango,
+                  new Point(-2, 2),
+                  false
+                )
+              );
+    					enterEditMode(props.isPlaying);
+    				}}
+          />,
+          <MenuItem
+            primaryText="Emitter"
+            onTouchTap={(evt) => {
+              evt.stopPropagation();
+              evt.preventDefault();
+              props.addChunk(new Emitter(props.center.x, props.center.y, 50));
+    					enterEditMode(props.isPlaying);
+    				}}
+          />,
+          <MenuItem
+            primaryText="Drone"
+            onTouchTap={(evt) => {
+              evt.stopPropagation();
+              evt.preventDefault();
+    					props.addChunk(
+                new Drone(
+                  props.center.x,
+                  props.center.y,
+                  40,
+                  colors.hopbush,
+                  colors.dullMagenta,
+                  colors.vividViolet
+                )
+              );
+    					enterEditMode(props.isPlaying);
+    				}}
+          />,
+
+        <MenuItem
+          primaryText="Rope"
+          onTouchTap={(evt) => {
+            evt.stopPropagation();
+            evt.preventDefault();
+            props.addChunk(new Rope(props.center.x - 100, props.center.y + 100, props.center.x + 100, props.center.y - 100));
+            enterEditMode(props.isPlaying);
+          }}
+          />
+        ]}
       />
     <Divider style={{height: '2px'}} />
     <MenuItem
       leftIcon={<Deselect />}
       primaryText="Clear" // can add capabilities and reset this to WindowSettings
-      onTouchTap={() => {
+      onTouchTap={(evt) => {
+        evt.stopPropagation();
+        evt.preventDefault();
         props.allChunks.forEach(chunk => chunk.path.remove());
         props.clearAllChunks();
         enterEditMode(props.isPlaying);
@@ -250,3 +282,13 @@ const mapDispatchToProps = dispatch => {
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(RightMenu);
+
+/*<MenuItem
+  primaryText="Pendulum"
+  onTouchTap={(evt) => {
+    evt.stopPropagation();
+    evt.preventDefault();
+    props.addChunk(new Pendulum(props.center.x, props.center.y, circleRadius, new Point(0, 0)));
+    enterEditMode(props.isPlaying);
+  }}
+  />*/
