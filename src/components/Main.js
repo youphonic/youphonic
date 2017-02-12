@@ -81,7 +81,7 @@ class Main extends Component {
 	render() {
 	  return (
 	    <div id="outer-container">
-        {/* <Start /> */}
+		  <Start />
 	      <main id="page-wrap">
 	        <MainCanvas />
 	        <Login />
