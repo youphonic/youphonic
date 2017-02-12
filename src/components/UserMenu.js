@@ -6,14 +6,10 @@ import FontIcon from 'material-ui/FontIcon';
 import MenuItem from 'material-ui/MenuItem';
 import IconButton from 'material-ui/IconButton';
 import ArrowDropRight from 'material-ui/svg-icons/navigation-arrow-drop-right';
-
-// import Dialog from 'material-ui/Dialog';
 import FlatButton from 'material-ui/FlatButton';
-// import TextField from 'material-ui/TextField';
 
 import {addChunk} from '../redux/allChunks';
-// import Login from './Login';
-// import SignUp from './SignUp';
+
 import SaveAPlay from './SaveAPlay';
 import colors from '../colors';
 
@@ -25,7 +21,6 @@ import {startCanvas, stopCanvas} from '../redux/appState';
 
 const styles = {
   button: {
-    // top: 10,
     left: 10,
     position: 'absolute'
   },
