@@ -1,8 +1,8 @@
 import {
-  Menu,
+  List,
   Divider,
+  ListItem,
   IconMenu,
-  MenuItem,
   FontIcon,
   IconButton
 } from 'material-ui';
@@ -10,7 +10,7 @@ import React from 'react';
 import {connect} from 'react-redux';
 
 import Deselect from 'material-ui/svg-icons/notification/do-not-disturb-alt';
-import ArrowDropLeft from 'material-ui/svg-icons/hardware/keyboard-arrow-left';
+import ArrowDropDown from 'material-ui/svg-icons/navigation/arrow-drop-down';
 
 import {togglePlay} from '../redux/play';
 import {toggleGrid} from '../redux/canvas-reducer';
@@ -31,12 +31,12 @@ import ToggleGrid from './ToggleGrid';
 
 const styles = {
   button: {
-    right: 10,
+    right: 0,
     position: 'absolute'
   },
   addChunkIcon: {
     top: 6,
-    right: 25,
+    right: 35,
     fontSize: 50,
     color: colors.papayaWhip
   }
@@ -48,10 +48,6 @@ const RightMenu = (props) => {
 
   const enterEditMode = (isPlaying) => {
     if (isPlaying) props.togglePlay(isPlaying);
-  };
-
-  const prevDef = event => {
-    event.stopPropagation();
   };
 
   return (<div>
@@ -69,18 +65,17 @@ const RightMenu = (props) => {
       anchorOrigin={{horizontal: 'right', vertical: 'top'}}
       targetOrigin={{horizontal: 'right', vertical: 'top'}}
     >
-      <MenuItem
-        primaryText="Moving Chunks"
-        leftIcon={<ArrowDropLeft />}
-        menuItems={[
-          <Menu
-            onItemTouchTap={function(event) {prevDef(event);}}
-          >
-            <MenuItem
+      <List>
+        <ListItem
+          primaryText="Moving Chunks"
+          leftIcon={<ArrowDropDown />}
+          primaryTogglesNestedList={true}
+          autoGenerateNestedIndicator={false}
+          nestedItems={[
+            <ListItem
               key="menuItem0"
               primaryText="Moving Circle"
-              onTouchTap={(event) => {
-                prevDef(event);
+              onTouchTap={() => {
                 props.addChunk(new Circle(
                   props.center.x,
                   props.center.y,
@@ -89,11 +84,11 @@ const RightMenu = (props) => {
                 ));
                 enterEditMode(props.isPlaying);
               }}
-            />
-            <MenuItem
+            />,
+            <ListItem
               key="menuItem1"
               primaryText="Particle"
-              onTouchTap={(event) => {
+              onTouchTap={() => {
                 props.addChunk(new Circle(
                   props.center.x,
                   props.center.y,
@@ -102,11 +97,11 @@ const RightMenu = (props) => {
                 ));
                 enterEditMode(props.isPlaying);
               }}
-            />
-            <MenuItem
+            />,
+            <ListItem
               key="menuItem2"
               primaryText="PhysBall"
-              onTouchTap={(event) => {
+              onTouchTap={() => {
                 props.addChunk(new PhysBall(
                   props.center.x,
                   props.center.y,
@@ -116,11 +111,11 @@ const RightMenu = (props) => {
                 ));
                 enterEditMode(props.isPlaying);
               }}
-            />
-            <MenuItem
+            />,
+            <ListItem
               key="menuItem3"
               primaryText="Flying Attractor"
-              onTouchTap={(event) => {
+              onTouchTap={() => {
                 props.addChunk(new Attractor(
                   props.center.x,
                   props.center.y,
@@ -132,153 +127,163 @@ const RightMenu = (props) => {
                 enterEditMode(props.isPlaying);
               }}
             />
-          </Menu>
-        ]}
-      />
-      <MenuItem
-        primaryText="Static Chunks"
-        leftIcon={<ArrowDropLeft />}
-        menuItems={[
-          <MenuItem
-            primaryText="Fixed Circle"
-            onTouchTap={(event) => {
-              let newCircle = new Circle(
-                props.center.x,
-                props.center.y,
-                circleRadius,
-                new Point(0, 0),
-                colors.madang
-              );
-              newCircle.fixed = true;
-              newCircle.flashColor = colors.laRioja;
-              props.addChunk(newCircle);
-              enterEditMode(props.isPlaying);
-            }}
-          />,
-          <MenuItem
-            primaryText="Rectangle"
-            onTouchTap={(event) => {
-              props.addChunk(new Rectangle(
-                props.center.x,
-                props.center.y,
-                60,
-                60,
-                new Point(0, 0)
-              ));
-              enterEditMode(props.isPlaying);
-            }}
-          />,
-          <MenuItem
-            primaryText="Static Attractor"
-            onTouchTap={(event) => {
-              props.addChunk(new Attractor(
-                props.center.x,
-                props.center.y,
-                circleRadius,
-                new Point(0, 0),
-                colors.flamingo,
-                true
-              ));
-              enterEditMode(props.isPlaying);
-            }}
-          />,
-          <MenuItem
-            primaryText="Fizzler"
-            onTouchTap={(event) => {
-              props.addChunk(new Fizzler(
-                props.center.x,
-                props.center.y,
-                circleRadius,
-                new Point(0, 0),
-                colors.mangoTango,
-                new Point(-2, 2),
-                true
-              ));
-              enterEditMode(props.isPlaying);
-            }}
-          />,
-          <MenuItem
-            primaryText="Crackler"
-            onTouchTap={(event) => {
-              props.addChunk(new Fizzler(
-                props.center.x,
-                props.center.y,
-                circleRadius,
-                new Point(0, 0),
-                colors.mangoTango,
-                new Point(-2, 2),
-                false
-              ));
-              enterEditMode(props.isPlaying);
-            }}
-          />,
-          <MenuItem
-            primaryText="Emitter"
-            onTouchTap={(event) => {
-              props.addChunk(new Emitter(
-                props.center.x,
-                props.center.y,
-                50
-              ));
-              enterEditMode(props.isPlaying);
-            }}
-          />,
-          <MenuItem
-            primaryText="Drone"
-            onTouchTap={(event) => {
-              props.addChunk(new Drone(
-                props.center.x,
-                props.center.y,
-                40,
-                colors.hopbush,
-                colors.dullMagenta,
-                colors.vividViolet
-              ));
-              enterEditMode(props.isPlaying);
-            }}
-          />,
-          /*<MenuItem
-            primaryText="Pendulum"
-            onTouchTap={(event) => {
-              props.addChunk(new Pendulum(
-                props.center.x,
-                props.center.y,
-                circleRadius,
-                new Point(0, 0)
-              ));
-              enterEditMode(props.isPlaying);
-            }}
-            />*/
-          <MenuItem
-            primaryText="Rope"
-            onTouchTap={(event) => {
-              props.addChunk(new Rope(
-                props.center.x - 100,
-                props.center.y + 100,
-                props.center.x + 100,
-                props.center.y - 100
-              ));
-              enterEditMode(props.isPlaying);
-            }}
-          />
-        ]}
-      />
-      <Divider style={{height: '2px'}} />
-      <MenuItem
-        leftIcon={<Deselect />}
-        primaryText="Clear" // can add capabilities and reset this to WindowSettings
-        onTouchTap={(event) => {
-          event.stopPropagation();
-          props.allChunks.forEach(chunk => chunk.path.remove());
-          props.clearAllChunks();
-          enterEditMode(props.isPlaying);
-        }}
-      />
-      <Divider style={{height: '2px'}} />
-      <ToggleGrid
-        toggleGrid={props.toggleGrid}
-        displayGrid={props.displayGrid}
-      />
+          ]}
+        />
+        <ListItem
+          primaryText="Static Chunks"
+          leftIcon={<ArrowDropDown />}
+          primaryTogglesNestedList={true}
+          autoGenerateNestedIndicator={false}
+          nestedItems={[
+            <ListItem
+              key="menuItem4"
+              primaryText="Fixed Circle"
+              onTouchTap={() => {
+                let newCircle = new Circle(
+                  props.center.x,
+                  props.center.y,
+                  circleRadius,
+                  new Point(0, 0),
+                  colors.madang
+                );
+                newCircle.fixed = true;
+                newCircle.flashColor = colors.laRioja;
+                props.addChunk(newCircle);
+                enterEditMode(props.isPlaying);
+              }}
+            />,
+            <ListItem
+              key="menuItem5"
+              primaryText="Rectangle"
+              onTouchTap={() => {
+                props.addChunk(new Rectangle(
+                  props.center.x,
+                  props.center.y,
+                  60,
+                  60,
+                  new Point(0, 0)
+                ));
+                enterEditMode(props.isPlaying);
+              }}
+            />,
+            <ListItem
+              key="menuItem6"
+              primaryText="Static Attractor"
+              onTouchTap={() => {
+                props.addChunk(new Attractor(
+                  props.center.x,
+                  props.center.y,
+                  circleRadius,
+                  new Point(0, 0),
+                  colors.flamingo,
+                  true
+                ));
+                enterEditMode(props.isPlaying);
+              }}
+            />,
+            <ListItem
+              key="menuItem7"
+              primaryText="Fizzler"
+              onTouchTap={() => {
+                props.addChunk(new Fizzler(
+                  props.center.x,
+                  props.center.y,
+                  circleRadius,
+                  new Point(0, 0),
+                  colors.mangoTango,
+                  new Point(-2, 2),
+                  true
+                ));
+                enterEditMode(props.isPlaying);
+              }}
+            />,
+            <ListItem
+              key="menuItem8"
+              primaryText="Crackler"
+              onTouchTap={() => {
+                props.addChunk(new Fizzler(
+                  props.center.x,
+                  props.center.y,
+                  circleRadius,
+                  new Point(0, 0),
+                  colors.mangoTango,
+                  new Point(-2, 2),
+                  false
+                ));
+                enterEditMode(props.isPlaying);
+              }}
+            />,
+            <ListItem
+              key="menuItem9"
+              primaryText="Emitter"
+              onTouchTap={() => {
+                props.addChunk(new Emitter(
+                  props.center.x,
+                  props.center.y,
+                  50
+                ));
+                enterEditMode(props.isPlaying);
+              }}
+            />,
+            <ListItem
+              key="menuItem10"
+              primaryText="Drone"
+              onTouchTap={() => {
+                props.addChunk(new Drone(
+                  props.center.x,
+                  props.center.y,
+                  40,
+                  colors.hopbush,
+                  colors.dullMagenta,
+                  colors.vividViolet
+                ));
+                enterEditMode(props.isPlaying);
+              }}
+            />,
+            /*<ListItem
+              key="menuItem11"
+              primaryText="Pendulum"
+              onTouchTap={() => {
+                props.addChunk(new Pendulum(
+                  props.center.x,
+                  props.center.y,
+                  circleRadius,
+                  new Point(0, 0)
+                ));
+                enterEditMode(props.isPlaying);
+              }}
+              />*/
+            <ListItem
+              key="menuItem12"
+              primaryText="Rope"
+              onTouchTap={() => {
+                props.addChunk(new Rope(
+                  props.center.x - 100,
+                  props.center.y + 100,
+                  props.center.x + 100,
+                  props.center.y - 100
+                ));
+                enterEditMode(props.isPlaying);
+              }}
+            />
+          ]}
+        />
+        <Divider />
+        <ListItem
+          leftIcon={<Deselect />}
+          primaryText="Clear" // can add capabilities and reset this to WindowSettings
+          onTouchTap={() => {
+            props.clearAllChunks();
+            props.allChunks.forEach(chunk => chunk.path.remove());
+            enterEditMode(props.isPlaying);
+          }}
+        />
+        <Divider />
+        <ToggleGrid
+          toggleGrid={props.toggleGrid}
+          displayGrid={props.displayGrid}
+        />
+      </List>
     </IconMenu>
   </div>);
 };
@@ -296,11 +301,8 @@ const mapDispatchToProps = dispatch => {
 	return {
 		addChunk: (chunk) =>
       dispatch(addChunk(chunk)),
-		togglePlay: (event, isPlaying) => {
-      event.preventDefault();
-      event.stopPropagation();
-      dispatch(togglePlay(isPlaying));
-    },
+		togglePlay: (isPlaying) =>
+      dispatch(togglePlay(isPlaying)),
     clearAllChunks: () =>
       dispatch(clearAllChunks()),
     toggleGrid: () =>
