@@ -52,13 +52,14 @@ const RightMenu = (props) => {
 
   return (<div>
     <IconMenu
+      style={styles.button}
       iconButtonElement={
         <IconButton
           tooltip="Add A Chunk"
           tooltipPosition="bottom-left"
           iconStyle={styles.addChunkIcon}
         >
-          <FontIcon className="material-icons">add_circle</FontIcon>
+          <FontIcon className="material-icons">add_circle_outline</FontIcon>
         </IconButton>
       }
       style={styles.button}

@@ -14,10 +14,8 @@ const alice = {
 describe('/api/auth', () => {
   before('create a user', () =>
     db.didSync
-      .then(() =>
-        User.create(alice)
-      )
-  )
+    .then(() => User.create(alice))
+  );
 
   describe('POST /login/local (username, password)', () => {
     it('succeeds with a valid username and password', () =>
@@ -79,6 +77,6 @@ describe('/api/auth', () => {
           .expect(200)
           .then(rsp => expect(rsp.body).eql({}))
       )
-    )
-  })
-})
+    );
+  });
+});
