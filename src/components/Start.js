@@ -1,87 +1,82 @@
-import React, {Component} from 'react';
-import { render } from 'react-dom';
-import { Router, Route, Link } from 'react-router';
-import {Dialog, RaisedButton, FlatButton, FloatingActionButton} from 'material-ui';
-import PlayCircle from 'material-ui/svg-icons/av/play-circle-outline';
-import {connect} from 'react-redux';
-import colors from '../colors';
+import {
+  Dialog,
+  FontIcon,
+  FloatingActionButton
+} from 'material-ui';
+import React from 'react';
+import { connect } from 'react-redux';
 
+import colors from '../colors';
+import { enterApp } from '../redux/navState';
 
 const styles = {
-	divStyle: {
+	backgroundImage: {
+    // zIndex: 25,
 		height: '100vh',
+    // overflow: 'hidden',
+    // msTransition: 'all',
 		backgroundSize: 'cover',
-		backgroundRepeat: 'no-repeat',
-		backgroundImage: "url('./home_background.png')",
-		overflow: 'hidden',
-		zIndex: 25,
-		WebkitTransition: 'all',
-		msTransition: 'all'
+		// WebkitTransition: 'all',
+    // backgroundRepeat: 'no-repeat',
+    backgroundImage: "url('./home_background.png')",
 
 	},
 	title: {
-		fontFamily: "'Roboto', sans-serif",
-		position: 'absolute',
-		fontSize: 85,
+    padding: 0,
 		right: 520,
 		bottom: 130,
-		zIndex: 26,
-		padding: 0
+    fontSize: 85,
+    position: 'absolute'
 	},
 	button: {
-		position: 'absolute',
-		bottom: 50,
-		left: 650,
-		zIndex: 26,
+		right: '34vw',
+    bottom: '51vh',
 		backgroundColor: 'rgba(0,0,0,0)'
 	},
 	icon: {
-		zIndex: 26,
-		width: 200,
-		height: 200
-
+		// zIndex: 26,
+		// width: 200,
+		// height: 200
 	},
 	silentDiv: {
 		padding: 0
 	}
-}
+};
 
-	export default class Start extends React.Component {
-	  constructor(props){
-			super(props)
-			this.state = {
-	    	open: true,
-	  	}
-			this.handleClose = this.handleClose.bind(this)
-		}
+const Start = ({ open, enter }) => {
+  const actions = [
+    <FloatingActionButton
+      onTouchTap={enter}
+      key={'enterButton'}
+      style={styles.button}
+      iconStyle={styles.icon}
+      backgroundColor={colors.flamingo}
+    >
+      <FontIcon className="material-icons">play_circle_outline</FontIcon>
+		</FloatingActionButton>
+  ];
 
-	  handleClose() {
-	    this.setState({open: false});
-	  }
+  return (
+    <Dialog
+      open={!open}
+      title="youphonic"
+      actions={actions}
+			titleStyle = {styles.title}
+      bodyStyle = {styles.silentDiv}
+      contentStyle = {styles.silentDiv}
+      overlayStyle = {styles.backgroundImage}
+      actionsContainerStyle = {styles.silentDiv}
+    />
+  );
+};
 
-	  render() {
-	    const actions = [
-				<FloatingActionButton
-						iconStyle={styles.icon}
-						style={styles.button}
-			      onTouchTap={this.handleClose}
-						backgroundColor={colors.flamingo}>
-						<PlayCircle />
-    			</FloatingActionButton>
-	    ]
 
-	    return (
-	        <Dialog
-						overlayStyle = {styles.divStyle}
-						titleStyle = {styles.title}
-						contentStyle = {styles.silentDiv}
-						bodyStyle = {styles.silentDiv}
-						actionsContainerStyle = {styles.silentDiv}
-	          title="youphonic"
-	          actions={actions}
-	          open={this.state.open}
-	        >
-	        </Dialog>
-	    );
-	  }
-	}
+const mapStateToProps = ({ navState: { enteredApp } }) => ({
+  open: enteredApp
+});
+
+const mapDispatchToProps = dispatch => ({
+  enter: () => dispatch(enterApp())
+});
+
+export default connect(mapStateToProps, mapDispatchToProps)(Start);

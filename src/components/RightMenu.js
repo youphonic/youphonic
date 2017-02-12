@@ -49,7 +49,7 @@ function RightMenu (props) {
       style={styles.button}
       iconButtonElement={
         <IconButton
-          tooltip="Add A Shape"
+          tooltip="Add A Chunk"
           tooltipPosition="bottom-left"
           iconStyle={styles.addChunkIcon}
         >
