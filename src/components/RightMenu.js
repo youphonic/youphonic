@@ -58,30 +58,30 @@ function RightMenu (props) {
     >
       <MenuItem
         primaryText="Moving Chunks"
+        multiple={true}
         leftIcon={<ArrowDropLeft />}
+        onTouchTap={(evt) => {
+          evt.preventDefault();
+        }}
         menuItems={[
           <MenuItem
             primaryText="Moving Circle"
-            onTouchTap={function (evt) {
-              console.log(this);
+            onTouchTap={function (event) {
+              event.stopPropagation();
     					props.addChunk(new Circle(props.center.x, props.center.y, circleRadius, new Point(1, 1)));
     					enterEditMode(props.isPlaying);
     				}}
           />,
           <MenuItem
             primaryText="Particle"
-            onTouchTap={(evt) => {
-              evt.stopPropagation();
-              evt.preventDefault();
+            onTouchTap={() => {
     					props.addChunk(new Circle(props.center.x, props.center.y, 10, new Point(1, 1)));
     					enterEditMode(props.isPlaying);
     				}}
           />,
           <MenuItem
             primaryText="PhysBall"
-            onTouchTap={(evt) => {
-              evt.stopPropagation();
-              evt.preventDefault();
+            onTouchTap={() => {
     					props.addChunk(
                 new PhysBall(
                   props.center.x,
@@ -96,9 +96,7 @@ function RightMenu (props) {
           />,
           <MenuItem
             primaryText="Flying Attractor"
-            onTouchTap={(evt) => {
-              evt.stopPropagation();
-              evt.preventDefault();
+            onTouchTap={() => {
     					props.addChunk(
                 new Attractor(
                   props.center.x,
@@ -120,9 +118,7 @@ function RightMenu (props) {
         menuItems={[
           <MenuItem
             primaryText="Fixed Circle"
-            onTouchTap={(evt) => {
-              evt.stopPropagation();
-              evt.preventDefault();
+            onTouchTap={() => {
               let newCircle = new Circle(props.center.x, props.center.y, circleRadius, new Point(0, 0), colors.madang);
               newCircle.fixed = true;
               newCircle.flashColor = colors.laRioja;
@@ -131,8 +127,6 @@ function RightMenu (props) {
     				}}
           />,
         <MenuItem primaryText="Rectangle" onTouchTap={(evt) => {
-              evt.stopPropagation();
-              evt.preventDefault();
               let rectangle = new Rectangle(props.center.x, props.center.y, 60, 60, new Point(0, 0));
               props.addChunk(rectangle);
               enterEditMode(props.isPlaying);
@@ -140,9 +134,7 @@ function RightMenu (props) {
           />,
           <MenuItem
             primaryText="Static Attractor"
-            onTouchTap={(evt) => {
-              evt.stopPropagation();
-              evt.preventDefault();
+            onTouchTap={() => {
     					props.addChunk(
                 new Attractor(
                   props.center.x,
@@ -158,9 +150,7 @@ function RightMenu (props) {
           />,
           <MenuItem
             primaryText="Fizzler"
-            onTouchTap={(evt) => {
-              evt.stopPropagation();
-              evt.preventDefault();
+            onTouchTap={() => {
     					props.addChunk(
                 new Fizzler(
                   props.center.x,
@@ -177,9 +167,7 @@ function RightMenu (props) {
           />,
           <MenuItem
             primaryText="Crackler"
-            onTouchTap={(evt) => {
-              evt.stopPropagation();
-              evt.preventDefault();
+            onTouchTap={() => {
     					props.addChunk(
                 new Fizzler(
                   props.center.x,
@@ -196,18 +184,14 @@ function RightMenu (props) {
           />,
           <MenuItem
             primaryText="Emitter"
-            onTouchTap={(evt) => {
-              evt.stopPropagation();
-              evt.preventDefault();
+            onTouchTap={() => {
               props.addChunk(new Emitter(props.center.x, props.center.y, 50));
     					enterEditMode(props.isPlaying);
     				}}
           />,
           <MenuItem
             primaryText="Drone"
-            onTouchTap={(evt) => {
-              evt.stopPropagation();
-              evt.preventDefault();
+            onTouchTap={() => {
     					props.addChunk(
                 new Drone(
                   props.center.x,
@@ -224,9 +208,7 @@ function RightMenu (props) {
 
         <MenuItem
           primaryText="Rope"
-          onTouchTap={(evt) => {
-            evt.stopPropagation();
-            evt.preventDefault();
+          onTouchTap={() => {
             props.addChunk(new Rope(props.center.x - 100, props.center.y + 100, props.center.x + 100, props.center.y - 100));
             enterEditMode(props.isPlaying);
           }}
@@ -237,9 +219,7 @@ function RightMenu (props) {
     <MenuItem
       leftIcon={<Deselect />}
       primaryText="Clear" // can add capabilities and reset this to WindowSettings
-      onTouchTap={(evt) => {
-        evt.stopPropagation();
-        evt.preventDefault();
+      onTouchTap={() => {
         props.allChunks.forEach(chunk => chunk.path.remove());
         props.clearAllChunks();
         enterEditMode(props.isPlaying);
