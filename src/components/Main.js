@@ -109,8 +109,8 @@ componentWillReceiveProps(nextProps){
 	    <div id="outer-container">
 			<Start />
 	      <main id="page-wrap">
-	        <MainCanvas/>
-	        <Login/>
+	        <MainCanvas />
+	        <Login />
 					<SignUp />
 					{/* check for logged in user then deliver welcome alert */}
 					{this.state.newUser && <SnackBar message={'Welcome ' + this.props.auth.firstName} open={this.props.loginAlertOpen} autoHideDuration={3000} />}
