@@ -23,7 +23,7 @@ import { toggleTutorial, toggleDevInfo } from '../redux/navState';
 const styles = {
 	button: {
 		right: 10,
-		top: '48vh',
+		top: '47vh',
     position: 'absolute'
 	},
 	helpIcon: {

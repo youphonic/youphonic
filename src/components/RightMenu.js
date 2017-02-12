@@ -27,12 +27,11 @@ import colors from '../colors';
 
 const styles = {
   button: {
-    // top: 15,
     right: 10,
     position: 'absolute'
   },
   addChunkIcon: {
-    // top: 15,
+    top: 6,
     right: 25,
     fontSize: 50,
     color: colors.papayaWhip
@@ -50,7 +49,7 @@ function RightMenu (props) {
       style={styles.button}
       iconButtonElement={
         <IconButton
-          tooltip="Add Chunk"
+          tooltip="Add A Shape"
           tooltipPosition="bottom-left"
           iconStyle={styles.addChunkIcon}
         >

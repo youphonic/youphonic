@@ -81,17 +81,17 @@ class Main extends Component {
 	render() {
 	  return (
 	    <div id="outer-container">
-        <Start />
+        {/* <Start /> */}
 	      <main id="page-wrap">
 	        <MainCanvas />
 	        <Login />
 					<SignUp />
 					{/* check for logged in user then deliver welcome alert */}
-					{this.state.newUser && <SnackBar
+					{/* {this.state.newUser && <SnackBar
             message={'Welcome ' + this.props.auth.firstName}
             open={this.props.loginAlertOpen}
             autoHideDuration={3000}
-          />}
+          />} */}
           {!this.props.isPlaying && <Tutorial />}
 	        {!this.props.isPlaying && <UserMenu />}
 	        {!this.props.isPlaying && <RightMenu />}
@@ -99,6 +99,8 @@ class Main extends Component {
 	        {this.props.selectedChunk.id && <ShapeSettings />}
 	        <IconButton
             style={styles.button}
+            tooltip="Play/Pause"
+            tooltipPosition="top-right"
             iconStyle={styles.playIcon}
             onTouchTap={() => {
               if (!this.props.isPlaying) {

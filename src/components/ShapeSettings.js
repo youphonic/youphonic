@@ -89,8 +89,9 @@ class ShapeSettings extends Component {
         position: 'absolute'
       },
 			settingsIcon: {
+        right: 25,
         bottom: 15,
-        fontSize: 50,
+        fontSize: 45,
         color: colors.papayaWhip
 			},
       form: {
@@ -127,10 +128,12 @@ class ShapeSettings extends Component {
       <div>
 				<IconButton
           style={styles.button}
+          tooltip="Shape Settings"
+          tooltipPosition="top-left"
           iconStyle={styles.settingsIcon}
           onTouchTap={this.props.openShapeSettings}
         >
-					<FontIcon className="material-icons">music_note</FontIcon>
+					<FontIcon className="fa fa-cogs" />
 				</IconButton>
 
         <Dialog

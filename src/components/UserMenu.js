@@ -15,25 +15,23 @@ import {addChunk} from '../redux/allChunks';
 // import Login from './Login';
 // import SignUp from './SignUp';
 import SaveAPlay from './SaveAPlay';
-import colors from '../colors'
+import colors from '../colors';
 
-import { savePlayToServer, getMyPlays } from '../paper/saver';
-import { whoami, login, logout } from '../redux/login';
-import { openSignup, openLogin, openPlays, closePlays, toggleSaveAPlay } from '../redux/navState';
+import { logout } from '../redux/login';
+import { openSignup, openLogin, openPlays, toggleSaveAPlay } from '../redux/navState';
 import { getAllPlays } from '../redux/plays';
 
 import {startCanvas, stopCanvas} from '../redux/appState';
 
 const styles = {
   button: {
-    // top: 15,
+    // top: 10,
     left: 10,
     position: 'absolute'
   },
   userMenuicon: {
-    // top: 15,
-    // left: 25,
-    fontSize: 50,
+    top: 10,
+    fontSize: 42,
     color: colors.papayaWhip
   }
 };
@@ -78,27 +76,16 @@ class UserMenu extends React.Component {
   }
 
   render () {
-    const signUpActions = [
-      <FlatButton
-        key="button1"
-        label="Cancel"
-        primary={true}
-        onTouchTap={this.handleClose}
-      />,
-      <FlatButton
-        key="button2"
-        label="Submit"
-        primary={true}
-        keyboardFocused={true}
-        onTouchTap={this.handleSubmit}
-      />,
-    ];
     return (<div>
       <IconMenu
         style={styles.button}
         iconButtonElement={
-          <IconButton iconStyle={styles.userMenuicon}>
-            <FontIcon className="material-icons" >account_box</FontIcon>
+          <IconButton
+            tooltip="User Menu"
+            tooltipPosition="bottom-right"
+            iconStyle={styles.userMenuicon}
+          >
+            <FontIcon className="fa fa-user-circle-o" />
           </IconButton>
         }
         anchorOrigin={{horizontal: 'left', vertical: 'top'}}
@@ -161,21 +148,16 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = dispatch => {
 	return {
-		addChunk: (chunk) => {
-			dispatch(addChunk(chunk));
-		},
-    logout: () => {
-      dispatch(logout());
-    },
+		addChunk: (chunk) =>
+      dispatch(addChunk(chunk)),
+    logout: () =>
+      dispatch(logout()),
     openSignup: () =>
       dispatch(openSignup()),
 		openLogin: () =>
 			dispatch(openLogin()),
-		openPlays: () => {
-			dispatch(openPlays());
-		},
-    saveUser: (info) =>
-      dispatch(saveUser(info)),
+		openPlays: () =>
+			dispatch(openPlays()),
 		startCanvas: () =>
       dispatch(startCanvas()),
     stopCanvas: () =>
@@ -184,7 +166,6 @@ const mapDispatchToProps = dispatch => {
       dispatch(toggleSaveAPlay()),
 		getAllPlays: (user) =>
 			dispatch(getAllPlays(user))
-
 	};
 };
 
