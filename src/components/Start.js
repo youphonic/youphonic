@@ -1,87 +1,82 @@
-import React, {Component} from 'react';
-import { render } from 'react-dom';
-import { Router, Route, Link } from 'react-router';
-import {Dialog, RaisedButton, FlatButton, FloatingActionButton} from 'material-ui';
-import PlayCircle from 'material-ui/svg-icons/av/play-circle-outline';
-import {connect} from 'react-redux';
-import colors from '../colors';
+import {
+  Dialog,
+  FontIcon,
+  FloatingActionButton
+} from 'material-ui';
+import React from 'react';
+import { connect } from 'react-redux';
 
+import colors from '../colors';
+import { enterApp } from '../redux/navState';
+
+const { flamingo, papayaWhip, smokeOnTheWater } = colors;
 
 const styles = {
-	divStyle: {
-		height: '100vh',
+	backgroundImage: {
 		backgroundSize: 'cover',
-		backgroundRepeat: 'no-repeat',
-		backgroundImage: "url('./home_background.png')",
-		overflow: 'hidden',
-		zIndex: 25,
-		WebkitTransition: 'all',
-		msTransition: 'all'
-
+    backgroundPosition: 'center',
+    backgroundImage: "url('./home_background.png')",
 	},
 	title: {
-		fontFamily: "'Roboto', sans-serif",
-		position: 'absolute',
-		fontSize: 85,
-		right: 520,
-		bottom: 130,
-		zIndex: 26,
-		padding: 0
+		right: '34vw',
+		bottom: '21vh',
+    fontSize: '7.5vw',
+    position: 'absolute',
+    color: smokeOnTheWater,
+    textShadow: 'rgba(255, 240, 213, 0.156863) 0px 3px 10px, rgba(252, 179, 57, 0.227451) 0px 3px 10px'
 	},
 	button: {
-		position: 'absolute',
-		bottom: 50,
-		left: 650,
-		zIndex: 26,
-		backgroundColor: 'rgba(0,0,0,0)'
+		right: 0,
+    bottom: 0,
+    width: 'auto',
+    position: 'absolute'
 	},
 	icon: {
-		zIndex: 26,
-		width: 200,
-		height: 200
-
+		width: '13vw',
+		height: '13vw',
+    fontSize: '13vw',
+    lineHeight: 'auto',
+    color: flamingo
 	},
 	silentDiv: {
 		padding: 0
 	}
-}
+};
 
-	export default class Start extends React.Component {
-	  constructor(props){
-			super(props)
-			this.state = {
-	    	open: true,
-	  	}
-			this.handleClose = this.handleClose.bind(this)
-		}
+const Start = ({ open, enter }) => {
+  const actions = [
+    <FloatingActionButton
+      key="enterButton"
+      onTouchTap={enter}
+      style={styles.button}
+      iconStyle={styles.icon}
+      backgroundColor={papayaWhip}
+    >
+      <FontIcon className="material-icons">play_circle_outline</FontIcon>
+		</FloatingActionButton>
+  ];
 
-	  handleClose() {
-	    this.setState({open: false});
-	  }
+  return (
+    <Dialog
+      open={!open}
+      title="youphonic"
+      actions={actions}
+			titleStyle = {styles.title}
+      bodyStyle = {styles.silentDiv}
+      // contentStyle = {styles.silentDiv}
+      overlayStyle = {styles.backgroundImage}
+      actionsContainerStyle = {styles.silentDiv}
+    />
+  );
+};
 
-	  render() {
-	    const actions = [
-				<FloatingActionButton
-						iconStyle={styles.icon}
-						style={styles.button}
-			      onTouchTap={this.handleClose}
-						backgroundColor={colors.flamingo}>
-						<PlayCircle />
-    			</FloatingActionButton>
-	    ]
 
-	    return (
-	        <Dialog
-						overlayStyle = {styles.divStyle}
-						titleStyle = {styles.title}
-						contentStyle = {styles.silentDiv}
-						bodyStyle = {styles.silentDiv}
-						actionsContainerStyle = {styles.silentDiv}
-	          title="youphonic"
-	          actions={actions}
-	          open={this.state.open}
-	        >
-	        </Dialog>
-	    );
-	  }
-	}
+const mapStateToProps = ({ navState: { enteredApp } }) => ({
+  open: enteredApp
+});
+
+const mapDispatchToProps = dispatch => ({
+  enter: () => dispatch(enterApp())
+});
+
+export default connect(mapStateToProps, mapDispatchToProps)(Start);
