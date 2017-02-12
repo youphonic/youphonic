@@ -61,6 +61,7 @@ class Login extends React.Component {
       <FlatButton
         key="button2"
         label="Submit"
+        type="submit"
         primary={true}
         keyboardFocused={true}
         onTouchTap={this.handleSubmit}
@@ -77,6 +78,7 @@ class Login extends React.Component {
     return (
       <div>
         <Dialog
+          type="submit"
           modal={false}
           actions={actions}
           open={this.props.open}

@@ -54,9 +54,8 @@ describe.only('<Login />', () => {
   });
 
   describe('when submitted', () => {
-    pureRoot = shallow(<PureLogin />);
+    // pureRoot = shallow(<PureLogin />);
     const login = spy();
-    const form = pureRoot.find('form');
 
     const submitEvent = {
       preventDefault: spy(),
@@ -69,17 +68,17 @@ describe.only('<Login />', () => {
     beforeEach('submit', () => {
       login.reset();
       submitEvent.preventDefault.reset();
-      pureRoot.simulate('submit', submitEvent);
+      root.simulate('submit', submitEvent);
     });
-    // TODO: complete login tests
-    xit('calls props.login with credentials', () => {
+
+    it('calls props.login with credentials', () => {
       expect(login).to.have.been.calledWith(
         submitEvent.target.username.value,
         submitEvent.target.password.value
       );
     });
 
-    xit('calls preventDefault', () => {
+    it('calls preventDefault', () => {
       expect(submitEvent.preventDefault).to.have.been.called();
     });
   });
