@@ -9,34 +9,34 @@ import { connect } from 'react-redux';
 import colors from '../colors';
 import { enterApp } from '../redux/navState';
 
+const { flamingo, papayaWhip, smokeOnTheWater } = colors;
+
 const styles = {
 	backgroundImage: {
-    // zIndex: 25,
-		height: '100vh',
-    // overflow: 'hidden',
-    // msTransition: 'all',
 		backgroundSize: 'cover',
-		// WebkitTransition: 'all',
-    // backgroundRepeat: 'no-repeat',
+    backgroundPosition: 'center',
     backgroundImage: "url('./home_background.png')",
-
 	},
 	title: {
-    padding: 0,
-		right: 520,
-		bottom: 130,
-    fontSize: 85,
-    position: 'absolute'
+		right: '34vw',
+		bottom: '21vh',
+    fontSize: '7.5vw',
+    position: 'absolute',
+    color: smokeOnTheWater,
+    textShadow: 'rgba(255, 240, 213, 0.156863) 0px 3px 10px, rgba(252, 179, 57, 0.227451) 0px 3px 10px'
 	},
 	button: {
-		right: '34vw',
-    bottom: '51vh',
-		backgroundColor: 'rgba(0,0,0,0)'
+		right: 0,
+    bottom: 0,
+    width: 'auto',
+    position: 'absolute'
 	},
 	icon: {
-		// zIndex: 26,
-		// width: 200,
-		// height: 200
+		width: '13vw',
+		height: '13vw',
+    fontSize: '13vw',
+    lineHeight: 'auto',
+    color: flamingo
 	},
 	silentDiv: {
 		padding: 0
@@ -46,11 +46,11 @@ const styles = {
 const Start = ({ open, enter }) => {
   const actions = [
     <FloatingActionButton
+      key="enterButton"
       onTouchTap={enter}
-      key={'enterButton'}
       style={styles.button}
       iconStyle={styles.icon}
-      backgroundColor={colors.flamingo}
+      backgroundColor={papayaWhip}
     >
       <FontIcon className="material-icons">play_circle_outline</FontIcon>
 		</FloatingActionButton>
@@ -63,7 +63,7 @@ const Start = ({ open, enter }) => {
       actions={actions}
 			titleStyle = {styles.title}
       bodyStyle = {styles.silentDiv}
-      contentStyle = {styles.silentDiv}
+      // contentStyle = {styles.silentDiv}
       overlayStyle = {styles.backgroundImage}
       actionsContainerStyle = {styles.silentDiv}
     />
