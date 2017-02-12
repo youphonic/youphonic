@@ -36,9 +36,9 @@ const styles = {
   },
   closeTutButton: {
     boxShadow: 'rgba(18, 94, 104, 0.117647) 0px 1px 6px, rgba(18, 94, 104, 0.117647) 0px 1px 4px'
+
   }
 };
-
 
 const Tutorial = ({
 	toggle,
