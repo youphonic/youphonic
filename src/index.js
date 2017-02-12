@@ -8,9 +8,9 @@ import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 
 import store from './store';
 import Main from './components/Main';
-
+import { whoami } from './redux/login';
 import { loadPlayToStateFromServer } from './paper/saver';
-import { clearAllChunks } from './redux/allChunks';
+
 
 export const fetchSinglePlay = (nextRouterState) => {
   let hash = nextRouterState.params.hash;
@@ -29,8 +29,19 @@ render(
   <MuiThemeProvider>
     <Provider store={ store }>
       <Router history={ browserHistory }>
-        <Route path="/" component={ Main } >
-          <Route path="/:hash" component={ Main } onEnter={ fetchSinglePlay } />
+        <Route
+          path="/"
+          component={ Main }
+          onEnter={() => store.dispatch(whoami())}
+        >
+          <Route
+            path="/:hash"
+            component={ Main }
+            onEnter={(nextRouterState) => {
+              store.dispatch(whoami());
+              fetchSinglePlay(nextRouterState);
+            }}
+          />
         </Route>
       </Router>
     </Provider>

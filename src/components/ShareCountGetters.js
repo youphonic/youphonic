@@ -1,7 +1,7 @@
 import jsonp from 'jsonp';
 import platform from 'platform';
 
-import { objectToGetParams } from '../utils';
+import { objectToGetParams } from '../socialMediaAssets/utils';
 
 
 export function getFacebookShareCount(shareUrl, callback) {
