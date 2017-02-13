@@ -2,7 +2,7 @@
 import React, { Component, PropTypes } from 'react';
 import cx from 'classnames';
 import * as links from './SocialMediaShareLinks';
-import { windowOpen } from '../utils';
+import { windowOpen } from '../../react-share-assets/utils';
 
 const supportedNetworks = Object.keys(links);
 

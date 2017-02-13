@@ -1,6 +1,6 @@
 import React from 'react';
 import Paper from 'material-ui/Paper';
-import ReactShare from './ReactShare';
+import ReactShare from './React-Share/ReactShare';
 import { Link } from 'react-router';
 import { connect } from 'react-redux';
 import { closePlays } from '../redux/navState'

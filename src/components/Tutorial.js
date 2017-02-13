@@ -18,6 +18,10 @@ import colors from '../colors';
 import DevInfo from './DevInfo';
 import TutorialList from './TutorialList';
 
+// tutorial content
+import userTuts from '../tutorialAssets/userActionsTut';
+import chunkTuts from '../tutorialAssets/chunkTypesTut';
+
 // actions
 import { toggleTutorial, toggleDevInfo } from '../redux/navState';
 
@@ -92,8 +96,9 @@ const Tutorial = ({
         </ToolbarGroup>
 			</Toolbar>
       <Subheader>User Actions</Subheader>
+      <TutorialList tutorial={ userTuts } />
       <Subheader>Types of Chunks</Subheader>
-			<TutorialList />
+			<TutorialList tutorial={ chunkTuts } />
     </Drawer>
   </div>
 );
