@@ -34,3 +34,6 @@ export const TOGGLE_SAVE_A_PLAY = 'TOGGLE_SAVE_A_PLAY';
 
 export const SET_GRID = 'SET_GRID';
 export const TOGGLE_GRID = 'TOGGLE_GRID';
+
+export const TOGGLE_SHARE_OPEN = 'TOGGLE_SHARE_OPEN';
+export const TOGGLE_SHARE_CLOSE = 'TOGGLE_SHARE_CLOSE';

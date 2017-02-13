@@ -1,6 +1,6 @@
 import {
   FontIcon,
-  SnackBar,
+  Snackbar,
   IconButton
 } from 'material-ui';
 import { connect } from 'react-redux';
@@ -79,6 +79,7 @@ class Main extends Component {
   }
 
 	render() {
+
 	  return (
 	    <div id="outer-container">
 		  <Start />
@@ -92,6 +93,12 @@ class Main extends Component {
             open={this.props.loginAlertOpen}
             autoHideDuration={3000}
           />} */}
+						{/* check for logged in user then deliver welcome alert */}
+					{this.props.shareCopiedOpen && <Snackbar
+						message={'The link is on your clipboard now!'}
+						open={this.props.shareCopiedOpen}
+						autoHideDuration={3000}
+					/>}
           {!this.props.isPlaying && <Tutorial />}
 	        {!this.props.isPlaying && <UserMenu />}
 	        {!this.props.isPlaying && <RightMenu />}
@@ -142,6 +149,7 @@ const mapStateToProps = (state) => {
     enteredApp: state.enteredApp,
     selectedChunk: state.selectedChunk,
 		loginAlertOpen: state.navState.loginAlertOpen,
+		shareCopiedOpen: state.navState.shareCopiedOpen
   };
 };
 
