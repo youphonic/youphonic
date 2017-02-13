@@ -29,11 +29,12 @@ injectTapEventPlugin();
 
 const styles = {
   button: {
-    left: 10,
+    left: 0,
     bottom: 15,
     position: 'absolute'
   },
   playIcon: {
+    left: 10,
     bottom: 15,
     fontSize: 50,
     color: colors.papayaWhip
@@ -87,7 +88,7 @@ class Main extends Component {
 	        <Login />
 					<SignUp />
 					{/* check for logged in user then deliver welcome alert */}
-					{this.state.newUser && <Snackar
+					{this.state.newUser && <Snackbar
             message={'Welcome ' + this.props.auth.firstName}
             open={this.props.loginAlertOpen}
             autoHideDuration={3000}
