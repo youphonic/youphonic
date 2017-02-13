@@ -6,7 +6,6 @@ import FontIcon from 'material-ui/FontIcon';
 import MenuItem from 'material-ui/MenuItem';
 import IconButton from 'material-ui/IconButton';
 import ArrowDropRight from 'material-ui/svg-icons/navigation-arrow-drop-right';
-import FlatButton from 'material-ui/FlatButton';
 
 import {addChunk} from '../redux/allChunks';
 
@@ -21,11 +20,12 @@ import {startCanvas, stopCanvas} from '../redux/appState';
 
 const styles = {
   button: {
-    left: 10,
+    left:  0,
     position: 'absolute'
   },
   userMenuicon: {
     top: 10,
+    left: 10,
     fontSize: 42,
     color: colors.papayaWhip
   }
