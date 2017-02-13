@@ -4,6 +4,7 @@ import {
   MenuItem,
   FontIcon,
   IconMenu,
+	Subheader,
   IconButton,
   ToolbarGroup,
 	RaisedButton,
@@ -90,6 +91,8 @@ const Tutorial = ({
           </IconMenu>
         </ToolbarGroup>
 			</Toolbar>
+      <Subheader>User Actions</Subheader>
+      <Subheader>Types of Chunks</Subheader>
 			<TutorialList />
     </Drawer>
   </div>
