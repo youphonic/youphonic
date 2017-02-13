@@ -84,18 +84,6 @@ const Tutorial = ({
 					/>
 				</ToolbarGroup>
         <ToolbarGroup>
-          {/* <IconMenu
-            iconButtonElement={
-              <IconButton touch={true} iconStyle={{color: colors.puertoRico}}>
-                <FontIcon className="material-icons" >expand_more</FontIcon>
-              </IconButton>
-            }
-          > */}
-            {/* <MenuItem
-              onTouchTap={toggleInfo}
-              primaryText="About the Developers"
-            /> */}
-          {/* </IconMenu> */}
           <ToolbarSeparator style={styles.seperator} />
           <RaisedButton
             onTouchTap={toggleInfo}
