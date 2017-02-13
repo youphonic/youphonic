@@ -152,7 +152,7 @@ class ShapeSettings extends Component {
               />
               <AutoCompleteNotes
                 frequency={this.frequency}
-                changeFrequency={this.state.changeFrequency}
+                changeFrequency={this.changeFrequency}
                 handleFrequencyEnterKey={this.handleFrequencyEnterKey}
               />
             </div>
