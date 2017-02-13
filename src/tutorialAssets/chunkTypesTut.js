@@ -14,6 +14,12 @@ const chunkTypesTut = [{
   videoSrc: './chunkVideos/rectangle.mp4'
 },
 {
+  title: 'Rope',
+  text: ` - Ropes mimic a violin or guitar string. They get plucked or strummed when a shape passes over them
+`,
+  videoSrc: './chunkVideos/rope.mp4'
+},
+{
   title: 'PhysBall',
   text: ` - A sphere that is pulled to the bottom of the playing field by gravity - also with musical, speed, or direction settings`,
   videoSrc: './chunkVideos/physball.mp4'
@@ -42,12 +48,6 @@ const chunkTypesTut = [{
   title: 'Drone',
   text: ` - Drone tones are triggered, and toggled, when they collide with other shapes. Set their musical tones in the settings menu`,
   videoSrc: './chunkVideos/drone.mp4'
-},
-{
-  title: 'Rope',
-  text: ` - Ropes mimic a violin or guitar string. They get plucked or strummed when a shape passes over them
-`,
-  videoSrc: './chunkVideos/rope.mp4'
 }];
 
 export default chunkTypesTut;

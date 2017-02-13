@@ -28,7 +28,7 @@ const TutorialList = ({ tutorial }) => {
   return (
     <div style={styles.root}>
       <GridList
-        cols={1}
+        cols={2}
         padding={5}
         cellHeight="auto"
       >

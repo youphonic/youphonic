@@ -41,7 +41,10 @@ const styles = {
   },
   closeTutButton: {
     boxShadow: 'rgba(18, 94, 104, 0.117647) 0px 1px 6px, rgba(18, 94, 104, 0.117647) 0px 1px 4px'
-
+  },
+  subHead: {
+    fontSize: 20,
+    color: colors.blueStone
   }
 };
 
@@ -81,23 +84,31 @@ const Tutorial = ({
 					/>
 				</ToolbarGroup>
         <ToolbarGroup>
-          <IconMenu
+          {/* <IconMenu
             iconButtonElement={
               <IconButton touch={true} iconStyle={{color: colors.puertoRico}}>
                 <FontIcon className="material-icons" >expand_more</FontIcon>
               </IconButton>
             }
-          >
-            <MenuItem
+          > */}
+            {/* <MenuItem
               onTouchTap={toggleInfo}
               primaryText="About the Developers"
-            />
-          </IconMenu>
+            /> */}
+          {/* </IconMenu> */}
+          <ToolbarSeparator style={styles.seperator} />
+          <RaisedButton
+            onTouchTap={toggleInfo}
+            style={styles.closeTutButton}
+            label="About the Developers"
+            labelColor={colors.puertoRico}
+            backgroundColor={colors.papayaWhip}
+          />
         </ToolbarGroup>
 			</Toolbar>
-      <Subheader>User Actions</Subheader>
+      <Subheader style={styles.subHead}>User Actions</Subheader>
       <TutorialList tutorial={ userTuts } />
-      <Subheader>Types of Chunks</Subheader>
+      <Subheader style={styles.subHead}>Types of Chunks</Subheader>
 			<TutorialList tutorial={ chunkTuts } />
     </Drawer>
   </div>
