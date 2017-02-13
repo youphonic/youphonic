@@ -76,8 +76,9 @@ class Login extends React.Component {
       />
     ];
     return (
-      <div>
+      <div ref="firstDiv">
         <Dialog
+          className={'dialog'}
           type="submit"
           modal={false}
           actions={actions}
