@@ -6,9 +6,7 @@ import FontIcon from 'material-ui/FontIcon';
 import MenuItem from 'material-ui/MenuItem';
 import IconButton from 'material-ui/IconButton';
 import ArrowDropRight from 'material-ui/svg-icons/navigation-arrow-drop-right';
-import FlatButton from 'material-ui/FlatButton';
 
-import {addChunk} from '../redux/allChunks';
 
 import SaveAPlay from './SaveAPlay';
 import colors from '../colors';
@@ -42,20 +40,20 @@ class UserMenu extends React.Component {
       lastName: '',
       email: ''
     };
-    this.handleOpen = this.handleOpen.bind(this);
-    this.handleClose = this.handleClose.bind(this);
+    // this.handleOpen = this.handleOpen.bind(this);
+    // this.handleClose = this.handleClose.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
   }
 
-  handleOpen() {
-    this.setState({open: true});
-		this.props.stopCanvas();
-  }
-
-  handleClose() {
-    this.setState({open: false});
-		this.props.startCanvas();
-  }
+  // handleOpen() {
+  //   this.setState({open: true});
+	// 	this.props.stopCanvas();
+  // }
+  //
+  // handleClose() {
+  //   this.setState({open: false});
+	// 	this.props.startCanvas();
+  // }
 
   handleSubmit(event) {
 		event.preventDefault();
