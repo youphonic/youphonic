@@ -1,6 +1,6 @@
 import {
   FontIcon,
-  SnackBar,
+  Snackbar,
   IconButton
 } from 'material-ui';
 import { connect } from 'react-redux';
@@ -87,11 +87,11 @@ class Main extends Component {
 	        <Login />
 					<SignUp />
 					{/* check for logged in user then deliver welcome alert */}
-					{/* {this.state.newUser && <SnackBar
+					{this.state.newUser && <Snackar
             message={'Welcome ' + this.props.auth.firstName}
             open={this.props.loginAlertOpen}
             autoHideDuration={3000}
-          />} */}
+          />}
           {!this.props.isPlaying && <Tutorial />}
 	        {!this.props.isPlaying && <UserMenu />}
 	        {!this.props.isPlaying && <RightMenu />}
