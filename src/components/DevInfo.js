@@ -14,10 +14,11 @@ import colors from '../colors';
 import devData from '../developerInfo';
 
 const styles = {
-  paper: {
+  dev: {
     margin: 5,
     width: '100%',
     display: 'inline-block',
+    color: colors.puertoRico,
     boxShadow: 'rgba(18, 94, 104, 0.156863) 0px 3px 10px, rgba(18, 94, 104, 0.227451) 0px 3px 10px'
   },
   content: {
@@ -52,6 +53,7 @@ const devInfo = devData.map(dev =>
 
 const DevInfo = ({ open, toggle }) => (
   <Dialog
+    style={styles.dev}
     title="Develepor Information"
     actions={
       <FlatButton
@@ -61,13 +63,10 @@ const DevInfo = ({ open, toggle }) => (
     }
     modal={true}
     open={open}
-    style={{color: colors.puertoRico}}
   >
-    <Paper style={styles.paper} zDepth={2}>
-      <List>
-        { devInfo }
-      </List>
-    </Paper>
+    <List>
+      { devInfo }
+    </List>
   </Dialog>
 );
 
