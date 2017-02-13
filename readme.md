@@ -6,11 +6,10 @@ create a local PostgreSQL database titled `musicmachine`<br />
 `npm run startup` will install dependencies, build, and start a server at port `localhost:1337`<br />
 `npm run seed` to seed database with dummy users and saved plays
 
-### Built With
+### Frontend built With
 * <a href="https://github.com/facebook/react">React</a>/<a href="https://github.com/reactjs/redux">redux</a> - frontend framework
 * <a href="http://paperjs.org/">Paper.js</a> - canvas/vector graphics
 * <a href="http://tonejs.org">Tone.js</a> - synthesis
-* <a href="http://www.material-ui.com/#/">Material-UI</a> - UI components
 
 ### Authors
 * <a href="https://github.com/ianmunrobot">Ian Munro</a>
