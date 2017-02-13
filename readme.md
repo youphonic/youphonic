@@ -3,12 +3,13 @@ youphonic is an online musical machine interface for building and sharing sounds
 
 ## Getting Started
 create a local PostgreSQL database titled `musicmachine`
-`npm run startup` will install, build, and start a server at port `localhost:1337`
+`npm run startup` will install dependencies, build, and start a server at port `localhost:1337`
+`npm run seed` to seed database with dummy users and saved plays
 
 ### Built With
 * <a href="https://github.com/facebook/react">React</a>/<a href="https://github.com/reactjs/redux">redux</a> - frontend framework
 * <a href="http://paperjs.org/">Paper.js</a> - canvas/vector graphics
-* <a href="tonejs.org">Tone.js</a> - synthesis
+* <a href="http://tonejs.org">Tone.js</a> - synthesis
 * <a href="http://www.material-ui.com/#/">Material-UI</a> - UI components
 
 ### Authors
@@ -16,10 +17,3 @@ create a local PostgreSQL database titled `musicmachine`
 * <a href="https://github.com/dfrho">David Rhodes</a>
 * <a href="https://github.com/bsaphier">Ben Saphier</a>
 * <a href="https://github.com/RTongue">Robbyn Tongue</a>
-
-### How to build and use musicmachine:
-------
-After you git clone:
-* npm run startup (this installs, builds, and starts for you)
-* navigate to localhost:1337
-* npm test (for test suite)
