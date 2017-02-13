@@ -1,7 +1,7 @@
 /* eslint-disable prefer-template */
 import assert from 'assert';
 
-import { objectToGetParams } from '../utils';
+import { objectToGetParams } from '../../react-share-assets/utils';
 
 export function email(subject, body) {
   assert(subject, 'email.subject');

@@ -22,7 +22,7 @@ const SoundOnOffCheckbox = ({
         checkedIcon={<VolumeUp />}
         uncheckedIcon={<VolumeOff />}
         style={styles.checkbox}
-        label="enable sound"
+        label={triggerSynthResponse ? 'Pitch Enabled' : 'Pitch Disabled'}
         checked={triggerSynthResponse}
         onCheck={changeSynthEnabled}
       />
