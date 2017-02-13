@@ -2,17 +2,12 @@ import React from 'react';
 import { connect } from 'react-redux';
 import Dialog from 'material-ui/Dialog';
 import FlatButton from 'material-ui/FlatButton';
-import RaisedButton from 'material-ui/RaisedButton';
-import FloatingActionButton from 'material-ui/FloatingActionButton';
-import FontIcon from 'material-ui/FontIcon';
 import TextField from 'material-ui/TextField';
-import MenuItem from 'material-ui/MenuItem';
 
-import { whoami, saveUser } from '../redux/login';
+import { saveUser } from '../redux/login';
 
 import {startCanvas, stopCanvas} from '../redux/appState';
 import {openSignup, closeSignup, openLoginAlert} from '../redux/navState';
-import {red500, yellow500, blue500} from 'material-ui/styles/colors';
 
 /**
  * User signup form

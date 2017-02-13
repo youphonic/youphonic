@@ -1,6 +1,6 @@
 import React from 'react';
 
-import icons from '../icons';
+import icons from '../socialMediaAssets/icons';
 
 export function GenerateIcon(network) {
   if (!icons[network.toLowerCase()]) {

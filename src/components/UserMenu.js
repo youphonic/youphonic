@@ -7,7 +7,6 @@ import MenuItem from 'material-ui/MenuItem';
 import IconButton from 'material-ui/IconButton';
 import ArrowDropRight from 'material-ui/svg-icons/navigation-arrow-drop-right';
 
-
 import SaveAPlay from './SaveAPlay';
 import colors from '../colors';
 

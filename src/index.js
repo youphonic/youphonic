@@ -8,8 +8,9 @@ import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 
 import store from './store';
 import Main from './components/Main';
-
+import { whoami } from './redux/login';
 import { loadPlayToStateFromServer } from './paper/saver';
+
 
 export const fetchSinglePlay = (nextRouterState) => {
   let hash = nextRouterState.params.hash;
@@ -24,6 +25,7 @@ export const fetchSinglePlay = (nextRouterState) => {
 
 paper.install(window);
 
+
 render(
   <MuiThemeProvider>
     <Provider store={ store }>
@@ -31,12 +33,13 @@ render(
         <Route
           path="/"
           component={ Main }
-          onEnter={  }
+          onEnter={() => store.dispatch(whoami())}
         >
           <Route
             path="/:hash"
             component={ Main }
-            onEnter={ (nextRouterState) => {
+            onEnter={(nextRouterState) => {
+              store.dispatch(whoami());
               fetchSinglePlay(nextRouterState);
             }}
           />

@@ -6,6 +6,8 @@ import {
   OPEN_SIGNUP,
   CLOSE_PLAYS,
   CLOSE_SIGNUP,
+  TOGGLE_LOGIN,
+  TOGGLE_WELCOME,
   TOGGLE_DEV_INFO,
   TOGGLE_TUTORIAL,
   OPEN_LOGIN_ALERT,
@@ -16,6 +18,7 @@ import {
   CLOSE_WINDOW_SETTINGS
 } from '../constants';
 
+
 const initialState = {
   playsOpen: false,
 	loginOpen: false,
@@ -23,7 +26,13 @@ const initialState = {
   enteredApp: false,
   saveAPlayOpen: false,
   toggleDevInfo: false,
+
+
   loginAlertOpen: false,
+
+  welcomeSnackbar: false,
+
+
   devInfoOpenClose: false,
   tutorialOpenClose: false,
 	windowSettingOpen: false,
@@ -38,12 +47,6 @@ const initialState = {
 // work together
 export const enterApp = () => {
   return {type: ENTERED_APP};
-};
-export const openLogin = () => {
-  return {type: OPEN_LOGIN};
-};
-export const closeLogin = () => {
-  return {type: CLOSE_LOGIN};
 };
 export const openSignup = () => {
   return {type: OPEN_SIGNUP};
@@ -72,12 +75,6 @@ export const openShapeSettings = () => {
 export const closeShapeSettings = () => {
   return {type: CLOSE_SHAPESETTINGS};
 };
-// same pattern for opening and closing user signup alerts ('SnackBar')
-// allows for later refactoring to include user first name in alert
-// since we will login the user after they register
-export const openLoginAlert = (user) => {
-  return {type: OPEN_LOGIN_ALERT, user};
-};
 export const toggleTutorial = () => {
   return {type: TOGGLE_TUTORIAL};
 };
@@ -85,20 +82,33 @@ export const toggleDevInfo = () => {
   return {type: TOGGLE_DEV_INFO};
 };
 
+
+export const toggleLogin = () => {
+  return {type: TOGGLE_LOGIN};
+};
+export const toggleWelcome = () => {
+  return {type: TOGGLE_WELCOME};
+};
+
+
+export const openLogin = () => {
+  return {type: OPEN_LOGIN};
+};
+export const closeLogin = () => {
+  return {type: CLOSE_LOGIN};
+};
+export const openLoginAlert = (user) => {
+  return {type: OPEN_LOGIN_ALERT, user};
+};
+
+
 // reducer
 export default(state = initialState, action) => {
-
 	let newState = Object.assign({}, state);
 
   switch (action.type) {
 		case ENTERED_APP:
       newState.enteredApp = true;
-			break;
-		case OPEN_LOGIN:
-      newState.loginOpen = true;
-			break;
-    case CLOSE_LOGIN:
-			newState.loginOpen = false;
 			break;
     case OPEN_SIGNUP:
 			newState.signUpOpen = true;
@@ -106,9 +116,30 @@ export default(state = initialState, action) => {
     case CLOSE_SIGNUP:
 			newState.signUpOpen = false;
 			break;
-    case OPEN_LOGIN_ALERT:
-			newState.loginAlertOpen = true;
-			break;
+    case OPEN_PLAYS:
+      newState.playsOpen = true;
+      break;
+    case CLOSE_PLAYS:
+      newState.playsOpen = false;
+      break;
+    case OPEN_WINDOW_SETTINGS:
+      newState.windowSettingOpen = true;
+      break;
+    case CLOSE_WINDOW_SETTINGS:
+      newState.windowSettingOpen = false;
+      break;
+    case OPEN_SHAPESETTINGS:
+      newState.shapeSettingsOpen = true;
+      break;
+    case CLOSE_SHAPESETTINGS:
+      newState.shapeSettingsOpen = false;
+      break;
+    case TOGGLE_LOGIN:
+      newState.loginOpen = !newState.loginOpen;
+      break;
+    case TOGGLE_WELCOME:
+      newState.welcomeSnackbar = !newState.welcomeSnackbar;
+      break;
     case TOGGLE_TUTORIAL:
       newState.tutorialOpenClose = !newState.tutorialOpenClose;
       break;
@@ -118,24 +149,19 @@ export default(state = initialState, action) => {
     case TOGGLE_DEV_INFO:
       newState.devInfoOpenClose = !newState.devInfoOpenClose;
       break;
-		case OPEN_PLAYS:
-			newState.playsOpen = true;
-			break;
-		case CLOSE_PLAYS:
-			newState.playsOpen = false;
-			break;
-		case OPEN_WINDOW_SETTINGS:
-			newState.windowSettingOpen = true;
-			break;
-		case CLOSE_WINDOW_SETTINGS:
-			newState.windowSettingOpen = false;
+
+
+    case OPEN_LOGIN:
+      newState.loginOpen = true;
       break;
-    case OPEN_SHAPESETTINGS:
-			newState.shapeSettingsOpen = true;
-			break;
-		case CLOSE_SHAPESETTINGS:
-			newState.shapeSettingsOpen = false;
-			break;
+    case CLOSE_LOGIN:
+      newState.loginOpen = false;
+      break;
+    case OPEN_LOGIN_ALERT:
+      newState.loginAlertOpen = true;
+      break;
+
+
     default:
       return state;
   }

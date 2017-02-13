@@ -18,7 +18,7 @@ import MainCanvas from './MainCanvas';
 import ShapeSettings from './ShapeSettings';
 
 import colors from '../colors';
-import { whoami } from '../redux/login';
+// import { whoami } from '../redux/login';
 import { togglePlay } from '../redux/play';
 import { save, load } from '../paper/saver';
 import { selectChunk } from '../redux/chunk';
@@ -47,14 +47,14 @@ class Main extends Component {
 		// this is necessary to avoid repeating welcome pop up
 		// works with componentWillReceiveProps block
 		this.state = {
-			newUser: null
+			user: null
 		};
   }
 
-  componentDidMount() {
-		this.props.fetchInitialData();
-	}
-
+  // componentDidMount() {
+	// 	this.props.fetchInitialData();
+	// }
+  //
   componentWillReceiveProps(nextProps) {
     // Set newUser to nextProps.auth if there is one
     let newUser = nextProps.auth
@@ -74,20 +74,20 @@ class Main extends Component {
     }
     // Set local state to the newUser
     this.setState({
-      newUser: newUser
+      user: newUser
     });
   }
 
 	render() {
 	  return (
 	    <div id="outer-container">
-		  <Start />
+        <Start />
 	      <main id="page-wrap">
 	        <MainCanvas />
 	        <Login />
 					<SignUp />
 					{/* check for logged in user then deliver welcome alert */}
-					{this.state.newUser && <Snackbar
+					{this.state.user && <Snackbar
             message={'Welcome ' + this.props.auth.firstName}
             open={this.props.loginAlertOpen}
             autoHideDuration={3000}
@@ -162,9 +162,6 @@ const mapDispatchToProps = (dispatch) => {
     },
     togglePlay: (isPlaying) => {
       dispatch(togglePlay(isPlaying));
-    },
-    fetchInitialData: () => {
-      dispatch(whoami());
     }
   };
 };

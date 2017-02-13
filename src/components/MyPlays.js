@@ -1,9 +1,8 @@
 import React from 'react';
 import Dialog from 'material-ui/Dialog';
 import FlatButton from 'material-ui/FlatButton';
-import RaisedButton from 'material-ui/RaisedButton';
 import { connect } from 'react-redux';
-import {openPlays, closePlays} from '../redux/navState'
+import {openPlays, closePlays} from '../redux/navState';
 import Play from './Play';
 
 const customContentStyle = {
@@ -47,7 +46,7 @@ class MyPlays extends React.Component {
         >
           {
             plays && plays.map((play, i) => (
-              <Play play={play} key={i} />
+              <Play play={play} key={+i} />
             ))
           }
         </Dialog>

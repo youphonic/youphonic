@@ -32,5 +32,8 @@ export const TOGGLE_TUTORIAL = 'TOGGLE_TUTORIAL';
 export const TOGGLE_DEV_INFO = 'TOGGLE_DEV_INFO';
 export const TOGGLE_SAVE_A_PLAY = 'TOGGLE_SAVE_A_PLAY';
 
+export const TOGGLE_LOGIN = 'TOGGLE_LOGIN';
+export const TOGGLE_WELCOME = 'TOGGLE_WELCOME';
+
 export const SET_GRID = 'SET_GRID';
 export const TOGGLE_GRID = 'TOGGLE_GRID';
