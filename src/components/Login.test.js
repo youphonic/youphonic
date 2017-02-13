@@ -42,12 +42,13 @@ const options = {
 
 describe.only('<Login />', () => {
   let root, dialog, node;
+  const login = spy();
 
   beforeEach('render the root', () => {
     root = mount(
       <MuiThemeProvider>
         <Provider store={ store }>
-          <Login />
+          <Login login={login} />
         </Provider>
       </MuiThemeProvider>
     );
@@ -65,29 +66,18 @@ describe.only('<Login />', () => {
 
   it('has a form', () => {
     node = root.find(Dialog).node.renderLayer();
-    // console.log('LOGIN', <Login />);
-    // console.log('NODE', node);
-    dialog = mount(
+    dialog = shallow(
       <MuiThemeProvider>
         <Provider store={ store }>
           {node}
         </Provider>
       </MuiThemeProvider>
     );
-    console.log(dialog.node.props.children.props.children.props.children);
-    // console.log(mount(
-    //   <MuiThemeProvider>
-    //     <Provider store={ store }>
-    //       {node}
-    //     </Provider>
-    //   </MuiThemeProvider>
-    // ).debug());
 
-    expect(dialog.find(Provider).find(Login)).to.have.length(1);
+    expect(dialog.find('form')).to.have.length(1);
   });
 
   describe('when submitted', () => {
-    const login = spy();
 
     const submitEvent = {
       preventDefault: spy(),
@@ -98,12 +88,13 @@ describe.only('<Login />', () => {
     };
 
     beforeEach('submit', () => {
+      let form = dialog.find('[className="dialog"]');
+      console.log('THE FORM', form);
       login.reset();
       submitEvent.preventDefault.reset();
       dialog.simulate('submit', submitEvent);
     });
 
-    // TODO: complete login tests
     it('calls props.login with credentials', () => {
       expect(login).to.have.been.calledWith(
         submitEvent.target.username.value,
