@@ -1,6 +1,6 @@
-const app = require('../../app')//, {env} = app
-const debug = require('debug')(`${app.name}:auth`)
-const passport = require('passport')
+const app = require('../../app'); //, {env} = app
+const debug = require('debug')(`${app.name}:auth`);
+const passport = require('passport');
 const GoogleStrategy = require('passport-google-oauth').OAuth2Strategy;
 const LocalStrategy = require('passport-local');
 const {env} = require('../../../index');
@@ -58,7 +58,7 @@ passport.use(new (require('passport-local').Strategy) (
 // Our Google strategy
 // Google needs the GOOGLE_CONSUMER_SECRET AND GOOGLE_CONSUMER_KEY
 // environment variables.
-var theGoogleStrategy = new GoogleStrategy({
+const theGoogleStrategy = new GoogleStrategy({
     clientID: env.GOOGLE_CONSUMER_KEY,
     clientSecret: env.GOOGLE_CONSUMER_SECRET,
     callbackURL: '/api/auth/callback'

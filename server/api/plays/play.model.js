@@ -1,8 +1,8 @@
-'use strict'
+'use strict';
 
-const Sequelize = require('sequelize')
-var db = require('../../_db')
-const bcrypt = require('bcrypt')
+const Sequelize = require('sequelize');
+var db = require('../../_db');
+const bcrypt = require('bcrypt');
 
 const Play = db.define('plays', {
 	title: {
@@ -31,13 +31,13 @@ function setHashedPlay(play) {
 	let string = JSON.stringify(play.get('playJson'));
   return new Promise((resolve, reject) =>
 	  bcrypt.hash(string, 10, (err, hash) => {
-		  if (err) reject(err)
+		  if (err) reject(err);
 
 			let sanitized = hash.replace(/[^$\w]+/g, '');
-		  play.set('hashedPlay', sanitized)
-      resolve(play)
+		  play.set('hashedPlay', sanitized);
+      resolve(play);
 	  })
-  )
+  );
 }
 
-module.exports = Play
+module.exports = Play;
