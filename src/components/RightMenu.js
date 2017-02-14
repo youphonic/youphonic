@@ -62,12 +62,12 @@ const RightMenu = (props) => {
           <FontIcon className="material-icons">add_circle_outline</FontIcon>
         </IconButton>
       }
-      style={styles.button}
       anchorOrigin={{horizontal: 'right', vertical: 'top'}}
       targetOrigin={{horizontal: 'right', vertical: 'top'}}
     >
       <List>
         <ListItem
+          initiallyOpen={true}
           primaryText="Moving Chunks"
           leftIcon={<ArrowDropDown />}
           primaryTogglesNestedList={true}

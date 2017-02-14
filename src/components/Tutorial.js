@@ -4,6 +4,7 @@ import {
   MenuItem,
   FontIcon,
   IconMenu,
+	Subheader,
   IconButton,
   ToolbarGroup,
 	RaisedButton,
@@ -16,6 +17,10 @@ import { connect } from 'react-redux';
 import colors from '../colors';
 import DevInfo from './DevInfo';
 import TutorialList from './TutorialList';
+
+// tutorial content
+import userTuts from '../tutorialAssets/userActionsTut';
+import chunkTuts from '../tutorialAssets/chunkTypesTut';
 
 // actions
 import { toggleTutorial, toggleDevInfo } from '../redux/navState';
@@ -36,7 +41,10 @@ const styles = {
   },
   closeTutButton: {
     boxShadow: 'rgba(18, 94, 104, 0.117647) 0px 1px 6px, rgba(18, 94, 104, 0.117647) 0px 1px 4px'
-
+  },
+  subHead: {
+    fontSize: 20,
+    color: colors.blueStone
   }
 };
 
@@ -76,21 +84,20 @@ const Tutorial = ({
 					/>
 				</ToolbarGroup>
         <ToolbarGroup>
-          <IconMenu
-            iconButtonElement={
-              <IconButton touch={true} iconStyle={{color: colors.puertoRico}}>
-                <FontIcon className="material-icons" >expand_more</FontIcon>
-              </IconButton>
-            }
-          >
-            <MenuItem
-              onTouchTap={toggleInfo}
-              primaryText="About the Developers"
-            />
-          </IconMenu>
+          <ToolbarSeparator style={styles.seperator} />
+          <RaisedButton
+            onTouchTap={toggleInfo}
+            style={styles.closeTutButton}
+            label="About the Developers"
+            labelColor={colors.puertoRico}
+            backgroundColor={colors.papayaWhip}
+          />
         </ToolbarGroup>
 			</Toolbar>
-			<TutorialList />
+      <Subheader style={styles.subHead}>User Actions</Subheader>
+      <TutorialList tutorial={ userTuts } />
+      <Subheader style={styles.subHead}>Types of Chunks</Subheader>
+			<TutorialList tutorial={ chunkTuts } />
     </Drawer>
   </div>
 );

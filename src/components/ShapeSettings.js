@@ -152,14 +152,14 @@ class ShapeSettings extends Component {
               />
               <AutoCompleteNotes
                 frequency={this.frequency}
-                changeFrequency={this.state.changeFrequency}
+                changeFrequency={this.changeFrequency}
                 handleFrequencyEnterKey={this.handleFrequencyEnterKey}
               />
             </div>
             <div style={styles.formGroup}>
               {(this.props.selectedChunk.type !== 'rope') && (
                 <div style={{display: 'inline-block'}}>
-                  <span style={styles.label}>Instrument:</span>
+                  <span style={styles.label}>Drum:</span>
                   <DrumsDropdownSettings
                     drum={this.state.drum}
                     changeDrum={this.changeDrum}

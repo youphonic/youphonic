@@ -18,7 +18,7 @@ const styles = {
     backgroundImage: "url('./home_background.png')",
 	},
 	title: {
-		right: '34vw',
+		right: '21vw',
 		bottom: '21vh',
     fontSize: '7.5vw',
     position: 'absolute',
@@ -26,8 +26,8 @@ const styles = {
     textShadow: 'rgba(255, 240, 213, 0.156863) 0px 3px 10px, rgba(252, 179, 57, 0.227451) 0px 3px 10px'
 	},
 	button: {
-		right: 0,
-    bottom: 0,
+		right: '5vw',
+    bottom: '13vh',
     width: 'auto',
     position: 'absolute'
 	},
