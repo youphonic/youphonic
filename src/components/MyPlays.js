@@ -23,7 +23,6 @@ const styles = {
   }
 };
 
-// TODO: We display the plays inside the papers, mapping through them, then user can load one play by clicking on it, or share one play by clicking on the sharing buttons which will close the dialogue while opening the social providers
 
 const  MyPlays = (props) => {
   const actions = [
