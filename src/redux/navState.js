@@ -13,7 +13,9 @@ import {
   TOGGLE_SAVE_A_PLAY,
   CLOSE_SHAPESETTINGS,
   OPEN_WINDOW_SETTINGS,
-  CLOSE_WINDOW_SETTINGS
+  CLOSE_WINDOW_SETTINGS,
+	TOGGLE_SHARE_OPEN,
+	TOGGLE_SHARE_CLOSE
 } from '../constants';
 
 const initialState = {
@@ -27,7 +29,8 @@ const initialState = {
   devInfoOpenClose: false,
   tutorialOpenClose: false,
 	windowSettingOpen: false,
-  shapeSettingsOpen: false
+  shapeSettingsOpen: false,
+	shareCopiedOpen: false
 };
 
 // action creators
@@ -84,6 +87,12 @@ export const toggleTutorial = () => {
 export const toggleDevInfo = () => {
   return {type: TOGGLE_DEV_INFO};
 };
+export const shareCopiedOpen = () => {
+  return {type: TOGGLE_SHARE_OPEN};
+};
+export const shareCopiedClose = () => {
+  return {type: TOGGLE_SHARE_CLOSE};
+};
 
 // reducer
 export default(state = initialState, action) => {
@@ -135,6 +144,12 @@ export default(state = initialState, action) => {
 			break;
 		case CLOSE_SHAPESETTINGS:
 			newState.shapeSettingsOpen = false;
+			break;
+		case TOGGLE_SHARE_OPEN:
+			newState.shareCopiedOpen = true;
+			break;
+		case TOGGLE_SHARE_CLOSE:
+			newState.shareCopiedOpen = false;
 			break;
     default:
       return state;
