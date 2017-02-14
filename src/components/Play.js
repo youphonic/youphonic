@@ -31,10 +31,6 @@ const styles = {
     // maxWidth: '200px',
     margin: 'auto',
     maxHeight: '200px'
-  },
-  title: {
-    // marginTop: '0.5em',
-    // marginBottom: '0.5em'
   }
 };
 
