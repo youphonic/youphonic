@@ -30,7 +30,7 @@ const styles = {
   }
 };
 
-const DevData = ({ name, gitHubLink }) => (
+const DevData = ({ name, gitHubLink, image }) => (
   <ListItem
     primaryText={name}
     style={styles.content}
@@ -48,6 +48,7 @@ const devInfo = devData.map(dev =>
     name={dev.name}
     key={dev.gitHubLink}
     gitHubLink={dev.gitHubLink}
+    image={dev.image}
   />
 );
 

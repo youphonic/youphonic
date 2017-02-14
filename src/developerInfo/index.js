@@ -13,7 +13,8 @@ const devData = [
   },
   {
     name: 'Robbyn Tongue',
-    gitHubLink: 'https://github.com/RTongue'
+    gitHubLink: 'https://github.com/RTongue',
+    image: '../../public/headshots/RobbynTongueHeadshotSquare.png'
   }
 ];
 
