@@ -87,7 +87,7 @@ export const drawAlignment = function(start, x, y) {
   return lines;
 };
 
-const thingsAreClose = (selected, comparison) => {
+export const thingsAreClose = (selected, comparison) => {
   let selectedX = selected.x ? selected.x : selected.path.position.x,
       selectedY = selected.y ? selected.y : selected.path.position.y,
       comparisonX = comparison.path.position.x,
@@ -143,9 +143,10 @@ export const nearIntersect = (selected, allChunks, delta, point, grid) => {
         //   break;
       }
     }
+    console.log(selected.xAligned, selected.yAligned);
   }
 
-  return new Point(x, y);
+  return [x, y];
 };
 
 // keep an input within a min-max range
