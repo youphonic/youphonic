@@ -4,11 +4,10 @@ import { FloatingActionButton, FontIcon } from 'material-ui';
 import SocialShare from 'material-ui/svg-icons/social/share';
 import CommEmail from 'material-ui/svg-icons/communication/email';
 
-
 //https://www.npmjs.com/package/react-copy-to-clipboard
 import CopyToClipboard from 'react-copy-to-clipboard';
-import colors from '../../colors';
-import { shareCopiedOpen, shareCopiedClose } from '../../redux/navState';
+import colors from '../colors';
+import { shareCopiedOpen, shareCopiedClose } from '../redux/navState';
 
 
 const ReactShare = ({

@@ -8,7 +8,7 @@ import { connect } from 'react-redux';
 
 import colors from '../colors';
 import { closePlays } from '../redux/navState';
-import ReactShare from './React-Share/ReactShare';
+import ReactShare from './ReactShare';
 
 const styles = {
   paper: {
