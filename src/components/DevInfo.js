@@ -4,9 +4,7 @@ import {
   Dialog,
   FontIcon,
   ListItem,
-  FlatButton,
-  ToolbarGroup,
-  ToolbarSeparator
+  FlatButton
 } from 'material-ui';
 import React from 'react';
 
