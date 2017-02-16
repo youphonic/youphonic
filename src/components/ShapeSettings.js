@@ -146,10 +146,12 @@ class ShapeSettings extends Component {
         >
           <form style={styles.form}>
             <div style={styles.formGroup}>
-              <SoundOnOffCheckbox
-                changeSynthEnabled={this.changeSynthEnabled}
-                triggerSynthResponse={this.state.triggerSynthResponse}
-              />
+              {(this.props.selectedChunk.type !== 'rope') && (
+                <SoundOnOffCheckbox
+                  changeSynthEnabled={this.changeSynthEnabled}
+                  triggerSynthResponse={this.state.triggerSynthResponse}
+                />
+              )}
               <AutoCompleteNotes
                 frequency={this.frequency}
                 changeFrequency={this.changeFrequency}
