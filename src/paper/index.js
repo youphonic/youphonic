@@ -229,7 +229,8 @@ export default function(props) {
 			// localSelectedChunk.path.position.x += Math.round(event.delta.x / grid) * grid;
       // localSelectedChunk.path.position.y += Math.round(event.delta.y / grid) * grid;
 			// New snapping logic
-			localSelectedChunk.path.position = nearIntersect(localSelectedChunk, allChunks, event.delta, event.point, grid);
+      let newCoords = nearIntersect(localSelectedChunk, allChunks, event.delta, event.point, grid);
+			localSelectedChunk.path.position = new Point(...newCoords)
       localSelectedChunk.eraseVector();
       localSelectedChunk.drawVector();
       localSelectedChunk.eraseAlignment();

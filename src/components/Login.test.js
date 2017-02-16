@@ -34,7 +34,7 @@ const options = {
   childContextTypes: { store: React.PropTypes.object.isRequired }
 };
 
-describe.only('<Login />', () => {
+describe('<Login />', () => {
   let root, pureRoot;
 
   beforeEach('render the root', () => {
