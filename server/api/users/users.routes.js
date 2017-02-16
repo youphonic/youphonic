@@ -40,7 +40,7 @@ module.exports = require('express').Router()
 		.then(foundPlays => {
 			res.send(foundPlays);
 		})
-		.catch(next)
+		.catch(next);
 		}
 	)
 

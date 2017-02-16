@@ -1,5 +1,6 @@
 'use strict';
 const api = module.exports = require('express').Router();
+
 api.get('/heartbeat', (req, res) => res.send({ok: true}))
   .use('/users', require('./users/users.routes'))
 	.use('/plays', require('./plays/plays.routes'))

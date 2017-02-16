@@ -63,7 +63,7 @@ OAuth.setupStrategy =
 }) => {
   const undefinedKeys = Object.keys(config)
         .map(k => config[k])
-        .filter(value => typeof value === 'undefined')
+        .filter(value => typeof value === 'undefined');
   if (undefinedKeys.length) {
     undefinedKeys.forEach(key =>
     debug('provider:%s: needs environment var %s', provider, key));
