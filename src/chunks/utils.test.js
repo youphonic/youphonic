@@ -3,7 +3,7 @@ const expect = chai.expect;
 
 import { thingsAreClose, nearIntersect, constrain, scale, randomNumberWithinRange, degToRad, radToDeg } from './utils';
 
-describe.only('paper/utils', () => {
+describe('paper/utils', () => {
 
   describe('thingAreClose', () => {
     let selected = {
