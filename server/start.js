@@ -10,6 +10,6 @@ app.listen(app.get('port'), (err) => {
   console.log(`server for ${pkg.name} listening on port ${app.get('port')}`);
 	db.sync() //
 	.then( () => {
-		console.log('...and postgres server is connected')
+		console.log('...and postgres server is connected');
 	});
 });

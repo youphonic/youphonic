@@ -13,9 +13,9 @@ const db = module.exports = new Sequelize(databaseURI, {
 let isInTest = typeof global.it === 'function';
 
 // sync the db, creating it if necessary
-function sync(force=isInTest) {
+function sync(force = isInTest) {
   return db.sync({force}) // true if in tests, false if not
-    .then(ok => console.log('Synced models'))
+    .then(ok => console.log('Synced models'));
 }
 
-db.didSync = sync()
+db.didSync = sync();

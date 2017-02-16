@@ -1,8 +1,8 @@
-'use strict'
+'use strict';
 
-const bcrypt = require('bcrypt')
-const Sequelize = require('sequelize')
-var db = require('../../_db')
+const bcrypt = require('bcrypt');
+const Sequelize = require('sequelize');
+var db = require('../../_db');
 
 const User = db.define('users', {
   userName: {
@@ -46,22 +46,22 @@ const User = db.define('users', {
         bcrypt.compare(plaintext, this.passwordDigest,
           (err, result) =>
             err ? reject(err) : resolve(result))
-        )
+        );
     }
   }
-})
+});
 
 function setEmailAndPassword(user) {
-  user.email = user.email && user.email.toLowerCase()
-  if (!user.password) return Promise.resolve(user)
+  user.email = user.email && user.email.toLowerCase();
+  if (!user.password) return Promise.resolve(user);
 
   return new Promise((resolve, reject) =>
 	  bcrypt.hash(user.get('password'), 10, (err, hash) => {
-		  if (err) reject(err)
-		  user.set('passwordDigest', hash)
-      resolve(user)
+		  if (err) reject(err);
+		  user.set('passwordDigest', hash);
+      resolve(user);
 	  })
-  )
+  );
 }
 
-module.exports = User
+module.exports = User;

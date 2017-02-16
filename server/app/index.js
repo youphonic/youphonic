@@ -1,10 +1,10 @@
 const path = require('path');
 const express = require('express');
-const volleyball = require('volleyball')
-const passport = require('passport')
-const cookies = require('cookie-session')
-const bodyParser = require('body-parser')
-const {User} = require('../index')
+const volleyball = require('volleyball');
+const passport = require('passport');
+const cookies = require('cookie-session');
+const bodyParser = require('body-parser');
+const {User} = require('../index');
 
 
 const app = express();
@@ -20,7 +20,6 @@ app.use(cookies({
 }));
 
 // dev environment logger
-const logger = volleyball.custom({ debug: true });
 app.use(volleyball);
 
 // body parsing middleware
