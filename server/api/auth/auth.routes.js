@@ -1,4 +1,4 @@
-const app = require('../../app'); //, {env} = app
+const app = require('../../app');
 const debug = require('debug')(`${app.name}:auth`);
 const passport = require('passport');
 const GoogleStrategy = require('passport-google-oauth').OAuth2Strategy;
