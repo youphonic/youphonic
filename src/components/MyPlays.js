@@ -23,10 +23,11 @@ const styles = {
   }
 };
 
-
+let key = 0;
 const  MyPlays = (props) => {
   const actions = [
     <FlatButton
+      key={key++}
       label="Cancel"
       primary={true}
       onTouchTap={props.closePlays}

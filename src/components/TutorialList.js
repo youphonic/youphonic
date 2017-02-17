@@ -27,11 +27,7 @@ const TutorialList = ({ tutorial }) => {
 
   return (
     <div style={styles.root}>
-      <GridList
-        cols={2}
-        padding={5}
-        cellHeight="auto"
-      >
+      <GridList cols={2} padding={5} cellHeight="auto">
         {tutorialItems}
       </GridList>
     </div>
