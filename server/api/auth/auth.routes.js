@@ -55,9 +55,8 @@ passport.use(new (require('passport-local').Strategy) (
 ));
 
 
-// Our Google strategy
-// Google needs the GOOGLE_CONSUMER_SECRET AND GOOGLE_CONSUMER_KEY
-// environment variables.
+// Our Google strategy uses API key and secret in 'secrets'
+// file, also outlined in Heroku environment settings
 const theGoogleStrategy = new GoogleStrategy({
     clientID: env.GOOGLE_CONSUMER_KEY,
     clientSecret: env.GOOGLE_CONSUMER_SECRET,

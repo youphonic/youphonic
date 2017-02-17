@@ -71,7 +71,7 @@ describe('<Login />', () => {
       submitEvent.preventDefault.reset();
       pureRoot.simulate('submit', submitEvent);
     });
-    // TODO: complete login tests
+
     xit('calls props.login with credentials', () => {
       expect(login).to.have.been.calledWith(
         submitEvent.target.username.value,

@@ -75,7 +75,7 @@ export const openShapeSettings = () => {
 export const closeShapeSettings = () => {
   return {type: CLOSE_SHAPESETTINGS};
 };
-// same pattern for opening and closing user signup alerts ('SnackBar')
+// same pattern for opening and closing user signup alerts ('Snackbar')
 // allows for later refactoring to include user first name in alert
 // since we will login the user after they register
 export const openLoginAlert = (user) => {
