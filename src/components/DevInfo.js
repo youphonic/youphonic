@@ -11,6 +11,7 @@ import React from 'react';
 import colors from '../colors';
 import devData from '../developerInfo';
 
+
 const styles = {
   root: {
     overflow: 'visible'
@@ -25,7 +26,7 @@ const styles = {
     textAlign: 'left',
     overflow: 'visible',
     display: 'inline-block',
-    boxShadow: 'rgba(63, 35, 95, 0.156863) 0px 3px 10px, rgba(63, 35, 95, 0.227451) 0px 3px 10px'
+    boxShadow: 'rgba(18, 94, 104, 0.156863) 0px 3px 10px, rgba(18, 94, 104, 0.227451) 0px 3px 10px'
   },
   headShotImage: {
     margin: 25,
@@ -45,22 +46,27 @@ const styles = {
     color: colors.blueStone,
   },
   icon: {
+    fontSize: 36,
     color: colors.smokeOnTheWater
   },
   toolTip: {
+    fontSize: 15,
     color: colors.puertoRico
   }
 };
+
 
 const DevData = ({
   name,
   image,
   gitHubLink,
-  linkedinLink
+  linkedinLink,
+  personalSite
 }) => (
   <div>
     <Paper style={styles.paper} zDepth={2}>
       <GridTile rows={1}>
+
         <Paper style={styles.headShotImage}>
           <img
             src={image}
@@ -69,69 +75,69 @@ const DevData = ({
             style={styles.image}
           />
         </Paper>
+
         <GridTile style={styles.content}>
           <h3 style={{marginTop: '8%'}}>{name}</h3>
           <div>
-            <a
+            <IconButton
               target="_blank"
               href={gitHubLink}
-              rel="noopener noreferrer"
-            >
-              <IconButton
-                iconStyle={styles.icon}
-                tooltip={`${name}'s github`}
-                tooltipStyles={styles.toolTip}
-                tooltipPosition="bottom-center"
-                iconClassName="fa fa-github-square"
-              />
-            </a>
-            <a
+              iconStyle={styles.icon}
+              tooltipStyles={styles.toolTip}
+              tooltipPosition="bottom-right"
+              iconClassName="fa fa-github-square"
+              tooltip={`${name.split(' ')[0]}'s Github`}
+            />
+            <IconButton
               target="_blank"
-              href={gitHubLink}
-              rel="noopener noreferrer"
-            >
+              href={linkedinLink}
+              iconStyle={styles.icon}
+              tooltipStyles={styles.toolTip}
+              tooltipPosition="bottom-center"
+              iconClassName="fa fa-linkedin-square"
+              tooltip={`${name.split(' ')[0]}'s Linkedin`}
+            />
+            {
+              personalSite &&
               <IconButton
+                target="_blank"
+                href={personalSite}
                 iconStyle={styles.icon}
-                tooltip={`${name}'s linkedin`}
+                tooltipPosition="bottom-left"
                 tooltipStyles={styles.toolTip}
-                tooltipPosition="bottom-center"
-                iconClassName="fa fa-linkedin-square"
+                iconClassName="fa fa-external-link-square"
+                tooltip={`${name.split(' ')[0]}'s Personal Site`}
               />
-            </a>
-            {/* <a href={gitHubLink} target="_blank">
-              <IconButton
-                tooltip={`${name}'s github`}
-                iconClassName="fa fa-github"
-                tooltipPosition="top-left"
-              />
-            </a> */}
+            }
           </div>
         </GridTile>
+
       </GridTile>
     </Paper>
   </div>
 );
 
+
 const DevInfo = ({ open, toggle }) => {
+
   const devInfo = devData.map(dev =>
     <DevData
       name={dev.name}
       image={dev.image}
       key={dev.gitHubLink}
       gitHubLink={dev.gitHubLink}
+      personalSite={dev.personalSite}
       linkedinLink={dev.linkedinLink}
     />
   );
 
   return (
     <Dialog
+      open={open}
       style={styles.root}
       title="Developer Information"
-      actions={
-        <FlatButton label="Close" onTouchTap={toggle} />
-      }
-      modal={true}
-      open={open}
+      titleStyle={{color: colors.puertoRico}}
+      actions={ <FlatButton label="Close" onTouchTap={toggle} /> }
     >
       <GridList
         cols={2}
