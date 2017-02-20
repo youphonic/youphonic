@@ -98,10 +98,10 @@ export const shareCopiedClose = () => {
   return {type: TOGGLE_SHARE_CLOSE};
 };
 export const toggleRightMenu = () => {
-  return {type: TOGGLE_RIGHT_MENU}
+  return {type: TOGGLE_RIGHT_MENU};
 };
 export const toggleUserMenu = () => {
-  return {type: TOGGLE_USER_MENU}
+  return {type: TOGGLE_USER_MENU};
 };
 
 // reducer
