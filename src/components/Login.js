@@ -1,24 +1,23 @@
+import {
+  Dialog,
+  FontIcon,
+  TextField,
+  FlatButton,
+  RaisedButton
+} from 'material-ui';
 import React from 'react';
 import { connect } from 'react-redux';
-import Dialog from 'material-ui/Dialog';
-import FlatButton from 'material-ui/FlatButton';
-import RaisedButton from 'material-ui/RaisedButton';
-import ActionGoogle from 'material-ui/svg-icons/action/android';
-import ActionFacebook from 'material-ui/svg-icons/action/android';
-import FloatingActionButton from 'material-ui/FloatingActionButton';
-import FontIcon from 'material-ui/FontIcon';
-import TextField from 'material-ui/TextField';
-import MenuItem from 'material-ui/MenuItem';
 
-import { whoami, login } from '../redux/login';
-import { closeLogin, openLoginAlert } from '../redux/navState';
+import { login } from '../redux/login';
+import { closeLogin } from '../redux/navState';
 
-import {startCanvas, stopCanvas} from '../redux/appState';
-import {red500, yellow500, blue500} from 'material-ui/styles/colors';
+const styles = {
+  socialButton: {
+    margin: 12
+  }
+};
 
-/**
- * Dialog content can be scrollable.
- */
+
 class Login extends React.Component {
   constructor(props) {
     super(props);
@@ -27,53 +26,45 @@ class Login extends React.Component {
 			password: ''
     };
     this.handleSubmit = this.handleSubmit.bind(this);
-		this.styles = {
-			loginButton: {
-				position: 'absolute',
-				top: 15,
-				left: 15
-			},
-			buttonIcon: {
-				fontSize: 50
-			},
-      socialButton: {
-        margin: 12
-      }
-		}
   }
 
-	// login then close deliver welcome alert
+	// login then reset form
   handleSubmit(event) {
 		event.preventDefault();
 		this.props.login(this.state.userName, this.state.password);
+    this.setState({
+			userName: '',
+			password: ''
+    });
 		this.props.closeLogin();
-		this.props.openLoginAlert();
   }
 
   render() {
     const actions = [
       <FlatButton
-        key="button1"
+        key="cancelButton"
         label="Cancel"
         primary={true}
         onTouchTap={this.props.closeLogin}
       />,
       <FlatButton
-        key="button2"
+        key="submitButton"
         label="Submit"
         primary={true}
         keyboardFocused={true}
         onTouchTap={this.handleSubmit}
       />,
       <RaisedButton
-        href='api/auth/google'
+        key="googleLogin"
+        href="api/auth/google"
         target="_self"
         label="Google"
         secondary={true}
-        style={this.styles.socialButton}
+        style={styles.socialButton}
         icon={<FontIcon className="fa fa-google" />}
       />
     ];
+
     return (
       <div>
         <Dialog
@@ -86,22 +77,22 @@ class Login extends React.Component {
         >
           <form>
             <TextField
-              name={"userName"}
+              name="userName"
               hintText="username"
               onChange={(evt) => {
                 this.setState({
-            			userName: evt.target.value
-            		});
+                  userName: evt.target.value
+                });
               }}
             />
 						<TextField
-              name={"password"}
+              name="password"
 							hintText="enter password"
-							type={'password'}
+							type="password"
               onChange={(evt) => {
                 this.setState({
-            			password: evt.target.value
-            		});
+                  password: evt.target.value
+                });
               }}
 						/>
           </form>
@@ -111,25 +102,16 @@ class Login extends React.Component {
   }
 }
 
-const mapStateToProps = state => {
-  return {
-		open: state.navState.loginOpen
-  };
-};
+const mapStateToProps = ({ navState }) => ({
+	open: navState.loginOpen
+});
 
-const mapDispatchToProps = dispatch => {
-  return {
-    login: (username, password) => dispatch(login(username, password)),
-		startCanvas: () =>
-      dispatch(startCanvas()),
-    stopCanvas: () =>
-      dispatch(stopCanvas()),
-		closeLogin: () =>
-			dispatch(closeLogin()),
-		openLoginAlert: () =>
-			dispatch(openLoginAlert())
-  };
-};
+const mapDispatchToProps = dispatch => ({
+  login: (username, password) =>
+    dispatch(login(username, password)),
+	closeLogin: () =>
+		dispatch(closeLogin())
+});
 
 export default connect(mapStateToProps, mapDispatchToProps)(Login);
 export { Login as PureLogin };

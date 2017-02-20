@@ -1,5 +1,5 @@
 import axios from 'axios';
-import {openLoginAlert} from './navState';
+import { openLoginAlert } from './navState';
 
 const AUTHENTICATED = 'AUTHENTICATED';
 export const authenticated = user => ({
@@ -36,7 +36,7 @@ export const whoami = () =>
         const user = response.data;
         dispatch(authenticated(user));
       })
-      .then( () => dispatch(openLoginAlert()))
+      .then(() => dispatch(openLoginAlert()))
       .catch(failed => dispatch(authenticated(null)))
 
 // persists user to db upon oAuth/passport login if not already there

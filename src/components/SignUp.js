@@ -3,8 +3,7 @@ import { connect } from 'react-redux';
 import { Dialog, FlatButton, TextField } from 'material-ui';
 
 import { saveUser } from '../redux/login';
-import {startCanvas, stopCanvas} from '../redux/appState';
-import {closeSignup, openLoginAlert} from '../redux/navState';
+import { closeSignup } from '../redux/navState';
 
 /* User signup form */
 class SignUp extends React.Component {
@@ -22,6 +21,8 @@ class SignUp extends React.Component {
 
   handleSubmit(event) {
 		event.preventDefault();
+    // saveUser could be wrapped in a Promise that logs in a user if
+    // credentials were entered correctly
 		this.props.saveUser(this.state);
 		this.setState({
 			userName: '',
@@ -34,7 +35,6 @@ class SignUp extends React.Component {
   }
 
   render() {
-
     const actions = [
       <FlatButton
         key="button1"
@@ -50,6 +50,7 @@ class SignUp extends React.Component {
         onTouchTap={this.handleSubmit}
       />,
     ];
+
     return (
       <div>
         <Dialog
@@ -119,25 +120,15 @@ class SignUp extends React.Component {
   }
 }
 
-const mapStateToProps = state => {
-  return {
-    open: state.navState.signUpOpen
-  };
-};
+const mapStateToProps = ({ navState }) => ({
+  open: navState.signUpOpen
+});
 
-const mapDispatchToProps = dispatch => {
-  return {
-    saveUser: (info) =>
-      dispatch(saveUser(info)),
-		startCanvas: () =>
-      dispatch(startCanvas()),
-    stopCanvas: () =>
-      dispatch(stopCanvas()),
-    closeSignup: () => {
-      dispatch(closeSignup());
-			dispatch(openLoginAlert());
-    }
-  };
-};
+const mapDispatchToProps = dispatch => ({
+  saveUser: (info) =>
+    dispatch(saveUser(info)),
+  closeSignup: () =>
+    dispatch(closeSignup())
+});
 
 export default connect(mapStateToProps, mapDispatchToProps)(SignUp);
