@@ -13,7 +13,7 @@ import SaveAPlay from './SaveAPlay';
 import colors from '../colors';
 
 import { logout } from '../redux/login';
-import { openSignup, openLogin, openPlays, toggleSaveAPlay } from '../redux/navState';
+import { openSignup, openLogin, openPlays, toggleSaveAPlay, toggleUserMenu } from '../redux/navState';
 import { getAllPlays } from '../redux/plays';
 
 import {startCanvas, stopCanvas} from '../redux/appState';
@@ -31,104 +31,66 @@ const styles = {
   }
 };
 
-class UserMenu extends React.Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      open: false,
-			username: '',
-			password: '',
-      firstName: '',
-      lastName: '',
-      email: ''
-    };
-    this.handleOpen = this.handleOpen.bind(this);
-    this.handleClose = this.handleClose.bind(this);
-    this.handleSubmit = this.handleSubmit.bind(this);
-  }
-
-  handleOpen() {
-    this.setState({open: true});
-		this.props.stopCanvas();
-  }
-
-  handleClose() {
-    this.setState({open: false});
-		this.props.startCanvas();
-  }
-
-  handleSubmit(event) {
-		event.preventDefault();
-		this.props.saveUser(this.state);
-    this.setState({
-	    open: false,
-      username: '',
-			password: '',
-      firstName: '',
-      lastName: '',
-      email: ''
-	  });
-  }
-
-  render () {
-    return (<div>
-      <IconMenu
-        style={styles.button}
-        iconButtonElement={
-          <IconButton
-            tooltip="User Menu"
-            tooltipPosition="bottom-right"
-            iconStyle={styles.userMenuicon}
-          >
-            <FontIcon className="fa fa-user-circle-o" />
-          </IconButton>
-        }
-        anchorOrigin={{horizontal: 'left', vertical: 'top'}}
-        targetOrigin={{horizontal: 'left', vertical: 'top'}}
-      >
-        {this.props.auth ?
-          <MenuItem
-            primaryText="Logout"
-            onTouchTap={() => {
-              this.props.logout();
-            }}
-          />
-          : <MenuItem
-            primaryText="Login"
-            onTouchTap={() => {
-              event.preventDefault();
-              this.props.openLogin(event);
-            }}
-          />
-        }
+const UserMenu = (props) => {
+  return (<div>
+    <IconMenu
+      open={props.userMenuOpen}
+      onRequestChange={props.toggleUserMenu}
+      style={styles.button}
+      iconButtonElement={
+        <IconButton
+          tooltip="User Menu"
+          tooltipPosition="bottom-right"
+          iconStyle={styles.userMenuicon}
+        >
+          <FontIcon className="fa fa-user-circle-o" />
+        </IconButton>
+      }
+      anchorOrigin={{horizontal: 'left', vertical: 'top'}}
+      targetOrigin={{horizontal: 'left', vertical: 'top'}}
+    >
+      {props.auth ?
         <MenuItem
-          primaryText="SignUp"
-          onTouchTap={(event) => {
+          primaryText="Logout"
+          onTouchTap={() => {
+            props.logout();
+          }}
+        />
+        : <MenuItem
+          primaryText="Login"
+          onTouchTap={() => {
             event.preventDefault();
-            this.props.openSignup(event);
+            props.openLogin(event);
           }}
         />
-        <Divider />
-        <MenuItem
-          primaryText="Save Play"
-          rightIcon={<ArrowDropRight />}
-          onTouchTap={event => {
-            this.props.stopCanvas();
-            this.props.toggleSavePlay();
-          }}
-        />
-        <MenuItem
-          primaryText="My Plays"
-          onTouchTap={(event) => {
-            event.preventDefault();
-            this.props.getAllPlays(this.props.auth);
-            this.props.openPlays();
-          }}
-        />
-      </IconMenu>
-      <SaveAPlay />
-    </div>);
-  }
+      }
+      <MenuItem
+        primaryText="SignUp"
+        onTouchTap={(event) => {
+          event.preventDefault();
+          props.openSignup(event);
+        }}
+      />
+      <Divider />
+      <MenuItem
+        primaryText="Save Play"
+        rightIcon={<ArrowDropRight />}
+        onTouchTap={event => {
+          props.stopCanvas();
+          props.toggleSavePlay();
+        }}
+      />
+      <MenuItem
+        primaryText="My Plays"
+        onTouchTap={(event) => {
+          event.preventDefault();
+          props.getAllPlays(props.auth);
+          props.openPlays();
+        }}
+      />
+    </IconMenu>
+    <SaveAPlay />
+  </div>);
 }
 
 
@@ -137,7 +99,8 @@ const mapStateToProps = (state) => {
     auth: state.auth,
 		center: state.canvas.center,
 		isPlaying: state.isPlaying,
-		allChunks: state.allChunks
+		allChunks: state.allChunks,
+    userMenuOpen: state.navState.userMenuOpen
 	};
 };
 
@@ -160,7 +123,9 @@ const mapDispatchToProps = dispatch => {
     toggleSavePlay: () =>
       dispatch(toggleSaveAPlay()),
 		getAllPlays: (user) =>
-			dispatch(getAllPlays(user))
+			dispatch(getAllPlays(user)),
+    toggleUserMenu: () =>
+      dispatch(toggleUserMenu())
 	};
 };
 
