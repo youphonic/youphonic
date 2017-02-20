@@ -25,6 +25,7 @@ let grid = 32; // was 25
 let gridDots;
 let shiftPressed = false;
 let appState;
+let keyboardInteractionEnabled = false;
 
 
 export const drawnChunksFilterOutId = (id) => {
@@ -70,7 +71,9 @@ export default function(props) {
   isPlaying = props.isPlaying;
   appState = props.appState;
   allChunks = props.allChunks;
+  keyboardInteractionEnabled = props.keyboardInteractionEnabled;
   movingChunks = makeMovingChunksArray(props.allChunks);
+
 	if (!gridDots) gridDots = new Group();
 	// Draw the grid if it hasn't been drawn and it's toggled on
 	if (props.canvas.displayGrid && !gridDots.children.length) {
@@ -258,7 +261,7 @@ export default function(props) {
   };
   // key listener
   tool.onKeyDown = (event) => {
-    if (!appState) return;
+    if (!appState || keyboardInteractionEnabled) return;
     // delete Chunk on backspace deletion
     if (event.key === 'backspace' && localSelectedChunk) {
       props.removeChunk(localSelectedChunk);
