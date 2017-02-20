@@ -15,7 +15,9 @@ import {
   OPEN_WINDOW_SETTINGS,
   CLOSE_WINDOW_SETTINGS,
 	TOGGLE_SHARE_OPEN,
-	TOGGLE_SHARE_CLOSE
+	TOGGLE_SHARE_CLOSE,
+  TOGGLE_RIGHT_MENU,
+  TOGGLE_USER_MENU
 } from '../constants';
 
 const initialState = {
@@ -30,7 +32,9 @@ const initialState = {
   tutorialOpenClose: false,
 	windowSettingOpen: false,
   shapeSettingsOpen: false,
-	shareCopiedOpen: false
+	shareCopiedOpen: false,
+  rightMenuOpen: false,
+  userMenuOpen: false,
 };
 
 // action creators
@@ -93,6 +97,12 @@ export const shareCopiedOpen = () => {
 export const shareCopiedClose = () => {
   return {type: TOGGLE_SHARE_CLOSE};
 };
+export const toggleRightMenu = () => {
+  return {type: TOGGLE_RIGHT_MENU}
+};
+export const toggleUserMenu = () => {
+  return {type: TOGGLE_USER_MENU}
+};
 
 // reducer
 export default(state = initialState, action) => {
@@ -126,6 +136,12 @@ export default(state = initialState, action) => {
       break;
     case TOGGLE_DEV_INFO:
       newState.devInfoOpenClose = !newState.devInfoOpenClose;
+      break;
+    case TOGGLE_RIGHT_MENU:
+      newState.rightMenuOpen = !newState.rightMenuOpen;
+      break;
+    case TOGGLE_USER_MENU:
+      newState.userMenuOpen = !newState.userMenuOpen;
       break;
 		case OPEN_PLAYS:
 			newState.playsOpen = true;
