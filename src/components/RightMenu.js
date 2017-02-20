@@ -15,6 +15,7 @@ import ArrowDropDown from 'material-ui/svg-icons/navigation/arrow-drop-down';
 import {togglePlay} from '../redux/play';
 import {toggleGrid} from '../redux/canvas-reducer';
 import {addChunk, clearAllChunks} from '../redux/allChunks';
+import {toggleRightMenu} from '../redux/navState'
 
 import Rope from '../chunks/Rope';
 import Drone from '../chunks/Drone';
@@ -53,6 +54,8 @@ const RightMenu = (props) => {
   return (<div>
     <IconMenu
       style={styles.button}
+      open={props.open}
+      onRequestChange={props.toggleRightMenu}
       iconButtonElement={
         <IconButton
           tooltip="Add A Chunk"
@@ -289,12 +292,13 @@ const RightMenu = (props) => {
   </div>);
 };
 
-const mapStateToProps = ({ canvas, isPlaying, allChunks }) => {
+const mapStateToProps = ({ canvas, isPlaying, allChunks, navState }) => {
 	return {
 		center: canvas.center,
 		isPlaying: isPlaying,
     allChunks: allChunks,
-    displayGrid: canvas.displayGrid
+    displayGrid: canvas.displayGrid,
+    open: navState.rightMenuOpen
 	};
 };
 
@@ -307,7 +311,9 @@ const mapDispatchToProps = dispatch => {
     clearAllChunks: () =>
       dispatch(clearAllChunks()),
     toggleGrid: () =>
-      dispatch(toggleGrid())
+      dispatch(toggleGrid()),
+    toggleRightMenu: () =>
+      dispatch(toggleRightMenu())
 	};
 };
 
