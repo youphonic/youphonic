@@ -18,28 +18,30 @@ const styles = {
     backgroundImage: "url('./home_background.png')",
 	},
 	title: {
-		right: '21vw',
-		bottom: '21vh',
-    fontSize: '7.5vw',
+		right: '50%',
+		bottom: '15.75vh',
+    fontSize: '6vw',
     position: 'absolute',
-    color: smokeOnTheWater,
-    textShadow: 'rgba(255, 240, 213, 0.156863) 0px 3px 10px, rgba(252, 179, 57, 0.227451) 0px 3px 10px'
+    color: smokeOnTheWater
 	},
-	button: {
-		right: '5vw',
-    bottom: '13vh',
+	buttonDiv: {
+		left: '65%',
+		bottom: '1.5vh',
     width: 'auto',
-    position: 'absolute'
+    position: 'absolute',
+		padding: 0
 	},
 	icon: {
-		width: '13vw',
-		height: '13vw',
-    fontSize: '13vw',
+		width: '17vw',
+		height: '17vw',
+    fontSize: '17vw',
     lineHeight: 'auto',
     color: flamingo
 	},
 	silentDiv: {
-		padding: 0
+		padding: 0,
+		maxWidth: 900,
+		width: '100%'
 	}
 };
 
@@ -63,9 +65,9 @@ const Start = ({ open, enter }) => {
       actions={actions}
 			titleStyle = {styles.title}
       bodyStyle = {styles.silentDiv}
-      // contentStyle = {styles.silentDiv}
+      contentStyle = {styles.silentDiv}
       overlayStyle = {styles.backgroundImage}
-      actionsContainerStyle = {styles.silentDiv}
+      actionsContainerStyle = {styles.buttonDiv}
     />
   );
 };
