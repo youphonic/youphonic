@@ -18,21 +18,21 @@ const styles = {
     backgroundImage: "url('./home_background.png')",
 	},
 	title: {
-		right: '50%',
-		bottom: '15.75vh',
-    fontSize: '6vw',
+		right: '50%', // from right of hidden MUI dialogue box ('silentDiv')
+		bottom: '15.75vh', // must be vh; % doesn't work with invisible div
+    fontSize: '6vw', // fonts need to be sized as portion of view heigh
     position: 'absolute',
     color: smokeOnTheWater
 	},
 	buttonDiv: {
-		left: '65%',
-		bottom: '1.5vh',
+		left: '65%', //same as title
+		bottom: '1.5vh', //same as title
     width: 'auto',
     position: 'absolute',
 		padding: 0
 	},
 	icon: {
-		width: '17vw',
+		width: '17vw', // must be vw, MUI dialogue box doesn't change
 		height: '17vw',
     fontSize: '17vw',
     lineHeight: 'auto',
