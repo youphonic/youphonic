@@ -39,12 +39,13 @@ class Login extends React.Component {
       socialButton: {
         margin: 12
       }
-		}
+		};
   }
 
 	// login then close deliver welcome alert
   handleSubmit(event) {
-		event.preventDefault();
+    console.log('HANDLING SUBMIT', this.props);
+    event.preventDefault();
 		this.props.login(this.state.userName, this.state.password);
 		this.props.closeLogin();
 		this.props.openLoginAlert();
@@ -59,12 +60,13 @@ class Login extends React.Component {
         onTouchTap={this.props.closeLogin}
       />,
       <FlatButton
+        id='myButton'
         key="button2"
         label="Submit"
         type="submit"
         primary={true}
         keyboardFocused={true}
-        onTouchTap={this.handleSubmit}
+        onClick={this.handleSubmit}
       />,
       <RaisedButton
         href='api/auth/google'
@@ -78,7 +80,7 @@ class Login extends React.Component {
     return (
       <div ref="firstDiv">
         <Dialog
-          className={'dialog'}
+          className="dialog"
           type="submit"
           modal={false}
           actions={actions}
@@ -87,7 +89,7 @@ class Login extends React.Component {
           autoScrollBodyContent={true}
           onRequestClose={this.props.closeLogin}
         >
-          <form>
+          <form onSubmit={this.handleSubmit}>
             <TextField
               name={"userName"}
               hintText="username"
