@@ -1,38 +1,57 @@
+import {
+  Paper,
+  GridTile
+} from 'material-ui';
 import React from 'react';
-import Paper from 'material-ui/Paper';
-import ReactShare from './ReactShare';
 import { Link } from 'react-router';
 import { connect } from 'react-redux';
-import { closePlays } from '../redux/navState'
 
-const style = {
-  container: {
-    display: 'flex'
-  },
+import colors from '../colors';
+import { closePlays } from '../redux/navState';
+import ReactShare from './ReactShare';
+
+const styles = {
   paper: {
-    height: 310,
-    width: 310,
-    margin: 20,
+    margin: 5,
+    width: '100%',
     textAlign: 'center',
+    display: 'inline-block',
+    boxShadow: 'rgba(18, 94, 104, 0.156863) 0px 3px 10px, rgba(18, 94, 104, 0.227451) 0px 3px 10px'
+  },
+  playLink: {
+    margin: 15,
+    textAlign: 'center',
+    float: 'left',
+    backgroundColor: colors.puertoRico,
+    boxShadow: 'rgba(18, 94, 104, 0.117647) 0px 1px 6px, rgba(18, 94, 104, 0.117647) 0px 1px 4px'
   },
   image: {
-    height: '75%',
-    width: '80%'
-  },
-  title: {
-    marginTop: '0.5em',
-    marginBottom: '0.5em'
+    display: 'flex',
+    overflowX: 'auto',
+    // maxWidth: '200px',
+    margin: 'auto',
+    maxHeight: '200px'
   }
 };
 
 const Play = ({play, closePlays}) => (
-  <div style={style.container} >
-    <Paper style={style.paper} zDepth={3} rounded={false}>
-      <Link to={`/${play.hashedPlay}`} onClick={closePlays}>
-        <img src={play.image} style={style.image}/>
-        <h4 style={style.title} >{play.title}</h4>
-      </Link>
-      <ReactShare sharedURL={`youphonic.co/${play.hashedPlay}`} title={play.title} image={play.image}/>
+  <div>
+    <Paper style={styles.paper} zDepth={2}>
+      <GridTile>
+        <div style={styles.playLink}>
+          <Link to={`/${play.hashedPlay}`} onClick={closePlays}>
+            <img src={play.image} style={styles.image} />
+          </Link>
+        </div>
+          <Link to={`/${play.hashedPlay}`} onClick={closePlays}>
+            <h3 style={{marginTop: 'auto'}}>{play.title}</h3>
+          </Link>
+        <ReactShare
+          sharedURL={`youphonic.co/${play.hashedPlay}`}
+          title={play.title}
+          image={play.image}
+        />
+      </GridTile>
     </Paper>
   </div>
 );

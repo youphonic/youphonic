@@ -1,30 +1,42 @@
-import {  ENTERED_APP,
-          OPEN_LOGIN,
-          CLOSE_LOGIN,
-          OPEN_SIGNUP,
-          CLOSE_SIGNUP,
-          OPEN_LOGIN_ALERT,
-          CLOSE_SIGNUP_ALERT,
-          OPEN_PLAYS, CLOSE_PLAYS,
-          OPEN_SHAPESETTINGS,
-          CLOSE_SHAPESETTINGS,
-          TOGGLE_SAVE_A_PLAY,
-          OPEN_WINDOW_SETTINGS,
-          CLOSE_WINDOW_SETTINGS,
-					OPEN_TUTORIAL,
-          CLOSE_TUTORIAL
-        } from '../constants';
+import {
+  OPEN_LOGIN,
+  OPEN_PLAYS,
+  ENTERED_APP,
+  CLOSE_LOGIN,
+  OPEN_SIGNUP,
+  CLOSE_PLAYS,
+  CLOSE_SIGNUP,
+  TOGGLE_DEV_INFO,
+  TOGGLE_TUTORIAL,
+  OPEN_LOGIN_ALERT,
+  OPEN_SHAPESETTINGS,
+  TOGGLE_SAVE_A_PLAY,
+  CLOSE_SHAPESETTINGS,
+  OPEN_WINDOW_SETTINGS,
+  CLOSE_WINDOW_SETTINGS,
+	TOGGLE_SHARE_OPEN,
+	TOGGLE_SHARE_CLOSE,
+  TOGGLE_RIGHT_MENU,
+  TOGGLE_USER_MENU
+} from '../constants';
 
 const initialState = {
-	enteredApp: false,
+  playsOpen: false,
 	loginOpen: false,
   signUpOpen: false,
+  enteredApp: false,
   saveAPlayOpen: false,
+  toggleDevInfo: false,
   loginAlertOpen: false,
-	playsOpen: false,
+  devInfoOpenClose: false,
+  tutorialOpenClose: false,
 	windowSettingOpen: false,
-  shapeSettingsOpen: false
+  shapeSettingsOpen: false,
+	shareCopiedOpen: false,
+  rightMenuOpen: false,
+  userMenuOpen: false,
 };
+
 // action creators
 // opens and closes dialog box for user registration from upper left account
 // menu needs to be dispatched to redux since dialog opens from menu and both
@@ -67,12 +79,29 @@ export const openShapeSettings = () => {
 export const closeShapeSettings = () => {
   return {type: CLOSE_SHAPESETTINGS};
 };
-
-// same pattern for opening and closing user signup alerts ('SnackBar')
+// same pattern for opening and closing user signup alerts ('Snackbar')
 // allows for later refactoring to include user first name in alert
 // since we will login the user after they register
 export const openLoginAlert = (user) => {
   return {type: OPEN_LOGIN_ALERT, user};
+};
+export const toggleTutorial = () => {
+  return {type: TOGGLE_TUTORIAL};
+};
+export const toggleDevInfo = () => {
+  return {type: TOGGLE_DEV_INFO};
+};
+export const shareCopiedOpen = () => {
+  return {type: TOGGLE_SHARE_OPEN};
+};
+export const shareCopiedClose = () => {
+  return {type: TOGGLE_SHARE_CLOSE};
+};
+export const toggleRightMenu = () => {
+  return {type: TOGGLE_RIGHT_MENU};
+};
+export const toggleUserMenu = () => {
+  return {type: TOGGLE_USER_MENU};
 };
 
 // reducer
@@ -99,8 +128,20 @@ export default(state = initialState, action) => {
     case OPEN_LOGIN_ALERT:
 			newState.loginAlertOpen = true;
 			break;
+    case TOGGLE_TUTORIAL:
+      newState.tutorialOpenClose = !newState.tutorialOpenClose;
+      break;
     case TOGGLE_SAVE_A_PLAY:
       newState.saveAPlayOpen = !newState.saveAPlayOpen;
+      break;
+    case TOGGLE_DEV_INFO:
+      newState.devInfoOpenClose = !newState.devInfoOpenClose;
+      break;
+    case TOGGLE_RIGHT_MENU:
+      newState.rightMenuOpen = !newState.rightMenuOpen;
+      break;
+    case TOGGLE_USER_MENU:
+      newState.userMenuOpen = !newState.userMenuOpen;
       break;
 		case OPEN_PLAYS:
 			newState.playsOpen = true;
@@ -119,6 +160,12 @@ export default(state = initialState, action) => {
 			break;
 		case CLOSE_SHAPESETTINGS:
 			newState.shapeSettingsOpen = false;
+			break;
+		case TOGGLE_SHARE_OPEN:
+			newState.shareCopiedOpen = true;
+			break;
+		case TOGGLE_SHARE_CLOSE:
+			newState.shareCopiedOpen = false;
 			break;
     default:
       return state;

@@ -5,182 +5,117 @@ import IconMenu from 'material-ui/IconMenu';
 import FontIcon from 'material-ui/FontIcon';
 import MenuItem from 'material-ui/MenuItem';
 import IconButton from 'material-ui/IconButton';
-import FloatingActionButton from 'material-ui/FloatingActionButton';
 import ArrowDropRight from 'material-ui/svg-icons/navigation-arrow-drop-right';
 
-import Dialog from 'material-ui/Dialog';
-import FlatButton from 'material-ui/FlatButton';
-import TextField from 'material-ui/TextField';
-
 import {addChunk} from '../redux/allChunks';
-import Login from './Login';
-import SignUp from './SignUp';
-import SaveAPlay from './SaveAPlay';
-import colors from '../colors'
 
-import { savePlayToServer, getMyPlays } from '../paper/saver';
-import { whoami, login, logout } from '../redux/login';
-import { openSignup, openLogin, openPlays, closePlays, toggleSaveAPlay } from '../redux/navState';
+import SaveAPlay from './SaveAPlay';
+import colors from '../colors';
+
+import { logout } from '../redux/login';
+import { openSignup, openLogin, openPlays, toggleSaveAPlay, toggleUserMenu } from '../redux/navState';
 import { getAllPlays } from '../redux/plays';
 
 import {startCanvas, stopCanvas} from '../redux/appState';
 
 const styles = {
-  menu: {
-    position: 'absolute',
-    left: 10,
-    top: 5,
+  button: {
+    left:  0,
+    position: 'absolute'
   },
-  menuIcon: {
-    fontSize: 60,
+  userMenuicon: {
+    top: 10,
+    left: 10,
+    fontSize: 42,
     color: colors.papayaWhip
   }
 };
 
-class UserMenu extends React.Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      open: false,
-			username: '',
-			password: '',
-      firstName: '',
-      lastName: '',
-      email: ''
-    };
-    this.handleOpen = this.handleOpen.bind(this);
-    this.handleClose = this.handleClose.bind(this);
-    this.handleSubmit = this.handleSubmit.bind(this);
-
-		this.styles = {
-			buttonIcon: {
-				fontSize: 50
-			},
-      socialButton: {
-        margin: 12
-      }
-		};
-  }
-
-  handleOpen() {
-    this.setState({open: true});
-		this.props.stopCanvas();
-  }
-
-  handleClose() {
-    this.setState({open: false});
-		this.props.startCanvas();
-  }
-
-  handleSubmit(event) {
-		event.preventDefault();
-		this.props.saveUser(this.state);
-    this.setState({
-	    open: false,
-      username: '',
-			password: '',
-      firstName: '',
-      lastName: '',
-      email: ''
-	  });
-  }
-
-  render () {
-    const signUpActions = [
-      <FlatButton
-        key="button1"
-        label="Cancel"
-        primary={true}
-        onTouchTap={this.handleClose}
-      />,
-      <FlatButton
-        key="button2"
-        label="Submit"
-        primary={true}
-        keyboardFocused={true}
-        onTouchTap={this.handleSubmit}
-      />,
-    ];
-    return (<div style={styles.menu}>
-      <IconMenu
+const UserMenu = (props) => {
+  return (<div>
+    <IconMenu
+      open={props.userMenuOpen}
+      onRequestChange={props.toggleUserMenu}
+      style={styles.button}
       iconButtonElement={
-        <IconButton iconStyle={styles.menuIcon}>
-        <FontIcon className="material-icons" >account_box</FontIcon>
+        <IconButton
+          tooltip="User Menu"
+          tooltipPosition="bottom-right"
+          iconStyle={styles.userMenuicon}
+        >
+          <FontIcon className="fa fa-user-circle-o" />
         </IconButton>
       }
       anchorOrigin={{horizontal: 'left', vertical: 'top'}}
       targetOrigin={{horizontal: 'left', vertical: 'top'}}
-      >
-      {this.props.auth ?
+    >
+      {props.auth ?
         <MenuItem
-        primaryText="Logout"
-        onTouchTap={() => {
-          this.props.logout();
-        }}
-        />
-        : <MenuItem
-        primaryText="Login"
-        onTouchTap={() => {
-					event.preventDefault();
-					this.props.openLogin(event);
-        }}
-        />}
-        <MenuItem primaryText="SignUp" onTouchTap={(event) => {
-          event.preventDefault();
-          this.props.openSignup(event);
-        }} />
-        <Divider />
-        <MenuItem
-          primaryText="Save Play"
-          rightIcon={<ArrowDropRight />}
-          onTouchTap={event => {
-            this.props.stopCanvas();
-            this.props.toggleSavePlay();
+          primaryText="Logout"
+          onTouchTap={() => {
+            props.logout();
           }}
         />
-				<MenuItem primaryText="My Plays" onTouchTap={(event) => {
-					event.preventDefault();
-					this.props.getAllPlays(this.props.auth)
-					this.props.openPlays();
-				}}>
-				</MenuItem>
-        </IconMenu>
-        <SaveAPlay />
-        </div>);
+        : <MenuItem
+          primaryText="Login"
+          onTouchTap={() => {
+            event.preventDefault();
+            props.openLogin(event);
+          }}
+        />
       }
-  }
+      <MenuItem
+        primaryText="SignUp"
+        onTouchTap={(event) => {
+          event.preventDefault();
+          props.openSignup(event);
+        }}
+      />
+      <Divider />
+      <MenuItem
+        primaryText="Save Play"
+        rightIcon={<ArrowDropRight />}
+        onTouchTap={event => {
+          props.stopCanvas();
+          props.toggleSavePlay();
+        }}
+      />
+      <MenuItem
+        primaryText="My Plays"
+        onTouchTap={(event) => {
+          event.preventDefault();
+          props.getAllPlays(props.auth);
+          props.openPlays();
+        }}
+      />
+    </IconMenu>
+    <SaveAPlay />
+  </div>);
+}
 
 
 const mapStateToProps = (state) => {
 	return {
+    auth: state.auth,
 		center: state.canvas.center,
 		isPlaying: state.isPlaying,
-    auth: state.auth,
-		allChunks: state.allChunks
+		allChunks: state.allChunks,
+    userMenuOpen: state.navState.userMenuOpen
 	};
 };
 
 const mapDispatchToProps = dispatch => {
 	return {
-		addChunk: (chunk) => {
-			dispatch(addChunk(chunk));
-		},
-    logout: () => {
-      dispatch(logout());
-    },
-    openSignup: (event) => {
-      event.preventDefault();
-      dispatch(openSignup());
-    },
-		openLogin: (event) => {
-			event.preventDefault();
-			dispatch(openLogin());
-		},
-		openPlays: () => {
-			dispatch(openPlays())
-		},
-    saveUser: (info) =>
-      dispatch(saveUser(info)),
+		addChunk: (chunk) =>
+      dispatch(addChunk(chunk)),
+    logout: () =>
+      dispatch(logout()),
+    openSignup: () =>
+      dispatch(openSignup()),
+		openLogin: () =>
+			dispatch(openLogin()),
+		openPlays: () =>
+			dispatch(openPlays()),
 		startCanvas: () =>
       dispatch(startCanvas()),
     stopCanvas: () =>
@@ -188,8 +123,9 @@ const mapDispatchToProps = dispatch => {
     toggleSavePlay: () =>
       dispatch(toggleSaveAPlay()),
 		getAllPlays: (user) =>
-			dispatch(getAllPlays(user))
-
+			dispatch(getAllPlays(user)),
+    toggleUserMenu: () =>
+      dispatch(toggleUserMenu())
 	};
 };
 

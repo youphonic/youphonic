@@ -1,59 +1,117 @@
+import {
+	Drawer,
+  Toolbar,
+  MenuItem,
+  FontIcon,
+  IconMenu,
+	Subheader,
+  IconButton,
+  ToolbarGroup,
+	RaisedButton,
+  ToolbarTitle,
+  ToolbarSeparator,
+} from 'material-ui';
 import React from 'react';
-import Drawer from 'material-ui/Drawer';
-import AppBar from 'material-ui/AppBar';
-import { IconButton, FontIcon, IconMenu, FlatButton, FloatingActionButton } from 'material-ui';
-import ActionHelp from 'material-ui/svg-icons/action/help-outline';
-import {connect} from 'react-redux';
-import { openTurial, closeTutorial } from '../redux/navState';
+import { connect } from 'react-redux';
+
 import colors from '../colors';
+import DevInfo from './DevInfo';
+import TutorialList from './TutorialList';
+
+// tutorial content
+import userTuts from '../tutorialAssets/userActionsTut';
+import chunkTuts from '../tutorialAssets/chunkTypesTut';
+
+// actions
+import { toggleTutorial, toggleDevInfo } from '../redux/navState';
 
 const styles = {
 	button: {
-		position: 'absolute',
-		right: 15,
-		top: 250
+		right: 10,
+		top: '47vh',
+    position: 'absolute'
 	},
 	helpIcon: {
-		width: 60,
-		backgroundColor: colors.papayaWhip,
-		fill: colors.puertoRico
+    right: 25,
+    fontSize: 50,
+    color: colors.papayaWhip,
 	},
-	closeButton: {
-		backgroundColor: 'white',
-		hoverColor: 'red',
-		top: 12,
-		position: 'absolute',
-		right: 15
-	}
-}
-
-
-export default class Tutorial extends React.Component {
-  constructor(props) {
-    super(props);
-		this.state = {open: false};
-		this.handleToggle = this.handleToggle.bind(this);
+  seperator: {
+    backgroundColor: 'rgba(18, 94, 104, 0.172549)'
+  },
+  closeTutButton: {
+    boxShadow: 'rgba(18, 94, 104, 0.117647) 0px 1px 6px, rgba(18, 94, 104, 0.117647) 0px 1px 4px'
+  },
+  subHead: {
+    fontSize: 20,
+    color: colors.blueStone
   }
+};
 
-	handleToggle(){
-		this.setState({open: !this.state.open});
-	}
+const Tutorial = ({
+	toggle,
+	toggleInfo,
+	devInfoOpenClose,
+	tutorialOpenClose
+}) => (
+	<div>
+    <DevInfo open={devInfoOpenClose} toggle={toggleInfo} />
+    <IconButton
+      tooltip="Tutorial"
+      onTouchTap={toggle}
+      style={styles.button}
+      iconStyle={styles.helpIcon}
+      tooltipPosition="bottom-left"
+    >
+			<FontIcon className="material-icons" >help_outline</FontIcon>
+		</IconButton>
+    <Drawer
+			docked={false}
+			openSecondary={true}
+			open={tutorialOpenClose}
+      width={window.innerWidth * 0.8}
+    >
+      <Toolbar style={{backgroundColor: 'rgba(0, 0, 0, 0)'}}>
+				<ToolbarGroup >
+					<ToolbarTitle style={{color: colors.puertoRico}} text="How to Play" />
+					<ToolbarSeparator style={styles.seperator} />
+					<RaisedButton
+						onTouchTap={toggle}
+            style={styles.closeTutButton}
+						label="I get it, now let me play!"
+            labelColor={colors.puertoRico}
+            backgroundColor={colors.papayaWhip}
+					/>
+				</ToolbarGroup>
+        <ToolbarGroup>
+          <ToolbarSeparator style={styles.seperator} />
+          <RaisedButton
+            onTouchTap={toggleInfo}
+            style={styles.closeTutButton}
+            label="About the Developers"
+            labelColor={colors.puertoRico}
+            backgroundColor={colors.papayaWhip}
+          />
+        </ToolbarGroup>
+			</Toolbar>
+      <Subheader style={styles.subHead}>User Actions</Subheader>
+      <TutorialList tutorial={ userTuts } />
+      <Subheader style={styles.subHead}>Types of Chunks</Subheader>
+			<TutorialList tutorial={ chunkTuts } />
+    </Drawer>
+  </div>
+);
 
-  render() {
-    return (
-				<div>
-					<FloatingActionButton backgroundColor={colors.papayaWhip} onTouchTap={this.handleToggle}  style={styles.button} iconStyle={styles.helpIcon}>
-						<ActionHelp />
-					</FloatingActionButton>
-	        <Drawer
-						width={1000}
-						openSecondary={true}
-						open={this.state.open}>
-	          <AppBar title="How to Play">
-							<FlatButton label="Close" primary={true} onTouchTap={this.handleToggle} style={styles.closeButton} />
-						</AppBar>
-	        </Drawer>
-			</div>
-    );
-  }
-}
+const mapStateToProps = ({ navState: { devInfoOpenClose, tutorialOpenClose } }) => ({
+	devInfoOpenClose,
+  tutorialOpenClose
+});
+
+const mapDispatchToProps = dispatch => ({
+  toggle: () =>
+    dispatch(toggleTutorial()),
+	toggleInfo: () =>
+		dispatch(toggleDevInfo())
+});
+
+export default connect(mapStateToProps, mapDispatchToProps)(Tutorial);

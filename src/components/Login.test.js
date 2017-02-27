@@ -17,7 +17,7 @@ import {
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 import injectTapEventPlugin from 'react-tap-event-plugin';
 
-// Componenet we're testing:
+// Component we're testing:
 // Login is used to fully mount the connected component,
 // PureLogin is used to shallow render just the
 // component itself, not connected to the store.

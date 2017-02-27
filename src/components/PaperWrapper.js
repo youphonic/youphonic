@@ -7,14 +7,15 @@ import { startCanvas } from '../redux/appState'
 import { selectChunk } from '../redux/chunk';
 import { clearAllChunks, addChunk, removeChunk } from '../redux/allChunks';
 import { togglePlay } from '../redux/play';
-import { openShapeSettings, closeShapeSettings } from '../redux/navState'
+import { openShapeSettings, closeShapeSettings } from '../redux/navState';
+import colors from '../colors'
 
 const styles = {
   paperCanvas: {
     position: 'absolute',
     width: '100%',
     height: '100%',
-    background: '#31B8B5'
+    background: colors.puertoRico
   },
   /* Scale canvas with resize attribute to full size - not working yet*/
   'canvas[resize]': {
@@ -52,7 +53,8 @@ const mapStateToProps = (state) => {
     allChunks: state.allChunks,
     isPlaying: state.isPlaying,
     appState: state.appState,
-    canvas: state.canvas
+    canvas: state.canvas,
+    keyboardInteractionEnabled: state.navState.playsOpen || state.navState.loginOpen || state.navState.saveAPlayOpen || state.navState.tutorialOpenClose || state.navState.shapeSettingsOpen || state.navState.windowSettingOpen || state.navState.userMenuOpen || state.navState.rightMenuOpen,
   };
 };
 

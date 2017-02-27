@@ -1,60 +1,65 @@
+import {
+  Dialog,
+  GridList,
+  FlatButton
+} from 'material-ui';
 import React from 'react';
-import Dialog from 'material-ui/Dialog';
-import FlatButton from 'material-ui/FlatButton';
-import RaisedButton from 'material-ui/RaisedButton';
 import { connect } from 'react-redux';
-import {openPlays, closePlays} from '../redux/navState'
+
 import Play from './Play';
+import {openPlays, closePlays} from '../redux/navState';
 
-const customContentStyle = {
-  width: '80%',
-  maxWidth: 'none',
-};
-
-const customBodyStyle = {
-  display: 'flex'
-};
-
-/**
- * The dialog width has been set to occupy the full width of browser through the `contentStyle` property.
-
-// TODO: We display the plays inside the papers, mapping through them, then user can load one play by clicking on it, or share one play by clicking on the sharing buttons which will close the dialogue while opening the social providers
-sharing dialogue
- */
-class MyPlays extends React.Component {
-
-
-  render() {
-    const actions = [
-      <FlatButton
-        label="Cancel"
-        primary={true}
-        onTouchTap={this.props.closePlays}
-      />
-    ];
-
-		const plays = this.props.allPlays;
-
-    return (
-      <div>
-        <Dialog
-          title="All Plays"
-          actions={actions}
-          modal={true}
-          contentStyle={customContentStyle}
-          open={this.props.open}
-          bodyStyle={customBodyStyle}
-        >
-          {
-            plays && plays.map((play, i) => (
-              <Play play={play} key={i} />
-            ))
-          }
-        </Dialog>
-      </div>
-    );
+const styles = {
+  root: {
+    padding: 10,
+    display: 'flex',
+    flexWrap: 'wrap',
+    justifyContent: 'space-around'
+  },
+  gridList: {
+    display: 'flex',
+    flexWrap: 'nowrap',
+    overflowX: 'auto',
   }
-}
+};
+
+let key = 0;
+const  MyPlays = (props) => {
+  const actions = [
+    <FlatButton
+      key={key++}
+      label="Cancel"
+      primary={true}
+      onTouchTap={props.closePlays}
+    />
+  ];
+
+  const plays = props.allPlays;
+
+  return (
+    <div>
+      <Dialog
+        modal={true}
+        title="All Plays"
+        actions={actions}
+        open={props.open}
+      >
+        <div style={styles.root}>
+          <GridList
+            cols={2.2}
+            padding={5}
+            cellHeight="auto"
+            style={styles.gridList}
+          >
+            {plays && plays.map((play, i) => (
+                <Play play={play} key={+i} />
+              ))}
+          </GridList>
+        </div>
+      </Dialog>
+    </div>
+  );
+};
 
 const mapStateToProps = state => {
   return {

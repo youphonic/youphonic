@@ -1,7 +1,11 @@
-import React from 'react';
+import {
+  Dialog,
+  FontIcon,
+  FlatButton,
+  IconButton
+} from 'material-ui';
 import { connect } from 'react-redux';
-import { Dialog, FontIcon, FlatButton} from 'material-ui';
-import FloatingActionButton from 'material-ui/FloatingActionButton';
+import React, { Component } from 'react';
 
 import colors from '../colors';
 
@@ -13,12 +17,11 @@ import RotationDropdownSettings from './RotationDropdownSettings';
 
 // Action creators
 import {updateOneChunk} from '../redux/allChunks';
-// import { updateAndPlaceChunk } from '../redux/chunk';
 import {startCanvas, stopCanvas} from '../redux/appState';
 import { openShapeSettings, closeShapeSettings } from '../redux/navState';
 
 
-class ShapeSettings extends React.Component {
+class ShapeSettings extends Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -28,13 +31,14 @@ class ShapeSettings extends React.Component {
       triggerSynthResponse: this.props.selectedChunk.triggerSynthResponse
     };
     this.initialRotation = this.props.selectedChunk.rotation;
+
+    this.changeDrum = this.changeDrum.bind(this);
     this.handleClose = this.handleClose.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
-    this.changeFrequency = this.changeFrequency.bind(this);
-    this.changeDrum = this.changeDrum.bind(this);
-    this.handleFrequencyEnterKey = this.handleFrequencyEnterKey.bind(this);
     this.changeRotation = this.changeRotation.bind(this);
+    this.changeFrequency = this.changeFrequency.bind(this);
     this.changeSynthEnabled = this.changeSynthEnabled.bind(this);
+    this.handleFrequencyEnterKey = this.handleFrequencyEnterKey.bind(this);
   }
 
   handleClose() {
@@ -79,14 +83,16 @@ class ShapeSettings extends React.Component {
 
   render() {
 		const styles = {
-			buttonIcon: {
-				fontSize: 50,
-        color: colors.puertoRico
-			},
-			settingsButton: {
-				position: 'absolute',
-				right: 15,
-				bottom: 15
+      button: {
+        right: 10,
+        bottom: 15,
+        position: 'absolute'
+      },
+			settingsIcon: {
+        right: 25,
+        bottom: 15,
+        fontSize: 45,
+        color: colors.papayaWhip
 			},
       form: {
         display: 'flex'
@@ -100,20 +106,8 @@ class ShapeSettings extends React.Component {
         marginBottom: 0,
         display: 'inline-flex'
       },
-      instMenu: {
-        marginTop: 15,
-        marginBottom: 0,
-        display: 'inline-flex'
-      },
-      icon: {
-        viewBox: '0 0 128 128',
-        position: 'absolute',
-        zIndex: 100,
-        height: 24,
-        width: 24,
-        enableBackground: 'new 0 0 128 128'
-      }
 		};
+
     const actions = [
       <FlatButton
         key="button1"
@@ -132,62 +126,61 @@ class ShapeSettings extends React.Component {
 
     return (
       <div>
-				<FloatingActionButton
-          style={styles.settingsButton}
-          iconStyle={styles.buttonIcon}
-          backgroundColor={colors.papayaWhip}
+				<IconButton
+          style={styles.button}
+          tooltip="Shape Settings"
+          tooltipPosition="top-left"
+          iconStyle={styles.settingsIcon}
+          onTouchTap={this.props.openShapeSettings}
         >
-					<FontIcon
-            onTouchTap={this.props.openShapeSettings}
-            className="material-icons"
-          >
-            music_note
-					</FontIcon>
-				</FloatingActionButton>
+					<FontIcon className="fa fa-cogs" />
+				</IconButton>
 
         <Dialog
           modal={false}
           actions={actions}
-          title={`Set ${this.props.selectedChunk.type[0].toUpperCase() + this.props.selectedChunk.type.slice(1)} Options`}
           autoScrollBodyContent={true}
           open={this.props.shapeSettingsOpen}
           onRequestClose={this.props.closeShapeSettings}
+          title={`Set ${this.props.selectedChunk.type[0].toUpperCase() + this.props.selectedChunk.type.slice(1)} Options`}
         >
           <form style={styles.form}>
-          <div style={styles.formGroup}>
-            <SoundOnOffCheckbox
-              changeSynthEnabled={this.changeSynthEnabled}
-              triggerSynthResponse={this.state.triggerSynthResponse}
-            />
-            <AutoCompleteNotes
-              frequency={this.frequency}
-              changeFrequency={this.state.changeFrequency}
-              handleFrequencyEnterKey={this.handleFrequencyEnterKey}
-            />
-          </div>
-          <div style={styles.formGroup}>
-            {(this.props.selectedChunk.type !== 'rope') && (
-              <div style={{display: 'inline-block'}}>
-                <span style={styles.label}>Instrument:</span>
-                <DrumsDropdownSettings
-                  drum={this.state.drum}
-                  changeDrum={this.changeDrum}
+            <div style={styles.formGroup}>
+              {(this.props.selectedChunk.type !== 'rope') && (
+                <SoundOnOffCheckbox
+                  changeSynthEnabled={this.changeSynthEnabled}
+                  triggerSynthResponse={this.state.triggerSynthResponse}
                 />
-              </div>
-            )}
-            {(this.props.selectedChunk.type === 'rectangle') && (
-              <div style={{display: 'inline-block'}}>
-                <p style={styles.label}>Rotation:</p>
-                <RotationDropdownSettings
-                  rotation={this.state.rotation}
-                  changeRotation={this.changeRotation}
-                />
-              </div>
-            )}
-          </div>
-        </form>
-      </Dialog>
-    </div>
+              )}
+              <AutoCompleteNotes
+                frequency={this.frequency}
+                changeFrequency={this.changeFrequency}
+                handleFrequencyEnterKey={this.handleFrequencyEnterKey}
+              />
+            </div>
+            <div style={styles.formGroup}>
+              {(this.props.selectedChunk.type !== 'rope') && (
+                <div style={{display: 'inline-block'}}>
+                  <span style={styles.label}>Drum:</span>
+                  <DrumsDropdownSettings
+                    drum={this.state.drum}
+                    changeDrum={this.changeDrum}
+                  />
+                </div>
+              )}
+              {(this.props.selectedChunk.type === 'rectangle') && (
+                <div style={{display: 'inline-block'}}>
+                  <p style={styles.label}>Rotation:</p>
+                  <RotationDropdownSettings
+                    rotation={this.state.rotation}
+                    changeRotation={this.changeRotation}
+                  />
+                </div>
+              )}
+            </div>
+          </form>
+        </Dialog>
+      </div>
     );
   }
 }

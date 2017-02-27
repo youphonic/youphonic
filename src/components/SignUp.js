@@ -1,22 +1,11 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import Dialog from 'material-ui/Dialog';
-import FlatButton from 'material-ui/FlatButton';
-import RaisedButton from 'material-ui/RaisedButton';
-import FloatingActionButton from 'material-ui/FloatingActionButton';
-import FontIcon from 'material-ui/FontIcon';
-import TextField from 'material-ui/TextField';
-import MenuItem from 'material-ui/MenuItem';
+import { Dialog, FlatButton, TextField } from 'material-ui';
 
-import { whoami, saveUser } from '../redux/login';
+import { saveUser } from '../redux/login';
+import { closeSignup } from '../redux/navState';
 
-import {startCanvas, stopCanvas} from '../redux/appState';
-import {openSignup, closeSignup, openLoginAlert} from '../redux/navState';
-import {red500, yellow500, blue500} from 'material-ui/styles/colors';
-
-/**
- * User signup form
- */
+/* User signup form */
 class SignUp extends React.Component {
   constructor() {
     super();
@@ -28,21 +17,12 @@ class SignUp extends React.Component {
       email: ''
     };
     this.handleSubmit = this.handleSubmit.bind(this);
-		this.styles = {
-			signUpButton: {
-
-			},
-			buttonIcon: {
-				fontSize: 50
-			},
-      socialButton: {
-        margin: 12
-      }
-		};
   }
 
   handleSubmit(event) {
 		event.preventDefault();
+    // saveUser could be wrapped in a Promise that logs in a user if
+    // credentials were entered correctly
 		this.props.saveUser(this.state);
 		this.setState({
 			userName: '',
@@ -52,11 +32,9 @@ class SignUp extends React.Component {
       email: ''
     });
     this.props.closeSignup();
-		this.props.openLoginAlert();
   }
 
   render() {
-
     const actions = [
       <FlatButton
         key="button1"
@@ -72,6 +50,7 @@ class SignUp extends React.Component {
         onTouchTap={this.handleSubmit}
       />,
     ];
+
     return (
       <div>
         <Dialog
@@ -84,54 +63,54 @@ class SignUp extends React.Component {
         >
           <form>
             <TextField
-              name={"firstName"}
+              name="firstName"
               hintText="first name"
 							value={this.state.firstName}
               onChange={(evt) => {
                 this.setState({
-            			firstName: evt.target.value
-            		});
+                  firstName: evt.target.value
+                });
               }}
             />
             <TextField
-              name={"lastName"}
+              name="lastName"
               hintText="last name"
 							value={this.state.lastName}
               onChange={(evt) => {
                 this.setState({
-            			lastName: evt.target.value
-            		});
+                  lastName: evt.target.value
+                });
               }}
             />
             <TextField
-              name={"email"}
+              name="email"
               hintText="email"
 							value={this.state.email}
               onChange={(evt) => {
                 this.setState({
-            			email: evt.target.value
-            		});
+                  email: evt.target.value
+                });
               }}
             />
             <TextField
-              name={"userName"}
+              name="userName"
               hintText="username"
 							value={this.state.userName}
               onChange={(evt) => {
                 this.setState({
-            			userName: evt.target.value
-            		});
+                  userName: evt.target.value
+                });
               }}
             />
 						<TextField
-              name={"password"}
+              name="password"
 							hintText="password"
 							value={this.state.password}
-							type={"password"}
+							type="password"
               onChange={(evt) => {
                 this.setState({
-            			password: evt.target.value
-            		});
+                  password: evt.target.value
+                });
               }}
 						/>
           </form>
@@ -141,25 +120,15 @@ class SignUp extends React.Component {
   }
 }
 
-const mapStateToProps = state => {
-  return {
-    open: state.navState.signUpOpen
-  };
-};
+const mapStateToProps = ({ navState }) => ({
+  open: navState.signUpOpen
+});
 
-const mapDispatchToProps = dispatch => {
-  return {
-    saveUser: (info) =>
-      dispatch(saveUser(info)),
-		startCanvas: () =>
-      dispatch(startCanvas()),
-    stopCanvas: () =>
-      dispatch(stopCanvas()),
-    closeSignup: () => {
-      dispatch(closeSignup());
-			dispatch(openLoginAlert())
-    }
-  };
-};
+const mapDispatchToProps = dispatch => ({
+  saveUser: (info) =>
+    dispatch(saveUser(info)),
+  closeSignup: () =>
+    dispatch(closeSignup())
+});
 
 export default connect(mapStateToProps, mapDispatchToProps)(SignUp);

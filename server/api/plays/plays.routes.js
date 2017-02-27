@@ -1,8 +1,8 @@
-'use strict'
+'use strict';
 
-var db = require('../../_db');
-const Play = require('./play.model')
-const {mustBeLoggedIn, forbidden} = require('../auth/auth.filters')
+const db = require('../../_db');
+const Play = require('./play.model');
+const {mustBeLoggedIn, forbidden} = require('../auth/auth.filters');
 
 module.exports = require('express').Router()
 
@@ -14,7 +14,7 @@ module.exports = require('express').Router()
 	    req.requestedPlay = play;
 	    next();
 	  })
-	  .catch(next)
+	  .catch(next);
 	})
 
 // get all plays, must be logged in (ideally as admin)
@@ -38,9 +38,9 @@ module.exports = require('express').Router()
 	.put('/:hashedPlay', mustBeLoggedIn, (req, res, next) => {
 		req.requestedPlay.update(req.body)
 		.then(updatedPlay => {
-			res.send(updatedPlay)
+			res.send(updatedPlay);
 		})
-		.catch(next)
+		.catch(next);
 	})
 
 // delete one play, must be logged in
