@@ -30,7 +30,7 @@ class Login extends React.Component {
 
 	// login then reset form
   handleSubmit(event) {
-		event.preventDefault();
+    event.preventDefault();
 		this.props.login(this.state.userName, this.state.password);
     this.setState({
 			userName: '',
@@ -50,9 +50,10 @@ class Login extends React.Component {
       <FlatButton
         key="submitButton"
         label="Submit"
+        type="submit"
         primary={true}
         keyboardFocused={true}
-        onTouchTap={this.handleSubmit}
+        onClick={this.handleSubmit}
       />,
       <RaisedButton
         key="googleLogin"
@@ -68,6 +69,8 @@ class Login extends React.Component {
     return (
       <div>
         <Dialog
+          className="dialog"
+          type="submit"
           modal={false}
           actions={actions}
           open={this.props.open}
@@ -75,7 +78,7 @@ class Login extends React.Component {
           autoScrollBodyContent={true}
           onRequestClose={this.props.closeLogin}
         >
-          <form>
+          <form onSubmit={this.handleSubmit}>
             <TextField
               name="userName"
               hintText="username"
@@ -114,7 +117,10 @@ const mapDispatchToProps = dispatch => ({
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(Login);
+
+// for testing
 export { Login as PureLogin };
+
 
 // FACEBOOK BUTTON IF WE WANT IT LATER:
 ////////////////////////////////////////
