@@ -41,7 +41,7 @@ export const login = (username, password) =>
     axios.post('/api/auth/login/local',
       {username, password})
       .then(() => dispatch(whoami()))
-      .catch(() => dispatch(whoami()))
+      .catch(() => dispatch(whoami()));
 
 // logs out user and removes from 'auth' on redux store
 export const logout = () =>

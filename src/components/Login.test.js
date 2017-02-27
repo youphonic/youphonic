@@ -1,120 +1,120 @@
 import React from 'react';
-import ReactDOM from 'react-dom';
 import { Provider } from 'react-redux';
 import store from '../store';
-import { createStore } from 'redux';
-import login from '../redux/login';
 
-// Material UI stuff
-import {
-  Dialog,
-  FlatButton,
-  TextField
-} from 'material-ui';
-import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
-import getMuiTheme from 'material-ui/styles/getMuiTheme';
-const muiTheme = getMuiTheme();
-import injectTapEventPlugin from 'react-tap-event-plugin';
-
-
-// Testing stuff
+// Setting up Chai, Enzyme, Sinon
 import chai, {expect} from 'chai';
 chai.use(require('chai-enzyme')());
-import {shallow, mount, render} from 'enzyme';
+import {shallow, mount} from 'enzyme';
 import {spy} from 'sinon';
 chai.use(require('sinon-chai'));
 
-// Componenet we're testing
+// Material UI setup
+import {
+  Dialog,
+  TextField
+} from 'material-ui';
+import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
+import injectTapEventPlugin from 'react-tap-event-plugin';
+
+// Componenet we're testing:
+// Login is used to fully mount the connected component,
+// PureLogin is used to shallow render just the
+// component itself, not connected to the store.
 import Login, { PureLogin } from './Login';
 
-const options = {
-  context: { store },
-  childContextTypes: { muiTheme: muiTheme },
-  getChildContext() {
-    return {muiTheme: muiTheme};
-  }
-};
-
-describe.only('<Login />', () => {
-  let root, dialog, node, submit;
-  const loginSpy = spy();
+describe('<Login />', () => {
+  let connectedRoot, dialog, node, pureRoot;
   injectTapEventPlugin();
 
-  let testStore;
-
-  beforeEach('render the root', () => {
-    testStore = createStore(login);
-    root = mount(
+  beforeEach('render the connectedRoot and inner dialog', () => {
+    // Mount the full component for access to
+    // the Dialog's renderLayer function
+    connectedRoot = mount(
       <MuiThemeProvider>
         <Provider store={ store }>
-          <Login login={loginSpy} />
+          <Login />
+        </Provider>
+      </MuiThemeProvider>
+    );
+
+    // Render the DialogInline component
+    node = connectedRoot.find(Dialog).node.renderLayer();
+
+    // Shallow mount the DialogInline component
+    dialog = shallow(
+      <MuiThemeProvider>
+        <Provider store={ store }>
+          {node}
         </Provider>
       </MuiThemeProvider>
     );
   });
 
   it('renders the Login component', () => {
-    expect(root.find('div')).to.have.length(1);
+    expect(connectedRoot.find(Login)).to.have.length(1);
   });
 
   it('renders a MUI Dialog', () => {
-    expect(root.find(Dialog)).to.have.length(1);
+    expect(connectedRoot.find(Dialog)).to.have.length(1);
   });
 
-  it('has a form', () => {
-    node = root.find(Dialog).node.renderLayer();
-    dialog = shallow(
-      <MuiThemeProvider>
-        <Provider store={ testStore }>
-          {node}
-        </Provider>
-      </MuiThemeProvider>
-    );
-
+  it('has a login form', () => {
     expect(dialog.find('form')).to.have.length(1);
   });
 
-  describe('when submitted', () => {
+  it('has two text fields', () => {
+    expect(dialog.find(TextField)).to.have.length(2);
+  });
 
+  describe('when username and password are entered', () => {
+    const loginSpy = spy();
     const submitEvent = {
-      preventDefault: spy(),
-      target: {
-        username: {value: 'god@example.com'},
-        password: {value: '1234'},
-      }
+      preventDefault: spy()
     };
-
-    beforeEach('submit', () => {
-      // let children = dialog.find('[className="dialog"]').children();
-      // console.log('THE CHILDREN', children);
-      // let button = dialog.find(FlatButton);
-      submit = shallow(
-        <MuiThemeProvider>
-          {dialog.node.props.children.props.actions[1]}
-        </MuiThemeProvider>
+    before('', () => {
+      pureRoot = shallow(
+        <PureLogin
+          open={true}
+          login={loginSpy}
+          closeLogin={() => {}}
+          openLoginAlert={() => {}} />
       );
-      // console.log('THE DIALOG ', dialog.node.props.children.props.actions);
-      // console.log('THE SUBMIT', submit);
-      loginSpy.reset();
-      submitEvent.preventDefault.reset();
-      submit.simulate('click', submitEvent);
     });
 
-    // it('has two text fields', () => {
-    //   expect(dialog.find(TextField)).to.have.length(2);
-    // });
+    it('changes username on state', () => {
+      const userNameField = pureRoot.find('[name="userName"]');
+      userNameField.simulate('change', {
+        target: { value: 'god@example.com'}
+      });
 
-    it('calls props.loginSpy with credentials', () => {
-      console.log('LOGIN', Object.keys(loginSpy));
-      expect(loginSpy.called).to.equal(true);
-      // expect(loginSpy).to.have.been.calledWith(
-      //   submitEvent.target.username.value,
-      //   submitEvent.target.password.value
-      // );
+      expect(pureRoot.state('userName')).to.equal('god@example.com');
+    });
+
+    it('changes password on state', () => {
+      const passwordField = pureRoot.find('[name="password"]');
+      passwordField.simulate('change', {
+        target: { value: '1234' }
+      });
+
+      expect(pureRoot.state('password')).to.equal('1234');
+    });
+
+    it('calls props.login on submit', () => {
+      let submitButton = shallow(
+        <MuiThemeProvider>
+          {pureRoot.node.props.children.props.actions[1]}
+        </MuiThemeProvider>
+      );
+      submitButton.simulate('click', submitEvent);
+      expect(loginSpy).to.have.been.calledWith(
+        'god@example.com',
+        '1234'
+      );
     });
 
     it('calls preventDefault', () => {
-      expect(submitEvent.preventDefault.called).to.equal(true);
-    });
+     expect(submitEvent.preventDefault).to.have.been.called; // eslint-disable-line no-unused-expressions
+   });
   });
 });

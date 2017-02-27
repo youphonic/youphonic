@@ -44,7 +44,6 @@ class Login extends React.Component {
 
 	// login then close deliver welcome alert
   handleSubmit(event) {
-    console.log('HANDLING SUBMIT', this.props);
     event.preventDefault();
 		this.props.login(this.state.userName, this.state.password);
 		this.props.closeLogin();
@@ -60,7 +59,6 @@ class Login extends React.Component {
         onTouchTap={this.props.closeLogin}
       />,
       <FlatButton
-        id='myButton'
         key="button2"
         label="Submit"
         type="submit"
@@ -69,7 +67,8 @@ class Login extends React.Component {
         onClick={this.handleSubmit}
       />,
       <RaisedButton
-        href='api/auth/google'
+        key="button3"
+        href="api/auth/google"
         target="_self"
         label="Google"
         secondary={true}
@@ -78,7 +77,7 @@ class Login extends React.Component {
       />
     ];
     return (
-      <div ref="firstDiv">
+      <div>
         <Dialog
           className="dialog"
           type="submit"
@@ -91,22 +90,22 @@ class Login extends React.Component {
         >
           <form onSubmit={this.handleSubmit}>
             <TextField
-              name={"userName"}
+              name="userName"
               hintText="username"
               onChange={(evt) => {
                 this.setState({
-            			userName: evt.target.value
-            		});
+                  userName: evt.target.value
+                });
               }}
             />
 						<TextField
-              name={"password"}
+              name="password"
 							hintText="enter password"
 							type={'password'}
               onChange={(evt) => {
                 this.setState({
-            			password: evt.target.value
-            		});
+                  password: evt.target.value
+                });
               }}
 						/>
           </form>
@@ -124,7 +123,8 @@ const mapStateToProps = state => {
 
 const mapDispatchToProps = dispatch => {
   return {
-    login: (username, password) => dispatch(login(username, password)),
+    login: (username, password) =>
+      dispatch(login(username, password)),
 		startCanvas: () =>
       dispatch(startCanvas()),
     stopCanvas: () =>
