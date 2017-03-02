@@ -18,30 +18,35 @@ const styles = {
     backgroundImage: "url('./home_background.png')",
 	},
 	title: {
-		right: '50%', // from right of hidden MUI dialogue box ('silentDiv')
-		bottom: '15.75vh', // must be vh; % doesn't work with invisible div
-    fontSize: '6vw', // fonts need to be sized as portion of view heigh
+		left: '44vw', //'112vh', //'45%', // from right of hidden MUI dialogue box ('silentDiv')
+		bottom: '67vh', //'29%', //'19vh', // must be vh; % doesn't work with invisible div
+    fontSize: '5vw', // fonts need to be sized as portion of view heigh
     position: 'absolute',
+		width: 'auto',
+		padding: 0,
     color: smokeOnTheWater
 	},
 	buttonDiv: {
-		left: '65%', //same as title
-		bottom: '1.5vh', //same as title
-    width: 'auto',
+		left:  '32vw', //'55vh',  //'35%', //same as title
+		bottom: '58vh', //'25%', //same as title 1.5v
     position: 'absolute',
-		padding: 0
+		padding: 0,
+    width: 'auto'
 	},
 	icon: {
-		width: '17vw', // must be vw, MUI dialogue box doesn't change
-		height: '17vw',
-    fontSize: '17vw',
+		width: '9.5vw',
+		height: '9.5vw',
+    fontSize: '9.5vw',
     lineHeight: 'auto',
     color: flamingo
 	},
 	silentDiv: {
-		padding: 0,
-		maxWidth: 900,
-		width: '100%'
+		//padding: 0,
+		position: 'absolute',
+		bottom: '0%',
+		width: '100%',
+		maxWidth: '100%',
+		height: '100%'
 	}
 };
 
@@ -68,6 +73,8 @@ const Start = ({ open, enter }) => {
       contentStyle = {styles.silentDiv}
       overlayStyle = {styles.backgroundImage}
       actionsContainerStyle = {styles.buttonDiv}
+			style={styles.silentDiv}
+			autoDetectWindowHeight={false}
     />
   );
 };
