@@ -13,51 +13,50 @@ const { flamingo, papayaWhip, smokeOnTheWater } = colors;
 
 const styles = {
 	backgroundImage: {
-		backgroundSize: 'cover',
-    backgroundPosition: 'center',
     backgroundImage: "url('./home_background.png')",
+    backgroundPosition: 'center',
+		backgroundSize: 'cover'
 	},
 	title: {
-		left: '44vw', //'112vh', //'45%', // from right of hidden MUI dialogue box ('silentDiv')
-		bottom: '67vh', //'29%', //'19vh', // must be vh; % doesn't work with invisible div
-    fontSize: '5vw', // fonts need to be sized as portion of view heigh
+		bottom: '67vh',
+    color: smokeOnTheWater,
+    fontSize: '5vw',
+		left: '44vw',
+		padding: 0,
     position: 'absolute',
 		width: 'auto',
-		padding: 0,
-    color: smokeOnTheWater
 	},
 	buttonDiv: {
-		left:  '32vw', //'55vh',  //'35%', //same as title
-		bottom: '58vh', //'25%', //same as title 1.5v
-    position: 'absolute',
+		bottom: '58vh',
+		left:  '32vw',
 		padding: 0,
+    position: 'absolute',
     width: 'auto'
 	},
 	icon: {
-		width: '9.5vw',
-		height: '9.5vw',
+    color: flamingo,
     fontSize: '9.5vw',
+		height: '9.5vw',
     lineHeight: 'auto',
-    color: flamingo
+		width: '9.5vw',
 	},
 	silentDiv: {
-		//padding: 0,
-		position: 'absolute',
 		bottom: '0%',
-		width: '100%',
+		height: '100%',
 		maxWidth: '100%',
-		height: '100%'
+		position: 'absolute',
+		width: '100%'
 	}
 };
 
 const Start = ({ open, enter }) => {
   const actions = [
     <FloatingActionButton
+      backgroundColor={papayaWhip}
+      iconStyle={styles.icon}
       key="enterButton"
       onTouchTap={enter}
       style={styles.button}
-      iconStyle={styles.icon}
-      backgroundColor={papayaWhip}
     >
       <FontIcon className="material-icons">play_circle_outline</FontIcon>
 		</FloatingActionButton>
@@ -65,16 +64,15 @@ const Start = ({ open, enter }) => {
 
   return (
     <Dialog
-      open={!open}
-      title="youphonic"
       actions={actions}
-			titleStyle = {styles.title}
+      actionsContainerStyle = {styles.buttonDiv}
       bodyStyle = {styles.silentDiv}
       contentStyle = {styles.silentDiv}
+      open={!open}
       overlayStyle = {styles.backgroundImage}
-      actionsContainerStyle = {styles.buttonDiv}
 			style={styles.silentDiv}
-			autoDetectWindowHeight={false}
+      title="youphonic"
+			titleStyle = {styles.title}
     />
   );
 };
