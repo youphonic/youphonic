@@ -13,34 +13,38 @@ const { flamingo, papayaWhip, smokeOnTheWater } = colors;
 
 const styles = {
 	backgroundImage: {
-		backgroundSize: 'cover',
-    backgroundPosition: 'center',
     backgroundImage: "url('./home_background.png')",
+    backgroundPosition: 'center',
+		backgroundSize: 'cover'
 	},
 	title: {
-		right: '50%', // from right of hidden MUI dialogue box ('silentDiv')
-		bottom: '15.75vh', // must be vh; % doesn't work with invisible div
-    fontSize: '6vw', // fonts need to be sized as portion of view heigh
+		bottom: '67vh',
+    color: smokeOnTheWater,
+    fontSize: '5vw',
+		left: '44vw',
+		padding: 0,
     position: 'absolute',
-    color: smokeOnTheWater
+		width: 'auto',
 	},
 	buttonDiv: {
-		left: '65%', //same as title
-		bottom: '1.5vh', //same as title
-    width: 'auto',
+		bottom: '58vh',
+		left:  '32vw',
+		padding: 0,
     position: 'absolute',
-		padding: 0
+    width: 'auto'
 	},
 	icon: {
-		width: '17vw', // must be vw, MUI dialogue box doesn't change
-		height: '17vw',
-    fontSize: '17vw',
+    color: flamingo,
+    fontSize: '9.5vw',
+		height: '9.5vw',
     lineHeight: 'auto',
-    color: flamingo
+		width: '9.5vw',
 	},
 	silentDiv: {
-		padding: 0,
-		maxWidth: 900,
+		bottom: '0%',
+		height: '100%',
+		maxWidth: '100%',
+		position: 'absolute',
 		width: '100%'
 	}
 };
@@ -48,11 +52,11 @@ const styles = {
 const Start = ({ open, enter }) => {
   const actions = [
     <FloatingActionButton
+      backgroundColor={papayaWhip}
+      iconStyle={styles.icon}
       key="enterButton"
       onTouchTap={enter}
       style={styles.button}
-      iconStyle={styles.icon}
-      backgroundColor={papayaWhip}
     >
       <FontIcon className="material-icons">play_circle_outline</FontIcon>
 		</FloatingActionButton>
@@ -60,14 +64,15 @@ const Start = ({ open, enter }) => {
 
   return (
     <Dialog
-      open={!open}
-      title="youphonic"
       actions={actions}
-			titleStyle = {styles.title}
+      actionsContainerStyle = {styles.buttonDiv}
       bodyStyle = {styles.silentDiv}
       contentStyle = {styles.silentDiv}
+      open={!open}
       overlayStyle = {styles.backgroundImage}
-      actionsContainerStyle = {styles.buttonDiv}
+			style={styles.silentDiv}
+      title="youphonic"
+			titleStyle = {styles.title}
     />
   );
 };
