@@ -1,7 +1,7 @@
 import Tone from 'tone';
 
 import {movingBounceOffMoving, movingBounceOffFixed, movingCircleBounceOffRectangle, drawArrow, drawAlignment} from './utils';
-import { synthOne, synthTwo } from '../tone/tonePatchOne';
+import { synths } from '../tone/tonePatchOne';
 import { player, drumBuffers, possibilities } from '../tone/drums';
 
 // auto incrementing id
@@ -25,6 +25,7 @@ export default class Chunk {
     this.rotation = rotation;
     this.frequency = 'C4';
     this.triggerSynthResponse = false;
+    this.synth = 'synthThree';
   }
 
   get isMoving () {
@@ -62,7 +63,9 @@ export default class Chunk {
       player.start();
     }
     if (hitter.triggerSynthResponse) {
-      synthOne.triggerAttackRelease(hitter.frequency, '8n');
+      // console.log(hitter.synth);
+      if (typeof hitter.synth === 'string')
+        synths[hitter.synth].triggerAttackRelease(hitter.frequency, '8n');
     }
   }
 
@@ -109,7 +112,6 @@ export default class Chunk {
         length: quantizedLength
       });
       end = this.path.position.subtract(newDirection);
-      console.log(quantizedLength);
     }
     this.vectorItem = drawArrow(this.path.position, end, this.direction);
     this.direction = (this.path.position.subtract(end)).divide(-15);

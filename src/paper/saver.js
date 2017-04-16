@@ -59,7 +59,10 @@ export const load = (allChunks, clearAllChunks, addChunk) => {
     allChunks.forEach(chunk => {
       if (chunk.type === 'drone') chunk.killNoise();
       chunk.path.remove();
+      // remove chunk synths from rope
+      if (chunk.type === 'rope') chunk.synth.dispose();
     });
+    // remove all shapes from canvas
     removeAllShapePaths();
     // Take all chunks out of the Redux Store
     clearAllChunks();

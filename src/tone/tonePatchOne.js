@@ -39,6 +39,33 @@ const basicSynth = {
 	}
 };
 
+const monoSynthOptions = {
+	detune:0,
+	oscillator:{
+		type: 'triangle',
+	},
+	filter: {
+		Q:6,
+		type: 'lowpass',
+		rolloff: -24,
+	},
+	envelope: {
+		attack: 0.005,
+		decay: 0.1,
+		sustain: 0.9,
+		release: 1,
+	},
+	filterEnvelope: {
+		attack: 0.06,
+		decay: 0.2,
+		sustain: 0.5,
+		release: 2,
+		baseFrequency: 200,
+		octaves: 7,
+		exponent: 2,
+	}
+}
+
 export const synthOne = new Tone.PolySynth(4, Tone.Synth, basicSynth).connect(bandSplitter);
 
 export const synthTwo = new Tone.Synth({
@@ -54,6 +81,7 @@ export const synthTwo = new Tone.Synth({
   volume: -18
 }).connect(bandSplitter);
 
+export const synthThree = new Tone.PolySynth(4, Tone.MonoSynth, monoSynthOptions).connect(bandSplitter);
 
 export const triSynth = new Tone.Synth({
 	oscillator: {
@@ -79,4 +107,10 @@ export const ropeSynthFactory = () => {
 			release: 0.4
 		},
 	}).connect(bandSplitter);
+}
+
+export const synths = {
+	synthOne,
+	synthTwo,
+	synthThree,
 }
