@@ -95,7 +95,7 @@ class Main extends Component {
             autoHideDuration={3000}
           />}
 					{this.props.shareCopiedOpen && <Snackbar
-						message={'The link is on your clipboard now!'}
+						message={'The link is on your clipboard now. Go paste some joy!'}
 						open={this.props.shareCopiedOpen}
 						autoHideDuration={3000}
 					/>}

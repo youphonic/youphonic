@@ -28,8 +28,7 @@ const styles = {
   image: {
     display: 'flex',
     overflowX: 'auto',
-    // maxWidth: '200px',
-    margin: 'auto',
+		margin: 'auto',
     maxHeight: '200px'
   }
 };
