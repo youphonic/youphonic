@@ -13,9 +13,9 @@ const { flamingo, papayaWhip, smokeOnTheWater } = colors;
 
 const styles = {
 	backgroundImage: {
-		backgroundSize: 'cover',
-    backgroundPosition: 'center',
     backgroundImage: "url('./home_background.png')",
+    backgroundPosition: 'center',
+		backgroundSize: 'cover'
 	},
 	title: {
     fontSize: '8vh',
@@ -27,12 +27,12 @@ const styles = {
     height: '28vh',
     width: '32vh',
     position: 'absolute',
-		padding: 0
+    padding: 0
 	},
 	icon: {
     fontSize: '13vw',
     lineHeight: 'auto',
-    color: flamingo
+		color: flamingo
 	},
 	silentDiv: {
 		padding: 0,
@@ -70,7 +70,7 @@ const Start = ({ open, enter }) => {
       bodyStyle = {styles.silentDiv}
       contentStyle = {styles.silentDiv}
       overlayStyle = {styles.backgroundImage}
-      actionsContainerStyle = {styles.buttonDiv}
+			actionsContainerStyle={styles.buttonDiv}
     />
   );
 };
