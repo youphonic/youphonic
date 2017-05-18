@@ -3,7 +3,6 @@
 import store from '../store';
 import colors from '../colors';
 
-import { synthOne, synthTwo } from '../tone/tonePatchOne';
 import { player, drumBuffers, possibilities } from '../tone/drums';
 import { nearIntersect } from '../chunks/utils';
 import { deconstruct, reconstruct } from './saver';

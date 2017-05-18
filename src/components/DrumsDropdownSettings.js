@@ -12,7 +12,6 @@ import hiHatIcon from '../../public/icons/hi-hat.svg.jsx';
 
 // Instrument Sounds
 import { player, drumBuffers } from '../tone/drums';
-// import { synthOne, synthTwo } from '../tone/tonePatchOne';
 
 const styles = {
   instMenu: {

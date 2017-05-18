@@ -63,7 +63,7 @@ export default class Chunk {
       player.start();
     }
     if (hitter.triggerSynthResponse) {
-      // console.log(hitter.synth);
+      // If a hit occurs, we access and trigger that Chunk's synth from the synths object
       if (typeof hitter.synth === 'string')
         synths[hitter.synth].triggerAttackRelease(hitter.frequency, '8n');
     }

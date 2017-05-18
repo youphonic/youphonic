@@ -1,7 +1,7 @@
 import Chunk from './Chunk';
 import { dropGenerator } from './shapeGenerators';
 import { drawnChunksFilterOutId } from '../paper';
-import { synthOne, synthTwo } from '../tone/tonePatchOne';
+import { synthOne } from '../tone/tonePatchOne';
 import { player, drumBuffers, possibilities } from '../tone/drums';
 
 export default class Photon extends Chunk {

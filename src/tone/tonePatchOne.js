@@ -109,6 +109,7 @@ export const ropeSynthFactory = () => {
 	}).connect(bandSplitter);
 }
 
+// Export all the synths - they can then be accessed by key on this synths object
 export const synths = {
 	synthOne,
 	synthTwo,

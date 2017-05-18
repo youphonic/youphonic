@@ -1,7 +1,6 @@
 import Chunk from './Chunk';
 import colors from '../colors';
 import { player, drumBuffers, possibilities } from '../tone/drums';
-import { synthOne, synthTwo } from '../tone/tonePatchOne';
 
 export default class Circle extends Chunk {
   constructor(x, y, radius, direction, color = colors.papayaWhip) {
