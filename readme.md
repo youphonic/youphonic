@@ -2,7 +2,7 @@
 youphonic is an online musical machine interface for building and sharing soundscapes and musical compositions. Users place abstract shapes on a canvas that interact in a physics-based environment and create musical gestures.
 
 ## Getting Started
-create a local PostgreSQL database titled `musicmachine`: `createdb musicmachine`<br />
+create a local PostgreSQL database titled musicmachine: `createdb musicmachine`<br />
 `npm run startup` will install dependencies, build, and start a server at port `localhost:1337`<br />
 `npm run seed` to seed database with dummy users and saved plays
 
